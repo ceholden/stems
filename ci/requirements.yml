@@ -1,0 +1,35 @@
+name: stems
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python>=3.5
+  # core
+  - dask
+  - distributed
+  - numpy
+  - pandas
+  - cytoolz
+  - toolz
+  - xarray
+  # GIS
+  - affine
+  - cartopy
+  - fiona
+  - gdal
+  - rasterio
+  - shapely
+  # data / formats
+  - netcdf4
+  # CLI
+  - click
+  - click-plugins
+  - cligj
+  # tests
+  - pytest
+  - pytest-runner
+  # docs
+  - sphinx
+  - sphinx_rtd_theme
+  - pip:
+    - sphinxcontrib-bibtex

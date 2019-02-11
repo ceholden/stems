@@ -1,0 +1,50 @@
+language: python
+sudo: false
+python:
+    - "3.6"
+branches:
+    only:
+        - master
+        - /^v[0-9].*$/
+env:
+    global:
+        - ENCRYPTION_LABEL: "TODO"
+        - COMMIT_AUTHOR_EMAIL: "ceholden@gmail.com"
+        - COMMIT_AUTHOR_NAME: "TRAVIS-CI BOT"
+        - DOCS_PYTHON_VERSION: "3.6"
+notifications:
+    email: false
+
+before_install:
+    - wget https://repo.anaconda.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+    - bash miniconda.sh -b -p $HOME/miniconda
+    - export PATH=$HOME/miniconda/bin:$PATH
+    - conda config --set always_yes yes --set changeps1 no --set show_channel_urls yes
+    - conda config --add channels conda-forge
+    - conda update -q conda
+    - conda info -a
+    - conda install conda-env  # no longer installed by default?
+
+install:
+    # Edit in the correct Python version into environment.yaml
+    - sed -i "s/- python/- python=${TRAVIS_PYTHON_VERSION}/g" ci/requirements.yml
+    # Create conda matching requirements
+    - conda env create -n test -f ci/requirements.yml
+    - source activate test
+    # Install package
+    - "pip install -e ."
+
+script:
+    - py.test -r --cov=stems/ --cov-report=html --cov-report=term
+    - coverage-badge -f -o badge.svg
+
+after_success:
+    # Docs
+    - source activate test
+    - if [[ "$TRAVIS_PYTHON_VERSION" == "$DOCS_PYTHON_VERSION" ]]; then
+          bash docs/scripts/deploy-to-gh-pages.sh;
+      fi
+
+before_cache:
+    # Deactivate conda so we use system 'curl'
+    - source deactivate
