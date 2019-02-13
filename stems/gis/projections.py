@@ -128,6 +128,33 @@ def _epsg_code_rasterio(crs):
     return _epsg_code_osr(osr_crs)
 
 
+def crs_longname(crs):
+    """ Return name of a CRS / ellipsoid pair
+
+    Parameters
+    ----------
+    crs : rasterio.crs.CRS
+        CRS
+
+    Returns
+    -------
+    str
+        Lowercase projection name (see keys of :ref:`CF_PROJECTION_DEFS`)
+
+    Examples
+    --------
+    >>> proj = rasterio.crs.CRS.from_epsg(3857)
+    >>> crs_longname(proj)
+    "WGS 84 / Pseudo-Mercator"
+    """
+    # This doesn't necessarily relate to CF but it's nice to have
+    crs_osr = crs2osr(crs)
+    if crs.is_projected:
+        return crs_osr.GetAttrValue('PROJCS')
+    elif crs.is_geographic:
+        return crs_osr.GetAttrValue('GEOGCS')
+
+
 # ============================================================================
 # CF info / parameters
 def cf_crs_name(crs):
@@ -155,27 +182,6 @@ def cf_crs_name(crs):
         return CF_PROJECTION_NAMES[name]
     else:
         return 'latitude_longitude'
-
-
-def cf_crs_longname(crs):
-    """ Return name of a CRS / ellipsoid pair
-
-    Parameters
-    ----------
-    crs : rasterio.crs.CRS
-        CRS
-
-    Returns
-    -------
-    str
-        Lowercase projection name (see keys of :ref:`CF_PROJECTION_DEFS`)
-
-    """
-    crs_osr = crs2osr(crs)
-    if crs.is_projected:
-        return crs_osr.GetAttrValue('PROJCS')
-    elif crs.is_geographic:
-        return crs_osr.GetAttrValue('GEOGCS')
 
 
 def cf_crs_attrs(crs):
