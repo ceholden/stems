@@ -1,6 +1,7 @@
 [run]
 omit =
     stems/_version.py
+    *tests*
 
 [report]
 exclude_lines =
