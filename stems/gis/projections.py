@@ -67,6 +67,7 @@ CF_PROJECTION_DEFS = {
 }
 
 #: tuple: Mapping between CF <-> OGC WKT projection attribute name definitions
+# https://trac.osgeo.org/gdal/wiki/NetCDF_ProjectionTestingStatus#CoordinatesystemkeywordsstartingwithCF-1.7
 CF_CRS_NAMES = (
     ('horizontal_datum_name', 'GEOGCS|DATUM'),
     ('reference_ellipsoid_name', 'GEOGCS|DATUM|SPHEROID'),
@@ -196,11 +197,16 @@ def cf_crs_attrs(crs):
     -------
     OrderedDict
         CF attributes
+
+    References
+    ----------
+
+    .. [1] https://cf-pcmdi.llnl.gov/trac/wiki/Cf2CrsWkt#Table2-FutureCF-1.7CFGridMappingAttributes
     """
     osr_crs = crs2osr(crs)
     attrs = OrderedDict()
 
-    long_name = crs_long_name(crs)
+    long_name = crs_longname(crs)
     if crs.is_projected:
         attrs['projected_coordinate_system_name'] = long_name
     elif crs.is_geographic:
@@ -213,7 +219,7 @@ def cf_crs_attrs(crs):
     return attrs
 
 
-def cf_proj_parameters(crs):
+def cf_proj_params(crs):
     """ Return projection parameters for a CRS
 
     Parameters
@@ -231,7 +237,7 @@ def cf_proj_parameters(crs):
     stems.errors.TODO
         Raise if CRS isn't supported yet
     """
-    name = crs_name(crs)
+    name = cf_crs_name(crs)
     osr_crs = crs2osr(crs)
 
     if name not in CF_PROJECTION_DEFS:
@@ -246,7 +252,7 @@ def cf_proj_parameters(crs):
     return parms
 
 
-def cf_ellipsoid_parameters(crs):
+def cf_ellps_params(crs):
     """ Return ellipsoid parameters for a CRS
 
     Parameters
