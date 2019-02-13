@@ -45,7 +45,8 @@ ENTRY_POINTS = {
 PYTHON_REQUIRES = '>=3.5'
 INSTALL_REQUIRES = [
     'dask', 'distributed', 'numpy', 'pandas', 'toolz', 'xarray',
-    'affine', 'cartopy', 'fiona', 'gdal', 'rasterio', 'shapely',
+    'affine', 'cartopy', 'fiona', 'gdal', 'rasterio>=1.0.14', 'shapely',
+    'yaml',
 ]
 INSTALL_REQUIRES.extend(['click>=6.0', 'click-plugins', 'cligj>=0.5'])
 SETUP_REQUIRES = ['pytest-runner']

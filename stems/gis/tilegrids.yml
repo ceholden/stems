@@ -1,0 +1,66 @@
+# NASA ABOVE grids
+# https://above.nasa.gov/implementation_plan/standard_projection.html
+ABOVE_A:
+  crs: PROJCS["Canada_Albers_Equal_Area_Conic",GEOGCS["GCS_North_American_1983",DATUM["North_American_Datum_1983",SPHEROID["GRS_1980",6378137,298.257222101]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Albers_Conic_Equal_Area"],PARAMETER["False_Easting",0],PARAMETER["False_Northing",0],PARAMETER["longitude_of_center",-96],PARAMETER["Standard_Parallel_1",50],PARAMETER["Standard_Parallel_2",70],PARAMETER["latitude_of_center",40],UNIT["Meter",1],AUTHORITY["EPSG","102001"]]
+  limits:
+  - [0, 4]
+  - [0, 6]
+  name: ABOVE Grid A (coarse resolution)
+  res: [240, 240]
+  size: [4500, 4500]
+  ul: [-3400020.0, 4640000.0]
+
+ABOVE_B:
+  crs: PROJCS["Canada_Albers_Equal_Area_Conic",GEOGCS["GCS_North_American_1983",DATUM["North_American_Datum_1983",SPHEROID["GRS_1980",6378137,298.257222101]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Albers_Conic_Equal_Area"],PARAMETER["False_Easting",0],PARAMETER["False_Northing",0],PARAMETER["longitude_of_center",-96],PARAMETER["Standard_Parallel_1",50],PARAMETER["Standard_Parallel_2",70],PARAMETER["latitude_of_center",40],UNIT["Meter",1],AUTHORITY["EPSG","102001"]]
+  limits:
+  - [0, 23]
+  - [0, 35]
+  name: ABOVE Grid B (moderate resolution)
+  res: [30, 30]
+  size: [6000, 6000]
+  ul: [-3400020.0, 4640000.0]
+
+# GOOGLE EARTH ENGINE GRIDS
+# See: `gdalinfo '/vsicurl/https://storage.googleapis.com/earthenginepartners-hansen/GFC-2017-v1.5/Hansen_GFC-2017-v1.5_gain_80N_160W.tif'`
+GEE_HANSEN_GFC:
+  crs: GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4326"]]
+  limits:
+  - [0, 13]
+  - [0, 36]
+  name: Google Earth Engine - Hansen et al Global Forest Change
+  res: [0.00025, 0.00025]
+  size: [40000, 40000]
+  ul: [-180.0, 80.0]
+
+# LANDSAT ARD
+# https://landsat.usgs.gov/ard
+LANDSAT_ARD_AL:
+  crs: PROJCS["ALASKA_WGS84_Albers_Equal_Area_Conic",GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS
+    84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4326"]],PROJECTION["Albers_Conic_Equal_Area"],PARAMETER["standard_parallel_1",55.0],PARAMETER["standard_parallel_2",65.0],PARAMETER["latitude_of_center",50.0],PARAMETER["longitude_of_center",-154.0],PARAMETER["false_easting",0],PARAMETER["false_northing",0],UNIT["Meter",1]]
+  limits:
+  - [0, 13]
+  - [0, 16]
+  name: Landsat ARD - Alaska
+  res: [30, 30]
+  size: [5000, 5000]
+  ul: [-851715, 2474325]
+LANDSAT_ARD_CU:
+  crs: PROJCS["CONUS_WGS84_Albers_Equal_Area_Conic",GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS
+    84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4326"]],PROJECTION["Albers_Conic_Equal_Area"],PARAMETER["standard_parallel_1",29.5],PARAMETER["standard_parallel_2",45.5],PARAMETER["latitude_of_center",23],PARAMETER["longitude_of_center",-96],PARAMETER["false_easting",0],PARAMETER["false_northing",0],UNIT["Meter",1]]
+  limits:
+  - [0, 21]
+  - [0, 32]
+  name: Landsat ARD - CONUS
+  res: [30, 30]
+  size: [5000, 5000]
+  ul: [-2565585.0, 3314805]
+LANDSAT_ARD_HI:
+  crs: PROJCS["HAWAII_WGS84_Albers_Equal_Area_Conic",GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS
+    84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4326"]],PROJECTION["Albers_Conic_Equal_Area"],PARAMETER["standard_parallel_1",8.0],PARAMETER["standard_parallel_2",18.0],PARAMETER["latitude_of_center",3.0],PARAMETER["longitude_of_center",-157.0],PARAMETER["false_easting",0],PARAMETER["false_northing",0],UNIT["Meter",1]]
+  limits:
+  - [0, 2]
+  - [0, 4]
+  name: Landsat ARD - Hawaii
+  res: [30, 30]
+  size: [5000, 5000]
+  ul: [-444345, 2168895]

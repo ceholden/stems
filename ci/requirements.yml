@@ -11,7 +11,10 @@ dependencies:
   - pandas
   - cytoolz
   - toolz
+  - pyyaml
   - xarray
+  - ipython
+  - jupyterlab
   # GIS
   - affine
   - cartopy
@@ -28,6 +31,8 @@ dependencies:
   # tests
   - pytest
   - pytest-runner
+  - pytest-lazy-fixture
+  - pytest-cov
   # docs
   - sphinx
   - sphinx_rtd_theme
