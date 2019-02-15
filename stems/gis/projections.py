@@ -272,3 +272,27 @@ def cf_ellps_params(crs):
         (key, getattr(osr_crs, func)())
         for (key, func) in CF_ELLIPSOID_DEFS
     )
+
+
+def cf_xy_coord_names(crs):
+    """ Returns appropriate names for coordinates given CRS
+
+    Parameters
+    ----------
+    crs : rasterio.crs.CRS
+        Coordinate reference system
+
+    Returns
+    -------
+    str : x_coord_name
+        X coordinate name
+    str : y_coord_name
+        Y coordinate name
+    """
+    # CRSError is raised if neither is true, so we don't handle
+    if crs.is_geographic:
+        return 'longitude', 'latitude'
+    elif crs.is_projected:
+        return 'x', 'y'
+    else:
+        raise ValueError('CRS must either be geographic or projected')

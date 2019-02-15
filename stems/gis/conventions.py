@@ -1,4 +1,4 @@
-""" Conventions for referencing XArray/NetCDF data
+""" CF conventions for referencing xarray/NetCDF data
 
 Includes functions useful for managing CF conventions (variable and
 coordinating naming, grid mapping variables, etc)
@@ -11,8 +11,14 @@ from rasterio.crs import CRS
 from rasterio.coords import BoundingBox
 import xarray as xr
 
+from . import projections, utils
+
+
 logger = logging.getLogger(__name__)
 
+
+# =============================================================================
+# DATA
 # Names of x/y dimensions, ordered with some preference
 _X_DIMENSIONS = ['x', 'longitude', 'lon', 'long']
 _Y_DIMENSIONS = ['y', 'latitude', 'lat']
@@ -55,7 +61,7 @@ CF_NC_ATTRS = OrderedDict((
 
 # =============================================================================
 # Projection
-def xarray_crs(crs, transform, grid_mapping='crs'):
+def create_grid_mapping(crs, transform, grid_mapping='crs'):
     """ Return an :py:class:`xarray.DataArray` of CF-compliant CRS info
 
     Parameters
@@ -78,7 +84,7 @@ def xarray_crs(crs, transform, grid_mapping='crs'):
     epsg_code = projections.epsg_code(crs) or 0
     if epsg_code:
         epsg_auth, epsg_code = epsg_code.split(':')
-    epsg_code = np.array(int(code), dtype=np.int32)
+    epsg_code = np.array(int(epsg_code), dtype=np.int32)
 
     da = xr.DataArray(epsg_code, name=grid_mapping)
     da.attrs['grid_mapping_name'] = name
@@ -87,14 +93,15 @@ def xarray_crs(crs, transform, grid_mapping='crs'):
     da.attrs.update(projections.cf_proj_params(crs))
     da.attrs.update(projections.cf_ellps_params(crs))
 
+    # TODO: enable turning this off? add other "compat_attrs"?
     # For GDAL in case CF doesn't work
     # http://www.gdal.org/frmt_netcdf.html
-    for attr, value in _georeference_attrs(crs, transform).items():
+    for attr, value in _georeference_attrs_gdal(crs, transform).items():
         da.attrs[attr] = value
 
+    # Fixup - every list/tuple should be np.ndarray to look like CRS variables
+    # that have been written to disk (otherwise comparisons fail)
     for attr, value in da.attrs.items():
-        # every list/tuple should be np.ndarray to look like CRS variables
-        # that have been written to disk (otherwise comparisons fail)
         if isinstance(value, (list, tuple)):
             da.attrs[attr] = np.asarray(value)
 
@@ -103,8 +110,8 @@ def xarray_crs(crs, transform, grid_mapping='crs'):
 
 # =============================================================================
 # Coordinates
-def xarray_coords(y, x, crs):
-    """ Return `y` and `x` as `xr.Variable` useful for coordinates
+def create_coordinates(y, x, crs):
+    """ Return ``y`` and ``x`` as coordinates variables given the ``crs``
 
     Parameters
     ----------
@@ -113,7 +120,7 @@ def xarray_coords(y, x, crs):
     x : np.ndarray
         X coordinate
     crs : rasterio.crs.CRS
-        Coordinate reference system
+        Coordinate reference system of ``y`` and ``x``
 
     Returns
     -------
@@ -124,15 +131,14 @@ def xarray_coords(y, x, crs):
 
     References
     ----------
-
     .. [1] http://cfconventions.org/cf-conventions/v1.6.0/cf-conventions.html#coordinate-types
     """
-    x_var, y_var = xy_coordinate_names(crs)
+    x_var, y_var = projections.cf_xy_coord_names(crs)
     y_attrs = COORD_DEFS[y_var].copy()
     x_attrs = COORD_DEFS[x_var].copy()
 
     if crs.is_projected:
-        crs_osr = crs2osr(crs)
+        crs_osr = utils.crs2osr(crs)
         units = crs_osr.GetLinearUnitsName().lower()
         y_attrs['units'], x_attrs['units'] = units, units
 
@@ -142,25 +148,10 @@ def xarray_coords(y, x, crs):
     return y, x
 
 
-def xy_coordinate_names(crs):
-    """ Returns appropriate names for coordinates given CRS
-
-    Parameters
-    ----------
-    crs : rasterio.crs.CRS
-        Coordinate reference system
-
-    Returns
-    -------
-    str : x_coord_name
-        X coordinate name
-    str : y_coord_name
-        Y coordinate name
+def _georeference_attrs_gdal(crs, transform):
+    """ GDAL will look for these attributes if parsing CF fails
     """
-    # CRSError is raised if neither is true, so we don't handle
-    if crs.is_geographic:
-        return 'longitude', 'latitude'
-    elif crs.is_projected:
-        return 'x', 'y'
-    else:
-        raise ValueError('CRS must either be geographic or projected')
+    return OrderedDict((
+        ('spatial_ref', crs.wkt),
+        ('GeoTransform', transform.to_gdal())
+    ))

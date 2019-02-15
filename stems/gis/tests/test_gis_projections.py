@@ -126,3 +126,14 @@ def test_cf_ellps_params_NAD83():
     assert test['semi_major_axis'] == 6378137.0
     assert abs(test['semi_minor_axis'] - 6356752.314140356) < 1e7
     assert abs(test['inverse_flattening'] - 298.257222101) < 1e7
+
+
+# ----------------------------------------------------------------------------
+# cf_xy_coord_names
+@pytest.mark.parametrize(('crs', 'ans'), (
+    (CRS.from_epsg(4326), ('longitude', 'latitude')),
+    (CRS.from_epsg(5070), ('x', 'y'))
+))
+def test_cf_xy_coord_names(crs, ans):
+    test = projections.cf_xy_coord_names(crs)
+    assert test == ans
