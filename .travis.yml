@@ -8,7 +8,7 @@ branches:
         - /^v[0-9].*$/
 env:
     global:
-        - ENCRYPTION_LABEL: "TODO"
+        - ENCRYPTION_LABEL: "d535424b89ca"
         - COMMIT_AUTHOR_EMAIL: "ceholden@gmail.com"
         - COMMIT_AUTHOR_NAME: "TRAVIS-CI BOT"
         - DOCS_PYTHON_VERSION: "3.6"
