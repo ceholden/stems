@@ -131,7 +131,7 @@ def test_load_grids():
     assert isinstance(ex_grids, dict)
     assert len(ex_grids) == 6
     assert 'LANDSAT_ARD_CU' in ex_grids
-    assert 'LANDSAT_ARD_AL' in ex_grids
+    assert 'LANDSAT_ARD_AK' in ex_grids
     assert 'LANDSAT_ARD_HI' in ex_grids
 
 
@@ -157,7 +157,7 @@ def example_grid_GEOG(example_kwds_GEOG):
 @pytest.fixture
 def example_kwds_AEA(request):
     return {
-        'name': 'Landsat ARD - CONUS',
+        'name': 'Landsat ARD v1 - CONUS',
         'crs': 'PROJCS["CONUS_WGS84_Albers_Equal_Area_Conic",GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4326"]],PROJECTION["Albers_Conic_Equal_Area"],PARAMETER["standard_parallel_1",29.5],PARAMETER["standard_parallel_2",45.5],PARAMETER["latitude_of_center",23],PARAMETER["longitude_of_center",-96],PARAMETER["false_easting",0],PARAMETER["false_northing",0],UNIT["Meter",1]]',
         'ul': [-2565585.0, 3314805],
         'res': [30, 30],

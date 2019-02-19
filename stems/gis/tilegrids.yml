@@ -34,8 +34,8 @@ GEE_HANSEN_GFC:
 
 # LANDSAT ARD
 # https://landsat.usgs.gov/ard
-LANDSAT_ARD_AL:
-  name: Landsat ARD - Alaska
+LANDSAT_ARD_AK:
+  name: Landsat ARD v1 - Alaska
   crs: PROJCS["ALASKA_WGS84_Albers_Equal_Area_Conic",GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS
     84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4326"]],PROJECTION["Albers_Conic_Equal_Area"],PARAMETER["standard_parallel_1",55.0],PARAMETER["standard_parallel_2",65.0],PARAMETER["latitude_of_center",50.0],PARAMETER["longitude_of_center",-154.0],PARAMETER["false_easting",0],PARAMETER["false_northing",0],UNIT["Meter",1]]
   ul: [-851715, 2474325]
@@ -46,7 +46,7 @@ LANDSAT_ARD_AL:
   - [0, 16]
 
 LANDSAT_ARD_CU:
-  name: Landsat ARD - CONUS
+  name: Landsat ARD v1 - CONUS
   crs: PROJCS["CONUS_WGS84_Albers_Equal_Area_Conic",GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS
     84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4326"]],PROJECTION["Albers_Conic_Equal_Area"],PARAMETER["standard_parallel_1",29.5],PARAMETER["standard_parallel_2",45.5],PARAMETER["latitude_of_center",23],PARAMETER["longitude_of_center",-96],PARAMETER["false_easting",0],PARAMETER["false_northing",0],UNIT["Meter",1]]
   ul: [-2565585.0, 3314805]
@@ -57,7 +57,7 @@ LANDSAT_ARD_CU:
   - [0, 32]
 
 LANDSAT_ARD_HI:
-  name: Landsat ARD - Hawaii
+  name: Landsat ARD v1 - Hawaii
   crs: PROJCS["HAWAII_WGS84_Albers_Equal_Area_Conic",GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS
     84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4326"]],PROJECTION["Albers_Conic_Equal_Area"],PARAMETER["standard_parallel_1",8.0],PARAMETER["standard_parallel_2",18.0],PARAMETER["latitude_of_center",3.0],PARAMETER["longitude_of_center",-157.0],PARAMETER["false_easting",0],PARAMETER["false_northing",0],UNIT["Meter",1]]
   ul: [-444345, 2168895]
