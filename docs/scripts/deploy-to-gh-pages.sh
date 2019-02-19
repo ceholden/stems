@@ -66,7 +66,6 @@ DEST=$SOURCE/$SRC_BRANCH/
 cd $DOCS/
 
 # Clean
-rm -rf build
 rm -rf $SOURCE
 
 # Create branch directory and grab Git repo
@@ -83,7 +82,7 @@ sphinx-apidoc -f -e -o $APIDOC ../${PACKAGE}/
 make html
 rm -rf $DEST
 mkdir -p $DEST
-cp -R build/html/* $DEST
+cp -R ${SOURCE}/html/* $DEST
 
 # If there's test coverage results, add it in!
 HTMLCOV=../htmlcov
