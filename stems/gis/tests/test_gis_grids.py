@@ -58,6 +58,8 @@ def test_tilegrid_props():
     assert tile.bounds[-1] == grid.ul[1]
     assert tile.crs == grid.crs
     assert tile.size == grid.size
+    assert tile.width == tile.size[0]
+    assert tile.height == tile.size[1]
 
     last = grid[11, 7]
     with pytest.raises(IndexError, match=r'.*outside of.*limits'):
@@ -185,6 +187,3 @@ def example_kwds(request):
 ])
 def example_grids(request):
     return grids.TileGrid(**request.param)
-
-
-

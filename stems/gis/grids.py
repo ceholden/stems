@@ -11,6 +11,7 @@ from affine import Affine
 from rasterio.coords import BoundingBox
 import shapely.geometry
 
+from .coords import transform_to_coords
 from . import convert
 
 
@@ -296,22 +297,26 @@ class TileGrid(collections.abc.Mapping):
 
 
 class Tile(object):
-    """ A tile
-
-    Attributes
-    ----------
-    index : tuple[int, int]
-        The (row, column) index of this tile in the larger tile specification
-    crs : rasterio.crs.CRS
-        The coordinate reference system of the tile
-    bounds : BoundingBox
-        The bounding box of the tile
-    res : tuple[float, float]
-        Pixel X/Y resolution of tile
-    size : tuple[int, int]
-        Number of pixels in X/Y dimensions for each tile
+    """ A Tile
     """
     def __init__(self, index, crs, bounds, res, size):
+        """ A Tile
+
+        Parameters
+        ----------
+        index : tuple[int, int]
+            The (row, column) index of this tile in the larger tile
+            specification
+        crs : rasterio.crs.CRS
+            The coordinate reference system of the tile
+        bounds : BoundingBox
+            The bounding box of the tile
+        res : tuple[float, float]
+            Pixel X/Y resolution of tile
+        size : tuple[int, int]
+            Number of pixels in X/Y dimensions for each tile
+        """
+
         self.index = index
         self.crs = crs
         self.bounds = bounds
@@ -342,6 +347,36 @@ class Tile(object):
         """ shapely.geometry.Polygon: This tile's bounding box geometry
         """
         return convert.to_bbox(self.bounds)
+
+    @property
+    def width(self):
+        """ int : The number of columns in this Tile
+        """
+        return self.size[0]
+
+    @property
+    def height(self):
+        """ int : The number of columns in this Tile
+        """
+        return self.size[0]
+
+    def coords(self, center=True):
+        """ Return y/x pixel coordinates
+
+        Parameters
+        ----------
+        center : bool, optional
+            Return coordinates for pixel centers (default)
+
+        Returns
+        -------
+        tuple[np.ndarray]
+            Y/X coordinates
+        """
+        return transform_to_coords(self.transform,
+                                   width=self.width,
+                                   height=self.height,
+                                   center=center)
 
     def geojson(self, crs=_GEOJSON_EPSG_4326_STRING):
         """ Return this Tile's geomtry as GeoJSON
