@@ -1,7 +1,7 @@
 language: python
 sudo: false
 python:
-    - "3.6"
+    - "3.7"
 branches:
     only:
         - master
@@ -11,7 +11,7 @@ env:
         - ENCRYPTION_LABEL: "d535424b89ca"
         - COMMIT_AUTHOR_EMAIL: "ceholden@gmail.com"
         - COMMIT_AUTHOR_NAME: "TRAVIS-CI BOT"
-        - DOCS_PYTHON_VERSION: "3.6"
+        - DOCS_PYTHON_VERSION: "3.7"
 notifications:
     email: false
 
