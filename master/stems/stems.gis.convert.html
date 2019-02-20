@@ -1,0 +1,196 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>stems.gis.convert module &#8212; stems 0+untagged.21.gae4c791.dirty documentation</title>
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">stems 0+untagged.21.gae4c791.dirty documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-stems.gis.convert">
+<span id="stems-gis-convert-module"></span><h1>stems.gis.convert module<a class="headerlink" href="#module-stems.gis.convert" title="Permalink to this headline">¶</a></h1>
+<p>GIS variable conversion library</p>
+<p>Functions here are convenient ways of going from various representations
+of GIS information used in this stack (e.g., WKT) to the following
+representations:</p>
+<ul class="simple">
+<li><dl class="first docutils">
+<dt>Coordinate Reference System</dt>
+<dd><ul class="first last">
+<li><code class="xref py py-class docutils literal notranslate"><span class="pre">rasterio.crs.CRS</span></code></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Geotransform</dt>
+<dd><ul class="first last">
+<li><code class="xref py py-class docutils literal notranslate"><span class="pre">affine.Affine</span></code></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Bounding Box</dt>
+<dd><ul class="first last">
+<li><code class="xref py py-class docutils literal notranslate"><span class="pre">rasterio.coords.BoundingBox</span></code></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Bounds</dt>
+<dd><ul class="first last">
+<li><code class="xref py py-class docutils literal notranslate"><span class="pre">shapely.geom.Polygon</span></code></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<dl class="function">
+<dt id="stems.gis.convert.to_bbox">
+<code class="descclassname">stems.gis.convert.</code><code class="descname">to_bbox</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/convert.html#to_bbox"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.convert.to_bbox" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert input a bounding box polygon</p>
+<dl class="docutils">
+<dt>value <span class="classifier-delimiter">:</span> <span class="classifier">BoundingBox</span></dt>
+<dd>Object representing a bounding box, or an xarray object with coords
+we can use to calculate one from</dd>
+</dl>
+<dl class="docutils">
+<dt>shapely.geometry.Polygon</dt>
+<dd>BoundingBox as a polygon</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.gis.convert.to_bounds">
+<code class="descclassname">stems.gis.convert.</code><code class="descname">to_bounds</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/convert.html#to_bounds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.convert.to_bounds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert input to a <code class="xref py py-data docutils literal notranslate"><span class="pre">rasterio.coords.BoundingBox</span></code></p>
+<dl class="docutils">
+<dt>value <span class="classifier-delimiter">:</span> <span class="classifier">iterable, or Polygon</span></dt>
+<dd>Input containing some geographic information</dd>
+</dl>
+<dl class="docutils">
+<dt>BoundingBox</dt>
+<dd>Bounding box (left, bottom, right, top). Also described as
+(minx, miny, maxx, maxy)</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.gis.convert.to_crs">
+<code class="descclassname">stems.gis.convert.</code><code class="descname">to_crs</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/convert.html#to_crs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.convert.to_crs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a CRS representation to a <cite>rasterio.crs.CRS</cite></p>
+<dl class="docutils">
+<dt>value <span class="classifier-delimiter">:</span> <span class="classifier">str, int, dict, or osr.SpatialReference</span></dt>
+<dd>Coordinate reference system as WKT, Proj.4 string, EPSG code,
+rasterio-compatible proj4 attributes in a dict, or OSR definition</dd>
+</dl>
+<dl class="docutils">
+<dt>rasterio.crs.CRS</dt>
+<dd>CRS</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.gis.convert.to_transform">
+<code class="descclassname">stems.gis.convert.</code><code class="descname">to_transform</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/convert.html#to_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.convert.to_transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert input into an Affine transform</p>
+<dl class="docutils">
+<dt>value <span class="classifier-delimiter">:</span> <span class="classifier">iterable, xr.Dataset, or xr.DataArray</span></dt>
+<dd>6 numbers representing affine transform</dd>
+<dt>from_gdal <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
+<dd>If <cite>value</cite> is a tuple or list, specifies if transform
+is GDAL variety (True) or rasterio/affine (False)</dd>
+<dt>x_coord <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd>For xarrays, override X coordinate name. If not specified,
+will attempt to find based on <cite>crs</cite></dd>
+<dt>y_coord <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd>For xarrays, override Y coordinate name. If not specified,
+will attempt to find based on <cite>crs</cite></dd>
+</dl>
+<dl class="docutils">
+<dt>affine.Affine</dt>
+<dd>Affine transform</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/stems/stems.gis.convert.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">stems 0+untagged.21.gae4c791.dirty documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Chris Holden.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
+    </div>
+  </body>
+</html>

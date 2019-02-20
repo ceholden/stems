@@ -1,0 +1,526 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>stems.gis.grids &#8212; stems 0+untagged.21.gae4c791.dirty documentation</title>
+    <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">stems 0+untagged.21.gae4c791.dirty documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for stems.gis.grids</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; Predefined tile specifications and utilities for working with tile systems</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">collections</span>
+<span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="k">import</span> <span class="n">Path</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">from</span> <span class="nn">affine</span> <span class="k">import</span> <span class="n">Affine</span>
+<span class="kn">from</span> <span class="nn">rasterio.coords</span> <span class="k">import</span> <span class="n">BoundingBox</span>
+<span class="kn">import</span> <span class="nn">shapely.geometry</span>
+
+<span class="kn">from</span> <span class="nn">.coords</span> <span class="k">import</span> <span class="n">transform_to_coords</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">convert</span>
+
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="n">_DEFAULT_TILEGRID_UNSIZED_LIMITS</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">_GEOJSON_EPSG_4326_STRING</span> <span class="o">=</span> <span class="s1">&#39;+init=epsg:4326&#39;</span>
+
+
+<div class="viewcode-block" id="TileGrid"><a class="viewcode-back" href="../../../stems/stems.gis.grids.html#stems.gis.grids.TileGrid">[docs]</a><span class="k">class</span> <span class="nc">TileGrid</span><span class="p">(</span><span class="n">collections</span><span class="o">.</span><span class="n">abc</span><span class="o">.</span><span class="n">Mapping</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; A tile grid specification for gridding data</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ul : tuple</span>
+<span class="sd">        Upper left X/Y coordinates</span>
+<span class="sd">    crs : rasterio.crs.CRS</span>
+<span class="sd">        Coordinate system information</span>
+<span class="sd">    res : tuple</span>
+<span class="sd">        Pixel X/Y resolution</span>
+<span class="sd">    size : tuple</span>
+<span class="sd">        Number of pixels in X/Y dimensions for each tile</span>
+<span class="sd">    limits : tuple[tuple, tuple]</span>
+<span class="sd">        Maximum and minimum rows (vertical) and columns (horizontal)</span>
+<span class="sd">        given as ((row_start, row_stop), (col_start, col_stop)). Used</span>
+<span class="sd">        to limit access to Tiles beyond domain.</span>
+<span class="sd">    name : str, optional</span>
+<span class="sd">        Name of this tiling scheme</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ul</span><span class="p">,</span> <span class="n">crs</span><span class="p">,</span> <span class="n">res</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Grid&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; A tile specification or tile scheme</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        ul : tuple</span>
+<span class="sd">            Upper left X/Y coordinates</span>
+<span class="sd">        crs : str, int, dict, or rasterio.crs.CRS</span>
+<span class="sd">            Coordinate system information, given as a proj4 string, EPSG code,</span>
+<span class="sd">            rasterio-compatible `dict`, or a :py:class:`rasterio.crs.CRS`</span>
+<span class="sd">        res : tuple</span>
+<span class="sd">            Pixel X/Y resolution</span>
+<span class="sd">        size : tuple</span>
+<span class="sd">            Number of pixels in X/Y dimensions for each tile</span>
+<span class="sd">        limits : Sequence, optional</span>
+<span class="sd">            Optionally, provide the minimum/maximum row and column indices for</span>
+<span class="sd">            this grid (e.g., ``limits=[(0, 10), (0, 25)]``)</span>
+<span class="sd">        name : str, optional</span>
+<span class="sd">            Name of this tiling scheme</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">crs_</span> <span class="o">=</span> <span class="n">convert</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">crs</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">crs_</span><span class="o">.</span><span class="n">is_valid</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ul</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">ul</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">crs</span> <span class="o">=</span> <span class="n">crs_</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">crs_wkt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">wkt</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">res</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">limits</span> <span class="o">=</span> <span class="n">limits</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tiles</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+            <span class="n">f</span><span class="s1">&#39;&lt;</span><span class="si">{self.__class__.__name__}</span><span class="s1"> at {hex(id(self))}&gt;&#39;</span><span class="p">,</span>
+            <span class="n">f</span><span class="s1">&#39;    * name: </span><span class="si">{self.name}</span><span class="s1">&#39;</span><span class="p">,</span>
+            <span class="n">f</span><span class="s1">&#39;    * ul=</span><span class="si">{self.ul}</span><span class="s1">&#39;</span><span class="p">,</span>
+            <span class="n">f</span><span class="s1">&#39;    * crs=</span><span class="si">{self.crs_wkt}</span><span class="s1">&#39;</span><span class="p">,</span>
+            <span class="n">f</span><span class="s1">&#39;    * res=</span><span class="si">{self.res}</span><span class="s1">&#39;</span><span class="p">,</span>
+            <span class="n">f</span><span class="s1">&#39;    * size=</span><span class="si">{self.size}</span><span class="s1">&#39;</span><span class="p">,</span>
+            <span class="n">f</span><span class="s1">&#39;    * limits=</span><span class="si">{self.limits}</span><span class="s1">&#39;</span>
+        <span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">_guard_limits</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">limits</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="n">f</span><span class="s2">&quot;</span><span class="si">{self.__class__.__name__}</span><span class="s2"> &#39;</span><span class="si">{self.name}</span><span class="s2">&#39; does not specify a &quot;</span>
+                <span class="n">f</span><span class="s2">&quot;``limits``, so has an unlimited number of rows/columns. &quot;</span>
+                <span class="n">f</span><span class="s2">&quot;Defaulting to </span><span class="si">{_DEFAULT_TILEGRID_UNSIZED_LIMITS}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="n">_DEFAULT_TILEGRID_UNSIZED_LIMITS</span><span class="p">,</span> <span class="p">),</span> <span class="p">)</span> <span class="o">*</span> <span class="mi">2</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">limits</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">rows</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">limits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_guard_limits</span><span class="p">()</span>
+        <span class="k">return</span> <span class="nb">range</span><span class="p">(</span><span class="n">limits</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">limits</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">cols</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">limits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_guard_limits</span><span class="p">()</span>
+        <span class="k">return</span> <span class="nb">range</span><span class="p">(</span><span class="n">limits</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">limits</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">nrow</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ncol</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cols</span><span class="p">)</span>
+
+<div class="viewcode-block" id="TileGrid.geojson"><a class="viewcode-back" href="../../../stems/stems.gis.grids.html#stems.gis.grids.TileGrid.geojson">[docs]</a>    <span class="k">def</span> <span class="nf">geojson</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rows</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="n">_GEOJSON_EPSG_4326_STRING</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Returns this grid of tiles as GeoJSON</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        rows : Sequence[int], optional</span>
+<span class="sd">            If this TileGrid was not given ``limits`` or if you want a subset</span>
+<span class="sd">            of the tiles, specify the rows to map</span>
+<span class="sd">        cols : Sequence[int], optional</span>
+<span class="sd">            If this TileGrid was not given ``limits`` or if you want a subset</span>
+<span class="sd">            of the tiles, specify the rows to map</span>
+<span class="sd">        crs : rasterio.crs.CRS</span>
+<span class="sd">            The coordinate reference system to use for the GeoJSON. Defaults to</span>
+<span class="sd">            EPSG:4326</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            GeoJSON</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;FeatureCollection&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;features&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">([</span><span class="n">tile</span><span class="o">.</span><span class="n">geojson</span><span class="p">(</span><span class="n">crs</span><span class="o">=</span><span class="n">crs</span><span class="p">)</span> <span class="k">for</span> <span class="n">tile</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span>
+        <span class="p">}</span></div>
+
+<span class="c1"># `Mapping` ABC requirement</span>
+    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return a Tile for the grid row/column specified by index</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">index</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s1">&#39;TileSpec only has two dimensions (row/col)&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">int</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Only support indexing int/int for now&#39;</span><span class="p">)</span>
+            <span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="n">index</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index_to_tile</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s1">&#39;Unknown index type&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nrow</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ncol</span>
+
+    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nrow</span><span class="p">)</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ncol</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="p">):</span>
+            <span class="k">yield</span> <span class="n">idx</span>
+
+<span class="c1"># TILE ACCESS METHODS</span>
+<div class="viewcode-block" id="TileGrid.point_to_tile"><a class="viewcode-back" href="../../../stems/stems.gis.grids.html#stems.gis.grids.TileGrid.point_to_tile">[docs]</a>    <span class="k">def</span> <span class="nf">point_to_tile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return a Tile containing a given point (x, y)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        point : tuple</span>
+<span class="sd">            X/Y coordinates in tile specification&#39;s CRS</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tile : stems.gis.grids.Tile</span>
+<span class="sd">            The intersecting :class`Tile`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">px</span><span class="p">,</span> <span class="n">py</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">_x</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">point</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">ul</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">//</span> <span class="n">px</span><span class="p">)</span>
+        <span class="n">_y</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">ul</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">point</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">//</span> <span class="n">py</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index_to_tile</span><span class="p">((</span><span class="n">_y</span><span class="p">,</span> <span class="n">_x</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="TileGrid.bounds_to_tiles"><a class="viewcode-back" href="../../../stems/stems.gis.grids.html#stems.gis.grids.TileGrid.bounds_to_tiles">[docs]</a>    <span class="k">def</span> <span class="nf">bounds_to_tiles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bounds</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Yield Tile objects for this grid within a given bounds</span>
+
+<span class="sd">        .. note::</span>
+
+<span class="sd">            It is required that the input ``bounds`` be in the same</span>
+<span class="sd">            coordinate reference system as ``crs``.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        bounds : BoundingBox</span>
+<span class="sd">            Input bounds</span>
+
+<span class="sd">        Yields</span>
+<span class="sd">        ------</span>
+<span class="sd">        tile : Tile</span>
+<span class="sd">            Tiles that are within within provided bounds</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">grid_ys</span><span class="p">,</span> <span class="n">grid_xs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_frame_bounds</span><span class="p">(</span><span class="n">bounds</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_yield_tiles</span><span class="p">(</span><span class="n">grid_ys</span><span class="p">,</span> <span class="n">grid_xs</span><span class="p">,</span> <span class="n">bounds</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TileGrid.roi_to_tiles"><a class="viewcode-back" href="../../../stems/stems.gis.grids.html#stems.gis.grids.TileGrid.roi_to_tiles">[docs]</a>    <span class="k">def</span> <span class="nf">roi_to_tiles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">roi</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Yield tiles within a Region of Interest (ROI) ``shapely`` geometry</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        roi : Polygon, MultiPolygon, etc.</span>
+<span class="sd">            A shapely geometry in the tile specifications&#39; crs</span>
+
+<span class="sd">        Yields</span>
+<span class="sd">        ------</span>
+<span class="sd">        iterable[Tile]</span>
+<span class="sd">            Yields ``Tile``s within provided Region of Interest</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">bounds</span> <span class="o">=</span> <span class="n">BoundingBox</span><span class="p">(</span><span class="o">*</span><span class="n">roi</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+        <span class="n">grid_ys</span><span class="p">,</span> <span class="n">grid_xs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_frame_bounds</span><span class="p">(</span><span class="n">bounds</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_yield_tiles</span><span class="p">(</span><span class="n">grid_ys</span><span class="p">,</span> <span class="n">grid_xs</span><span class="p">,</span> <span class="n">roi</span><span class="p">)</span></div>
+
+<span class="c1"># HELPERS</span>
+    <span class="k">def</span> <span class="nf">_index_to_bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return Tile footprint bounds for given index</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        index : tuple</span>
+<span class="sd">            Tile row/column index</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        bbox : BoundingBox</span>
+<span class="sd">            Bounding box of tile</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">BoundingBox</span><span class="p">(</span>
+            <span class="n">left</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ul</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">right</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ul</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">top</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ul</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+            <span class="n">bottom</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ul</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_guard_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="n">index</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">limits</span><span class="p">:</span>
+            <span class="n">row_lim</span><span class="p">,</span> <span class="n">col_lim</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">limits</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">row</span> <span class="o">&lt;</span> <span class="nb">min</span><span class="p">(</span><span class="n">row_lim</span><span class="p">)</span> <span class="ow">or</span> <span class="n">row</span> <span class="o">&gt;</span> <span class="nb">max</span><span class="p">(</span><span class="n">row_lim</span><span class="p">)</span> <span class="ow">or</span>
+                    <span class="n">col</span> <span class="o">&lt;</span> <span class="nb">min</span><span class="p">(</span><span class="n">col_lim</span><span class="p">)</span> <span class="ow">or</span> <span class="n">col</span> <span class="o">&gt;</span> <span class="nb">max</span><span class="p">(</span><span class="n">col_lim</span><span class="p">)):</span>
+                <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Tile at index &quot;</span><span class="si">{index}</span><span class="s1">&quot; is outside of &#39;</span>
+                                 <span class="n">f</span><span class="s1">&#39;&quot;</span><span class="si">{self.name}</span><span class="s1">&quot; limits (</span><span class="si">{self.limits}</span><span class="s1">).&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_index_to_tile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return the Tile for given index</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        index : tuple</span>
+<span class="sd">            Tile row/column index</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tile : Tile</span>
+<span class="sd">            Tile at index</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        IndexError</span>
+<span class="sd">            Raise if requested Tile is out of domain (outside ``limits``)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_guard_index</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">index</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tiles</span><span class="p">:</span>
+            <span class="n">bounds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index_to_bounds</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_tiles</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">Tile</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="p">,</span> <span class="n">bounds</span><span class="p">,</span>
+                                      <span class="bp">self</span><span class="o">.</span><span class="n">res</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tiles</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_yield_tiles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grid_ys</span><span class="p">,</span> <span class="n">grid_xs</span><span class="p">,</span> <span class="n">geom_or_bounds</span><span class="p">):</span>
+        <span class="c1"># yield `Tile`s that intersect </span>
+        <span class="n">bbox_poly</span> <span class="o">=</span> <span class="n">convert</span><span class="o">.</span><span class="n">to_bbox</span><span class="p">(</span><span class="n">geom_or_bounds</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">grid_ys</span><span class="p">,</span> <span class="n">grid_xs</span><span class="p">):</span>
+            <span class="n">tile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index_to_tile</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+            <span class="c1"># TODO - this should really a check that we can turn off</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">tile</span><span class="o">.</span><span class="n">bbox</span><span class="o">.</span><span class="n">intersects</span><span class="p">(</span><span class="n">bbox_poly</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span>
+                    <span class="n">tile</span><span class="o">.</span><span class="n">bbox</span><span class="o">.</span><span class="n">touches</span><span class="p">(</span><span class="n">bbox_poly</span><span class="p">)):</span>
+                <span class="k">yield</span> <span class="n">tile</span>
+
+    <span class="k">def</span> <span class="nf">_frame_bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bounds</span><span class="p">):</span>
+        <span class="c1"># return y/x tile index that intersect `bounds` </span>
+        <span class="n">px</span><span class="p">,</span> <span class="n">py</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">min_grid_x</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">bounds</span><span class="o">.</span><span class="n">left</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">ul</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">//</span> <span class="n">px</span><span class="p">)</span>
+        <span class="n">max_grid_x</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">bounds</span><span class="o">.</span><span class="n">right</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">ul</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">//</span> <span class="n">px</span><span class="p">)</span>
+        <span class="n">min_grid_y</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">ul</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">bounds</span><span class="o">.</span><span class="n">top</span><span class="p">)</span> <span class="o">//</span> <span class="n">py</span><span class="p">)</span>
+        <span class="n">max_grid_y</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">ul</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">bounds</span><span class="o">.</span><span class="n">bottom</span><span class="p">)</span> <span class="o">//</span> <span class="n">py</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">min_grid_y</span><span class="p">,</span> <span class="n">max_grid_y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="nb">range</span><span class="p">(</span><span class="n">min_grid_x</span><span class="p">,</span> <span class="n">max_grid_x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="Tile"><a class="viewcode-back" href="../../../stems/stems.gis.grids.html#stems.gis.grids.Tile">[docs]</a><span class="k">class</span> <span class="nc">Tile</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; A Tile</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">crs</span><span class="p">,</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">res</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; A Tile</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        index : tuple[int, int]</span>
+<span class="sd">            The (row, column) index of this tile in the larger tile</span>
+<span class="sd">            specification</span>
+<span class="sd">        crs : rasterio.crs.CRS</span>
+<span class="sd">            The coordinate reference system of the tile</span>
+<span class="sd">        bounds : BoundingBox</span>
+<span class="sd">            The bounding box of the tile</span>
+<span class="sd">        res : tuple[float, float]</span>
+<span class="sd">            Pixel X/Y resolution of tile</span>
+<span class="sd">        size : tuple[int, int]</span>
+<span class="sd">            Number of pixels in X/Y dimensions for each tile</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">index</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">crs</span> <span class="o">=</span> <span class="n">crs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span> <span class="o">=</span> <span class="n">bounds</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">res</span> <span class="o">=</span> <span class="n">res</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">size</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">vertical</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; int: The horizontal index of this tile in its tile specification</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">horizontal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; int: The horizontal index of this tile in its tile specification</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Affine: The ``Affine`` transform for the tile</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Affine</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="n">left</span><span class="p">,</span>
+                      <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="n">top</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">bbox</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; shapely.geometry.Polygon: This tile&#39;s bounding box geometry</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">convert</span><span class="o">.</span><span class="n">to_bbox</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">width</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; int : The number of columns in this Tile</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">height</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; int : The number of columns in this Tile</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<div class="viewcode-block" id="Tile.coords"><a class="viewcode-back" href="../../../stems/stems.gis.grids.html#stems.gis.grids.Tile.coords">[docs]</a>    <span class="k">def</span> <span class="nf">coords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return y/x pixel coordinates</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        center : bool, optional</span>
+<span class="sd">            Return coordinates for pixel centers (default)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tuple[np.ndarray]</span>
+<span class="sd">            Y/X coordinates</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">transform_to_coords</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">,</span>
+                                   <span class="n">width</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+                                   <span class="n">height</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>
+                                   <span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tile.geojson"><a class="viewcode-back" href="../../../stems/stems.gis.grids.html#stems.gis.grids.Tile.geojson">[docs]</a>    <span class="k">def</span> <span class="nf">geojson</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="n">_GEOJSON_EPSG_4326_STRING</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return this Tile&#39;s geomtry as GeoJSON</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        crs : rasterio.crs.CRS</span>
+<span class="sd">            Coordinate reference system of output. Defaults to EPSG:4326</span>
+<span class="sd">            per GeoJSON standard</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            This tile&#39;s geometry and crs represented as GeoJSON</span>
+
+<span class="sd">        References</span>
+<span class="sd">        ----------</span>
+<span class="sd">        .. [1] https://tools.ietf.org/html/rfc7946#page-12</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">rasterio.warp</span> <span class="k">import</span> <span class="n">transform_geom</span>
+        <span class="n">crs_</span> <span class="o">=</span> <span class="n">convert</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">crs</span><span class="p">)</span>
+        <span class="n">geom</span> <span class="o">=</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">mapping</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">polygon</span><span class="p">)</span>
+        <span class="n">geom_epsg4326</span> <span class="o">=</span> <span class="n">transform_geom</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="p">,</span> <span class="n">crs_</span><span class="p">,</span> <span class="n">geom</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;Feature&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;properties&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;horizontal&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">horizontal</span><span class="p">,</span>
+                <span class="s1">&#39;vertical&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">vertical</span>
+            <span class="p">},</span>
+            <span class="s1">&#39;geometry&#39;</span><span class="p">:</span> <span class="n">geom_epsg4326</span>
+        <span class="p">}</span></div></div>
+
+
+<div class="viewcode-block" id="load_grids"><a class="viewcode-back" href="../../../stems/stems.gis.grids.html#stems.gis.grids.load_grids">[docs]</a><span class="k">def</span> <span class="nf">load_grids</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Retrieve tile grid specifications from a YAML file</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    filename : str</span>
+<span class="sd">        Filename of YAML data containing specifications. If ``None``,</span>
+<span class="sd">        will load grids packaged with module</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        Mapping of (name, TileGrid) pairs for tile grid specifications. By</span>
+<span class="sd">        default, returns tile specifications included with this package</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">yaml</span>
+    <span class="kn">from</span> <span class="nn">.grids</span> <span class="k">import</span> <span class="n">TileGrid</span>
+
+    <span class="k">if</span> <span class="n">filename</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s1">&#39;tilegrids.yml&#39;</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">filename</span><span class="p">),</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">specs</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="n">tilegrids</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">specs</span><span class="p">:</span>
+        <span class="n">kwds</span> <span class="o">=</span> <span class="n">specs</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+        <span class="n">kwds</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwds</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+        <span class="n">tilegrids</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">TileGrid</span><span class="p">(</span><span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">tilegrids</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">stems 0+untagged.21.gae4c791.dirty documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Chris Holden.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
+    </div>
+  </body>
+</html>

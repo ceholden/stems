@@ -1,0 +1,121 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>stems.gis.tests.test_gis_geohash &#8212; stems 0+untagged.21.gae4c791.dirty documentation</title>
+    <link rel="stylesheet" href="../../../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">stems 0+untagged.21.gae4c791.dirty documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for stems.gis.tests.test_gis_geohash</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; Tests for :py:mod:`stems.gis.geohash`</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">pytest</span>
+<span class="kn">from</span> <span class="nn">rasterio.crs</span> <span class="k">import</span> <span class="n">CRS</span>
+
+<span class="kn">from</span> <span class="nn">stems.gis</span> <span class="k">import</span> <span class="n">geohash</span>
+
+<span class="n">CRS_4326</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span>
+<span class="n">EXAMPLES</span> <span class="o">=</span> <span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">((</span><span class="s1">&#39;yx&#39;</span><span class="p">,</span> <span class="s1">&#39;crs&#39;</span><span class="p">,</span> <span class="s1">&#39;hash_&#39;</span><span class="p">),</span> <span class="p">[</span>
+    <span class="p">((</span><span class="mf">42.37453</span><span class="p">,</span> <span class="o">-</span><span class="mf">71.03193</span><span class="p">),</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;drt3pdh1s&#39;</span><span class="p">),</span>
+    <span class="p">((</span><span class="mf">4693360.95</span><span class="p">,</span> <span class="mf">332707.50</span><span class="p">),</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">32619</span><span class="p">),</span> <span class="s1">&#39;drt3pdh1s&#39;</span><span class="p">),</span>
+    <span class="p">((</span><span class="o">-</span><span class="mf">3.733313</span><span class="p">,</span> <span class="o">-</span><span class="mf">73.249991</span><span class="p">),</span> <span class="n">CRS_4326</span><span class="p">,</span> <span class="s1">&#39;6r7fv0kgz&#39;</span><span class="p">),</span>
+<span class="p">])</span>
+
+
+<div class="viewcode-block" id="test_geohash_encode"><a class="viewcode-back" href="../../../../stems/stems.gis.tests.test_gis_geohash.html#stems.gis.tests.test_gis_geohash.test_geohash_encode">[docs]</a><span class="nd">@EXAMPLES</span>
+<span class="k">def</span> <span class="nf">test_geohash_encode</span><span class="p">(</span><span class="n">yx</span><span class="p">,</span> <span class="n">crs</span><span class="p">,</span> <span class="n">hash_</span><span class="p">):</span>
+    <span class="n">z_max</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">hash_</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">z</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">z_max</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="n">geohash</span><span class="o">.</span><span class="n">geohash_encode</span><span class="p">(</span><span class="n">yx</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">yx</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                                     <span class="n">crs</span><span class="o">=</span><span class="n">crs</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="n">z</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">ans</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">==</span> <span class="n">hash_</span><span class="p">[:</span><span class="n">z</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="test_geohash_deencode"><a class="viewcode-back" href="../../../../stems/stems.gis.tests.test_gis_geohash.html#stems.gis.tests.test_gis_geohash.test_geohash_deencode">[docs]</a><span class="nd">@EXAMPLES</span>
+<span class="k">def</span> <span class="nf">test_geohash_deencode</span><span class="p">(</span><span class="n">yx</span><span class="p">,</span> <span class="n">crs</span><span class="p">,</span> <span class="n">hash_</span><span class="p">):</span>
+    <span class="n">ys</span><span class="p">,</span> <span class="n">xs</span> <span class="o">=</span> <span class="n">geohash</span><span class="o">.</span><span class="n">geohash_decode</span><span class="p">(</span><span class="n">hash_</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="n">crs</span><span class="p">)</span>
+
+    <span class="c1"># error is ~6.8e-4 in lat/lon or ~5m for 9 length</span>
+    <span class="c1"># https://www.movable-type.co.uk/scripts/geohash.html</span>
+    <span class="c1"># https://en.wikipedia.org/wiki/Geohash#Algorithm_and_example</span>
+    <span class="k">if</span> <span class="n">crs</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">crs</span> <span class="o">==</span> <span class="n">CRS_4326</span><span class="p">:</span>
+        <span class="n">err</span> <span class="o">=</span> <span class="mf">6.8e-4</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">err</span> <span class="o">=</span> <span class="mi">5</span>
+
+    <span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">ys</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">yx</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">err</span>
+    <span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">xs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">yx</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">err</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">stems 0+untagged.21.gae4c791.dirty documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Chris Holden.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
+    </div>
+  </body>
+</html>

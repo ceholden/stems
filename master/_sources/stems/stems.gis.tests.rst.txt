@@ -1,0 +1,26 @@
+stems.gis.tests package
+=======================
+
+Submodules
+----------
+
+.. toctree::
+
+   stems.gis.tests.conftest
+   stems.gis.tests.data
+   stems.gis.tests.test_gis_conventions
+   stems.gis.tests.test_gis_convert
+   stems.gis.tests.test_gis_coords
+   stems.gis.tests.test_gis_geohash
+   stems.gis.tests.test_gis_geom
+   stems.gis.tests.test_gis_grids
+   stems.gis.tests.test_gis_projections
+   stems.gis.tests.test_gis_utils
+
+Module contents
+---------------
+
+.. automodule:: stems.gis.tests
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,0 +1,7 @@
+stems.gis.tests.conftest module
+===============================
+
+.. automodule:: stems.gis.tests.conftest
+    :members:
+    :undoc-members:
+    :show-inheritance:

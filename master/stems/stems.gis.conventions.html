@@ -1,0 +1,137 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>stems.gis.conventions module &#8212; stems 0+untagged.21.gae4c791.dirty documentation</title>
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">stems 0+untagged.21.gae4c791.dirty documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-stems.gis.conventions">
+<span id="stems-gis-conventions-module"></span><h1>stems.gis.conventions module<a class="headerlink" href="#module-stems.gis.conventions" title="Permalink to this headline">¶</a></h1>
+<p>CF conventions for referencing xarray/NetCDF data</p>
+<p>Includes functions useful for managing CF conventions (variable and
+coordinating naming, grid mapping variables, etc)</p>
+<dl class="function">
+<dt id="stems.gis.conventions.create_coordinates">
+<code class="descclassname">stems.gis.conventions.</code><code class="descname">create_coordinates</code><span class="sig-paren">(</span><em>y</em>, <em>x</em>, <em>crs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/conventions.html#create_coordinates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.conventions.create_coordinates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">y</span></code> and <code class="docutils literal notranslate"><span class="pre">x</span></code> as coordinates variables given the <code class="docutils literal notranslate"><span class="pre">crs</span></code></p>
+<dl class="docutils">
+<dt>y <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
+<dd>Y coordinate</dd>
+<dt>x <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
+<dd>X coordinate</dd>
+<dt>crs <span class="classifier-delimiter">:</span> <span class="classifier">rasterio.crs.CRS</span></dt>
+<dd>Coordinate reference system of <code class="docutils literal notranslate"><span class="pre">y</span></code> and <code class="docutils literal notranslate"><span class="pre">x</span></code></dd>
+</dl>
+<dl class="docutils">
+<dt>xr.Variable <span class="classifier-delimiter">:</span> <span class="classifier">y_coord</span></dt>
+<dd>X coordinate</dd>
+<dt>xr.Variable <span class="classifier-delimiter">:</span> <span class="classifier">x_coord</span></dt>
+<dd>Y coordinate</dd>
+</dl>
+<table class="docutils footnote" frame="void" id="id1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[1]</td><td><a class="reference external" href="http://cfconventions.org/cf-conventions/v1.6.0/cf-conventions.html#coordinate-types">http://cfconventions.org/cf-conventions/v1.6.0/cf-conventions.html#coordinate-types</a></td></tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.gis.conventions.create_grid_mapping">
+<code class="descclassname">stems.gis.conventions.</code><code class="descname">create_grid_mapping</code><span class="sig-paren">(</span><em>crs</em>, <em>transform</em>, <em>grid_mapping='crs'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/conventions.html#create_grid_mapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.conventions.create_grid_mapping" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an <code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code> of CF-compliant CRS info</p>
+<dl class="docutils">
+<dt>crs <span class="classifier-delimiter">:</span> <span class="classifier">rasterio.crs.CRS</span></dt>
+<dd>Coordinate reference system information</dd>
+<dt>transform <span class="classifier-delimiter">:</span> <span class="classifier">affine.Affine</span></dt>
+<dd>Affine transform</dd>
+<dt>grid_mapping <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd>Name of grid mapping variable. Defaults to ‘crs’</dd>
+</dl>
+<dl class="docutils">
+<dt>xarray.DataArray</dt>
+<dd>“crs” variable holding CRS information</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/stems/stems.gis.conventions.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">stems 0+untagged.21.gae4c791.dirty documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Chris Holden.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
+    </div>
+  </body>
+</html>

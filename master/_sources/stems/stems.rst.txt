@@ -1,0 +1,27 @@
+stems package
+=============
+
+Subpackages
+-----------
+
+.. toctree::
+
+    stems.gis
+    stems.sensors
+
+Submodules
+----------
+
+.. toctree::
+
+   stems.compat
+   stems.errors
+   stems.utils
+
+Module contents
+---------------
+
+.. automodule:: stems
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,0 +1,171 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>stems.gis.geohash module &#8212; stems 0+untagged.21.gae4c791.dirty documentation</title>
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">stems 0+untagged.21.gae4c791.dirty documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-stems.gis.geohash">
+<span id="stems-gis-geohash-module"></span><h1>stems.gis.geohash module<a class="headerlink" href="#module-stems.gis.geohash" title="Permalink to this headline">¶</a></h1>
+<p>Tools for encoding and decoding geohashes</p>
+<p>Geohashes are a way of encoding latitude and longitude information into
+a single value (hash as a str or uint64) by dividing up the world into
+hierarchical quadrants for a given level of precision. The higher the
+precision, the more tiers of quadrants are created. When using just one
+level of precision, for example, divides the globe into 36 zones (a-z, 0-9).
+By adding letters to the hash, the quandrants get increasingly small to the
+point where they are useful as global, unique identifiers for pixel coordinates
+(assuming you pick a precision that creates quadrant cells smaller than your
+image pixel size).</p>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<table class="docutils footnote" frame="void" id="id1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[1]</td><td><a class="reference external" href="https://en.wikipedia.org/wiki/Geohash">https://en.wikipedia.org/wiki/Geohash</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[2]</td><td><a class="reference external" href="https://www.movable-type.co.uk/scripts/geohash.html">https://www.movable-type.co.uk/scripts/geohash.html</a></td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="todo">
+<h2>TODO<a class="headerlink" href="#todo" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Implement geohash within this submodule to cut dependencies</li>
+<li>Make faster using Numba (look for 0.43 to deal with dict / str)</li>
+</ul>
+<dl class="function">
+<dt id="stems.gis.geohash.geohash_decode">
+<code class="descclassname">stems.gis.geohash.</code><code class="descname">geohash_decode</code><span class="sig-paren">(</span><em>geohashes</em>, <em>crs=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/geohash.html#geohash_decode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.geohash.geohash_decode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encode Y/X coordinates into a geohash, reprojecting as needed</p>
+<dl class="docutils">
+<dt>np.ndarry</dt>
+<dd>The geohashes for all Y/X</dd>
+<dt>crs <span class="classifier-delimiter">:</span> <span class="classifier">rasterio.crs.CRS, optional</span></dt>
+<dd>Reproject Y/X latitude/longitude values for each geohash into this CRS
+before returning (to help with end-to-end encode/decode)</dd>
+</dl>
+<dl class="docutils">
+<dt>y <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
+<dd>Y coordinates</dd>
+<dt>x <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
+<dd>X coordinates</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.gis.geohash.geohash_encode">
+<code class="descclassname">stems.gis.geohash.</code><code class="descname">geohash_encode</code><span class="sig-paren">(</span><em>y</em>, <em>x</em>, <em>crs=None</em>, <em>precision=12</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/geohash.html#geohash_encode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.geohash.geohash_encode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encode Y/X coordinates into a geohash, reprojecting as needed</p>
+<dl class="docutils">
+<dt>y <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
+<dd>Y coordinates</dd>
+<dt>x <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
+<dd>X coordinates</dd>
+<dt>crs <span class="classifier-delimiter">:</span> <span class="classifier">rasterio.crs.CRS, optional</span></dt>
+<dd>If Y/X aren’t in latitude/longitude (EPSG:4326), then provide their
+coordinate reference system</dd>
+<dt>precision <span class="classifier-delimiter">:</span> <span class="classifier">int, optional</span></dt>
+<dd>Characters of precision for the geohash</dd>
+</dl>
+<dl class="docutils">
+<dt>np.ndarry</dt>
+<dd>The geohashes for all Y/X</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">stems.gis.geohash module</a><ul>
+<li><a class="reference internal" href="#references">References</a></li>
+<li><a class="reference internal" href="#todo">TODO</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/stems/stems.gis.geohash.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">stems 0+untagged.21.gae4c791.dirty documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Chris Holden.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
+    </div>
+  </body>
+</html>

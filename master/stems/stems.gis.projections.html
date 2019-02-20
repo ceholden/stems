@@ -1,0 +1,243 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>stems.gis.projections module &#8212; stems 0+untagged.21.gae4c791.dirty documentation</title>
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">stems 0+untagged.21.gae4c791.dirty documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-stems.gis.projections">
+<span id="stems-gis-projections-module"></span><h1>stems.gis.projections module<a class="headerlink" href="#module-stems.gis.projections" title="Permalink to this headline">¶</a></h1>
+<p>Projection handling - OSGEO/Rasterio, CF/NetCDF, and Cartopy</p>
+<div class="section" id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference external" href="https://trac.osgeo.org/gdal/wiki/NetCDF_ProjectionTestingStatus">https://trac.osgeo.org/gdal/wiki/NetCDF_ProjectionTestingStatus</a></li>
+<li><a class="reference external" href="http://cfconventions.org/Data/cf-conventions/cf-conventions-1.7/build/cf-conventions.html#appendix-grid-mappings">http://cfconventions.org/Data/cf-conventions/cf-conventions-1.7/build/cf-conventions.html#appendix-grid-mappings</a></li>
+</ul>
+<dl class="data">
+<dt id="stems.gis.projections.CF_ELLIPSOID_DEFS">
+<code class="descclassname">stems.gis.projections.</code><code class="descname">CF_ELLIPSOID_DEFS</code><em class="property"> = (('semi_major_axis', 'GetSemiMajor'), ('semi_minor_axis', 'GetSemiMinor'), ('inverse_flattening', 'GetInvFlattening'))</em><a class="headerlink" href="#stems.gis.projections.CF_ELLIPSOID_DEFS" title="Permalink to this definition">¶</a></dt>
+<dd><p>tuple: mapping from CF ellipsoid parameter to SpatialReference method calls</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="stems.gis.projections.CF_PROJECTION_DEFS">
+<code class="descclassname">stems.gis.projections.</code><code class="descname">CF_PROJECTION_DEFS</code><em class="property"> = {'albers_conic_equal_area': (('latitude_of_projection_origin', 'latitude_of_center'), ('longitude_of_central_meridian', 'longitude_of_center'), ('standard_parallel', ('standard_parallel_1', 'standard_parallel_2')), ('false_easting', 'false_easting'), ('false_northing', 'false_northing')), 'lambert_azimuthal_equal_area': (('longitude_of_projection_origin', 'longitude_of_center'), ('latitude_of_projection_origin', 'latitude_of_center'), ('false_easting', 'false_easting'), ('false_northing', 'false_northing')), 'latitude_longitude': (), 'sinusoidal': (('longitude_of_central_meridian', 'central_meridian'), ('false_northing', 'false_northing'), ('false_easting', 'false_easting')), 'transverse_mercator': (('latitude_of_projection_origin', 'latitude_of_origin'), ('longitude_of_central_meridian', 'central_meridian'), ('scale_factor_at_central_meridian', 'scale_factor'), ('false_easting', 'false_easting'), ('false_northing', 'false_northing')), 'universal_transverse_mercator': ('utm_zone_number', 'utm_zone_number')}</em><a class="headerlink" href="#stems.gis.projections.CF_PROJECTION_DEFS" title="Permalink to this definition">¶</a></dt>
+<dd><p>dict: Mapping between CF &lt;-&gt; OGC WKT projection parameters for projections</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="stems.gis.projections.CF_PROJECTION_NAMES">
+<code class="descclassname">stems.gis.projections.</code><code class="descname">CF_PROJECTION_NAMES</code><em class="property"> = {'Albers_Conic_Equal_Area': 'albers_conic_equal_area', 'Azimuthal_Equidistant': 'azimuthal_equidistant', 'Lambert_Azimuthal_Equal_Area': 'lambert_azimuthal_equal_area', 'Sinusoidal': 'sinusoidal', 'Transverse_Mercator': 'transverse_mercator'}</em><a class="headerlink" href="#stems.gis.projections.CF_PROJECTION_NAMES" title="Permalink to this definition">¶</a></dt>
+<dd><p>dict: Mapping between OGC WKT &lt;-&gt; CF projection names</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.gis.projections.cf_crs_attrs">
+<code class="descclassname">stems.gis.projections.</code><code class="descname">cf_crs_attrs</code><span class="sig-paren">(</span><em>crs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/projections.html#cf_crs_attrs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.projections.cf_crs_attrs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return CF-compliant CRS info to prevent “unknown” CRS/Ellipse/Geoid</p>
+<dl class="docutils">
+<dt>crs: rasterio.crs.CRS</dt>
+<dd>CRS</dd>
+</dl>
+<dl class="docutils">
+<dt>OrderedDict</dt>
+<dd>CF attributes</dd>
+</dl>
+<table class="docutils footnote" frame="void" id="id1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[1]</td><td><a class="reference external" href="https://cf-pcmdi.llnl.gov/trac/wiki/Cf2CrsWkt#Table2-FutureCF-1.7CFGridMappingAttributes">https://cf-pcmdi.llnl.gov/trac/wiki/Cf2CrsWkt#Table2-FutureCF-1.7CFGridMappingAttributes</a></td></tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.gis.projections.cf_crs_name">
+<code class="descclassname">stems.gis.projections.</code><code class="descname">cf_crs_name</code><span class="sig-paren">(</span><em>crs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/projections.html#cf_crs_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.projections.cf_crs_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return CF name of a CRS projection</p>
+<dl class="docutils">
+<dt>crs <span class="classifier-delimiter">:</span> <span class="classifier">rasterio.crs.CRS</span></dt>
+<dd>CRS</dd>
+</dl>
+<dl class="docutils">
+<dt>str</dt>
+<dd>Lowercase projection name (see keys of <code class="xref py py-mod docutils literal notranslate"><span class="pre">CF_PROJECTION_DEFS</span></code>)</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.gis.projections.cf_ellps_params">
+<code class="descclassname">stems.gis.projections.</code><code class="descname">cf_ellps_params</code><span class="sig-paren">(</span><em>crs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/projections.html#cf_ellps_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.projections.cf_ellps_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return ellipsoid parameters for a CRS</p>
+<dl class="docutils">
+<dt>crs: rasterio.crs.CRS</dt>
+<dd>CRS</dd>
+</dl>
+<dl class="docutils">
+<dt>OrderedDict</dt>
+<dd>Ellipsoid parameters and values</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.gis.projections.cf_proj_params">
+<code class="descclassname">stems.gis.projections.</code><code class="descname">cf_proj_params</code><span class="sig-paren">(</span><em>crs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/projections.html#cf_proj_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.projections.cf_proj_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return projection parameters for a CRS</p>
+<dl class="docutils">
+<dt>crs: rasterio.crs.CRS</dt>
+<dd>CRS</dd>
+</dl>
+<dl class="docutils">
+<dt>OrderedDict</dt>
+<dd>CRS parameters and values</dd>
+</dl>
+<dl class="docutils">
+<dt>stems.errors.TODO</dt>
+<dd>Raise if CRS isn’t supported yet</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.gis.projections.cf_xy_coord_names">
+<code class="descclassname">stems.gis.projections.</code><code class="descname">cf_xy_coord_names</code><span class="sig-paren">(</span><em>crs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/projections.html#cf_xy_coord_names"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.projections.cf_xy_coord_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns appropriate names for coordinates given CRS</p>
+<dl class="docutils">
+<dt>crs <span class="classifier-delimiter">:</span> <span class="classifier">rasterio.crs.CRS</span></dt>
+<dd>Coordinate reference system</dd>
+</dl>
+<dl class="docutils">
+<dt>str <span class="classifier-delimiter">:</span> <span class="classifier">x_coord_name</span></dt>
+<dd>X coordinate name</dd>
+<dt>str <span class="classifier-delimiter">:</span> <span class="classifier">y_coord_name</span></dt>
+<dd>Y coordinate name</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.gis.projections.crs_longname">
+<code class="descclassname">stems.gis.projections.</code><code class="descname">crs_longname</code><span class="sig-paren">(</span><em>crs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/projections.html#crs_longname"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.projections.crs_longname" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return name of a CRS / ellipsoid pair</p>
+<dl class="docutils">
+<dt>crs <span class="classifier-delimiter">:</span> <span class="classifier">rasterio.crs.CRS</span></dt>
+<dd>CRS</dd>
+</dl>
+<dl class="docutils">
+<dt>str</dt>
+<dd>Lowercase projection name (see keys of <span class="xref std std-ref">CF_PROJECTION_DEFS</span>)</dd>
+</dl>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">proj</span> <span class="o">=</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">3857</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs_longname</span><span class="p">(</span><span class="n">proj</span><span class="p">)</span>
+<span class="go">&quot;WGS 84 / Pseudo-Mercator&quot;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.gis.projections.epsg_code">
+<code class="descclassname">stems.gis.projections.</code><code class="descname">epsg_code</code><span class="sig-paren">(</span><em>crs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/projections.html#epsg_code"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.projections.epsg_code" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return EPSG code for a CRS</p>
+<dl class="docutils">
+<dt>crs <span class="classifier-delimiter">:</span> <span class="classifier">CRS or osr.SpatialReference</span></dt>
+<dd>Coordinate reference system defined by an EPSG code</dd>
+</dl>
+<dl class="docutils">
+<dt>str</dt>
+<dd>EPSG code string</dd>
+</dl>
+<dl class="docutils">
+<dt>ValueError</dt>
+<dd>Raised if projection does not correspond to an EPSG code</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">stems.gis.projections module</a><ul>
+<li><a class="reference internal" href="#see-also">See Also</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/stems/stems.gis.projections.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">stems 0+untagged.21.gae4c791.dirty documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Chris Holden.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
+    </div>
+  </body>
+</html>
