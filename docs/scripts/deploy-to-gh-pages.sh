@@ -10,7 +10,9 @@ DOCS=$(dirname $(readlink -f $0))/../
 APIDOC="${DOCS}/source/${PACKAGE}"
 
 KEY_FILE=.deploy_key
-SOURCE=_build
+
+SRC=_build  # defined in conf.py
+DST=ghpages
 
 REPO=$(git config remote.origin.url)
 SSH_REPO=${REPO/https:\/\/github.com\//git@github.com:}
@@ -60,17 +62,17 @@ set -u
 
 echo "Building docs for branch: $SRC_BRANCH"
 
-DEST=$SOURCE/$SRC_BRANCH/
+DEST=$DST/$SRC_BRANCH/
 
 # START
 cd $DOCS/
 
 # Clean
-rm -rf $SOURCE
+rm -rf $DST
 
 # Create branch directory and grab Git repo
-git clone $SSH_REPO $SOURCE/
-cd $SOURCE/
+git clone $SSH_REPO $DST/
+cd $DST/
 git checkout $DST_BRANCH || git checkout --orphan $DST_BRANCH
 cd $DOCS/
 rm -rf $DEST || exit 0
@@ -82,7 +84,7 @@ sphinx-apidoc -f -e -o $APIDOC ../${PACKAGE}/
 make html
 rm -rf $DEST
 mkdir -p $DEST
-cp -R ${SOURCE}/html/* $DEST
+cp -R ${SRC}/html/* $DEST
 
 # If there's test coverage results, add it in!
 HTMLCOV=../htmlcov
@@ -102,7 +104,7 @@ if [ -d $HTMLCOV ]; then
 fi
 
 # Commit and push to GH
-cd $SOURCE/
-git add -A .
+cd $DST/
+git add -A $SRC_BRANCH
 git commit -m "Rebuild $DST_BRANCH docs on $SRC_BRANCH: ${REV}"
 git push origin HEAD:$DST_BRANCH
