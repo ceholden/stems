@@ -1,7 +1,5 @@
-language: python
+language: minimal
 sudo: false
-python:
-    - "3.7"
 branches:
     only:
         - master
@@ -12,6 +10,9 @@ env:
         - COMMIT_AUTHOR_EMAIL: "ceholden@gmail.com"
         - COMMIT_AUTHOR_NAME: "TRAVIS-CI BOT"
         - DOCS_PYTHON_VERSION: "3.7"
+    matrix:
+        - CONDA_ENV: 3.7
+
 notifications:
     email: false
 
@@ -27,7 +28,7 @@ before_install:
 
 install:
     # Edit in the correct Python version into environment.yaml
-    - sed -i "s/- python.*/- python==${TRAVIS_PYTHON_VERSION}/g" ci/requirements.yml
+    - sed -i "s/- python.*/- python==${CONDA_ENV}/g" ci/requirements.yml
     # Create conda matching requirements
     - conda env create -n test -f ci/requirements.yml
     - source activate test
@@ -41,7 +42,7 @@ script:
 after_success:
     # Docs
     - source activate test
-    - if [[ "$TRAVIS_PYTHON_VERSION" == "$DOCS_PYTHON_VERSION" ]]; then
+    - if [[ "$CONDA_ENV" == "$DOCS_PYTHON_VERSION" ]]; then
           bash docs/scripts/deploy-to-gh-pages.sh;
       fi
 
