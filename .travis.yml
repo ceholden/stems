@@ -27,7 +27,7 @@ before_install:
 
 install:
     # Edit in the correct Python version into environment.yaml
-    - sed -i "s/- python.*/- python=${TRAVIS_PYTHON_VERSION}/g" ci/requirements.yml
+    - sed -i "s/- python.*/- python==${TRAVIS_PYTHON_VERSION}/g" ci/requirements.yml
     # Create conda matching requirements
     - conda env create -n test -f ci/requirements.yml
     - source activate test
