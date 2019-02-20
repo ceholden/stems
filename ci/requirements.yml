@@ -39,3 +39,4 @@ dependencies:
   - pip:
     - coverage-badge
     - sphinxcontrib-bibtex
+    - python-geohash
