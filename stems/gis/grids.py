@@ -398,7 +398,7 @@ class Tile(object):
         """
         from rasterio.warp import transform_geom
         crs_ = convert.to_crs(crs)
-        geom = shapely.geometry.mapping(self.polygon)
+        geom = shapely.geometry.mapping(self.bbox)
         geom_epsg4326 = transform_geom(self.crs, crs_, geom)
         return {
             'type': 'Feature',

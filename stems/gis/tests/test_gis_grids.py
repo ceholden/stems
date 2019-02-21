@@ -60,6 +60,7 @@ def test_tilegrid_props():
     assert tile.size == grid.size
     assert tile.width == tile.size[0]
     assert tile.height == tile.size[1]
+    assert isinstance(tile.geojson(), dict)
 
     last = grid[11, 7]
     with pytest.raises(IndexError, match=r'.*outside of.*limits'):
