@@ -174,7 +174,15 @@ html_static_path = ['_static']
 #html_split_index = False
 
 # If true, links to the reST sources are added to the pages.
-#html_show_sourcelink = True
+html_show_sourcelink = True
+html_context = dict(
+    display_github=True,
+    github_user="ceholden",
+    github_repo="stems",
+    github_version="master",
+    conf_py_path="/docs/source/",
+    source_suffix=".rst",
+)
 
 # If true, "Created using Sphinx" is shown in the HTML footer.
 # Default is True.

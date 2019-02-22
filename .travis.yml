@@ -9,9 +9,9 @@ env:
         - ENCRYPTION_LABEL: "d535424b89ca"
         - COMMIT_AUTHOR_EMAIL: "ceholden@gmail.com"
         - COMMIT_AUTHOR_NAME: "TRAVIS-CI BOT"
-        - DOCS_PYTHON_VERSION: "3.7"
+        - DOCS_ENV: "py37"
     matrix:
-        - CONDA_ENV: 3.7
+        - CONDA_ENV: "py37"
 
 notifications:
     email: false
@@ -27,11 +27,9 @@ before_install:
     - conda install conda-env  # no longer installed by default?
 
 install:
-    # Edit in the correct Python version into environment.yaml
-    - sed -i "s/- python.*/- python==${CONDA_ENV}/g" ci/requirements.yml
     # Create conda matching requirements
-    - conda env create -n test -f ci/requirements.yml
-    - source activate test
+    - conda env create -n test_env -f "ci/requirements-${CONDA_ENV}.yml"
+    - source activate test_env
     # Install package
     - "pip install -e ."
 
@@ -42,7 +40,7 @@ script:
 after_success:
     # Docs
     - source activate test
-    - if [[ "$CONDA_ENV" == "$DOCS_PYTHON_VERSION" ]]; then
+    - if [[ "$CONDA_ENV" == "$DOCS_ENV" ]]; then
           bash docs/scripts/deploy-to-gh-pages.sh;
       fi
 
