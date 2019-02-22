@@ -48,9 +48,9 @@ def test_tilegrid_props():
         limits=[[0, 11], [0, 7]]
     )
     assert grid.ncol == 8
-    assert grid.cols == range(0, 8)
+    assert grid.cols == list(range(0, 8))
     assert grid.nrow == 12
-    assert grid.rows == range(0, 12)
+    assert grid.rows == list(range(0, 12))
 
     tile = grid[0, 0]
     assert isinstance(tile, grids.Tile)

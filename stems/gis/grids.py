@@ -99,12 +99,12 @@ class TileGrid(collections.abc.Mapping):
     @property
     def rows(self):
         limits = self._guard_limits()
-        return range(limits[0][0], limits[0][1] + 1)
+        return list(range(limits[0][0], limits[0][1] + 1))
 
     @property
     def cols(self):
         limits = self._guard_limits()
-        return range(limits[1][0], limits[1][1] + 1)
+        return list(range(limits[1][0], limits[1][1] + 1))
 
     @property
     def nrow(self):
