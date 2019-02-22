@@ -12,7 +12,7 @@ from rasterio.coords import BoundingBox
 import shapely.geometry
 
 from .coords import transform_to_coords
-from . import convert
+from . import convert, geom
 
 
 logger = logging.getLogger(__name__)
@@ -114,30 +114,55 @@ class TileGrid(collections.abc.Mapping):
     def ncol(self):
         return len(self.cols)
 
-    def geojson(self, rows=None, cols=None, crs=_GEOJSON_EPSG_4326_STRING):
+    def geojson(self, crs=_GEOJSON_EPSG_4326_STRING,
+                rows=None, cols=None,
+                rfc7946=False, skip_invalid=False):
         """ Returns this grid of tiles as GeoJSON
 
         Parameters
         ----------
+        crs : rasterio.crs.CRS
+            The coordinate reference system to use for the GeoJSON. Defaults to
+            EPSG:4326
         rows : Sequence[int], optional
             If this TileGrid was not given ``limits`` or if you want a subset
             of the tiles, specify the rows to map
         cols : Sequence[int], optional
             If this TileGrid was not given ``limits`` or if you want a subset
             of the tiles, specify the rows to map
-        crs : rasterio.crs.CRS
-            The coordinate reference system to use for the GeoJSON. Defaults to
-            EPSG:4326
+        rfc7946 : bool, optional
+            Return GeoJSON compliant with RFC7946. Helps fix GeoJSON
+            that crosses the anti-meridian/datelines by splitting
+            polygons into multiple as needed
+        skip_invalid : bool, optional
+            If ``True``, checks for tile bounds for invalid geometries and will
+            only include valid tile geometries.
 
         Returns
         -------
         dict
             GeoJSON
         """
-        return {
+        rows_ = rows or self.rows
+        cols_ = cols or self.cols
+        tile_rc = itertools.product(rows_, cols_)
+
+        features = []
+        for r, c in tile_rc:
+            tile = self[r, c]
+            feat = tile.geojson(crs=crs)
+            if skip_invalid and geom.is_null(feat['geometry']):
+                continue
+            features.append(feat)
+
+        geojson = {
             "type": "FeatureCollection",
-            "features": list([tile.geojson(crs=crs) for tile in self.values()])
+            "features": features
         }
+        if rfc7946:
+            return geom.fix_geojson_rfc7946(geojson)
+        else:
+            return geojson
 
 # `Mapping` ABC requirement
     def __getitem__(self, index):
@@ -331,7 +356,6 @@ class Tile(object):
         size : tuple[int, int]
             Number of pixels in X/Y dimensions for each tile
         """
-
         self.index = index
         self.crs = crs
         self.bounds = bounds
@@ -411,17 +435,20 @@ class Tile(object):
         ----------
         .. [1] https://tools.ietf.org/html/rfc7946#page-12
         """
-        from rasterio.warp import transform_geom
-        crs_ = convert.to_crs(crs)
-        geom = shapely.geometry.mapping(self.bbox)
-        geom_epsg4326 = transform_geom(self.crs, crs_, geom)
+        gj = shapely.geometry.mapping(self.bbox)
+
+        if crs is not None:
+            from rasterio.warp import transform_geom
+            crs_ = convert.to_crs(crs)
+            gj = transform_geom(self.crs, crs_, gj)
+
         return {
             'type': 'Feature',
             'properties': {
                 'horizontal': self.horizontal,
                 'vertical': self.vertical
             },
-            'geometry': geom_epsg4326
+            'geometry': gj
         }
 
 
