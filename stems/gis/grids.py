@@ -143,15 +143,8 @@ class TileGrid(collections.abc.Mapping):
     def __getitem__(self, index):
         """ Return a Tile for the grid row/column specified by index
         """
-        if isinstance(index, tuple):
-            if len(index) != 2:
-                raise IndexError('TileSpec only has two dimensions (row/col)')
-            if not isinstance(index[0], int) or not isinstance(index[1], int):
-                raise TypeError('Only support indexing int/int for now')
-            row, col = index
-            return self._index_to_tile(index)
-        else:
-            raise IndexError('Unknown index type')
+        index = self._guard_index(index)
+        return self._index_to_tile(index)
 
     def __len__(self):
         return self.nrow * self.ncol
@@ -242,13 +235,35 @@ class TileGrid(collections.abc.Mapping):
         )
 
     def _guard_index(self, index):
-        row, col = index
+        """ Return a valid tile index, or raise an error
+        """
+        # TODO: this could be simpler if we store (h, v) in a np.array
+        #       because we could borrow fancy indexing to support returning
+        #       a scalar (row/col), or a Sequence (e.g., grid[:, 0],
+        #       grid[[0, 1], [0]], etc)
+
+        # Only support row/col for now
+        if isinstance(index, tuple):
+            if len(index) != 2:
+                raise IndexError('TileSpec only has two dimensions (row/col)')
+            # Need to be ints, and we'll cast as built-in int
+            row, col = index
+            if not _isint(row) or not _isint(col):
+                raise TypeError('Only support indexing int/int for now')
+            index_ = (int(row), int(col), )
+        else:
+            raise IndexError('Unknown index type')
+
+        # Check if index is outside of limits
         if self.limits:
+            row, col = index_
             row_lim, col_lim = self.limits
             if (row < min(row_lim) or row > max(row_lim) or
                     col < min(col_lim) or col > max(col_lim)):
                 raise IndexError(f'Tile at index "{index}" is outside of '
                                  f'"{self.name}" limits ({self.limits}).')
+
+        return index_
 
     def _index_to_tile(self, index):
         """ Return the Tile for given index
@@ -327,13 +342,13 @@ class Tile(object):
     def vertical(self):
         """ int: The horizontal index of this tile in its tile specification
         """
-        return self.index[0]
+        return int(self.index[0])
 
     @property
     def horizontal(self):
         """ int: The horizontal index of this tile in its tile specification
         """
-        return self.index[1]
+        return int(self.index[1])
 
     @property
     def transform(self):
@@ -441,3 +456,13 @@ def load_grids(filename=None):
         tilegrids[name] = TileGrid(**kwds)
 
     return tilegrids
+
+
+def _isint(v):
+    # ints of many types, if they work...
+    try:
+        v_ = int(v)
+    except:
+        return False
+    else:
+        return v == v_
