@@ -36,10 +36,9 @@ with open('CHANGELOG.rst') as f:
     CHANGELOG = f.read()
 ENTRY_POINTS = {
     'console_scripts': [
-        'stems=stems.cli:main'
+        'stems=stems.cli.main:main'
     ]
 }
-
 
 
 PYTHON_REQUIRES = '>=3.5'
