@@ -43,9 +43,8 @@ def main(ctx, verbose, quiet, scheduler, nprocs, nthreads):
         info = executor_info(scheduler)
         for i in info:
             logger.debug(i)
+        ctx.call_on_close(options.close_scheduler)
 
     ctx.obj = {}
     ctx.obj['logger'] = logger
     ctx.obj['client'] = scheduler
-
-    ctx.call_on_close(options.close_scheduler)

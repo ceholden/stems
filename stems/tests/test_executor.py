@@ -16,7 +16,6 @@ def test_setup_executor_process(n_workers=2, threads_per_worker=4):
     assert len(ncores) == n_workers
     assert sum(ncores.values()) == n_workers * threads_per_worker
 
-    client.shutdown()
     client.close()
 
 
@@ -33,7 +32,6 @@ def test_setup_executor_distributed(n_workers=1, threads_per_worker=2):
 
     test.close()
     cluster.close()
-    client.shutdown()
     client.close()
 
 
@@ -57,5 +55,4 @@ def test_executor_info(n_workers=2, threads_per_worker=4):
     assert len(infos) == 3
     assert 'Workers' in infos[0]
 
-    client.shutdown()
     client.close()
