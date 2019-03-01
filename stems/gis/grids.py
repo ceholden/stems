@@ -98,21 +98,36 @@ class TileGrid(collections.abc.Mapping):
 
     @property
     def rows(self):
+        """ list[int]: the vertical/row numbers for all tiles
+        """
         limits = self._guard_limits()
         return list(range(limits[0][0], limits[0][1] + 1))
 
     @property
     def cols(self):
+        """ list[int]: the horizontal/column numbers for all tiles
+        """
         limits = self._guard_limits()
         return list(range(limits[1][0], limits[1][1] + 1))
 
     @property
     def nrow(self):
+        """ int: the number of rows in the TileGrid
+        """
         return len(self.rows)
 
     @property
     def ncol(self):
+        """ int: the number of columns in the TileGrid
+        """
         return len(self.cols)
+
+    @property
+    def transform(self):
+        """ affine.Affine : the affine transform for this TileGrid
+        """
+        return Affine(self.res[0], 0, self.ul[0],
+                      0, -self.res[1], self.ul[1])
 
     def geojson(self, crs=_GEOJSON_EPSG_4326_STRING,
                 rows=None, cols=None,

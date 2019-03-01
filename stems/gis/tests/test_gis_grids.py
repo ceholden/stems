@@ -3,6 +3,7 @@
 from pathlib import Path
 import re
 
+import affine
 from rasterio.coords import BoundingBox
 from shapely.geometry import Polygon
 import pytest
@@ -51,6 +52,12 @@ def test_tilegrid_props():
     assert grid.cols == list(range(0, 8))
     assert grid.nrow == 12
     assert grid.rows == list(range(0, 12))
+    transform = grid.transform
+    assert isinstance(transform, affine.Affine)
+    assert transform.c == grid.ul[0]
+    assert transform.f == grid.ul[1]
+    assert transform.a == grid.res[0]
+    assert transform.e == -grid.res[1]
 
     tile = grid[0, 0]
     assert isinstance(tile, grids.Tile)
