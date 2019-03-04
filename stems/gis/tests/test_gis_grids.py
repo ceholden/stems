@@ -43,7 +43,7 @@ def test_tilegrid_examples(example_kwds):
 def test_tilegrid_props():
     grid = grids.TileGrid(
         ul=[0, 100],
-        crs='+init=epsg:5070',
+        crs='epsg:5070',
         res=[5, 5],
         size=[10, 10],
         limits=[[0, 11], [0, 7]]
@@ -75,6 +75,23 @@ def test_tilegrid_props():
 
     all_tiles = list(grid)
     assert len(all_tiles) == len(grid)
+
+
+def test_tilegrid_to_from_dict():
+    grid = grids.TileGrid(
+        ul=(0, 0),
+        crs='EPSG:32619',
+        res=(30, 30),
+        size=(6000, 6000),
+        limits=((0, 9), (0, 11))
+    )
+    d = grid.to_dict()
+    grid_ = grids.TileGrid.from_dict(d)
+
+    for k, v in d.items():
+        g1 = getattr(grid, k)
+        g2 = getattr(grid_, k)
+        assert g1 == g2
 
 
 def test_tilegrid_roi_multiple(example_kwds_GEOG):

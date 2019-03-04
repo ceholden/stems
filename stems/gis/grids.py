@@ -74,6 +74,39 @@ class TileGrid(collections.abc.Mapping):
         self.name = name
         self._tiles = {}
 
+    def to_dict(self):
+        """ Return this TileGrid as a dictionary (e.g., to serialize)
+
+        Returns
+        -------
+        dict
+            TileGrid attributes needed to re-initialize class
+        """
+        return {
+            'ul': tuple(self.ul),
+            'crs': self.crs_wkt,
+            'res': tuple(self.res),
+            'size': tuple(self.size),
+            'limits': tuple(self.limits),
+            'name': self.name
+        }
+
+    @classmethod
+    def from_dict(cls, d):
+        """ Return a ``TileGrid`` from a dictionary
+
+        Parameters
+        ----------
+        d : dict
+            Dictionary of class attributes (see __init__)
+
+        Returns
+        -------
+        TileGrid
+            A new TileGrid according to parameters in ``d``
+        """
+        return cls(**d)
+
     def __repr__(self):
         return '\n'.join([
             f'<{self.__class__.__name__} at {hex(id(self))}>',
