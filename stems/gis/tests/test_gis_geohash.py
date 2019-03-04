@@ -12,7 +12,10 @@ EXAMPLES = pytest.mark.parametrize(('yx', 'crs', 'hash_'), [
     ((-3.733313, -73.249991), CRS_4326, '6r7fv0kgz'),
 ])
 
+needs_geohash = pytest.importorskip('geohash')
 
+
+@needs_geohash
 @EXAMPLES
 def test_geohash_encode(yx, crs, hash_):
     z_max = len(hash_)
@@ -22,6 +25,7 @@ def test_geohash_encode(yx, crs, hash_):
         assert ans[0].item() == hash_[:z]
 
 
+@needs_geohash
 @EXAMPLES
 def test_geohash_deencode(yx, crs, hash_):
     ys, xs = geohash.geohash_decode(hash_, crs=crs)
