@@ -41,7 +41,7 @@ ENTRY_POINTS = {
 }
 
 
-PYTHON_REQUIRES = '>=3.5'
+PYTHON_REQUIRES = '>=3.6'
 INSTALL_REQUIRES = [
     'dask', 'distributed', 'numpy', 'pandas', 'toolz', 'xarray',
     'affine', 'cartopy', 'fiona', 'gdal', 'rasterio>=1.0.14', 'shapely',
@@ -71,7 +71,7 @@ setup(
     author_email=AUTHOR_EMAIL,
     classifiers=CLASSIFIERS,
     url=URL,
-    packages=find_packages(include=['stems']),
+    packages=find_packages(),
     entry_points=ENTRY_POINTS,
     zip_safe=False,
     include_package_data=True,
