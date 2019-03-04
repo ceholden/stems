@@ -34,12 +34,16 @@ with open('README.rst') as f:
     LONG_DESCRIPTION = f.read()
 with open('CHANGELOG.rst') as f:
     CHANGELOG = f.read()
+
 ENTRY_POINTS = {
     'console_scripts': [
         'stems=stems.cli.main:main'
     ]
 }
 
+PACKAGE_DATA = {
+    'stems': ['stems/gis/tilegrids.yml']
+}
 
 PYTHON_REQUIRES = '>=3.6'
 INSTALL_REQUIRES = [
@@ -74,6 +78,7 @@ setup(
     packages=find_packages(),
     entry_points=ENTRY_POINTS,
     zip_safe=False,
+    package_data=PACKAGE_DATA,
     include_package_data=True,
     python_requires=PYTHON_REQUIRES,
     install_requires=INSTALL_REQUIRES,
