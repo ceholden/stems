@@ -21,8 +21,8 @@ _context = dict(
                             iter_entry_points('stems.cli'))
 @click.group(help='STEMS command line interface', context_settings=_context)
 @click.version_option(stems.__version__)
-@click.option('--verbose', '-v', count=True, help='Be verbose')
-@click.option('--quiet', '-q', count=True, help='Be quiet')
+@options.opt_verbose
+@options.opt_quiet
 @options.opt_scheduler
 @options.opt_nprocs
 @options.opt_nthreads

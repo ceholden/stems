@@ -118,6 +118,10 @@ arg_job_total = click.argument('job_total', nargs=1, type=click.INT)
 
 # ============================================================================
 # OPTIONS
+opt_verbose = click.option('--verbose', '-v', count=True, help='Be verbose')
+
+opt_quiet = click.option('--quiet', '-q', count=True, help='Be quiet')
+
 opt_bounds = click.option(
     '--bounds', default=None, callback=cb_bounds,
     help='BoundingBox : left, bottom, right, top'
