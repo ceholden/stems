@@ -31,6 +31,7 @@ from ..utils import (find_subclasses,
 
 logger = logging.getLogger()
 
+LIST_TYPE = (tuple, list, np.ndarray, )
 # XARRAY_TYPE = (xr.Dataset, xr.DataArray)
 GEOM_TYPE = find_subclasses(shapely.geometry.base.BaseGeometry)
 
@@ -38,22 +39,16 @@ GEOM_TYPE = find_subclasses(shapely.geometry.base.BaseGeometry)
 # ============================================================================
 # Affine geotransform
 @singledispatch
-def to_transform(value):
+def to_transform(value, from_gdal=False):
     """ Convert input into an Affine transform
 
     Parameters
     ----------
-    value : iterable, xr.Dataset, or xr.DataArray
+    value : Affine or iterable
         6 numbers representing affine transform
     from_gdal : bool, optional
         If `value` is a tuple or list, specifies if transform
         is GDAL variety (True) or rasterio/affine (False)
-    x_coord : str, optional
-        For xarrays, override X coordinate name. If not specified,
-        will attempt to find based on `crs`
-    y_coord : str, optional
-        For xarrays, override Y coordinate name. If not specified,
-        will attempt to find based on `crs`
 
     Returns
     -------
@@ -64,52 +59,21 @@ def to_transform(value):
 
 
 @to_transform.register(Affine)
-def _to_transform_affine(value):
+def _to_transform_affine(value, from_gdal=False):
     return value
 
 
-# ============================================================================
-# BoundingBox
-@singledispatch
-def to_bounds(value):
-    """ Convert input to a :py:data:`rasterio.coords.BoundingBox`
-
-    .. todo::
-
-        Does it matter if we measure upper left vs center vs complete
-        extent?
-
-    Parameters
-    ----------
-    value : iterable, or Polygon
-        Input containing some geographic information
-
-    Returns
-    -------
-    BoundingBox
-        Bounding box (left, bottom, right, top). Also described as
-        (minx, miny, maxx, maxy)
-    """
-    raise _CANT_CONVERT(value)
-
-
-@to_bounds.register(BoundingBox)
-def _to_bounds_bounds(value):
-    return value
-
-
-@register_multi_singledispatch(to_bounds, (tuple, list, np.ndarray, ))
-def _to_bounds_iter(value):
-    return BoundingBox(*value)
-
-
-@register_multi_singledispatch(to_bounds, GEOM_TYPE)
-def _to_bounds_geom(value):
-    return BoundingBox(*value.bounds)
+@register_multi_singledispatch(to_transform, LIST_TYPE)
+def _to_transform_iter(value, from_gdal=False):
+    if from_gdal:
+        return Affine.from_gdal(*value[:6])
+    else:
+        return Affine(*value[:6])
 
 
 # ============================================================================
 # CRS
+# TODO: Dispatch function for Cartopy
 @singledispatch
 def to_crs(value):
     """ Convert a CRS representation to a `rasterio.crs.CRS`
@@ -164,6 +128,41 @@ def _to_crs_dict(value):
 @to_crs.register(osr.SpatialReference)
 def _to_crs_osr(value):
     return CRS.from_wkt(value.ExportToWkt())
+
+
+# ============================================================================
+# BoundingBox
+@singledispatch
+def to_bounds(value):
+    """ Convert input to a :py:data:`rasterio.coords.BoundingBox`
+
+    Parameters
+    ----------
+    value : iterable, or Polygon
+        Input containing some geographic information
+
+    Returns
+    -------
+    BoundingBox
+        Bounding box (left, bottom, right, top). Also described as
+        (minx, miny, maxx, maxy)
+    """
+    raise _CANT_CONVERT(value)
+
+
+@to_bounds.register(BoundingBox)
+def _to_bounds_bounds(value):
+    return value
+
+
+@register_multi_singledispatch(to_bounds, LIST_TYPE)
+def _to_bounds_iter(value):
+    return BoundingBox(*value)
+
+
+@register_multi_singledispatch(to_bounds, GEOM_TYPE)
+def _to_bounds_geom(value):
+    return BoundingBox(*value.bounds)
 
 
 # ============================================================================
