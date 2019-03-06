@@ -18,7 +18,7 @@ from . import convert, geom
 logger = logging.getLogger(__name__)
 
 _DEFAULT_TILEGRID_UNSIZED_LIMITS = 50
-_GEOJSON_EPSG_4326_STRING = '+init=epsg:4326'
+_GEOJSON_EPSG_4326_STRING = 'epsg:4326'
 
 
 class TileGrid(collections.abc.Mapping):
@@ -170,8 +170,9 @@ class TileGrid(collections.abc.Mapping):
         Parameters
         ----------
         crs : rasterio.crs.CRS
-            The coordinate reference system to use for the GeoJSON. Defaults to
-            EPSG:4326
+            Coordinate reference system of output. Defaults to EPSG:4326 per
+            GeoJSON standard (RFC7946). If ``None``, will return
+            geometries in TileGrid's CRS
         rows : Sequence[int], optional
             If this TileGrid was not given ``limits`` or if you want a subset
             of the tiles, specify the rows to map
@@ -471,8 +472,9 @@ class Tile(object):
         Parameters
         ----------
         crs : rasterio.crs.CRS
-            Coordinate reference system of output. Defaults to EPSG:4326
-            per GeoJSON standard
+            Coordinate reference system of output. Defaults to EPSG:4326 per
+            GeoJSON standard (RFC7946). If ``None``, will return
+            geometries in Tile's CRS
 
         Returns
         -------
@@ -488,7 +490,11 @@ class Tile(object):
         if crs is not None:
             from rasterio.warp import transform_geom
             crs_ = convert.to_crs(crs)
-            gj = transform_geom(self.crs, crs_, gj)
+            if crs_ != self.crs:
+                gj = transform_geom(self.crs, crs_, gj)
+            else:
+                logger.debug('Not reprojecting GeoJSON since output CRS '
+                             'is the same as the Tile CRS')
 
         return {
             'type': 'Feature',
