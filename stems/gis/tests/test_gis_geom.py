@@ -52,6 +52,8 @@ def test_bounds_tranform_union_1():
     test = geom.bounds_transform_union((bounds, ) * n, transform)
     assert test[0] == bounds
     assert test[1] == transform
+    assert test[2][0] == int((bounds.top - bounds.bottom) / 30)
+    assert test[2][1] == int((bounds.right - bounds.left) / 30)
 
 
 @pytest.mark.parametrize(('bounds', 'transform', 'result'), [
@@ -64,11 +66,12 @@ def test_bounds_tranform_union_1():
 ])
 def test_bounds_tranform_union_2(bounds, transform, result):
     ans = geom.bounds_transform_union(bounds, transform)
-    assert len(ans) == 2
+    assert len(ans) == 3
     assert isinstance(ans[0], BoundingBox)
     assert isinstance(ans[1], Affine)
     assert ans[0] == result[0]
     assert ans[1] == result[1]
+    assert ans[2] == result[2]
 
 
 # ----------------------------------------------------------------------------

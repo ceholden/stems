@@ -86,7 +86,7 @@ def bounds_transform_union(bounds, transform):
     affine.Affine
         Unified affine transform
     tuple[int, int]
-        Shape of union
+        Shape of union (nrow, ncol)
     """
     res = coords.transform_to_res(transform)
     # Union of bounds
@@ -108,7 +108,7 @@ def bounds_transform_union(bounds, transform):
     out_bounds = BoundingBox(out_bounds.left, bottom, right, out_bounds.top)
     logger.debug('Adjusted bounds: %r', out_bounds)
 
-    return out_bounds, out_transform
+    return out_bounds, out_transform, (out_h, out_w)
 
 
 def calculate_src_window(src_bounds, src_transform, dst_bounds):
