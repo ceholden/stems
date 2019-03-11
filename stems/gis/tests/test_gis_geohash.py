@@ -1,9 +1,15 @@
 """ Tests for :py:mod:`stems.gis.geohash`
 """
+import dask.array as da
+import numpy as np
 import pytest
 from rasterio.crs import CRS
+import xarray as xr
 
 from stems.gis import geohash
+
+needs_geohash = pytest.importorskip('geohash')
+
 
 CRS_4326 = CRS.from_epsg(4326)
 EXAMPLES = pytest.mark.parametrize(('yx', 'crs', 'hash_'), [
@@ -12,10 +18,7 @@ EXAMPLES = pytest.mark.parametrize(('yx', 'crs', 'hash_'), [
     ((-3.733313, -73.249991), CRS_4326, '6r7fv0kgz'),
 ])
 
-needs_geohash = pytest.importorskip('geohash')
 
-
-@needs_geohash
 @EXAMPLES
 def test_geohash_encode(yx, crs, hash_):
     z_max = len(hash_)
@@ -25,9 +28,8 @@ def test_geohash_encode(yx, crs, hash_):
         assert ans[0].item() == hash_[:z]
 
 
-@needs_geohash
 @EXAMPLES
-def test_geohash_deencode(yx, crs, hash_):
+def test_geohash_decode(yx, crs, hash_):
     ys, xs = geohash.geohash_decode(hash_, crs=crs)
 
     # error is ~6.8e-4 in lat/lon or ~5m for 9 length
@@ -40,3 +42,49 @@ def test_geohash_deencode(yx, crs, hash_):
 
     assert abs(ys[0] - yx[0]) < err
     assert abs(xs[0] - yx[1]) < err
+
+
+@pytest.mark.parametrize('precision', [8, 10, 12])
+def test_geohash_dask(precision):
+    lat = da.arange(40, 41, 0.05)
+    lon = da.arange(-72, -71, 0.05)
+
+    # Test running as dask
+    gh = geohash.geohash_encode(lat, lon, precision=precision)
+    assert isinstance(gh, da.Array)
+    gh_ = np.array(gh)
+
+    # Should be same as run with ndarray
+    compare = geohash.geohash_encode(np.array(lat), np.array(lon),
+                                     precision=precision)
+    np.testing.assert_equal(np.array(gh_), np.array(compare))
+
+    # Should work both ways
+    lat_, lon_ = geohash.geohash_decode(gh)
+    np.testing.assert_almost_equal(np.array(lat), np.array(lat_),
+                                   decimal=precision // 3)
+    np.testing.assert_almost_equal(np.array(lon), np.array(lon_),
+                                   decimal=precision // 3)
+
+
+@pytest.mark.parametrize('precision', [8, 10, 12])
+def test_geohash_xarray(precision):
+    lat = xr.DataArray(da.arange(40, 41, 0.05))
+    lon = xr.DataArray(da.arange(-72, -71, 0.05))
+
+    # Test running as dask
+    gh = geohash.geohash_encode(lat, lon, precision=precision)
+    assert isinstance(gh, xr.DataArray)
+    gh_ = np.array(gh)
+
+    # Should be same as run with ndarray
+    compare = geohash.geohash_encode(np.array(lat), np.array(lon),
+                                     precision=precision)
+    np.testing.assert_equal(np.array(gh_), np.array(compare))
+
+    # Should work both ways
+    lat_, lon_ = geohash.geohash_decode(gh)
+    np.testing.assert_almost_equal(np.array(lat), np.array(lat_),
+                                   decimal=precision // 3)
+    np.testing.assert_almost_equal(np.array(lon), np.array(lon_),
+                                   decimal=precision // 3)
