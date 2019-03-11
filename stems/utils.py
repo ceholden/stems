@@ -354,6 +354,39 @@ def find(location, pattern, regex=False):
     return sorted(files)
 
 
+def relative_to(one, two):
+    """ Return the relative path of a file compared to another
+
+    Parameters
+    ----------
+    one : str or Path
+        File to return relative path for
+    two : str or Path
+        File ``one`` will be relative to
+
+    Returns
+    -------
+    Path
+        Relative path of ``one``
+    """
+    one, two = Path(one), Path(two).absolute()
+
+    # Ensure could be a file (is_file or doesn't exist yet)
+    assert one.is_file() or not one.exists()
+    assert two.is_file() or not two.exists()
+
+    root = os.path.abspath(os.sep)
+    for parent in one.absolute().parents:
+        if parent in two.parents:
+            root = parent
+            break
+
+    fwd = one.absolute().relative_to(root)
+    bwd = ('..', ) * (len(two.relative_to(root).parents) - 1)
+
+    return Path('.').joinpath(*bwd).joinpath(fwd)
+
+
 @contextlib.contextmanager
 def renamed_upon_completion(destination, tmpdir=None,
                             prefix='', suffix='.tmp'):
@@ -394,5 +427,5 @@ def renamed_upon_completion(destination, tmpdir=None,
 
     # We're back -- rename/move the tmpfile to ``destination``
     logger.debug(f'Renaming/moving file {tmpfile}->{destination}')
-    # `shutil.move` supports move, or copy if on different devic/partition
+    # `shutil.move` supports move, or copy if on different device/partition
     shutil.move(str(tmpfile), str(destination))

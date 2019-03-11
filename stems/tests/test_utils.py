@@ -269,33 +269,24 @@ def test_find(tmpdir):
     assert len(ans) == 2
 
 
-# renamed_upon_completion
-@pytest.mark.parametrize('kwds', (
-    {'prefix': '', 'suffix': '.tmp'},
-    {'prefix': '_', 'suffix': ''},
-    {'prefix': '', 'suffix': ''}
-))
-def test_renamed_upon_completion_1(tmpdir, kwds):
-    d = tmpdir.mkdir('results')
-    dest = str(d.join('some_result.nc'))
+# ------------------------------------------------------------------------------
+# relative_to
+def test_relative_to():
+    # Test simple
+    tif = Path('.').joinpath('a', 'data', 'dir', 'test.tif')
+    dst = Path('out.vrt')
+    p = utils.relative_to(tif, dst)
+    assert str(p) == str(tif)
 
-    kwds_ = toolz.merge(kwds, {'tmpdir': None})
-    with utils.renamed_upon_completion(dest, **kwds_) as tmpfile:
-        # Should be a str
-        assert isinstance(tmpfile, str)
-        # Should start/end according to args
-        p = Path(tmpfile)
-        if kwds_['prefix']:
-            assert p.name.startswith(kwds_['prefix'])
-        if kwds_['suffix']:
-            assert p.name.endswith(kwds_['suffix'])
-        # Should be in the same directory as the destination ``d``
-        assert p.parent == Path(str(d))
-        # Write to the tmpfile
-        with open(tmpfile, 'w') as f:
-            f.write('hello')
-    # Should exist at destination now
-    assert Path(str(dest)).exists()
+    # Backout and forward
+    tif = Path('.').joinpath('some', 'subfolder', 'red.tif')
+    dst = Path('.').joinpath('another', 'output', 'out.vrt')
+
+    p = utils.relative_to(tif, dst)
+    truth = Path('.').joinpath('..', '..', 'some', 'subfolder', 'red.tif')
+    assert str(p) == str(truth)
+
+
 # ------------------------------------------------------------------------------
 # renamed_upon_completion
 @pytest.mark.parametrize('kwds', (
