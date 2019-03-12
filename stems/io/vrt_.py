@@ -68,6 +68,18 @@ class VRTDataset(object):
         return bounds
 
     @property
+    def width(self):
+        """ int: Number of columns
+        """
+        return self.shape[1]
+
+    @property
+    def height(self):
+        """ int: Number of rows
+        """
+        return self.shape[0]
+
+    @property
     def shape(self):
         """tuple[int, int]: Number of rows and columns
         """
@@ -308,6 +320,11 @@ class VRTSourceBand(object):
     def height(self):
         with self.open() as ds:
             return ds.height
+
+    @cached_property
+    def shape(self):
+        with self.open() as ds:
+            return (self.height, self.width)
 
     @cached_property
     def dtype(self):
