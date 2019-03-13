@@ -1,0 +1,285 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>stems.datasets.simulate module &mdash; stems 0+untagged.50.g64030f8 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> stems
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0+untagged.50.g64030f8
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">stems</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>stems.datasets.simulate module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/ceholden/stems/blob/master/docs/source/stems/stems.datasets.simulate.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-stems.datasets.simulate">
+<span id="stems-datasets-simulate-module"></span><h1>stems.datasets.simulate module<a class="headerlink" href="#module-stems.datasets.simulate" title="Permalink to this headline">¶</a></h1>
+<p>Tools for generating simulated datasets</p>
+<p>The intent of this module is to provide tools for generating simulated data
+that is usefulf for testing, debugging, and learning. This module is inspired
+by the <code class="xref py py-func docutils literal notranslate"><span class="pre">sklearn.datasets.make_classification()</span></code> and
+<code class="xref py py-func docutils literal notranslate"><span class="pre">sklearn.datasets.make_regression()</span></code>, among others.</p>
+<dl class="function">
+<dt id="stems.datasets.simulate.make_dates">
+<code class="descclassname">stems.datasets.simulate.</code><code class="descname">make_dates</code><span class="sig-paren">(</span><em>date_start=None</em>, <em>date_end=None</em>, <em>date_freq=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/datasets/simulate.html#make_dates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.datasets.simulate.make_dates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">datetime64</span></code> dates</p>
+<dl class="docutils">
+<dt>date_start <span class="classifier-delimiter">:</span> <span class="classifier">str, datetime, and more, optional</span></dt>
+<dd>Starting date (in a format known to Pandas)</dd>
+<dt>date_end <span class="classifier-delimiter">:</span> <span class="classifier">str, datetime, and more, optional</span></dt>
+<dd>Ending date (in a format known to Pandas)</dd>
+<dt>date_freq <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd>Date frequency</dd>
+</dl>
+<dl class="docutils">
+<dt>np.ndarray</dt>
+<dd>Dates as <code class="docutils literal notranslate"><span class="pre">np.datetime64</span></code></dd>
+</dl>
+<p>pandas.date_range</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.datasets.simulate.make_segments">
+<code class="descclassname">stems.datasets.simulate.</code><code class="descname">make_segments</code><span class="sig-paren">(</span><em>date_start=None</em>, <em>date_end=None</em>, <em>date_freq=None</em>, <em>n_series=3</em>, <em>n_segments=2</em>, <em>seg_sep=None</em>, <em>means=None</em>, <em>stds=None</em>, <em>trends=None</em>, <em>amplitudes=None</em>, <em>phases=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/datasets/simulate.html#make_segments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.datasets.simulate.make_segments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simulate data from multiple temporal segments</p>
+<dl class="docutils">
+<dt>date_start <span class="classifier-delimiter">:</span> <span class="classifier">str, datetime, and more, optional</span></dt>
+<dd>Starting date (in a format known to Pandas)</dd>
+<dt>date_end <span class="classifier-delimiter">:</span> <span class="classifier">str, datetime, and more, optional</span></dt>
+<dd>Ending date (in a format known to Pandas)</dd>
+<dt>date_freq <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd>Date frequency</dd>
+<dt>n_series <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>Number of series/spectral bands to simulate</dd>
+<dt>n_segments <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>Number of segments to simulate</dd>
+<dt>seg_sep <span class="classifier-delimiter">:</span> <span class="classifier">Sequence[float]</span></dt>
+<dd>Separability of segments (i.e., the size of the disturbance)</dd>
+<dt>means <span class="classifier-delimiter">:</span> <span class="classifier">Sequence[float]</span></dt>
+<dd>The mean value for each series/spectral band (passed to
+<a class="reference internal" href="#stems.datasets.simulate.make_time_series_mean" title="stems.datasets.simulate.make_time_series_mean"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_time_series_mean()</span></code></a>)</dd>
+<dt>stds <span class="classifier-delimiter">:</span> <span class="classifier">Sequence[float]</span></dt>
+<dd>The standard deviation for each series/spectral band (passed to
+<a class="reference internal" href="#stems.datasets.simulate.make_time_series_mean" title="stems.datasets.simulate.make_time_series_mean"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_time_series_mean()</span></code></a>)</dd>
+<dt>trends <span class="classifier-delimiter">:</span> <span class="classifier">Sequence[float]</span></dt>
+<dd>The time trend for each series/spectral band (passed to
+<a class="reference internal" href="#stems.datasets.simulate.make_time_series_trend" title="stems.datasets.simulate.make_time_series_trend"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_time_series_trend()</span></code></a>)</dd>
+<dt>amplitudes <span class="classifier-delimiter">:</span> <span class="classifier">Sequence[float]</span></dt>
+<dd>The harmonic amplitude value for each series/spectral band (passed to
+<a class="reference internal" href="#stems.datasets.simulate.make_time_series_harmonic" title="stems.datasets.simulate.make_time_series_harmonic"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_time_series_harmonic()</span></code></a>)</dd>
+<dt>phases <span class="classifier-delimiter">:</span> <span class="classifier">Sequence[float]</span></dt>
+<dd>The harmonic phase value for each series/spectral band (passed to
+<a class="reference internal" href="#stems.datasets.simulate.make_time_series_harmonic" title="stems.datasets.simulate.make_time_series_harmonic"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_time_series_harmonic()</span></code></a>)</dd>
+</dl>
+<dl class="docutils">
+<dt>xr.DataArray</dt>
+<dd>Simulated data for <code class="docutils literal notranslate"><span class="pre">n_segments</span></code> across <code class="docutils literal notranslate"><span class="pre">n_series</span></code> series/spectral
+bands</dd>
+<dt>np.ndarray</dt>
+<dd>Array of <code class="docutils literal notranslate"><span class="pre">datetime64</span></code> indicating the dates of change
+(size=``n_segments - 1``)</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.datasets.simulate.make_time_series_harmonic">
+<code class="descclassname">stems.datasets.simulate.</code><code class="descname">make_time_series_harmonic</code><span class="sig-paren">(</span><em>dates</em>, <em>amplitude=None</em>, <em>phase=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/datasets/simulate.html#make_time_series_harmonic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.datasets.simulate.make_time_series_harmonic" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="stems.datasets.simulate.make_time_series_mean">
+<code class="descclassname">stems.datasets.simulate.</code><code class="descname">make_time_series_mean</code><span class="sig-paren">(</span><em>dates</em>, <em>mean=None</em>, <em>std=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/datasets/simulate.html#make_time_series_mean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.datasets.simulate.make_time_series_mean" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="stems.datasets.simulate.make_time_series_noise">
+<code class="descclassname">stems.datasets.simulate.</code><code class="descname">make_time_series_noise</code><span class="sig-paren">(</span><em>dates</em>, <em>mean=0.0</em>, <em>std=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/datasets/simulate.html#make_time_series_noise"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.datasets.simulate.make_time_series_noise" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a time series of noise</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.datasets.simulate.make_time_series_trend">
+<code class="descclassname">stems.datasets.simulate.</code><code class="descname">make_time_series_trend</code><span class="sig-paren">(</span><em>dates</em>, <em>trend=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/datasets/simulate.html#make_time_series_trend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.datasets.simulate.make_time_series_trend" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

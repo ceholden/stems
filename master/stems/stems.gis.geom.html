@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.geom module &mdash; stems 0+untagged.25.gf832286.dirty documentation</title>
+  <title>stems.gis.geom module &mdash; stems 0+untagged.50.g64030f8 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.25.gf832286.dirty
+                0+untagged.50.g64030f8
               </div>
             
           
@@ -135,7 +135,9 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/stems/stems.gis.geom.rst.txt" rel="nofollow"> View page source</a>
+            
+              <a href="https://github.com/ceholden/stems/blob/master/docs/source/stems/stems.gis.geom.rst" class="fa fa-github"> Edit on GitHub</a>
+            
           
         
       </li>
@@ -152,8 +154,8 @@
 <span id="stems-gis-geom-module"></span><h1>stems.gis.geom module<a class="headerlink" href="#module-stems.gis.geom" title="Permalink to this headline">¶</a></h1>
 <p>Geometry related functions</p>
 <dl class="function">
-<dt id="stems.gis.geom.bbox_intersection">
-<code class="descclassname">stems.gis.geom.</code><code class="descname">bbox_intersection</code><span class="sig-paren">(</span><em>*bounds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/geom.html#bbox_intersection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.geom.bbox_intersection" title="Permalink to this definition">¶</a></dt>
+<dt id="stems.gis.geom.bounds_intersection">
+<code class="descclassname">stems.gis.geom.</code><code class="descname">bounds_intersection</code><span class="sig-paren">(</span><em>*bounds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/geom.html#bounds_intersection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.geom.bounds_intersection" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the intersection of some BoundingBox(s)</p>
 <dl class="docutils">
 <dt>bounds <span class="classifier-delimiter">:</span> <span class="classifier">BoundingBox</span></dt>
@@ -166,8 +168,28 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="stems.gis.geom.bbox_union">
-<code class="descclassname">stems.gis.geom.</code><code class="descname">bbox_union</code><span class="sig-paren">(</span><em>*bounds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/geom.html#bbox_union"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.geom.bbox_union" title="Permalink to this definition">¶</a></dt>
+<dt id="stems.gis.geom.bounds_transform_union">
+<code class="descclassname">stems.gis.geom.</code><code class="descname">bounds_transform_union</code><span class="sig-paren">(</span><em>bounds</em>, <em>transform</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/geom.html#bounds_transform_union"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.geom.bounds_transform_union" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate union of bounds for some transform</p>
+<dl class="docutils">
+<dt>bounds <span class="classifier-delimiter">:</span> <span class="classifier">Sequence[BoundingBox]</span></dt>
+<dd>Bounding boxes</dd>
+<dt>transform <span class="classifier-delimiter">:</span> <span class="classifier">Affine</span></dt>
+<dd>Affine transform to use</dd>
+</dl>
+<dl class="docutils">
+<dt>rasterio.coords.BoundingBox</dt>
+<dd>Union of BoundingBox</dd>
+<dt>affine.Affine</dt>
+<dd>Unified affine transform</dd>
+<dt>tuple[int, int]</dt>
+<dd>Shape of union (nrow, ncol)</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.gis.geom.bounds_union">
+<code class="descclassname">stems.gis.geom.</code><code class="descname">bounds_union</code><span class="sig-paren">(</span><em>*bounds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/geom.html#bounds_union"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.geom.bounds_union" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the union of some BoundingBox(s)</p>
 <dl class="docutils">
 <dt>bounds <span class="classifier-delimiter">:</span> <span class="classifier">BoundingBox</span></dt>
@@ -176,6 +198,76 @@
 <dl class="docutils">
 <dt>BoundingBox</dt>
 <dd>The union of all input BoundingBox</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.gis.geom.calculate_dst_window">
+<code class="descclassname">stems.gis.geom.</code><code class="descname">calculate_dst_window</code><span class="sig-paren">(</span><em>src_bounds</em>, <em>dst_transform</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/geom.html#calculate_dst_window"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.geom.calculate_dst_window" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the rounded source window for some other transform</p>
+<dl class="docutils">
+<dt>src_bounds <span class="classifier-delimiter">:</span> <span class="classifier">rasterio.coords.BoundingBox</span></dt>
+<dd>Input bounds for the source raster image</dd>
+<dt>dst_transform <span class="classifier-delimiter">:</span> <span class="classifier">affine.Affine</span></dt>
+<dd>Destination Affine transform</dd>
+</dl>
+<dl class="docutils">
+<dt>rasterio.windows.Window</dt>
+<dd>Window of source that conforms (pixel size, upper left) to
+<code class="docutils literal notranslate"><span class="pre">dst_tranform</span></code></dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.gis.geom.calculate_src_window">
+<code class="descclassname">stems.gis.geom.</code><code class="descname">calculate_src_window</code><span class="sig-paren">(</span><em>src_bounds</em>, <em>src_transform</em>, <em>dst_bounds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/geom.html#calculate_src_window"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.geom.calculate_src_window" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the source window for some output bounds</p>
+<dl class="docutils">
+<dt>src_bounds <span class="classifier-delimiter">:</span> <span class="classifier">rasterio.coords.BoundingBox</span></dt>
+<dd>Input bounds for the source raster image</dd>
+<dt>src_transform <span class="classifier-delimiter">:</span> <span class="classifier">affine.Affine</span></dt>
+<dd>Affine transform for the source raster image</dd>
+<dt>dst_bounds <span class="classifier-delimiter">:</span> <span class="classifier">rasterio.coords.BoundingBox</span></dt>
+<dd>Destination bounds</dd>
+</dl>
+<dl class="docutils">
+<dt>rasterio.windows.Window</dt>
+<dd>Window of source that contains <code class="docutils literal notranslate"><span class="pre">dst_bounds</span></code></dd>
+<dt>rasterio.coords.BoundingBox</dt>
+<dd>The BoundingBox representing the destination window for the source</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.gis.geom.fix_geojson_rfc7946">
+<code class="descclassname">stems.gis.geom.</code><code class="descname">fix_geojson_rfc7946</code><span class="sig-paren">(</span><em>geojson</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/geom.html#fix_geojson_rfc7946"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.geom.fix_geojson_rfc7946" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fixes issues with dateline and meridian cutting</p>
+<dl class="docutils">
+<dt>geojson <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd>GeoJSON as a dict</dd>
+</dl>
+<dl class="docutils">
+<dt>dict</dt>
+<dd>Fixed up GeoJSON</dd>
+</dl>
+<ul class="simple">
+<li>Q1: Can we do this ourself using shapely/maths?</li>
+<li>Q2: Is solution to Q1 faster? Avoids dumps/loads</li>
+</ul>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.gis.geom.is_null">
+<code class="descclassname">stems.gis.geom.</code><code class="descname">is_null</code><span class="sig-paren">(</span><em>geom</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/geom.html#is_null"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.geom.is_null" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if a geometry is not valid / null</p>
+<dl class="docutils">
+<dt>shapely.geometry.BaseGeometry</dt>
+<dd>Some shapely geometry (or something that supports
+__geo_interface__)</dd>
+</dl>
+<dl class="docutils">
+<dt>bool</dt>
+<dd>Null or not</dd>
 </dl>
 </dd></dl>
 

@@ -6,7 +6,10 @@ Subpackages
 
 .. toctree::
 
+    stems.cli
+    stems.datasets
     stems.gis
+    stems.io
     stems.sensors
 
 Submodules
@@ -16,6 +19,9 @@ Submodules
 
    stems.compat
    stems.errors
+   stems.executor
+   stems.logging_
+   stems.parallel
    stems.utils
 
 Module contents

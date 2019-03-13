@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.tests.test_gis_geohash &mdash; stems 0+untagged.25.gf832286.dirty documentation</title>
+  <title>stems.gis.tests.test_gis_geohash &mdash; stems 0+untagged.50.g64030f8 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.25.gf832286.dirty
+                0+untagged.50.g64030f8
               </div>
             
           
@@ -149,10 +149,16 @@
   <h1>Source code for stems.gis.tests.test_gis_geohash</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot; Tests for :py:mod:`stems.gis.geohash`</span>
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">dask.array</span> <span class="k">as</span> <span class="nn">da</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pytest</span>
 <span class="kn">from</span> <span class="nn">rasterio.crs</span> <span class="k">import</span> <span class="n">CRS</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
 
 <span class="kn">from</span> <span class="nn">stems.gis</span> <span class="k">import</span> <span class="n">geohash</span>
+
+<span class="n">needs_geohash</span> <span class="o">=</span> <span class="n">pytest</span><span class="o">.</span><span class="n">importorskip</span><span class="p">(</span><span class="s1">&#39;geohash&#39;</span><span class="p">)</span>
+
 
 <span class="n">CRS_4326</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span>
 <span class="n">EXAMPLES</span> <span class="o">=</span> <span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">((</span><span class="s1">&#39;yx&#39;</span><span class="p">,</span> <span class="s1">&#39;crs&#39;</span><span class="p">,</span> <span class="s1">&#39;hash_&#39;</span><span class="p">),</span> <span class="p">[</span>
@@ -171,8 +177,8 @@
         <span class="k">assert</span> <span class="n">ans</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">==</span> <span class="n">hash_</span><span class="p">[:</span><span class="n">z</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="test_geohash_deencode"><a class="viewcode-back" href="../../../../stems/stems.gis.tests.test_gis_geohash.html#stems.gis.tests.test_gis_geohash.test_geohash_deencode">[docs]</a><span class="nd">@EXAMPLES</span>
-<span class="k">def</span> <span class="nf">test_geohash_deencode</span><span class="p">(</span><span class="n">yx</span><span class="p">,</span> <span class="n">crs</span><span class="p">,</span> <span class="n">hash_</span><span class="p">):</span>
+<div class="viewcode-block" id="test_geohash_decode"><a class="viewcode-back" href="../../../../stems/stems.gis.tests.test_gis_geohash.html#stems.gis.tests.test_gis_geohash.test_geohash_decode">[docs]</a><span class="nd">@EXAMPLES</span>
+<span class="k">def</span> <span class="nf">test_geohash_decode</span><span class="p">(</span><span class="n">yx</span><span class="p">,</span> <span class="n">crs</span><span class="p">,</span> <span class="n">hash_</span><span class="p">):</span>
     <span class="n">ys</span><span class="p">,</span> <span class="n">xs</span> <span class="o">=</span> <span class="n">geohash</span><span class="o">.</span><span class="n">geohash_decode</span><span class="p">(</span><span class="n">hash_</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="n">crs</span><span class="p">)</span>
 
     <span class="c1"># error is ~6.8e-4 in lat/lon or ~5m for 9 length</span>
@@ -185,6 +191,52 @@
 
     <span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">ys</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">yx</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">err</span>
     <span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">xs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">yx</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">err</span></div>
+
+
+<div class="viewcode-block" id="test_geohash_dask"><a class="viewcode-back" href="../../../../stems/stems.gis.tests.test_gis_geohash.html#stems.gis.tests.test_gis_geohash.test_geohash_dask">[docs]</a><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s1">&#39;precision&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">12</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">test_geohash_dask</span><span class="p">(</span><span class="n">precision</span><span class="p">):</span>
+    <span class="n">lat</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">41</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)</span>
+    <span class="n">lon</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">72</span><span class="p">,</span> <span class="o">-</span><span class="mi">71</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)</span>
+
+    <span class="c1"># Test running as dask</span>
+    <span class="n">gh</span> <span class="o">=</span> <span class="n">geohash</span><span class="o">.</span><span class="n">geohash_encode</span><span class="p">(</span><span class="n">lat</span><span class="p">,</span> <span class="n">lon</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="n">precision</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">gh</span><span class="p">,</span> <span class="n">da</span><span class="o">.</span><span class="n">Array</span><span class="p">)</span>
+    <span class="n">gh_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">gh</span><span class="p">)</span>
+
+    <span class="c1"># Should be same as run with ndarray</span>
+    <span class="n">compare</span> <span class="o">=</span> <span class="n">geohash</span><span class="o">.</span><span class="n">geohash_encode</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lat</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lon</span><span class="p">),</span>
+                                     <span class="n">precision</span><span class="o">=</span><span class="n">precision</span><span class="p">)</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">gh_</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">compare</span><span class="p">))</span>
+
+    <span class="c1"># Should work both ways</span>
+    <span class="n">lat_</span><span class="p">,</span> <span class="n">lon_</span> <span class="o">=</span> <span class="n">geohash</span><span class="o">.</span><span class="n">geohash_decode</span><span class="p">(</span><span class="n">gh</span><span class="p">)</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lat</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lat_</span><span class="p">),</span>
+                                   <span class="n">decimal</span><span class="o">=</span><span class="n">precision</span> <span class="o">//</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lon</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lon_</span><span class="p">),</span>
+                                   <span class="n">decimal</span><span class="o">=</span><span class="n">precision</span> <span class="o">//</span> <span class="mi">3</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="test_geohash_xarray"><a class="viewcode-back" href="../../../../stems/stems.gis.tests.test_gis_geohash.html#stems.gis.tests.test_gis_geohash.test_geohash_xarray">[docs]</a><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s1">&#39;precision&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">12</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">test_geohash_xarray</span><span class="p">(</span><span class="n">precision</span><span class="p">):</span>
+    <span class="n">lat</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">41</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">))</span>
+    <span class="n">lon</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">72</span><span class="p">,</span> <span class="o">-</span><span class="mi">71</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">))</span>
+
+    <span class="c1"># Test running as dask</span>
+    <span class="n">gh</span> <span class="o">=</span> <span class="n">geohash</span><span class="o">.</span><span class="n">geohash_encode</span><span class="p">(</span><span class="n">lat</span><span class="p">,</span> <span class="n">lon</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="n">precision</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">gh</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">)</span>
+    <span class="n">gh_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">gh</span><span class="p">)</span>
+
+    <span class="c1"># Should be same as run with ndarray</span>
+    <span class="n">compare</span> <span class="o">=</span> <span class="n">geohash</span><span class="o">.</span><span class="n">geohash_encode</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lat</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lon</span><span class="p">),</span>
+                                     <span class="n">precision</span><span class="o">=</span><span class="n">precision</span><span class="p">)</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">gh_</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">compare</span><span class="p">))</span>
+
+    <span class="c1"># Should work both ways</span>
+    <span class="n">lat_</span><span class="p">,</span> <span class="n">lon_</span> <span class="o">=</span> <span class="n">geohash</span><span class="o">.</span><span class="n">geohash_decode</span><span class="p">(</span><span class="n">gh</span><span class="p">)</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lat</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lat_</span><span class="p">),</span>
+                                   <span class="n">decimal</span><span class="o">=</span><span class="n">precision</span> <span class="o">//</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lon</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lon_</span><span class="p">),</span>
+                                   <span class="n">decimal</span><span class="o">=</span><span class="n">precision</span> <span class="o">//</span> <span class="mi">3</span><span class="p">)</span></div>
 </pre></div>
 
            </div>

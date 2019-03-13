@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.grids &mdash; stems 0+untagged.25.gf832286.dirty documentation</title>
+  <title>stems.gis.grids &mdash; stems 0+untagged.50.g64030f8 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.25.gf832286.dirty
+                0+untagged.50.g64030f8
               </div>
             
           
@@ -161,13 +161,13 @@
 <span class="kn">import</span> <span class="nn">shapely.geometry</span>
 
 <span class="kn">from</span> <span class="nn">.coords</span> <span class="k">import</span> <span class="n">transform_to_coords</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">convert</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">convert</span><span class="p">,</span> <span class="n">geom</span>
 
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 <span class="n">_DEFAULT_TILEGRID_UNSIZED_LIMITS</span> <span class="o">=</span> <span class="mi">50</span>
-<span class="n">_GEOJSON_EPSG_4326_STRING</span> <span class="o">=</span> <span class="s1">&#39;+init=epsg:4326&#39;</span>
+<span class="n">_GEOJSON_EPSG_4326_STRING</span> <span class="o">=</span> <span class="s1">&#39;epsg:4326&#39;</span>
 
 
 <div class="viewcode-block" id="TileGrid"><a class="viewcode-back" href="../../../stems/stems.gis.grids.html#stems.gis.grids.TileGrid">[docs]</a><span class="k">class</span> <span class="nc">TileGrid</span><span class="p">(</span><span class="n">collections</span><span class="o">.</span><span class="n">abc</span><span class="o">.</span><span class="n">Mapping</span><span class="p">):</span>
@@ -223,6 +223,39 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_tiles</span> <span class="o">=</span> <span class="p">{}</span>
 
+<div class="viewcode-block" id="TileGrid.to_dict"><a class="viewcode-back" href="../../../stems/stems.gis.grids.html#stems.gis.grids.TileGrid.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return this TileGrid as a dictionary (e.g., to serialize)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            TileGrid attributes needed to re-initialize class</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s1">&#39;ul&#39;</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ul</span><span class="p">),</span>
+            <span class="s1">&#39;crs&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">crs_wkt</span><span class="p">,</span>
+            <span class="s1">&#39;res&#39;</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">res</span><span class="p">),</span>
+            <span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">),</span>
+            <span class="s1">&#39;limits&#39;</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">limits</span><span class="p">),</span>
+            <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="p">}</span></div>
+
+<div class="viewcode-block" id="TileGrid.from_dict"><a class="viewcode-back" href="../../../stems/stems.gis.grids.html#stems.gis.grids.TileGrid.from_dict">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return a ``TileGrid`` from a dictionary</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        d : dict</span>
+<span class="sd">            Dictionary of class attributes (see __init__)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        TileGrid</span>
+<span class="sd">            A new TileGrid according to parameters in ``d``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">d</span><span class="p">)</span></div>
+
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
             <span class="n">f</span><span class="s1">&#39;&lt;</span><span class="si">{self.__class__.__name__}</span><span class="s1"> at {hex(id(self))}&gt;&#39;</span><span class="p">,</span>
@@ -247,60 +280,94 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">rows</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; list[int]: the vertical/row numbers for all tiles</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">limits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_guard_limits</span><span class="p">()</span>
-        <span class="k">return</span> <span class="nb">range</span><span class="p">(</span><span class="n">limits</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">limits</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">limits</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">limits</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">cols</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; list[int]: the horizontal/column numbers for all tiles</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">limits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_guard_limits</span><span class="p">()</span>
-        <span class="k">return</span> <span class="nb">range</span><span class="p">(</span><span class="n">limits</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">limits</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">limits</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">limits</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">nrow</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; int: the number of rows in the TileGrid</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">ncol</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; int: the number of columns in the TileGrid</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cols</span><span class="p">)</span>
 
-<div class="viewcode-block" id="TileGrid.geojson"><a class="viewcode-back" href="../../../stems/stems.gis.grids.html#stems.gis.grids.TileGrid.geojson">[docs]</a>    <span class="k">def</span> <span class="nf">geojson</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rows</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="n">_GEOJSON_EPSG_4326_STRING</span><span class="p">):</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; affine.Affine : the affine transform for this TileGrid</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Affine</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ul</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                      <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">ul</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+<div class="viewcode-block" id="TileGrid.geojson"><a class="viewcode-back" href="../../../stems/stems.gis.grids.html#stems.gis.grids.TileGrid.geojson">[docs]</a>    <span class="k">def</span> <span class="nf">geojson</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="n">_GEOJSON_EPSG_4326_STRING</span><span class="p">,</span>
+                <span class="n">rows</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">rfc7946</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">skip_invalid</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Returns this grid of tiles as GeoJSON</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
+<span class="sd">        crs : rasterio.crs.CRS</span>
+<span class="sd">            Coordinate reference system of output. Defaults to EPSG:4326 per</span>
+<span class="sd">            GeoJSON standard (RFC7946). If ``None``, will return</span>
+<span class="sd">            geometries in TileGrid&#39;s CRS</span>
 <span class="sd">        rows : Sequence[int], optional</span>
 <span class="sd">            If this TileGrid was not given ``limits`` or if you want a subset</span>
 <span class="sd">            of the tiles, specify the rows to map</span>
 <span class="sd">        cols : Sequence[int], optional</span>
 <span class="sd">            If this TileGrid was not given ``limits`` or if you want a subset</span>
 <span class="sd">            of the tiles, specify the rows to map</span>
-<span class="sd">        crs : rasterio.crs.CRS</span>
-<span class="sd">            The coordinate reference system to use for the GeoJSON. Defaults to</span>
-<span class="sd">            EPSG:4326</span>
+<span class="sd">        rfc7946 : bool, optional</span>
+<span class="sd">            Return GeoJSON compliant with RFC7946. Helps fix GeoJSON</span>
+<span class="sd">            that crosses the anti-meridian/datelines by splitting</span>
+<span class="sd">            polygons into multiple as needed</span>
+<span class="sd">        skip_invalid : bool, optional</span>
+<span class="sd">            If ``True``, checks for tile bounds for invalid geometries and will</span>
+<span class="sd">            only include valid tile geometries.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        dict</span>
 <span class="sd">            GeoJSON</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">{</span>
+        <span class="n">rows_</span> <span class="o">=</span> <span class="n">rows</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">rows</span>
+        <span class="n">cols_</span> <span class="o">=</span> <span class="n">cols</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">cols</span>
+        <span class="n">tile_rc</span> <span class="o">=</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">rows_</span><span class="p">,</span> <span class="n">cols_</span><span class="p">)</span>
+
+        <span class="n">features</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">r</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">tile_rc</span><span class="p">:</span>
+            <span class="n">tile</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">]</span>
+            <span class="n">feat</span> <span class="o">=</span> <span class="n">tile</span><span class="o">.</span><span class="n">geojson</span><span class="p">(</span><span class="n">crs</span><span class="o">=</span><span class="n">crs</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">skip_invalid</span> <span class="ow">and</span> <span class="n">geom</span><span class="o">.</span><span class="n">is_null</span><span class="p">(</span><span class="n">feat</span><span class="p">[</span><span class="s1">&#39;geometry&#39;</span><span class="p">]):</span>
+                <span class="k">continue</span>
+            <span class="n">features</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">feat</span><span class="p">)</span>
+
+        <span class="n">geojson</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;FeatureCollection&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;features&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">([</span><span class="n">tile</span><span class="o">.</span><span class="n">geojson</span><span class="p">(</span><span class="n">crs</span><span class="o">=</span><span class="n">crs</span><span class="p">)</span> <span class="k">for</span> <span class="n">tile</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span>
-        <span class="p">}</span></div>
+            <span class="s2">&quot;features&quot;</span><span class="p">:</span> <span class="n">features</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">rfc7946</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">geom</span><span class="o">.</span><span class="n">fix_geojson_rfc7946</span><span class="p">(</span><span class="n">geojson</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">geojson</span></div>
 
 <span class="c1"># `Mapping` ABC requirement</span>
     <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Return a Tile for the grid row/column specified by index</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">index</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s1">&#39;TileSpec only has two dimensions (row/col)&#39;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">int</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Only support indexing int/int for now&#39;</span><span class="p">)</span>
-            <span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="n">index</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index_to_tile</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s1">&#39;Unknown index type&#39;</span><span class="p">)</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_guard_index</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index_to_tile</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nrow</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ncol</span>
@@ -391,13 +458,35 @@
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_guard_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
-        <span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="n">index</span>
+        <span class="sd">&quot;&quot;&quot; Return a valid tile index, or raise an error</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># TODO: this could be simpler if we store (h, v) in a np.array</span>
+        <span class="c1">#       because we could borrow fancy indexing to support returning</span>
+        <span class="c1">#       a scalar (row/col), or a Sequence (e.g., grid[:, 0],</span>
+        <span class="c1">#       grid[[0, 1], [0]], etc)</span>
+
+        <span class="c1"># Only support row/col for now</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">index</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s1">&#39;TileSpec only has two dimensions (row/col)&#39;</span><span class="p">)</span>
+            <span class="c1"># Need to be ints, and we&#39;ll cast as built-in int</span>
+            <span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="n">index</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">_isint</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">_isint</span><span class="p">(</span><span class="n">col</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Only support indexing int/int for now&#39;</span><span class="p">)</span>
+            <span class="n">index_</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">col</span><span class="p">),</span> <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s1">&#39;Unknown index type&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Check if index is outside of limits</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">limits</span><span class="p">:</span>
+            <span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="n">index_</span>
             <span class="n">row_lim</span><span class="p">,</span> <span class="n">col_lim</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">limits</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">row</span> <span class="o">&lt;</span> <span class="nb">min</span><span class="p">(</span><span class="n">row_lim</span><span class="p">)</span> <span class="ow">or</span> <span class="n">row</span> <span class="o">&gt;</span> <span class="nb">max</span><span class="p">(</span><span class="n">row_lim</span><span class="p">)</span> <span class="ow">or</span>
                     <span class="n">col</span> <span class="o">&lt;</span> <span class="nb">min</span><span class="p">(</span><span class="n">col_lim</span><span class="p">)</span> <span class="ow">or</span> <span class="n">col</span> <span class="o">&gt;</span> <span class="nb">max</span><span class="p">(</span><span class="n">col_lim</span><span class="p">)):</span>
                 <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Tile at index &quot;</span><span class="si">{index}</span><span class="s1">&quot; is outside of &#39;</span>
                                  <span class="n">f</span><span class="s1">&#39;&quot;</span><span class="si">{self.name}</span><span class="s1">&quot; limits (</span><span class="si">{self.limits}</span><span class="s1">).&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">index_</span>
 
     <span class="k">def</span> <span class="nf">_index_to_tile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Return the Tile for given index</span>
@@ -465,7 +554,6 @@
 <span class="sd">        size : tuple[int, int]</span>
 <span class="sd">            Number of pixels in X/Y dimensions for each tile</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">index</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">crs</span> <span class="o">=</span> <span class="n">crs</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span> <span class="o">=</span> <span class="n">bounds</span>
@@ -476,13 +564,13 @@
     <span class="k">def</span> <span class="nf">vertical</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; int: The horizontal index of this tile in its tile specification</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">horizontal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; int: The horizontal index of this tile in its tile specification</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -533,8 +621,9 @@
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        crs : rasterio.crs.CRS</span>
-<span class="sd">            Coordinate reference system of output. Defaults to EPSG:4326</span>
-<span class="sd">            per GeoJSON standard</span>
+<span class="sd">            Coordinate reference system of output. Defaults to EPSG:4326 per</span>
+<span class="sd">            GeoJSON standard (RFC7946). If ``None``, will return</span>
+<span class="sd">            geometries in Tile&#39;s CRS</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -545,17 +634,24 @@
 <span class="sd">        ----------</span>
 <span class="sd">        .. [1] https://tools.ietf.org/html/rfc7946#page-12</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span> <span class="nn">rasterio.warp</span> <span class="k">import</span> <span class="n">transform_geom</span>
-        <span class="n">crs_</span> <span class="o">=</span> <span class="n">convert</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">crs</span><span class="p">)</span>
-        <span class="n">geom</span> <span class="o">=</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">mapping</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">polygon</span><span class="p">)</span>
-        <span class="n">geom_epsg4326</span> <span class="o">=</span> <span class="n">transform_geom</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="p">,</span> <span class="n">crs_</span><span class="p">,</span> <span class="n">geom</span><span class="p">)</span>
+        <span class="n">gj</span> <span class="o">=</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">mapping</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bbox</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">crs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">rasterio.warp</span> <span class="k">import</span> <span class="n">transform_geom</span>
+            <span class="n">crs_</span> <span class="o">=</span> <span class="n">convert</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">crs</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">crs_</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="p">:</span>
+                <span class="n">gj</span> <span class="o">=</span> <span class="n">transform_geom</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="p">,</span> <span class="n">crs_</span><span class="p">,</span> <span class="n">gj</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Not reprojecting GeoJSON since output CRS &#39;</span>
+                             <span class="s1">&#39;is the same as the Tile CRS&#39;</span><span class="p">)</span>
+
         <span class="k">return</span> <span class="p">{</span>
             <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;Feature&#39;</span><span class="p">,</span>
             <span class="s1">&#39;properties&#39;</span><span class="p">:</span> <span class="p">{</span>
                 <span class="s1">&#39;horizontal&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">horizontal</span><span class="p">,</span>
                 <span class="s1">&#39;vertical&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">vertical</span>
             <span class="p">},</span>
-            <span class="s1">&#39;geometry&#39;</span><span class="p">:</span> <span class="n">geom_epsg4326</span>
+            <span class="s1">&#39;geometry&#39;</span><span class="p">:</span> <span class="n">gj</span>
         <span class="p">}</span></div></div>
 
 
@@ -590,6 +686,16 @@
         <span class="n">tilegrids</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">TileGrid</span><span class="p">(</span><span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">tilegrids</span></div>
+
+
+<span class="k">def</span> <span class="nf">_isint</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+    <span class="c1"># ints of many types, if they work...</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">v_</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">v</span> <span class="o">==</span> <span class="n">v_</span>
 </pre></div>
 
            </div>

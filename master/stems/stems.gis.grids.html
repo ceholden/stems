@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.grids module &mdash; stems 0+untagged.25.gf832286.dirty documentation</title>
+  <title>stems.gis.grids module &mdash; stems 0+untagged.50.g64030f8 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.25.gf832286.dirty
+                0+untagged.50.g64030f8
               </div>
             
           
@@ -135,7 +135,9 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/stems/stems.gis.grids.rst.txt" rel="nofollow"> View page source</a>
+            
+              <a href="https://github.com/ceholden/stems/blob/master/docs/source/stems/stems.gis.grids.rst" class="fa fa-github"> Edit on GitHub</a>
+            
           
         
       </li>
@@ -178,12 +180,13 @@
 
 <dl class="method">
 <dt id="stems.gis.grids.Tile.geojson">
-<code class="descname">geojson</code><span class="sig-paren">(</span><em>crs='+init=epsg:4326'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/grids.html#Tile.geojson"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.grids.Tile.geojson" title="Permalink to this definition">¶</a></dt>
+<code class="descname">geojson</code><span class="sig-paren">(</span><em>crs='epsg:4326'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/grids.html#Tile.geojson"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.grids.Tile.geojson" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return this Tile’s geomtry as GeoJSON</p>
 <dl class="docutils">
 <dt>crs <span class="classifier-delimiter">:</span> <span class="classifier">rasterio.crs.CRS</span></dt>
-<dd>Coordinate reference system of output. Defaults to EPSG:4326
-per GeoJSON standard</dd>
+<dd>Coordinate reference system of output. Defaults to EPSG:4326 per
+GeoJSON standard (RFC7946). If <code class="docutils literal notranslate"><span class="pre">None</span></code>, will return
+geometries in Tile’s CRS</dd>
 </dl>
 <dl class="docutils">
 <dt>dict</dt>
@@ -272,22 +275,45 @@ coordinate reference system as <code class="docutils literal notranslate"><span 
 <dl class="attribute">
 <dt id="stems.gis.grids.TileGrid.cols">
 <code class="descname">cols</code><a class="headerlink" href="#stems.gis.grids.TileGrid.cols" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>list[int]: the horizontal/column numbers for all tiles</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="stems.gis.grids.TileGrid.from_dict">
+<em class="property">classmethod </em><code class="descname">from_dict</code><span class="sig-paren">(</span><em>d</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/grids.html#TileGrid.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.grids.TileGrid.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a <code class="docutils literal notranslate"><span class="pre">TileGrid</span></code> from a dictionary</p>
+<dl class="docutils">
+<dt>d <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd>Dictionary of class attributes (see __init__)</dd>
+</dl>
+<dl class="docutils">
+<dt>TileGrid</dt>
+<dd>A new TileGrid according to parameters in <code class="docutils literal notranslate"><span class="pre">d</span></code></dd>
+</dl>
+</dd></dl>
 
 <dl class="method">
 <dt id="stems.gis.grids.TileGrid.geojson">
-<code class="descname">geojson</code><span class="sig-paren">(</span><em>rows=None</em>, <em>cols=None</em>, <em>crs='+init=epsg:4326'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/grids.html#TileGrid.geojson"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.grids.TileGrid.geojson" title="Permalink to this definition">¶</a></dt>
+<code class="descname">geojson</code><span class="sig-paren">(</span><em>crs='epsg:4326'</em>, <em>rows=None</em>, <em>cols=None</em>, <em>rfc7946=False</em>, <em>skip_invalid=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/grids.html#TileGrid.geojson"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.grids.TileGrid.geojson" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns this grid of tiles as GeoJSON</p>
 <dl class="docutils">
+<dt>crs <span class="classifier-delimiter">:</span> <span class="classifier">rasterio.crs.CRS</span></dt>
+<dd>Coordinate reference system of output. Defaults to EPSG:4326 per
+GeoJSON standard (RFC7946). If <code class="docutils literal notranslate"><span class="pre">None</span></code>, will return
+geometries in TileGrid’s CRS</dd>
 <dt>rows <span class="classifier-delimiter">:</span> <span class="classifier">Sequence[int], optional</span></dt>
 <dd>If this TileGrid was not given <code class="docutils literal notranslate"><span class="pre">limits</span></code> or if you want a subset
 of the tiles, specify the rows to map</dd>
 <dt>cols <span class="classifier-delimiter">:</span> <span class="classifier">Sequence[int], optional</span></dt>
 <dd>If this TileGrid was not given <code class="docutils literal notranslate"><span class="pre">limits</span></code> or if you want a subset
 of the tiles, specify the rows to map</dd>
-<dt>crs <span class="classifier-delimiter">:</span> <span class="classifier">rasterio.crs.CRS</span></dt>
-<dd>The coordinate reference system to use for the GeoJSON. Defaults to
-EPSG:4326</dd>
+<dt>rfc7946 <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
+<dd>Return GeoJSON compliant with RFC7946. Helps fix GeoJSON
+that crosses the anti-meridian/datelines by splitting
+polygons into multiple as needed</dd>
+<dt>skip_invalid <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
+<dd>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, checks for tile bounds for invalid geometries and will
+only include valid tile geometries.</dd>
 </dl>
 <dl class="docutils">
 <dt>dict</dt>
@@ -298,12 +324,14 @@ EPSG:4326</dd>
 <dl class="attribute">
 <dt id="stems.gis.grids.TileGrid.ncol">
 <code class="descname">ncol</code><a class="headerlink" href="#stems.gis.grids.TileGrid.ncol" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>int: the number of columns in the TileGrid</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="stems.gis.grids.TileGrid.nrow">
 <code class="descname">nrow</code><a class="headerlink" href="#stems.gis.grids.TileGrid.nrow" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>int: the number of rows in the TileGrid</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="stems.gis.grids.TileGrid.point_to_tile">
@@ -336,7 +364,24 @@ EPSG:4326</dd>
 <dl class="attribute">
 <dt id="stems.gis.grids.TileGrid.rows">
 <code class="descname">rows</code><a class="headerlink" href="#stems.gis.grids.TileGrid.rows" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>list[int]: the vertical/row numbers for all tiles</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="stems.gis.grids.TileGrid.to_dict">
+<code class="descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/grids.html#TileGrid.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.grids.TileGrid.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return this TileGrid as a dictionary (e.g., to serialize)</p>
+<dl class="docutils">
+<dt>dict</dt>
+<dd>TileGrid attributes needed to re-initialize class</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="stems.gis.grids.TileGrid.transform">
+<code class="descname">transform</code><a class="headerlink" href="#stems.gis.grids.TileGrid.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>affine.Affine : the affine transform for this TileGrid</p>
+</dd></dl>
 
 </dd></dl>
 

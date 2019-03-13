@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.utils &mdash; stems 0+untagged.25.gf832286.dirty documentation</title>
+  <title>stems.utils &mdash; stems 0+untagged.50.g64030f8 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.25.gf832286.dirty
+                0+untagged.50.g64030f8
               </div>
             
           
@@ -503,6 +503,39 @@
     <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">files</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="relative_to"><a class="viewcode-back" href="../../stems/stems.utils.html#stems.utils.relative_to">[docs]</a><span class="k">def</span> <span class="nf">relative_to</span><span class="p">(</span><span class="n">one</span><span class="p">,</span> <span class="n">two</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return the relative path of a file compared to another</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    one : str or Path</span>
+<span class="sd">        File to return relative path for</span>
+<span class="sd">    two : str or Path</span>
+<span class="sd">        File ``one`` will be relative to</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Path</span>
+<span class="sd">        Relative path of ``one``</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">one</span><span class="p">,</span> <span class="n">two</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">one</span><span class="p">),</span> <span class="n">Path</span><span class="p">(</span><span class="n">two</span><span class="p">)</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span>
+
+    <span class="c1"># Ensure could be a file (is_file or doesn&#39;t exist yet)</span>
+    <span class="k">assert</span> <span class="n">one</span><span class="o">.</span><span class="n">is_file</span><span class="p">()</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">one</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="n">two</span><span class="o">.</span><span class="n">is_file</span><span class="p">()</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">two</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+
+    <span class="n">root</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">parent</span> <span class="ow">in</span> <span class="n">one</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span><span class="o">.</span><span class="n">parents</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">parent</span> <span class="ow">in</span> <span class="n">two</span><span class="o">.</span><span class="n">parents</span><span class="p">:</span>
+            <span class="n">root</span> <span class="o">=</span> <span class="n">parent</span>
+            <span class="k">break</span>
+
+    <span class="n">fwd</span> <span class="o">=</span> <span class="n">one</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+    <span class="n">bwd</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;..&#39;</span><span class="p">,</span> <span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">two</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="n">root</span><span class="p">)</span><span class="o">.</span><span class="n">parents</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="o">*</span><span class="n">bwd</span><span class="p">)</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="n">fwd</span><span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="renamed_upon_completion"><a class="viewcode-back" href="../../stems/stems.utils.html#stems.utils.renamed_upon_completion">[docs]</a><span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
 <span class="k">def</span> <span class="nf">renamed_upon_completion</span><span class="p">(</span><span class="n">destination</span><span class="p">,</span> <span class="n">tmpdir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                             <span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;.tmp&#39;</span><span class="p">):</span>
@@ -543,7 +576,7 @@
 
     <span class="c1"># We&#39;re back -- rename/move the tmpfile to ``destination``</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Renaming/moving file </span><span class="si">{tmpfile}</span><span class="s1">-&gt;</span><span class="si">{destination}</span><span class="s1">&#39;</span><span class="p">)</span>
-    <span class="c1"># `shutil.move` supports move, or copy if on different devic/partition</span>
+    <span class="c1"># `shutil.move` supports move, or copy if on different device/partition</span>
     <span class="n">shutil</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">tmpfile</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">destination</span><span class="p">))</span></div>
 </pre></div>
 

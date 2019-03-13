@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.convert module &mdash; stems 0+untagged.25.gf832286.dirty documentation</title>
+  <title>stems.gis.convert module &mdash; stems 0+untagged.50.g64030f8 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.25.gf832286.dirty
+                0+untagged.50.g64030f8
               </div>
             
           
@@ -135,7 +135,9 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/stems/stems.gis.convert.rst.txt" rel="nofollow"> View page source</a>
+            
+              <a href="https://github.com/ceholden/stems/blob/master/docs/source/stems/stems.gis.convert.rst" class="fa fa-github"> Edit on GitHub</a>
+            
           
         
       </li>
@@ -235,20 +237,14 @@ rasterio-compatible proj4 attributes in a dict, or OSR definition</dd>
 
 <dl class="function">
 <dt id="stems.gis.convert.to_transform">
-<code class="descclassname">stems.gis.convert.</code><code class="descname">to_transform</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/convert.html#to_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.convert.to_transform" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">stems.gis.convert.</code><code class="descname">to_transform</code><span class="sig-paren">(</span><em>value</em>, <em>from_gdal=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/convert.html#to_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.convert.to_transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert input into an Affine transform</p>
 <dl class="docutils">
-<dt>value <span class="classifier-delimiter">:</span> <span class="classifier">iterable, xr.Dataset, or xr.DataArray</span></dt>
+<dt>value <span class="classifier-delimiter">:</span> <span class="classifier">Affine or iterable</span></dt>
 <dd>6 numbers representing affine transform</dd>
 <dt>from_gdal <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
 <dd>If <cite>value</cite> is a tuple or list, specifies if transform
 is GDAL variety (True) or rasterio/affine (False)</dd>
-<dt>x_coord <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
-<dd>For xarrays, override X coordinate name. If not specified,
-will attempt to find based on <cite>crs</cite></dd>
-<dt>y_coord <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
-<dd>For xarrays, override Y coordinate name. If not specified,
-will attempt to find based on <cite>crs</cite></dd>
 </dl>
 <dl class="docutils">
 <dt>affine.Affine</dt>

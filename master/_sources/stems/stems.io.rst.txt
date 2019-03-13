@@ -1,0 +1,18 @@
+stems.io package
+================
+
+Submodules
+----------
+
+.. toctree::
+
+   stems.io.chunk
+   stems.io.vrt
+
+Module contents
+---------------
+
+.. automodule:: stems.io
+    :members:
+    :undoc-members:
+    :show-inheritance:

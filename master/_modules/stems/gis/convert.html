@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.convert &mdash; stems 0+untagged.25.gf832286.dirty documentation</title>
+  <title>stems.gis.convert &mdash; stems 0+untagged.50.g64030f8 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.25.gf832286.dirty
+                0+untagged.50.g64030f8
               </div>
             
           
@@ -180,6 +180,7 @@
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span>
 
+<span class="n">LIST_TYPE</span> <span class="o">=</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="p">)</span>
 <span class="c1"># XARRAY_TYPE = (xr.Dataset, xr.DataArray)</span>
 <span class="n">GEOM_TYPE</span> <span class="o">=</span> <span class="n">find_subclasses</span><span class="p">(</span><span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">BaseGeometry</span><span class="p">)</span>
 
@@ -187,22 +188,16 @@
 <span class="c1"># ============================================================================</span>
 <span class="c1"># Affine geotransform</span>
 <div class="viewcode-block" id="to_transform"><a class="viewcode-back" href="../../../stems/stems.gis.convert.html#stems.gis.convert.to_transform">[docs]</a><span class="nd">@singledispatch</span>
-<span class="k">def</span> <span class="nf">to_transform</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">to_transform</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">from_gdal</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Convert input into an Affine transform</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    value : iterable, xr.Dataset, or xr.DataArray</span>
+<span class="sd">    value : Affine or iterable</span>
 <span class="sd">        6 numbers representing affine transform</span>
 <span class="sd">    from_gdal : bool, optional</span>
 <span class="sd">        If `value` is a tuple or list, specifies if transform</span>
 <span class="sd">        is GDAL variety (True) or rasterio/affine (False)</span>
-<span class="sd">    x_coord : str, optional</span>
-<span class="sd">        For xarrays, override X coordinate name. If not specified,</span>
-<span class="sd">        will attempt to find based on `crs`</span>
-<span class="sd">    y_coord : str, optional</span>
-<span class="sd">        For xarrays, override Y coordinate name. If not specified,</span>
-<span class="sd">        will attempt to find based on `crs`</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -213,52 +208,21 @@
 
 
 <span class="nd">@to_transform</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Affine</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">_to_transform_affine</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_to_transform_affine</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">from_gdal</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">value</span>
 
 
-<span class="c1"># ============================================================================</span>
-<span class="c1"># BoundingBox</span>
-<div class="viewcode-block" id="to_bounds"><a class="viewcode-back" href="../../../stems/stems.gis.convert.html#stems.gis.convert.to_bounds">[docs]</a><span class="nd">@singledispatch</span>
-<span class="k">def</span> <span class="nf">to_bounds</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Convert input to a :py:data:`rasterio.coords.BoundingBox`</span>
-
-<span class="sd">    .. todo::</span>
-
-<span class="sd">        Does it matter if we measure upper left vs center vs complete</span>
-<span class="sd">        extent?</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    value : iterable, or Polygon</span>
-<span class="sd">        Input containing some geographic information</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    BoundingBox</span>
-<span class="sd">        Bounding box (left, bottom, right, top). Also described as</span>
-<span class="sd">        (minx, miny, maxx, maxy)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">raise</span> <span class="n">_CANT_CONVERT</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
-
-
-<span class="nd">@to_bounds</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">BoundingBox</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">_to_bounds_bounds</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">value</span>
-
-
-<span class="nd">@register_multi_singledispatch</span><span class="p">(</span><span class="n">to_bounds</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="p">))</span>
-<span class="k">def</span> <span class="nf">_to_bounds_iter</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">BoundingBox</span><span class="p">(</span><span class="o">*</span><span class="n">value</span><span class="p">)</span>
-
-
-<span class="nd">@register_multi_singledispatch</span><span class="p">(</span><span class="n">to_bounds</span><span class="p">,</span> <span class="n">GEOM_TYPE</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">_to_bounds_geom</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">BoundingBox</span><span class="p">(</span><span class="o">*</span><span class="n">value</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+<span class="nd">@register_multi_singledispatch</span><span class="p">(</span><span class="n">to_transform</span><span class="p">,</span> <span class="n">LIST_TYPE</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_to_transform_iter</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">from_gdal</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">from_gdal</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Affine</span><span class="o">.</span><span class="n">from_gdal</span><span class="p">(</span><span class="o">*</span><span class="n">value</span><span class="p">[:</span><span class="mi">6</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Affine</span><span class="p">(</span><span class="o">*</span><span class="n">value</span><span class="p">[:</span><span class="mi">6</span><span class="p">])</span>
 
 
 <span class="c1"># ============================================================================</span>
 <span class="c1"># CRS</span>
+<span class="c1"># TODO: Dispatch function for Cartopy</span>
 <div class="viewcode-block" id="to_crs"><a class="viewcode-back" href="../../../stems/stems.gis.convert.html#stems.gis.convert.to_crs">[docs]</a><span class="nd">@singledispatch</span>
 <span class="k">def</span> <span class="nf">to_crs</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Convert a CRS representation to a `rasterio.crs.CRS`</span>
@@ -313,6 +277,41 @@
 <span class="nd">@to_crs</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">osr</span><span class="o">.</span><span class="n">SpatialReference</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">_to_crs_osr</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_wkt</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">ExportToWkt</span><span class="p">())</span>
+
+
+<span class="c1"># ============================================================================</span>
+<span class="c1"># BoundingBox</span>
+<div class="viewcode-block" id="to_bounds"><a class="viewcode-back" href="../../../stems/stems.gis.convert.html#stems.gis.convert.to_bounds">[docs]</a><span class="nd">@singledispatch</span>
+<span class="k">def</span> <span class="nf">to_bounds</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Convert input to a :py:data:`rasterio.coords.BoundingBox`</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    value : iterable, or Polygon</span>
+<span class="sd">        Input containing some geographic information</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    BoundingBox</span>
+<span class="sd">        Bounding box (left, bottom, right, top). Also described as</span>
+<span class="sd">        (minx, miny, maxx, maxy)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">raise</span> <span class="n">_CANT_CONVERT</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<span class="nd">@to_bounds</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">BoundingBox</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_to_bounds_bounds</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">value</span>
+
+
+<span class="nd">@register_multi_singledispatch</span><span class="p">(</span><span class="n">to_bounds</span><span class="p">,</span> <span class="n">LIST_TYPE</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_to_bounds_iter</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">BoundingBox</span><span class="p">(</span><span class="o">*</span><span class="n">value</span><span class="p">)</span>
+
+
+<span class="nd">@register_multi_singledispatch</span><span class="p">(</span><span class="n">to_bounds</span><span class="p">,</span> <span class="n">GEOM_TYPE</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_to_bounds_geom</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">BoundingBox</span><span class="p">(</span><span class="o">*</span><span class="n">value</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
 
 
 <span class="c1"># ============================================================================</span>
