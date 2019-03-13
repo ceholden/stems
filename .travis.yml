@@ -39,7 +39,7 @@ script:
 
 after_success:
     # Docs
-    - source activate test
+    - source activate test_env
     - if [[ "$CONDA_ENV" == "$DOCS_ENV" ]]; then
           bash docs/scripts/deploy-to-gh-pages.sh;
       fi
