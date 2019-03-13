@@ -1,0 +1,21 @@
+""" Test fixtures for data IO
+"""
+import pytest
+import rasterio
+import rasterio.windows
+
+from stems.tests import build_data
+
+
+# ----------------------------------------------------------------------------
+# Fixtures
+@pytest.fixture()
+def image_11w7h4b(tmpdir):
+    dst = str(tmpdir.join('image_11w7h4b.tif'))
+    dst_, rasterio_kwds, meta = build_data.create_test_raster(dst)
+    return dst_
+
+
+@pytest.fixture()
+def image_11w7h4b_chopped(tmpdir, image_11w7h4b):
+    return build_data.chop_test_image(tmpdir, image_11w7h4b)

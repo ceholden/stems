@@ -1,4 +1,4 @@
-"""Tests for :py:mod:`stems.io.vrt_`
+"""Tests for :py:mod:`stems.io.vrt`
 """
 from collections import OrderedDict
 
@@ -10,7 +10,7 @@ from rasterio.crs import CRS
 from rasterio.enums import ColorInterp
 import six
 
-from stems.io import vrt_
+from stems.io import vrt
 from stems.tests import build_data
 
 
@@ -18,7 +18,7 @@ from stems.tests import build_data
 # VRTDataset
 def test_VRTDataset_1(image_11w7h4b):
     # Test dataset properties (crs/transform/bounds)
-    ds = vrt_.VRTDataset(separate=True)
+    ds = vrt.VRTDataset(separate=True)
     ds.add_band(image_11w7h4b, 1, vrt_bidx=None)
 
     with rasterio.open(image_11w7h4b, 'r') as src:
@@ -31,7 +31,7 @@ def test_VRTDataset_1(image_11w7h4b):
 
 def test_VRTDataset_2(image_11w7h4b):
     # Test vrt_bidx autoincrement
-    ds = vrt_.VRTDataset(separate=True)
+    ds = vrt.VRTDataset(separate=True)
     vrt_bidx = ds.add_band(image_11w7h4b, 1, vrt_bidx=None)
     assert vrt_bidx == 1
     vrt_bidx = ds.add_band(image_11w7h4b, 2, vrt_bidx=None)
@@ -41,7 +41,7 @@ def test_VRTDataset_2(image_11w7h4b):
 
 def test_VRTDataset_3(image_11w7h4b_chopped):
     # Test vrt_bidx autoincrement -- don't increment for mosaic
-    ds = vrt_.VRTDataset(separate=False)
+    ds = vrt.VRTDataset(separate=False)
     vrt_bidx = ds.add_band(image_11w7h4b_chopped['ul'], 1, vrt_bidx=None)
     assert vrt_bidx == 1
     vrt_bidx = ds.add_band(image_11w7h4b_chopped['ur'], 1, vrt_bidx=None)
@@ -54,7 +54,7 @@ def test_VRTDataset_5(tmpdir, image_11w7h4b):
     # Test use of `relative`/`relative_to_vrt`
     vrtf = str(tmpdir.join('test.vrt'))
 
-    ds = vrt_.VRTDataset(separate=True)
+    ds = vrt.VRTDataset(separate=True)
     ds.add_band(image_11w7h4b)
 
     vrtf_out = ds.write(vrtf, relative=True)
@@ -69,7 +69,7 @@ def test_VRTDataset_5(tmpdir, image_11w7h4b):
 
 def test_VRTDataset_4(image_11w7h4b):
     # Test ``ds.bands`` order
-    ds = vrt_.VRTDataset(separate=True)
+    ds = vrt.VRTDataset(separate=True)
     ds.add_band(image_11w7h4b, 1, vrt_bidx=2)
     assert ds.count == 1
     ds.add_band(image_11w7h4b, 2, vrt_bidx=1)
@@ -88,7 +88,7 @@ def test_VRTDataset_4(image_11w7h4b):
 
 
 def test_VRTDataset_error_nobands():
-    ds = vrt_.VRTDataset()
+    ds = vrt.VRTDataset()
     err = r'Cannot determine dataset properties.*'
     for prop in ('crs', 'transform', 'bounds', 'shape', ):
         with pytest.raises(ValueError, match=err):
@@ -97,14 +97,14 @@ def test_VRTDataset_error_nobands():
 
 def test_VRTDataset_error_badbidx(image_11w7h4b):
     # Test vrt_bidx ValueError for bad vrt_bidx
-    ds = vrt_.VRTDataset(separate=True)
+    ds = vrt.VRTDataset(separate=True)
     with pytest.raises(ValueError, match=r'.*greater than 0'):
         ds.add_band(image_11w7h4b, 1, vrt_bidx=0)
 
 
 def test_VRTDataset_error_notstack(image_11w7h4b):
     # Test vrt_bidx ValueError for mosaic
-    ds = vrt_.VRTDataset(separate=False)
+    ds = vrt.VRTDataset(separate=False)
     with pytest.raises(ValueError, match=r'.*if not stacking.*'):
         ds.add_band(image_11w7h4b, 1, vrt_bidx=2)
 
@@ -120,7 +120,7 @@ def test_VRTDataset_error_diffcrs(tmpdir, image_11w7h4b):
         with rasterio.open(img2, 'w', **meta) as dst:
             dst.write(src.read())
 
-    ds = vrt_.VRTDataset(separate=True)
+    ds = vrt.VRTDataset(separate=True)
     ds.add_band(img1)
     with pytest.raises(ValueError, match=r'must have same.*crs.*'):
         ds.add_band(img2)
@@ -130,7 +130,7 @@ def test_VRTDataset_stack(tmpdir, image_11w7h4b):
     vrtf = str(tmpdir.join('test.vrt'))
 
     # Create and test count
-    ds = vrt_.VRTDataset(separate=True)
+    ds = vrt.VRTDataset(separate=True)
     for i in range(4):
         ds.add_band(image_11w7h4b, src_bidx=i + 1, vrt_bidx=i + 1)
     assert ds.count == 4
@@ -166,7 +166,7 @@ def test_VRTDataset_mosaic_1(image_11w7h4b_chopped):
                 'width': src.width
             }
 
-    ds = vrt_.VRTDataset(separate=False)
+    ds = vrt.VRTDataset(separate=False)
     ds.add_band(image_11w7h4b_chopped['ul'])
     ds.add_band(image_11w7h4b_chopped['ur'])
     assert ds.bounds.bottom == info['ul']['bounds'].bottom
@@ -182,7 +182,7 @@ def test_VRTDataset_mosaic_2(tmpdir, image_11w7h4b_chopped):
                       if k in quads])
 
     # Should look like the 'all' image
-    ds = vrt_.VRTDataset.from_bands(quad_imgs, separate=False)
+    ds = vrt.VRTDataset.from_bands(quad_imgs, separate=False)
     with rasterio.open(image_11w7h4b_chopped['all']) as src:
         assert ds.bounds == src.bounds
         assert ds.transform == src.transform
@@ -205,7 +205,7 @@ def test_VRTSourceBand_1(tmpdir, params):
     dst = str(tmpdir.join('test.tif'))
     dst_, kwds, meta = build_data.create_test_raster(dst, **params)
     for b in range(meta['count']):
-        vrtb = vrt_.VRTSourceBand(dst, b + 1)
+        vrtb = vrt.VRTSourceBand(dst, b + 1)
         # crs
         assert vrtb.crs == meta['crs']
         # transform
@@ -230,14 +230,14 @@ def test_VRTSourceBand_1(tmpdir, params):
 
 def test_VRTSourceBand_2(image_11w7h4b):
     # Test overrides
-    vrtb = vrt_.VRTSourceBand(image_11w7h4b, 1,
+    vrtb = vrt.VRTSourceBand(image_11w7h4b, 1,
                               description='rusrev', nodata=1918)
     assert vrtb.description == 'rusrev'
     assert vrtb.nodata == 1918
 
 
 def test_VRTSourceBand_open_close(image_11w7h4b):
-    vrtb = vrt_.VRTSourceBand(image_11w7h4b, 1, keep_open=True)
+    vrtb = vrt.VRTSourceBand(image_11w7h4b, 1, keep_open=True)
 
     # Should have _ds after a `start`
     vrtb.start()
