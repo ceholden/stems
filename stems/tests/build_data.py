@@ -2,11 +2,18 @@
 """
 from affine import Affine
 import numpy as np
+import pandas as pd
 import rasterio
 from rasterio.crs import CRS
 from rasterio.enums import ColorInterp
+import xarray as xr
 
 
+BANDS_BGRN = ['blu', 'grn', 'red', 'nir']
+
+
+# =============================================================================
+# GDAL / Rasterio
 def create_test_raster(dst='test.tif',
                        driver='GTiff', count=4, dtype='int16',
                        height=7, width=11,
@@ -98,3 +105,66 @@ def chop_test_image(tmpdir, src_fname):
             files[name] = fname
 
     return files
+
+
+# =============================================================================
+# NetCDF4
+def create_test_dataset(compute=False, data_vars=BANDS_BGRN,
+                        dtype='int16',
+                        ny=7, nx=11, ntime=100,
+                        chunk_y=3, chunk_x=5, chunk_time=25,
+                        nodata=-1234,
+                        crs=CRS.from_epsg(32619),
+                        transform=Affine(30., 0., 100., 0., -30., 200)):
+    """ Create a test xarray.Dataset
+    """
+    from stems.gis import conventions, coords
+
+    # Create coordinates
+    y, x = coords.transform_to_coords(transform, width=nx, height=ny)
+    time = pd.date_range('2000-01-01', '2010-01-01', periods=ntime).values
+
+    # Create georeferencing
+    y_, x_ = conventions.create_coordinates(y, x, crs)
+    grid_mapping = conventions.create_grid_mapping(crs, transform, 'crs')
+
+    # Create data
+    data = {
+        dv: xr.DataArray(
+            np.random.randint(0, 10, (ny, nx, ntime)).astype(dtype),
+            dims=('y', 'x', 'time', ),
+            coords={'y': y_, 'x': x_, 'time': time,
+                    'crs': grid_mapping},
+            name=dv
+        ).chunk({'y': chunk_y, 'x': chunk_x, 'time': chunk_time})
+        for dv in data_vars
+    }
+    # Create XArray
+    xarr = xr.Dataset(data)
+    return xarr
+
+
+def create_test_netcdf4(dst='test.nc', data_vars=BANDS_BGRN,
+                        dtype='int16',
+                        ny=7, nx=11, ntime=100,
+                        chunk_y=3, chunk_x=5, chunk_time=25,
+                        nodata=-1234,
+                        crs=CRS.from_epsg(32619),
+                        transform=Affine(30., 0., 100., 0., -30., 200)):
+    """ Create a test xarray.Dataset and write it to a NetCDF4 file
+    """
+    xarr = create_test_dataset(
+        data_vars=data_vars,
+        dtype=dtype,
+        ny=ny, nx=nx, ntime=ntime,
+        chunk_y=chunk_y, chunk_x=chunk_x, chunk_time=chunk_time,
+        nodata=nodata, crs=crs, transform=transform
+    )
+    chunks = {'y': chunk_y, 'x': chunk_x, 'time': chunk_time}
+    encoding = {
+        dv: {
+            'chunksizes': tuple(chunks.get(d) for d in xarr[dv].dims)
+        } for dv in data_vars
+    }
+    xarr.to_netcdf(dst, encoding=encoding)
+    return dst
