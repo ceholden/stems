@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Installation &mdash; stems 0+untagged.50.g64030f8 documentation</title>
+  <title>Installation &mdash; stems 0+untagged.50.g34c387f documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0+untagged.50.g64030f8
+                0+untagged.50.g34c387f
               </div>
             
           
@@ -86,8 +86,19 @@
             
               <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#stable-release">Stable release</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#from-sources">From sources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#required-dependencies">Required Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#optional-dependencies">Optional Dependencies</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#geohash">GeoHash</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#command-line-interface">Command Line Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tests">Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#documentation">Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#instructions">Instructions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#stable-release">Stable Release</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#from-sources">From Sources</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -158,30 +169,104 @@
             
   <div class="section" id="installation">
 <span id="install"></span><h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="stable-release">
-<h2>Stable release<a class="headerlink" href="#stable-release" title="Permalink to this headline">¶</a></h2>
-<p>To install stems, run this command in your terminal:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> pip install stems
+<div class="section" id="required-dependencies">
+<h2>Required Dependencies<a class="headerlink" href="#required-dependencies" title="Permalink to this headline">¶</a></h2>
+<p>The core dependencies are:</p>
+<ul class="simple">
+<li>Python 3.6 or later</li>
+<li><a class="reference external" href="http://dask.pydata.org">dask</a></li>
+<li><a class="reference external" href="http://distributed.dask.org">distributed</a></li>
+<li>numpy</li>
+<li>pandas</li>
+<li>xarray</li>
+<li>toolz</li>
+<li>affine</li>
+<li>cartopy</li>
+<li>fiona</li>
+<li>gdal</li>
+<li>rasterio (&gt;=1.0.14)</li>
+<li>shapely</li>
+<li>pyyaml</li>
+</ul>
+</div>
+<div class="section" id="optional-dependencies">
+<h2>Optional Dependencies<a class="headerlink" href="#optional-dependencies" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="geohash">
+<h3>GeoHash<a class="headerlink" href="#geohash" title="Permalink to this headline">¶</a></h3>
+<p>For the wrappers and other utilities related to encoding and decoding
+geohashes, you will need the <code class="docutils literal notranslate"><span class="pre">python-geohash</span></code> library:</p>
+<ul class="simple">
+<li>python-geohash</li>
+</ul>
+</div>
+<div class="section" id="command-line-interface">
+<h3>Command Line Interface<a class="headerlink" href="#command-line-interface" title="Permalink to this headline">¶</a></h3>
+<p>For the command line interface, the following are also required:</p>
+<ul class="simple">
+<li>click</li>
+<li>click-plugins</li>
+<li>cligj (&gt;=0.5)</li>
+</ul>
+</div>
+<div class="section" id="tests">
+<h3>Tests<a class="headerlink" href="#tests" title="Permalink to this headline">¶</a></h3>
+<p>We use pytest to run the tests in this package, and require:</p>
+<ul class="simple">
+<li>pytest</li>
+<li>pytest-cov</li>
+<li>pytest-lazy-fixture</li>
+<li>coverage</li>
+</ul>
+</div>
+<div class="section" id="documentation">
+<h3>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h3>
+<p>Documentation is built using Sphinx and requires:</p>
+<ul class="simple">
+<li>sphinx</li>
+<li>sphinx_rtd_theme</li>
+<li>sphinxcontrib-bibtex</li>
+</ul>
+</div>
+</div>
+<div class="section" id="instructions">
+<h2>Instructions<a class="headerlink" href="#instructions" title="Permalink to this headline">¶</a></h2>
+<p>stems is a pure Python package, but it sits on top of a pile of dependencies
+that may be difficult to install. The easiest way to install all of these
+dependencies is using the <a class="reference external" href="http://conda.io">conda</a> tool.</p>
+<p>With <a class="reference external" href="http://conda.io">conda</a> installed and ready to use, you can install all the required
+dependencies for this library using one of the “environment” files located in
+the <code class="docutils literal notranslate"><span class="pre">ci/</span></code> directory (we use these for our continuous integration tests):</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> conda create -n stems -f ci/requirements-py37.yml
 </pre></div>
 </div>
-<p>This is the preferred method to install stems, as it will always install the most recent stable release.</p>
-<p>If you don’t have <a class="reference external" href="https://pip.pypa.io">pip</a> installed, this <a class="reference external" href="http://docs.python-guide.org/en/latest/starting/installation/">Python installation guide</a> can guide
-you through the process.</p>
+<p>With the conda environment created, you can activate it as follows:</p>
+<p>You should now be ready to install stems.</p>
+<div class="section" id="stable-release">
+<h3>Stable Release<a class="headerlink" href="#stable-release" title="Permalink to this headline">¶</a></h3>
+<p>There are no stable releases of stems yet on PyPI.</p>
 </div>
 <div class="section" id="from-sources">
-<h2>From sources<a class="headerlink" href="#from-sources" title="Permalink to this headline">¶</a></h2>
-<p>The sources for stems can be downloaded from the <a class="reference external" href="https://github.com/ceholden/stems">Github repo</a>.</p>
+<h3>From Sources<a class="headerlink" href="#from-sources" title="Permalink to this headline">¶</a></h3>
+<p>The sources for stems can be downloaded from the <a class="reference external" href="https://github.com/ceholden/stems">Github repo</a>. You can
+either download the source from Github and install it using <code class="docutils literal notranslate"><span class="pre">pip</span></code>, or use
+<code class="docutils literal notranslate"><span class="pre">pip</span></code> to install the source from Github directly.</p>
 <p>You can either clone the public repository:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> git clone git://github.com/ceholden/stems
 </pre></div>
 </div>
-<p>Or download the <a class="reference external" href="https://github.com/ceholden/stems/tarball/master">tarball</a>:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> curl  -OL https://github.com/ceholden/stems/tarball/master
+<p>Once you have a copy of the source, you can install it with:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> pip install -e .
 </pre></div>
 </div>
-<p>Once you have a copy of the source, you can install it with:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> python setup.py install
+<p>The flag, <code class="docutils literal notranslate"><span class="pre">-e</span></code>, is recommended to tell <code class="docutils literal notranslate"><span class="pre">pip</span></code> to make the installation
+“editable”, meaning that changes you make to the files in the repository
+will be reflected when you import the Python package. Otherwise you would
+have to re-install the package with <code class="docutils literal notranslate"><span class="pre">pip</span></code> for changes to affect the installed
+package.</p>
+<p>Alternatively, you can use <code class="docutils literal notranslate"><span class="pre">pip</span></code> to install it in one step,</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> pip install git+ssh://git@github.com/ceholden/stems.git
 </pre></div>
+</div>
 </div>
 </div>
 </div>
