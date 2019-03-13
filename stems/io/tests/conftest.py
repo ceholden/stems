@@ -19,3 +19,10 @@ def image_11w7h4b(tmpdir):
 @pytest.fixture()
 def image_11w7h4b_chopped(tmpdir, image_11w7h4b):
     return build_data.chop_test_image(tmpdir, image_11w7h4b)
+
+
+@pytest.fixture
+def dataset_11w7h100t4v(tmpdir):
+    dst = str(tmpdir.join('dataset_11w7h100t4v.nc'))
+    dst_ = build_data.create_test_netcdf4(dst)
+    return dst_
