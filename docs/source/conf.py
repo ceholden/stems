@@ -40,7 +40,32 @@ import stems
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.viewcode']
+extensions = [
+    'sphinx.ext.autodoc',
+    'sphinx.ext.autosummary',
+    'sphinx.ext.intersphinx',
+    'sphinx.ext.mathjax',
+    'sphinx.ext.napoleon',
+    'sphinx.ext.todo',
+    'sphinx.ext.viewcode',
+]
+
+# Mapping to other project docs so we can link to classes, functions, etc
+_py_version = f'{sys.version_info.major}.{sys.version_info.minor}'
+intersphinx_mapping = {
+    'python': (f'https://docs.python.org/{_py_version}/', None),
+    'numpy': ('http://docs.scipy.org/doc/numpy/', None),
+    'np': ('http://docs.scipy.org/doc/numpy/', None),
+    'pandas': ('http://pandas.pydata.org/pandas-docs/stable/', None),
+    'pd': ('http://pandas.pydata.org/pandas-docs/stable/', None),
+    'xarray': ('http://xarray.pydata.org/en/stable/', None),
+    'xr': ('http://xarray.pydata.org/en/stable/', None),
+    'dask': ('http://docs.dask.org/en/latest/', None),
+    'fiona': ('https://fiona.readthedocs.io/en/latest/', None),
+    'rasterio': ('https://rasterio.readthedocs.io/en/latest/', None),
+    'shapely': ('https://shapely.readthedocs.io/en/latest/', None),
+    'sklearn': ('http://scikit-learn.org/stable', None),
+}
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

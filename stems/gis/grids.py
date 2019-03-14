@@ -1,4 +1,14 @@
-""" Predefined tile specifications and utilities for working with tile systems
+""" Create and work with geospatial data tiling schemes
+
+A tile scheme defines the grid which many products are based on. Tiling
+schemes define a projection, usually a projection applicable over a wide
+area, the size (in pixels) of each tile, and georeferencing information
+that defines the upper left coordinate and pixel sizes (thus defining the
+posting of each pixel). Tiles are defined by the tile grid coordinate
+(horizontal & vertical indices) that determines the number of tiles
+offset from the upper left coordinate of the tiling scheme, such that
+one can retrieve the real-world coordinate of a pixel if the tile
+grid index and pixel row/column within the tile is known.
 """
 import collections
 import inspect
