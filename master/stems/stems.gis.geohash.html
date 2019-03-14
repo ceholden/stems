@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.geohash module &mdash; stems 0+untagged.50.gb0c2af1 documentation</title>
+  <title>stems.gis.geohash module &mdash; stems 0+untagged.50.g63f59df documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.gb0c2af1
+                0+untagged.50.g63f59df
               </div>
             
           
@@ -82,10 +82,22 @@
               
             
             
-              <ul>
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../history.html#change-log">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequenty Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../gis.html">Geographic Information Systems (GIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gis_grids.html">Tile Grid Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel.html">Parallel Computing Helpers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
 </ul>
 
             
@@ -164,8 +176,7 @@ By adding letters to the hash, the quandrants get increasingly small to the
 point where they are useful as global, unique identifiers for pixel coordinates
 (assuming you pick a precision that creates quadrant cells smaller than your
 image pixel size).</p>
-<div class="section" id="references">
-<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<p class="rubric">References</p>
 <table class="docutils footnote" frame="void" id="id1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
@@ -178,54 +189,59 @@ image pixel size).</p>
 <tr><td class="label">[2]</td><td><a class="reference external" href="https://www.movable-type.co.uk/scripts/geohash.html">https://www.movable-type.co.uk/scripts/geohash.html</a></td></tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="todo">
-<h2>TODO<a class="headerlink" href="#todo" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>Implement geohash within this submodule to cut dependencies</li>
-<li>Make faster using Numba (look for 0.43 to deal with dict / str)</li>
-</ul>
 <dl class="function">
 <dt id="stems.gis.geohash.geohash_decode">
 <code class="descclassname">stems.gis.geohash.</code><code class="descname">geohash_decode</code><span class="sig-paren">(</span><em>geohashes</em>, <em>crs=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/geohash.html#geohash_decode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.geohash.geohash_decode" title="Permalink to this definition">¶</a></dt>
 <dd><p>Encode Y/X coordinates into a geohash, reprojecting as needed</p>
-<dl class="docutils">
-<dt>np.ndarry</dt>
-<dd>The geohashes for all Y/X</dd>
-<dt>crs <span class="classifier-delimiter">:</span> <span class="classifier">rasterio.crs.CRS, optional</span></dt>
-<dd>Reproject Y/X latitude/longitude values for each geohash into this CRS
-before returning (to help with end-to-end encode/decode)</dd>
-</dl>
-<dl class="docutils">
-<dt>y <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
-<dd>Y coordinates</dd>
-<dt>x <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
-<dd>X coordinates</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>np.ndarry</strong> – The geohashes for all Y/X</li>
+<li><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.21)"><em>rasterio.crs.CRS</em></a><em>, </em><em>optional</em>) – Reproject Y/X latitude/longitude values for each geohash into this CRS
+before returning (to help with end-to-end encode/decode)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
+<li><strong>y</strong> (<em>np.ndarray</em>) – Y coordinates</li>
+<li><strong>x</strong> (<em>np.ndarray</em>) – X coordinates</li>
+</ul>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="stems.gis.geohash.geohash_encode">
 <code class="descclassname">stems.gis.geohash.</code><code class="descname">geohash_encode</code><span class="sig-paren">(</span><em>y</em>, <em>x</em>, <em>crs=None</em>, <em>precision=12</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/geohash.html#geohash_encode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.geohash.geohash_encode" title="Permalink to this definition">¶</a></dt>
 <dd><p>Encode Y/X coordinates into a geohash, reprojecting as needed</p>
-<dl class="docutils">
-<dt>y <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
-<dd>Y coordinates</dd>
-<dt>x <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
-<dd>X coordinates</dd>
-<dt>crs <span class="classifier-delimiter">:</span> <span class="classifier">rasterio.crs.CRS, optional</span></dt>
-<dd>If Y/X aren’t in latitude/longitude (EPSG:4326), then provide their
-coordinate reference system</dd>
-<dt>precision <span class="classifier-delimiter">:</span> <span class="classifier">int, optional</span></dt>
-<dd>Characters of precision for the geohash</dd>
-</dl>
-<dl class="docutils">
-<dt>np.ndarry</dt>
-<dd>The geohashes for all Y/X (dtype=``np.dtype((‘U’, precision))``)</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>y</strong> (<em>np.ndarray</em>) – Y coordinates</li>
+<li><strong>x</strong> (<em>np.ndarray</em>) – X coordinates</li>
+<li><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.21)"><em>rasterio.crs.CRS</em></a><em>, </em><em>optional</em>) – If Y/X aren’t in latitude/longitude (EPSG:4326), then provide their
+coordinate reference system</li>
+<li><strong>precision</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – Characters of precision for the geohash</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The geohashes for all Y/X (dtype=``np.dtype((‘U’, precision))``)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">np.ndarry</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
-</div>
 </div>
 
 

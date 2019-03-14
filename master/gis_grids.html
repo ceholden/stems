@@ -1,0 +1,403 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Tile Grid Systems &mdash; stems 0+untagged.50.g63f59df documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Parallel Computing Helpers" href="parallel.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> stems
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0+untagged.50.g63f59df
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequenty Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="gis.html">Geographic Information Systems (GIS)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tile Grid Systems</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#tilegrid">TileGrid</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#attributes">Attributes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#geometry-tools">Geometry Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#export">Export</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dictionary-interface">Dictionary Interface</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#tile">Tile</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="parallel.html">Parallel Computing Helpers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">stems</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Tile Grid Systems</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/ceholden/stems/blob/master/docs/source/gis_grids.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="tile-grid-systems">
+<span id="gis-grids"></span><h1>Tile Grid Systems<a class="headerlink" href="#tile-grid-systems" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="tilegrid">
+<h2>TileGrid<a class="headerlink" href="#tilegrid" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.TileGrid" title="stems.gis.grids.TileGrid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TileGrid</span></code></a>(ul,&nbsp;crs,&nbsp;res,&nbsp;size[,&nbsp;limits,&nbsp;name])</td>
+<td>A tile grid specification for gridding data</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.load_grids" title="stems.gis.grids.load_grids"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_grids</span></code></a>([filename])</td>
+<td>Retrieve tile grid specifications from a YAML file</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.TileGrid.ul" title="stems.gis.grids.TileGrid.ul"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TileGrid.ul</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.TileGrid.crs" title="stems.gis.grids.TileGrid.crs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TileGrid.crs</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.TileGrid.res" title="stems.gis.grids.TileGrid.res"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TileGrid.res</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.TileGrid.size" title="stems.gis.grids.TileGrid.size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TileGrid.size</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.TileGrid.limits" title="stems.gis.grids.TileGrid.limits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TileGrid.limits</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.TileGrid.name" title="stems.gis.grids.TileGrid.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TileGrid.name</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.TileGrid.rows" title="stems.gis.grids.TileGrid.rows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TileGrid.rows</span></code></a></td>
+<td>the vertical/row numbers for all tiles</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.TileGrid.cols" title="stems.gis.grids.TileGrid.cols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TileGrid.cols</span></code></a></td>
+<td>the horizontal/column numbers for all tiles</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.TileGrid.nrow" title="stems.gis.grids.TileGrid.nrow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TileGrid.nrow</span></code></a></td>
+<td>the number of rows in the TileGrid</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.TileGrid.ncol" title="stems.gis.grids.TileGrid.ncol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TileGrid.ncol</span></code></a></td>
+<td>the number of columns in the TileGrid</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.TileGrid.transform" title="stems.gis.grids.TileGrid.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TileGrid.transform</span></code></a></td>
+<td>the affine transform for this TileGrid</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="geometry-tools">
+<h3>Geometry Tools<a class="headerlink" href="#geometry-tools" title="Permalink to this headline">¶</a></h3>
+<p>Methods for finding <a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.Tile" title="stems.gis.grids.Tile"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tile</span></code></a>s that intersect with your geospatial data.</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.TileGrid.point_to_tile" title="stems.gis.grids.TileGrid.point_to_tile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TileGrid.point_to_tile</span></code></a>(point)</td>
+<td>Return a Tile containing a given point (x, y)</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.TileGrid.bounds_to_tiles" title="stems.gis.grids.TileGrid.bounds_to_tiles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TileGrid.bounds_to_tiles</span></code></a>(bounds)</td>
+<td>Yield Tile objects for this grid within a given bounds</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.TileGrid.roi_to_tiles" title="stems.gis.grids.TileGrid.roi_to_tiles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TileGrid.roi_to_tiles</span></code></a>(roi)</td>
+<td>Yield tiles within a Region of Interest (ROI) <code class="docutils literal notranslate"><span class="pre">shapely</span></code> geometry</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="export">
+<h3>Export<a class="headerlink" href="#export" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.TileGrid.to_dict" title="stems.gis.grids.TileGrid.to_dict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TileGrid.to_dict</span></code></a>()</td>
+<td>Return this TileGrid as a dictionary (e.g., to serialize)</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.TileGrid.from_dict" title="stems.gis.grids.TileGrid.from_dict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TileGrid.from_dict</span></code></a>(d)</td>
+<td>Return a <code class="docutils literal notranslate"><span class="pre">TileGrid</span></code> from a dictionary</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.TileGrid.geojson" title="stems.gis.grids.TileGrid.geojson"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TileGrid.geojson</span></code></a>([crs,&nbsp;rows,&nbsp;cols,&nbsp;rfc7946,&nbsp;…])</td>
+<td>Returns this grid of tiles as GeoJSON</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="dictionary-interface">
+<h3>Dictionary Interface<a class="headerlink" href="#dictionary-interface" title="Permalink to this headline">¶</a></h3>
+<p>You can grab <a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.Tile" title="stems.gis.grids.Tile"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tile</span></code></a> from the <a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.TileGrid" title="stems.gis.grids.TileGrid"><code class="xref py py-class docutils literal notranslate"><span class="pre">TileGrid</span></code></a> by
+indexing the row and column (or vertical, horizontal) as you would a <code class="docutils literal notranslate"><span class="pre">dict</span></code>.</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">TileGrid.__getitem__</span></code>(index)</td>
+<td>Return a Tile for the grid row/column specified by index</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">TileGrid.__len__</span></code>()</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">TileGrid.__iter__</span></code>()</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="tile">
+<h2>Tile<a class="headerlink" href="#tile" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.index</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.crs</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.bounds</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.res</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.size</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.Tile.vertical" title="stems.gis.grids.Tile.vertical"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.vertical</span></code></a></td>
+<td>The horizontal index of this tile in its tile specification</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.Tile.horizontal" title="stems.gis.grids.Tile.horizontal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.horizontal</span></code></a></td>
+<td>The horizontal index of this tile in its tile specification</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.Tile.transform" title="stems.gis.grids.Tile.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.transform</span></code></a></td>
+<td>The <code class="docutils literal notranslate"><span class="pre">Affine</span></code> transform for the tile</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.Tile.bbox" title="stems.gis.grids.Tile.bbox"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.bbox</span></code></a></td>
+<td>This tile’s bounding box geometry</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.Tile.width" title="stems.gis.grids.Tile.width"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.width</span></code></a></td>
+<td>The number of columns in this Tile</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.Tile.height" title="stems.gis.grids.Tile.height"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.height</span></code></a></td>
+<td>The number of columns in this Tile</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.Tile.coords" title="stems.gis.grids.Tile.coords"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.coords</span></code></a>([center])</td>
+<td>Return y/x pixel coordinates</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.Tile.geojson" title="stems.gis.grids.Tile.geojson"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.geojson</span></code></a>([crs])</td>
+<td>Return this Tile’s geomtry as GeoJSON</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="parallel.html" class="btn btn-neutral float-right" title="Parallel Computing Helpers" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

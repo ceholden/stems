@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.conventions module &mdash; stems 0+untagged.50.gb0c2af1 documentation</title>
+  <title>stems.gis.conventions module &mdash; stems 0+untagged.50.g63f59df documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.gb0c2af1
+                0+untagged.50.g63f59df
               </div>
             
           
@@ -82,10 +82,22 @@
               
             
             
-              <ul>
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../history.html#change-log">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequenty Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../gis.html">Geographic Information Systems (GIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gis_grids.html">Tile Grid Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel.html">Parallel Computing Helpers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
 </ul>
 
             
@@ -161,20 +173,27 @@ coordinating naming, grid mapping variables, etc)</p>
 <dt id="stems.gis.conventions.create_coordinates">
 <code class="descclassname">stems.gis.conventions.</code><code class="descname">create_coordinates</code><span class="sig-paren">(</span><em>y</em>, <em>x</em>, <em>crs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/conventions.html#create_coordinates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.conventions.create_coordinates" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return <code class="docutils literal notranslate"><span class="pre">y</span></code> and <code class="docutils literal notranslate"><span class="pre">x</span></code> as coordinates variables given the <code class="docutils literal notranslate"><span class="pre">crs</span></code></p>
-<dl class="docutils">
-<dt>y <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
-<dd>Y coordinate</dd>
-<dt>x <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
-<dd>X coordinate</dd>
-<dt>crs <span class="classifier-delimiter">:</span> <span class="classifier">rasterio.crs.CRS</span></dt>
-<dd>Coordinate reference system of <code class="docutils literal notranslate"><span class="pre">y</span></code> and <code class="docutils literal notranslate"><span class="pre">x</span></code></dd>
-</dl>
-<dl class="docutils">
-<dt>xr.Variable <span class="classifier-delimiter">:</span> <span class="classifier">y_coord</span></dt>
-<dd>X coordinate</dd>
-<dt>xr.Variable <span class="classifier-delimiter">:</span> <span class="classifier">x_coord</span></dt>
-<dd>Y coordinate</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>y</strong> (<em>np.ndarray</em>) – Y coordinate</li>
+<li><strong>x</strong> (<em>np.ndarray</em>) – X coordinate</li>
+<li><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.21)"><em>rasterio.crs.CRS</em></a>) – Coordinate reference system of <code class="docutils literal notranslate"><span class="pre">y</span></code> and <code class="docutils literal notranslate"><span class="pre">x</span></code></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
+<li><strong>xr.Variable</strong> (<em>y_coord</em>) – X coordinate</li>
+<li><strong>xr.Variable</strong> (<em>x_coord</em>) – Y coordinate</li>
+</ul>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
 <table class="docutils footnote" frame="void" id="id1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
@@ -186,19 +205,26 @@ coordinating naming, grid mapping variables, etc)</p>
 <dl class="function">
 <dt id="stems.gis.conventions.create_grid_mapping">
 <code class="descclassname">stems.gis.conventions.</code><code class="descname">create_grid_mapping</code><span class="sig-paren">(</span><em>crs</em>, <em>transform</em>, <em>grid_mapping='crs'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/conventions.html#create_grid_mapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.conventions.create_grid_mapping" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return an <code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code> of CF-compliant CRS info</p>
-<dl class="docutils">
-<dt>crs <span class="classifier-delimiter">:</span> <span class="classifier">rasterio.crs.CRS</span></dt>
-<dd>Coordinate reference system information</dd>
-<dt>transform <span class="classifier-delimiter">:</span> <span class="classifier">affine.Affine</span></dt>
-<dd>Affine transform</dd>
-<dt>grid_mapping <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
-<dd>Name of grid mapping variable. Defaults to ‘crs’</dd>
-</dl>
-<dl class="docutils">
-<dt>xarray.DataArray</dt>
-<dd>“crs” variable holding CRS information</dd>
-</dl>
+<dd><p>Return an <a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.11.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a> of CF-compliant CRS info</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.21)"><em>rasterio.crs.CRS</em></a>) – Coordinate reference system information</li>
+<li><strong>transform</strong> (<em>affine.Affine</em>) – Affine transform</li>
+<li><strong>grid_mapping</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) – Name of grid mapping variable. Defaults to ‘crs’</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">“crs” variable holding CRS information</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.11.3)">xarray.DataArray</a></p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>

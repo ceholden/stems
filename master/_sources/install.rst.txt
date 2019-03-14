@@ -83,6 +83,7 @@ the ``ci/`` directory (we use these for our continuous integration tests):
 With the conda environment created, you can activate it as follows:
 
 .. code-block:: console
+
    $ conda activate stems
 
 You should now be ready to install stems.

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.io.chunk module &mdash; stems 0+untagged.50.gb0c2af1 documentation</title>
+  <title>stems.io.chunk module &mdash; stems 0+untagged.50.g63f59df documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.gb0c2af1
+                0+untagged.50.g63f59df
               </div>
             
           
@@ -82,10 +82,22 @@
               
             
             
-              <ul>
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../history.html#change-log">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequenty Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../gis.html">Geographic Information Systems (GIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gis_grids.html">Tile Grid Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel.html">Parallel Computing Helpers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
 </ul>
 
             
@@ -162,9 +174,9 @@
 <blockquote>
 <div><ul class="simple">
 <li>e.g., <code class="docutils literal notranslate"><span class="pre">{'time':</span> <span class="pre">(3,</span> <span class="pre">3,</span> <span class="pre">3,</span> <span class="pre">1,</span> <span class="pre">)}</span></code></li>
-<li>For <code class="xref py py-class docutils literal notranslate"><span class="pre">dask.array.Array</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code>,
+<li>For <a class="reference external" href="http://docs.dask.org/en/latest/array-api.html#dask.array.Array" title="(in Dask v1.1.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dask.array.Array</span></code></a> and <a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.11.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>,
 <code class="docutils literal notranslate"><span class="pre">.chunks</span></code> is a tuple</li>
-<li><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code> <code class="docutils literal notranslate"><span class="pre">.chunks</span></code> is a mapping</li>
+<li><a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v0.11.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a> <code class="docutils literal notranslate"><span class="pre">.chunks</span></code> is a mapping</li>
 </ul>
 </div></blockquote>
 <p>“Chunksizes” refers to a scalar size (an integer) organized by dimension</p>
@@ -178,34 +190,47 @@
 <dt id="stems.io.chunk.auto_determine_chunks">
 <code class="descclassname">stems.io.chunk.</code><code class="descname">auto_determine_chunks</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/chunk.html#auto_determine_chunks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.chunk.auto_determine_chunks" title="Permalink to this definition">¶</a></dt>
 <dd><p>Try to guess the best chunksizes for a filename</p>
-<dl class="docutils">
-<dt>filename <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd>File to read</dd>
-</dl>
-<dl class="docutils">
-<dt>dict</dt>
-<dd>Best guess for chunksizes to use for each dimension</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – File to read</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Best guess for chunksizes to use for each dimension</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="stems.io.chunk.best_chunksizes">
 <code class="descclassname">stems.io.chunk.</code><code class="descname">best_chunksizes</code><span class="sig-paren">(</span><em>chunks</em>, <em>tiebreaker=&lt;built-in function max&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/chunk.html#best_chunksizes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.chunk.best_chunksizes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decide which chunksize to use for each dimension from variables</p>
-<dl class="docutils">
-<dt>chunks <span class="classifier-delimiter">:</span> <span class="classifier">Mapping[str, Mapping[str, int]]</span></dt>
-<dd>Mapping of variable names to variable chunksizes</dd>
-<dt>tiebreaker <span class="classifier-delimiter">:</span> <span class="classifier">callable, optional</span></dt>
-<dd>Controls what chunksize should be used for a dimension in the event
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>chunks</strong> (<em>Mapping</em><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>Mapping</em><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>]</em><em>]</em>) – Mapping of variable names to variable chunksizes</li>
+<li><strong>tiebreaker</strong> (<em>callable</em><em>, </em><em>optional</em>) – Controls what chunksize should be used for a dimension in the event
 of a tie. For example, if 3 variables had a chunksize of 250 and
 another 3 had a chunksize of 500, the guess is determined by
 <code class="docutils literal notranslate"><span class="pre">callable([250,</span> <span class="pre">500])</span></code>. By default, prefer the larger chunksize
-(i.e., <code class="xref py py-func docutils literal notranslate"><span class="pre">max()</span></code>)</dd>
-</dl>
-<dl class="docutils">
-<dt>dict</dt>
-<dd>Chunksize per dimension</dd>
-</dl>
+(i.e., <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#max" title="(in Python v3.6)"><code class="xref py py-func docutils literal notranslate"><span class="pre">max()</span></code></a>)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Chunksize per dimension</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">chunks</span> <span class="o">=</span> <span class="p">{</span>
 <span class="gp">... </span><span class="s1">&#39;blu&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">},</span>
 <span class="gp">... </span><span class="s1">&#39;grn&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">},</span>
@@ -222,89 +247,118 @@ another 3 had a chunksize of 500, the guess is determined by
 <dt id="stems.io.chunk.chunks_to_chunksizes">
 <code class="descclassname">stems.io.chunk.</code><code class="descname">chunks_to_chunksizes</code><span class="sig-paren">(</span><em>data</em>, <em>dims=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/chunk.html#chunks_to_chunksizes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.chunk.chunks_to_chunksizes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert an object to chunksizes (i.e., used in encoding)</p>
-<dl class="docutils">
-<dt>data <span class="classifier-delimiter">:</span> <span class="classifier">xarray.DataArray, dict, or xarray.Dataset</span></dt>
-<dd>Input data containing chunk information</dd>
-<dt>dims <span class="classifier-delimiter">:</span> <span class="classifier">Sequence[str], optional</span></dt>
-<dd>Optionally, provide the order in which dimension chunksizes
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>data</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.11.3)"><em>xarray.DataArray</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a><em>, or </em><a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v0.11.3)"><em>xarray.Dataset</em></a>) – Input data containing chunk information</li>
+<li><strong>dims</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>]</em><em>, </em><em>optional</em>) – Optionally, provide the order in which dimension chunksizes
 should be returned. Useful when asking for chunksizes from
-not-necessarily-ordered data (dicts and Datasets)</dd>
-</dl>
-<dl class="docutils">
-<dt>tuple</dt>
-<dd>Chunk sizes for each dimension. Returns an empty tuple if there
-are no chunks.</dd>
-</dl>
+not-necessarily-ordered data (dicts and Datasets)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Chunk sizes for each dimension. Returns an empty tuple if there
+are no chunks.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a></p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="stems.io.chunk.get_chunksizes">
 <code class="descclassname">stems.io.chunk.</code><code class="descname">get_chunksizes</code><span class="sig-paren">(</span><em>xarr</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/chunk.html#get_chunksizes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.chunk.get_chunksizes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the chunk sizes used for each dimension in <cite>xarr</cite></p>
-<dl class="docutils">
-<dt>xarr <span class="classifier-delimiter">:</span> <span class="classifier">xr.DataArray or xr.Dataset</span></dt>
-<dd>Chunked data</dd>
-</dl>
-<dl class="docutils">
-<dt>dict</dt>
-<dd>Dimensions (keys) and chunk sizes (values)</dd>
-</dl>
-<dl class="docutils">
-<dt>TypeError</dt>
-<dd>Raised if input is not a Dataset or DataArray</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>xarr</strong> (<em>xr.DataArray</em><em> or </em><em>xr.Dataset</em>) – Chunked data</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Dimensions (keys) and chunk sizes (values)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/exceptions.html#TypeError" title="(in Python v3.6)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a> – Raised if input is not a Dataset or DataArray</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="stems.io.chunk.read_chunks">
 <code class="descclassname">stems.io.chunk.</code><code class="descname">read_chunks</code><span class="sig-paren">(</span><em>filename</em>, <em>variables=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/chunk.html#read_chunks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.chunk.read_chunks" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return chunks associated with each variable if possible</p>
-<dl class="docutils">
-<dt>filename <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd>Read chunks from this file</dd>
-<dt>variables <span class="classifier-delimiter">:</span> <span class="classifier">Sequence</span></dt>
-<dd>Subset of variables to retrieve <code class="docutils literal notranslate"><span class="pre">chunking</span></code> for</dd>
-</dl>
-<dl class="docutils">
-<dt>Mapping[str, Mapping[str, int]]</dt>
-<dd>Mapping of variable names to chunks. Chunks are stored
-mapping dimension name to chunksize (e.g., <code class="docutils literal notranslate"><span class="pre">{'x':</span> <span class="pre">250}</span></code>)</dd>
-</dl>
-<dl class="docutils">
-<dt>ValueError</dt>
-<dd>Raised if no chunks can be determined (unknown file format, etc.)</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Read chunks from this file</li>
+<li><strong>variables</strong> (<em>Sequence</em>) – Subset of variables to retrieve <code class="docutils literal notranslate"><span class="pre">chunking</span></code> for</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Mapping of variable names to chunks. Chunks are stored
+mapping dimension name to chunksize (e.g., <code class="docutils literal notranslate"><span class="pre">{'x':</span> <span class="pre">250}</span></code>)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">Mapping[<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)">str</a>, Mapping[<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)">str</a>, <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a>]]</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3.6/library/exceptions.html#ValueError" title="(in Python v3.6)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> – Raised if no chunks can be determined (unknown file format, etc.)</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="stems.io.chunk.read_chunks_netcdf4">
 <code class="descclassname">stems.io.chunk.</code><code class="descname">read_chunks_netcdf4</code><span class="sig-paren">(</span><em>filename</em>, <em>variables=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/chunk.html#read_chunks_netcdf4"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.chunk.read_chunks_netcdf4" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return chunks associated with each variable</p>
-<dl class="docutils">
-<dt>filename <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd>Filename of NetCDF file</dd>
-<dt>variables <span class="classifier-delimiter">:</span> <span class="classifier">Sequence</span></dt>
-<dd>Subset of variables to retrieve <cite>chunking</cite> for</dd>
-</dl>
-<dl class="docutils">
-<dt>Mapping[str, Mapping[str, int]]</dt>
-<dd>Mapping of variable names to chunks. Chunks are stored
-mapping dimension name to chunksize (e.g., <code class="docutils literal notranslate"><span class="pre">{'x':</span> <span class="pre">250}</span></code>)</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Filename of NetCDF file</li>
+<li><strong>variables</strong> (<em>Sequence</em>) – Subset of variables to retrieve <cite>chunking</cite> for</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Mapping of variable names to chunks. Chunks are stored
+mapping dimension name to chunksize (e.g., <code class="docutils literal notranslate"><span class="pre">{'x':</span> <span class="pre">250}</span></code>)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">Mapping[<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)">str</a>, Mapping[<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)">str</a>, <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a>]]</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="stems.io.chunk.read_chunks_rasterio">
 <code class="descclassname">stems.io.chunk.</code><code class="descname">read_chunks_rasterio</code><span class="sig-paren">(</span><em>riods</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/chunk.html#read_chunks_rasterio"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.chunk.read_chunks_rasterio" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns chunks for rasterio dataset formatted for xarray</p>
-<dl class="docutils">
-<dt>riods <span class="classifier-delimiter">:</span> <span class="classifier">str, pathlib.Path, or rasterio.DatasetReader</span></dt>
-<dd>Rasterio dataset or path to dataset</dd>
-</dl>
-<dl class="docutils">
-<dt>dict</dt>
-<dd>Chunks as expected by xarray (e.g., <code class="docutils literal notranslate"><span class="pre">{'x':</span> <span class="pre">50,</span> <span class="pre">'y':</span> <span class="pre">50}</span></code>)</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>riods</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/pathlib.html#pathlib.Path" title="(in Python v3.6)"><em>pathlib.Path</em></a><em>, or </em><em>rasterio.DatasetReader</em>) – Rasterio dataset or path to dataset</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Chunks as expected by xarray (e.g., <code class="docutils literal notranslate"><span class="pre">{'x':</span> <span class="pre">50,</span> <span class="pre">'y':</span> <span class="pre">50}</span></code>)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>

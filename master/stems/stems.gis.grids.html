@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.grids module &mdash; stems 0+untagged.50.gb0c2af1 documentation</title>
+  <title>stems.gis.grids module &mdash; stems 0+untagged.50.g63f59df documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.gb0c2af1
+                0+untagged.50.g63f59df
               </div>
             
           
@@ -82,10 +82,22 @@
               
             
             
-              <ul>
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../history.html#change-log">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequenty Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../gis.html">Geographic Information Systems (GIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gis_grids.html">Tile Grid Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel.html">Parallel Computing Helpers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
 </ul>
 
             
@@ -154,46 +166,72 @@
             
   <div class="section" id="module-stems.gis.grids">
 <span id="stems-gis-grids-module"></span><h1>stems.gis.grids module<a class="headerlink" href="#module-stems.gis.grids" title="Permalink to this headline">¶</a></h1>
-<p>Predefined tile specifications and utilities for working with tile systems</p>
+<p>Create and work with geospatial data tiling schemes</p>
+<p>A tile scheme defines the grid which many products are based on. Tiling
+schemes define a projection, usually a projection applicable over a wide
+area, the size (in pixels) of each tile, and georeferencing information
+that defines the upper left coordinate and pixel sizes (thus defining the
+posting of each pixel). Tiles are defined by the tile grid coordinate
+(horizontal &amp; vertical indices) that determines the number of tiles
+offset from the upper left coordinate of the tiling scheme, such that
+one can retrieve the real-world coordinate of a pixel if the tile
+grid index and pixel row/column within the tile is known.</p>
 <dl class="class">
 <dt id="stems.gis.grids.Tile">
 <em class="property">class </em><code class="descclassname">stems.gis.grids.</code><code class="descname">Tile</code><span class="sig-paren">(</span><em>index</em>, <em>crs</em>, <em>bounds</em>, <em>res</em>, <em>size</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/grids.html#Tile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.grids.Tile" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>A Tile</p>
 <dl class="attribute">
 <dt id="stems.gis.grids.Tile.bbox">
 <code class="descname">bbox</code><a class="headerlink" href="#stems.gis.grids.Tile.bbox" title="Permalink to this definition">¶</a></dt>
-<dd><p>shapely.geometry.Polygon: This tile’s bounding box geometry</p>
+<dd><p>This tile’s bounding box geometry</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">shapely.geometry.Polygon</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="stems.gis.grids.Tile.coords">
 <code class="descname">coords</code><span class="sig-paren">(</span><em>center=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/grids.html#Tile.coords"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.grids.Tile.coords" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return y/x pixel coordinates</p>
-<dl class="docutils">
-<dt>center <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
-<dd>Return coordinates for pixel centers (default)</dd>
-</dl>
-<dl class="docutils">
-<dt>tuple[np.ndarray]</dt>
-<dd>Y/X coordinates</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>center</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Return coordinates for pixel centers (default)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Y/X coordinates</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a>[np.ndarray]</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="stems.gis.grids.Tile.geojson">
 <code class="descname">geojson</code><span class="sig-paren">(</span><em>crs='epsg:4326'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/grids.html#Tile.geojson"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.grids.Tile.geojson" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return this Tile’s geomtry as GeoJSON</p>
-<dl class="docutils">
-<dt>crs <span class="classifier-delimiter">:</span> <span class="classifier">rasterio.crs.CRS</span></dt>
-<dd>Coordinate reference system of output. Defaults to EPSG:4326 per
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.21)"><em>rasterio.crs.CRS</em></a>) – Coordinate reference system of output. Defaults to EPSG:4326 per
 GeoJSON standard (RFC7946). If <code class="docutils literal notranslate"><span class="pre">None</span></code>, will return
-geometries in Tile’s CRS</dd>
-</dl>
-<dl class="docutils">
-<dt>dict</dt>
-<dd>This tile’s geometry and crs represented as GeoJSON</dd>
-</dl>
+geometries in Tile’s CRS</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">This tile’s geometry and crs represented as GeoJSON</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
 <table class="docutils footnote" frame="void" id="id1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
@@ -205,31 +243,71 @@ geometries in Tile’s CRS</dd>
 <dl class="attribute">
 <dt id="stems.gis.grids.Tile.height">
 <code class="descname">height</code><a class="headerlink" href="#stems.gis.grids.Tile.height" title="Permalink to this definition">¶</a></dt>
-<dd><p>int : The number of columns in this Tile</p>
+<dd><p>The number of columns in this Tile</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="stems.gis.grids.Tile.horizontal">
 <code class="descname">horizontal</code><a class="headerlink" href="#stems.gis.grids.Tile.horizontal" title="Permalink to this definition">¶</a></dt>
-<dd><p>int: The horizontal index of this tile in its tile specification</p>
+<dd><p>The horizontal index of this tile in its tile specification</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="stems.gis.grids.Tile.transform">
 <code class="descname">transform</code><a class="headerlink" href="#stems.gis.grids.Tile.transform" title="Permalink to this definition">¶</a></dt>
-<dd><p>Affine: The <code class="docutils literal notranslate"><span class="pre">Affine</span></code> transform for the tile</p>
+<dd><p>The <code class="docutils literal notranslate"><span class="pre">Affine</span></code> transform for the tile</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Affine</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="stems.gis.grids.Tile.vertical">
 <code class="descname">vertical</code><a class="headerlink" href="#stems.gis.grids.Tile.vertical" title="Permalink to this definition">¶</a></dt>
-<dd><p>int: The horizontal index of this tile in its tile specification</p>
+<dd><p>The horizontal index of this tile in its tile specification</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="stems.gis.grids.Tile.width">
 <code class="descname">width</code><a class="headerlink" href="#stems.gis.grids.Tile.width" title="Permalink to this definition">¶</a></dt>
-<dd><p>int : The number of columns in this Tile</p>
+<dd><p>The number of columns in this Tile</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
@@ -237,24 +315,94 @@ geometries in Tile’s CRS</dd>
 <dl class="class">
 <dt id="stems.gis.grids.TileGrid">
 <em class="property">class </em><code class="descclassname">stems.gis.grids.</code><code class="descname">TileGrid</code><span class="sig-paren">(</span><em>ul</em>, <em>crs</em>, <em>res</em>, <em>size</em>, <em>limits=None</em>, <em>name='Grid'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/grids.html#TileGrid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.grids.TileGrid" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">collections.abc.Mapping</span></code></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/collections.abc.html#collections.abc.Mapping" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">collections.abc.Mapping</span></code></a></p>
 <p>A tile grid specification for gridding data</p>
-<dl class="docutils">
-<dt>ul <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Upper left X/Y coordinates</dd>
-<dt>crs <span class="classifier-delimiter">:</span> <span class="classifier">rasterio.crs.CRS</span></dt>
-<dd>Coordinate system information</dd>
-<dt>res <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Pixel X/Y resolution</dd>
-<dt>size <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Number of pixels in X/Y dimensions for each tile</dd>
-<dt>limits <span class="classifier-delimiter">:</span> <span class="classifier">tuple[tuple, tuple]</span></dt>
-<dd>Maximum and minimum rows (vertical) and columns (horizontal)
+<dl class="attribute">
+<dt id="stems.gis.grids.TileGrid.ul">
+<code class="descname">ul</code><a class="headerlink" href="#stems.gis.grids.TileGrid.ul" title="Permalink to this definition">¶</a></dt>
+<dd><p>Upper left X/Y coordinates</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="stems.gis.grids.TileGrid.crs">
+<code class="descname">crs</code><a class="headerlink" href="#stems.gis.grids.TileGrid.crs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Coordinate system information</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.21)">rasterio.crs.CRS</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="stems.gis.grids.TileGrid.res">
+<code class="descname">res</code><a class="headerlink" href="#stems.gis.grids.TileGrid.res" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pixel X/Y resolution</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="stems.gis.grids.TileGrid.size">
+<code class="descname">size</code><a class="headerlink" href="#stems.gis.grids.TileGrid.size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of pixels in X/Y dimensions for each tile</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="stems.gis.grids.TileGrid.limits">
+<code class="descname">limits</code><a class="headerlink" href="#stems.gis.grids.TileGrid.limits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maximum and minimum rows (vertical) and columns (horizontal)
 given as ((row_start, row_stop), (col_start, col_stop)). Used
-to limit access to Tiles beyond domain.</dd>
-<dt>name <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
-<dd>Name of this tiling scheme</dd>
-</dl>
+to limit access to Tiles beyond domain.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a>[<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a>, <a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a>]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="stems.gis.grids.TileGrid.name">
+<code class="descname">name</code><a class="headerlink" href="#stems.gis.grids.TileGrid.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Name of this tiling scheme</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)">str</a>, optional</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="method">
 <dt id="stems.gis.grids.TileGrid.bounds_to_tiles">
 <code class="descname">bounds_to_tiles</code><span class="sig-paren">(</span><em>bounds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/grids.html#TileGrid.bounds_to_tiles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.grids.TileGrid.bounds_to_tiles" title="Permalink to this definition">¶</a></dt>
@@ -264,125 +412,188 @@ to limit access to Tiles beyond domain.</dd>
 <p class="last">It is required that the input <code class="docutils literal notranslate"><span class="pre">bounds</span></code> be in the same
 coordinate reference system as <code class="docutils literal notranslate"><span class="pre">crs</span></code>.</p>
 </div>
-<dl class="docutils">
-<dt>bounds <span class="classifier-delimiter">:</span> <span class="classifier">BoundingBox</span></dt>
-<dd>Input bounds</dd>
-</dl>
-<dl class="docutils">
-<dt>tile <span class="classifier-delimiter">:</span> <span class="classifier">Tile</span></dt>
-<dd>Tiles that are within within provided bounds</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>bounds</strong> (<em>BoundingBox</em>) – Input bounds</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Yields:</th><td class="field-body"><strong>tile</strong> (<em>Tile</em>) – Tiles that are within within provided bounds</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="stems.gis.grids.TileGrid.cols">
 <code class="descname">cols</code><a class="headerlink" href="#stems.gis.grids.TileGrid.cols" title="Permalink to this definition">¶</a></dt>
-<dd><p>list[int]: the horizontal/column numbers for all tiles</p>
+<dd><p>the horizontal/column numbers for all tiles</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)">list</a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a>]</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="classmethod">
 <dt id="stems.gis.grids.TileGrid.from_dict">
 <em class="property">classmethod </em><code class="descname">from_dict</code><span class="sig-paren">(</span><em>d</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/grids.html#TileGrid.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.grids.TileGrid.from_dict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a <code class="docutils literal notranslate"><span class="pre">TileGrid</span></code> from a dictionary</p>
-<dl class="docutils">
-<dt>d <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
-<dd>Dictionary of class attributes (see __init__)</dd>
-</dl>
-<dl class="docutils">
-<dt>TileGrid</dt>
-<dd>A new TileGrid according to parameters in <code class="docutils literal notranslate"><span class="pre">d</span></code></dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>d</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – Dictionary of class attributes (see __init__)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A new TileGrid according to parameters in <code class="docutils literal notranslate"><span class="pre">d</span></code></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#stems.gis.grids.TileGrid" title="stems.gis.grids.TileGrid">TileGrid</a></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="stems.gis.grids.TileGrid.geojson">
 <code class="descname">geojson</code><span class="sig-paren">(</span><em>crs='epsg:4326'</em>, <em>rows=None</em>, <em>cols=None</em>, <em>rfc7946=False</em>, <em>skip_invalid=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/grids.html#TileGrid.geojson"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.grids.TileGrid.geojson" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns this grid of tiles as GeoJSON</p>
-<dl class="docutils">
-<dt>crs <span class="classifier-delimiter">:</span> <span class="classifier">rasterio.crs.CRS</span></dt>
-<dd>Coordinate reference system of output. Defaults to EPSG:4326 per
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.21)"><em>rasterio.crs.CRS</em></a>) – Coordinate reference system of output. Defaults to EPSG:4326 per
 GeoJSON standard (RFC7946). If <code class="docutils literal notranslate"><span class="pre">None</span></code>, will return
-geometries in TileGrid’s CRS</dd>
-<dt>rows <span class="classifier-delimiter">:</span> <span class="classifier">Sequence[int], optional</span></dt>
-<dd>If this TileGrid was not given <code class="docutils literal notranslate"><span class="pre">limits</span></code> or if you want a subset
-of the tiles, specify the rows to map</dd>
-<dt>cols <span class="classifier-delimiter">:</span> <span class="classifier">Sequence[int], optional</span></dt>
-<dd>If this TileGrid was not given <code class="docutils literal notranslate"><span class="pre">limits</span></code> or if you want a subset
-of the tiles, specify the rows to map</dd>
-<dt>rfc7946 <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
-<dd>Return GeoJSON compliant with RFC7946. Helps fix GeoJSON
+geometries in TileGrid’s CRS</li>
+<li><strong>rows</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>]</em><em>, </em><em>optional</em>) – If this TileGrid was not given <code class="docutils literal notranslate"><span class="pre">limits</span></code> or if you want a subset
+of the tiles, specify the rows to map</li>
+<li><strong>cols</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>]</em><em>, </em><em>optional</em>) – If this TileGrid was not given <code class="docutils literal notranslate"><span class="pre">limits</span></code> or if you want a subset
+of the tiles, specify the rows to map</li>
+<li><strong>rfc7946</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Return GeoJSON compliant with RFC7946. Helps fix GeoJSON
 that crosses the anti-meridian/datelines by splitting
-polygons into multiple as needed</dd>
-<dt>skip_invalid <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
-<dd>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, checks for tile bounds for invalid geometries and will
-only include valid tile geometries.</dd>
-</dl>
-<dl class="docutils">
-<dt>dict</dt>
-<dd>GeoJSON</dd>
-</dl>
+polygons into multiple as needed</li>
+<li><strong>skip_invalid</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, checks for tile bounds for invalid geometries and will
+only include valid tile geometries.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">GeoJSON</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="stems.gis.grids.TileGrid.ncol">
 <code class="descname">ncol</code><a class="headerlink" href="#stems.gis.grids.TileGrid.ncol" title="Permalink to this definition">¶</a></dt>
-<dd><p>int: the number of columns in the TileGrid</p>
+<dd><p>the number of columns in the TileGrid</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="stems.gis.grids.TileGrid.nrow">
 <code class="descname">nrow</code><a class="headerlink" href="#stems.gis.grids.TileGrid.nrow" title="Permalink to this definition">¶</a></dt>
-<dd><p>int: the number of rows in the TileGrid</p>
+<dd><p>the number of rows in the TileGrid</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="stems.gis.grids.TileGrid.point_to_tile">
 <code class="descname">point_to_tile</code><span class="sig-paren">(</span><em>point</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/grids.html#TileGrid.point_to_tile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.grids.TileGrid.point_to_tile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a Tile containing a given point (x, y)</p>
-<dl class="docutils">
-<dt>point <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>X/Y coordinates in tile specification’s CRS</dd>
-</dl>
-<dl class="docutils">
-<dt>tile <span class="classifier-delimiter">:</span> <span class="classifier">stems.gis.grids.Tile</span></dt>
-<dd>The intersecting :class`Tile`</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>point</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a>) – X/Y coordinates in tile specification’s CRS</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>tile</strong> – The intersecting :class`Tile`</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#stems.gis.grids.Tile" title="stems.gis.grids.Tile">stems.gis.grids.Tile</a></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="stems.gis.grids.TileGrid.roi_to_tiles">
 <code class="descname">roi_to_tiles</code><span class="sig-paren">(</span><em>roi</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/grids.html#TileGrid.roi_to_tiles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.grids.TileGrid.roi_to_tiles" title="Permalink to this definition">¶</a></dt>
 <dd><p>Yield tiles within a Region of Interest (ROI) <code class="docutils literal notranslate"><span class="pre">shapely</span></code> geometry</p>
-<dl class="docutils">
-<dt>roi <span class="classifier-delimiter">:</span> <span class="classifier">Polygon, MultiPolygon, etc.</span></dt>
-<dd>A shapely geometry in the tile specifications’ crs</dd>
-</dl>
-<dl class="docutils">
-<dt>iterable[Tile]</dt>
-<dd>Yields <a href="#id2"><span class="problematic" id="id3">``</span></a>Tile``s within provided Region of Interest</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>roi</strong> (<a class="reference external" href="https://shapely.readthedocs.io/en/latest/manual.html#Polygon" title="(in Shapely v1.7a1)"><em>Polygon</em></a><em>, </em><a class="reference external" href="https://shapely.readthedocs.io/en/latest/manual.html#MultiPolygon" title="(in Shapely v1.7a1)"><em>MultiPolygon</em></a><em>, </em><em>etc.</em>) – A shapely geometry in the tile specifications’ crs</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Yields:</th><td class="field-body"><em>iterable[Tile]</em> – Yields <a href="#id2"><span class="problematic" id="id3">``</span></a>Tile``s within provided Region of Interest</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="stems.gis.grids.TileGrid.rows">
 <code class="descname">rows</code><a class="headerlink" href="#stems.gis.grids.TileGrid.rows" title="Permalink to this definition">¶</a></dt>
-<dd><p>list[int]: the vertical/row numbers for all tiles</p>
+<dd><p>the vertical/row numbers for all tiles</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)">list</a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a>]</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="stems.gis.grids.TileGrid.to_dict">
 <code class="descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/grids.html#TileGrid.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.grids.TileGrid.to_dict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return this TileGrid as a dictionary (e.g., to serialize)</p>
-<dl class="docutils">
-<dt>dict</dt>
-<dd>TileGrid attributes needed to re-initialize class</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">TileGrid attributes needed to re-initialize class</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="stems.gis.grids.TileGrid.transform">
 <code class="descname">transform</code><a class="headerlink" href="#stems.gis.grids.TileGrid.transform" title="Permalink to this definition">¶</a></dt>
-<dd><p>affine.Affine : the affine transform for this TileGrid</p>
+<dd><p>the affine transform for this TileGrid</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">affine.Affine</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
@@ -391,16 +602,20 @@ only include valid tile geometries.</dd>
 <dt id="stems.gis.grids.load_grids">
 <code class="descclassname">stems.gis.grids.</code><code class="descname">load_grids</code><span class="sig-paren">(</span><em>filename=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/grids.html#load_grids"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.grids.load_grids" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve tile grid specifications from a YAML file</p>
-<dl class="docutils">
-<dt>filename <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd>Filename of YAML data containing specifications. If <code class="docutils literal notranslate"><span class="pre">None</span></code>,
-will load grids packaged with module</dd>
-</dl>
-<dl class="docutils">
-<dt>dict</dt>
-<dd>Mapping of (name, TileGrid) pairs for tile grid specifications. By
-default, returns tile specifications included with this package</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Filename of YAML data containing specifications. If <code class="docutils literal notranslate"><span class="pre">None</span></code>,
+will load grids packaged with module</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Mapping of (name, TileGrid) pairs for tile grid specifications. By
+default, returns tile specifications included with this package</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.grids &mdash; stems 0+untagged.50.gb0c2af1 documentation</title>
+  <title>stems.gis.grids &mdash; stems 0+untagged.50.g63f59df documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.gb0c2af1
+                0+untagged.50.g63f59df
               </div>
             
           
@@ -82,10 +82,22 @@
               
             
             
-              <ul>
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../history.html#change-log">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq.html">Frequenty Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../gis.html">Geographic Information Systems (GIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../gis_grids.html">Tile Grid Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../parallel.html">Parallel Computing Helpers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a></li>
 </ul>
 
             
@@ -149,7 +161,17 @@
            <div itemprop="articleBody">
             
   <h1>Source code for stems.gis.grids</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot; Predefined tile specifications and utilities for working with tile systems</span>
+<span></span><span class="sd">&quot;&quot;&quot; Create and work with geospatial data tiling schemes</span>
+
+<span class="sd">A tile scheme defines the grid which many products are based on. Tiling</span>
+<span class="sd">schemes define a projection, usually a projection applicable over a wide</span>
+<span class="sd">area, the size (in pixels) of each tile, and georeferencing information</span>
+<span class="sd">that defines the upper left coordinate and pixel sizes (thus defining the</span>
+<span class="sd">posting of each pixel). Tiles are defined by the tile grid coordinate</span>
+<span class="sd">(horizontal &amp; vertical indices) that determines the number of tiles</span>
+<span class="sd">offset from the upper left coordinate of the tiling scheme, such that</span>
+<span class="sd">one can retrieve the real-world coordinate of a pixel if the tile</span>
+<span class="sd">grid index and pixel row/column within the tile is known.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">collections</span>
 <span class="kn">import</span> <span class="nn">inspect</span>

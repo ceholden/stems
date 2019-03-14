@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.parallel module &mdash; stems 0+untagged.50.gb0c2af1 documentation</title>
+  <title>stems.parallel module &mdash; stems 0+untagged.50.g63f59df documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.gb0c2af1
+                0+untagged.50.g63f59df
               </div>
             
           
@@ -82,10 +82,22 @@
               
             
             
-              <ul>
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../history.html#change-log">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequenty Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../gis.html">Geographic Information Systems (GIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gis_grids.html">Tile Grid Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel.html">Parallel Computing Helpers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
 </ul>
 
             
@@ -155,72 +167,85 @@
   <div class="section" id="module-stems.parallel">
 <span id="stems-parallel-module"></span><h1>stems.parallel module<a class="headerlink" href="#module-stems.parallel" title="Permalink to this headline">¶</a></h1>
 <p>Helper tools to facilitate turning computation into dask-able gufuncs</p>
-<div class="section" id="references">
-<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<p class="rubric">References</p>
 <p>[1] <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/c-api.generalized-ufuncs.html">https://docs.scipy.org/doc/numpy/reference/c-api.generalized-ufuncs.html</a>
 [2] <a class="reference external" href="http://numba.pydata.org/numba-doc/dev/user/vectorize.html">http://numba.pydata.org/numba-doc/dev/user/vectorize.html</a></p>
 <dl class="function">
 <dt id="stems.parallel.iter_chunks">
 <code class="descclassname">stems.parallel.</code><code class="descname">iter_chunks</code><span class="sig-paren">(</span><em>dim_sizes</em>, <em>chunk_sizes=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/parallel.html#iter_chunks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.parallel.iter_chunks" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return slices that help iterate over dimensions in chunks/blocks</p>
-<dl class="docutils">
-<dt>dim_sizes <span class="classifier-delimiter">:</span> <span class="classifier">dict[str, int]</span></dt>
-<dd>Dimension sizes</dd>
-<dt>chunk_sizes <span class="classifier-delimiter">:</span> <span class="classifier">None, int, or dict[str, int]</span></dt>
-<dd>Sizes of chunks. If <code class="docutils literal notranslate"><span class="pre">int</span></code>, will use the same size for all dimensions.
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>dim_sizes</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>]</em>) – Dimension sizes</li>
+<li><strong>chunk_sizes</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)"><em>None</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, or </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>]</em>) – Sizes of chunks. If <code class="docutils literal notranslate"><span class="pre">int</span></code>, will use the same size for all dimensions.
 If <code class="docutils literal notranslate"><span class="pre">None</span></code>, will iter over each element in all dimensions (e.g., one
-pixel)</dd>
-</dl>
-<dl class="docutils">
-<dt>dict[str, slice or int]</dt>
-<dd>Mapping of dimension name to select statement (e.g.,
-<code class="docutils literal notranslate"><span class="pre">{'x':</span> <span class="pre">slice(0,</span> <span class="pre">50),</span> <span class="pre">'y':</span> <span class="pre">slice(0,</span> <span class="pre">50)}</span></code>)</dd>
-</dl>
+pixel)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Yields:</th><td class="field-body"><p class="first last"><em>dict[str, slice or int]</em> – Mapping of dimension name to select statement (e.g.,
+<code class="docutils literal notranslate"><span class="pre">{'x':</span> <span class="pre">slice(0,</span> <span class="pre">50),</span> <span class="pre">'y':</span> <span class="pre">slice(0,</span> <span class="pre">50)}</span></code>)</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="stems.parallel.iter_noncore_chunks">
 <code class="descclassname">stems.parallel.</code><code class="descname">iter_noncore_chunks</code><span class="sig-paren">(</span><em>data</em>, <em>core_dims</em>, <em>chunk_sizes=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/parallel.html#iter_noncore_chunks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.parallel.iter_noncore_chunks" title="Permalink to this definition">¶</a></dt>
 <dd><p>Yield data in chunks selected out from non-core dimensions</p>
-<dl class="docutils">
-<dt>data <span class="classifier-delimiter">:</span> <span class="classifier">xr.DataArray or xr.Dataset</span></dt>
-<dd>Data</dd>
-<dt>core_dims <span class="classifier-delimiter">:</span> <span class="classifier">str or list[str]</span></dt>
-<dd>One or more dimensions to exclude from selection. These dimensions
-will be the only dimensions on the data returned</dd>
-<dt>chunk_size <span class="classifier-delimiter">:</span> <span class="classifier">int, dict[str, int], or None</span></dt>
-<dd>Chunk/block/window size when iterating over noncore dimensions. If
-<code class="docutils literal notranslate"><span class="pre">None</span></code>, will return a slice for each element in each dimension.</dd>
-</dl>
-<dl class="docutils">
-<dt>dict[str, slice]</dt>
-<dd><code class="docutils literal notranslate"><span class="pre">isel</span></code> select statements to retrieve data</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>data</strong> (<em>xr.DataArray</em><em> or </em><em>xr.Dataset</em>) – Data</li>
+<li><strong>core_dims</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>]</em>) – One or more dimensions to exclude from selection. These dimensions
+will be the only dimensions on the data returned</li>
+<li><strong>chunk_size</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>]</em><em>, or </em><a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)"><em>None</em></a>) – Chunk/block/window size when iterating over noncore dimensions. If
+<code class="docutils literal notranslate"><span class="pre">None</span></code>, will return a slice for each element in each dimension.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Yields:</th><td class="field-body"><p class="first last"><em>dict[str, slice]</em> – <code class="docutils literal notranslate"><span class="pre">isel</span></code> select statements to retrieve data</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="stems.parallel.map_collect_1d">
 <code class="descclassname">stems.parallel.</code><code class="descname">map_collect_1d</code><span class="sig-paren">(</span><em>core_dims</em>, <em>arg_idx=0</em>, <em>concat_axis=0</em>, <em>concat_func=&lt;built-in function concatenate&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/parallel.html#map_collect_1d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.parallel.map_collect_1d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decorator that maps a function across pixels and concatenates the result</p>
-<dl class="docutils">
-<dt>core_dims <span class="classifier-delimiter">:</span> <span class="classifier">Sequence[str]</span></dt>
-<dd>Core dimensions to exclude from broadcast/selection. For example,
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>core_dims</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>]</em>) – Core dimensions to exclude from broadcast/selection. For example,
 if applying a time series model over all x/y in a DataArray,
-the <code class="docutils literal notranslate"><span class="pre">core_dim</span></code> could be ‘time’.</dd>
-<dt>arg_idx <span class="classifier-delimiter">:</span> <span class="classifier">int or tuple[int], optional</span></dt>
-<dd>Index(es) of <code class="docutils literal notranslate"><span class="pre">*args</span></code> to pick as the data to iterate over.</dd>
-<dt>concat_axis <span class="classifier-delimiter">:</span> <span class="classifier">int, optional</span></dt>
-<dd>Axis along which the arrays will be joined (passed to <code class="docutils literal notranslate"><span class="pre">concat_func</span></code>)</dd>
-<dt>concat_func <span class="classifier-delimiter">:</span> <span class="classifier">callable, optional</span></dt>
-<dd>Function used to concatenate the data. Should take the <code class="docutils literal notranslate"><span class="pre">axis</span></code> keyword</dd>
-</dl>
-<dl class="docutils">
-<dt>callable</dt>
-<dd>Decorator for function (parametrized by <code class="docutils literal notranslate"><span class="pre">core_dims</span></code> and <code class="docutils literal notranslate"><span class="pre">arg_idx</span></code>)</dd>
-</dl>
+the <code class="docutils literal notranslate"><span class="pre">core_dim</span></code> could be ‘time’.</li>
+<li><strong>arg_idx</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>]</em><em>, </em><em>optional</em>) – Index(es) of <code class="docutils literal notranslate"><span class="pre">*args</span></code> to pick as the data to iterate over.</li>
+<li><strong>concat_axis</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – Axis along which the arrays will be joined (passed to <code class="docutils literal notranslate"><span class="pre">concat_func</span></code>)</li>
+<li><strong>concat_func</strong> (<em>callable</em><em>, </em><em>optional</em>) – Function used to concatenate the data. Should take the <code class="docutils literal notranslate"><span class="pre">axis</span></code> keyword</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Decorator for function (parametrized by <code class="docutils literal notranslate"><span class="pre">core_dims</span></code> and <code class="docutils literal notranslate"><span class="pre">arg_idx</span></code>)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">callable</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
-</div>
 </div>
 
 

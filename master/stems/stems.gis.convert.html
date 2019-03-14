@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.convert module &mdash; stems 0+untagged.50.gb0c2af1 documentation</title>
+  <title>stems.gis.convert module &mdash; stems 0+untagged.50.g63f59df documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.gb0c2af1
+                0+untagged.50.g63f59df
               </div>
             
           
@@ -82,10 +82,22 @@
               
             
             
-              <ul>
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../history.html#change-log">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequenty Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../gis.html">Geographic Information Systems (GIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gis_grids.html">Tile Grid Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel.html">Parallel Computing Helpers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
 </ul>
 
             
@@ -162,7 +174,7 @@ representations:</p>
 <li><dl class="first docutils">
 <dt>Coordinate Reference System</dt>
 <dd><ul class="first last">
-<li><code class="xref py py-class docutils literal notranslate"><span class="pre">rasterio.crs.CRS</span></code></li>
+<li><a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">rasterio.crs.CRS</span></code></a></li>
 </ul>
 </dd>
 </dl>
@@ -178,7 +190,7 @@ representations:</p>
 <li><dl class="first docutils">
 <dt>Bounding Box</dt>
 <dd><ul class="first last">
-<li><code class="xref py py-class docutils literal notranslate"><span class="pre">rasterio.coords.BoundingBox</span></code></li>
+<li><a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.coords.html#rasterio.coords.BoundingBox" title="(in rasterio v1.0.21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">rasterio.coords.BoundingBox</span></code></a></li>
 </ul>
 </dd>
 </dl>
@@ -196,62 +208,82 @@ representations:</p>
 <dt id="stems.gis.convert.to_bbox">
 <code class="descclassname">stems.gis.convert.</code><code class="descname">to_bbox</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/convert.html#to_bbox"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.convert.to_bbox" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert input a bounding box polygon</p>
-<dl class="docutils">
-<dt>value <span class="classifier-delimiter">:</span> <span class="classifier">BoundingBox</span></dt>
-<dd>Object representing a bounding box, or an xarray object with coords
-we can use to calculate one from</dd>
-</dl>
-<dl class="docutils">
-<dt>shapely.geometry.Polygon</dt>
-<dd>BoundingBox as a polygon</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>value</strong> (<em>BoundingBox</em>) – Object representing a bounding box, or an xarray object with coords
+we can use to calculate one from</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">BoundingBox as a polygon</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">shapely.geometry.Polygon</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="stems.gis.convert.to_bounds">
 <code class="descclassname">stems.gis.convert.</code><code class="descname">to_bounds</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/convert.html#to_bounds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.convert.to_bounds" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert input to a <code class="xref py py-data docutils literal notranslate"><span class="pre">rasterio.coords.BoundingBox</span></code></p>
-<dl class="docutils">
-<dt>value <span class="classifier-delimiter">:</span> <span class="classifier">iterable, or Polygon</span></dt>
-<dd>Input containing some geographic information</dd>
-</dl>
-<dl class="docutils">
-<dt>BoundingBox</dt>
-<dd>Bounding box (left, bottom, right, top). Also described as
-(minx, miny, maxx, maxy)</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>value</strong> (<em>iterable</em><em>, or </em><a class="reference external" href="https://shapely.readthedocs.io/en/latest/manual.html#Polygon" title="(in Shapely v1.7a1)"><em>Polygon</em></a>) – Input containing some geographic information</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Bounding box (left, bottom, right, top). Also described as
+(minx, miny, maxx, maxy)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">BoundingBox</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="stems.gis.convert.to_crs">
 <code class="descclassname">stems.gis.convert.</code><code class="descname">to_crs</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/convert.html#to_crs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.convert.to_crs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert a CRS representation to a <cite>rasterio.crs.CRS</cite></p>
-<dl class="docutils">
-<dt>value <span class="classifier-delimiter">:</span> <span class="classifier">str, int, dict, or osr.SpatialReference</span></dt>
-<dd>Coordinate reference system as WKT, Proj.4 string, EPSG code,
-rasterio-compatible proj4 attributes in a dict, or OSR definition</dd>
-</dl>
-<dl class="docutils">
-<dt>rasterio.crs.CRS</dt>
-<dd>CRS</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a><em>, or </em><em>osr.SpatialReference</em>) – Coordinate reference system as WKT, Proj.4 string, EPSG code,
+rasterio-compatible proj4 attributes in a dict, or OSR definition</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">CRS</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.21)">rasterio.crs.CRS</a></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="stems.gis.convert.to_transform">
 <code class="descclassname">stems.gis.convert.</code><code class="descname">to_transform</code><span class="sig-paren">(</span><em>value</em>, <em>from_gdal=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/convert.html#to_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.convert.to_transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert input into an Affine transform</p>
-<dl class="docutils">
-<dt>value <span class="classifier-delimiter">:</span> <span class="classifier">Affine or iterable</span></dt>
-<dd>6 numbers representing affine transform</dd>
-<dt>from_gdal <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
-<dd>If <cite>value</cite> is a tuple or list, specifies if transform
-is GDAL variety (True) or rasterio/affine (False)</dd>
-</dl>
-<dl class="docutils">
-<dt>affine.Affine</dt>
-<dd>Affine transform</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>value</strong> (<em>Affine</em><em> or </em><em>iterable</em>) – 6 numbers representing affine transform</li>
+<li><strong>from_gdal</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – If <cite>value</cite> is a tuple or list, specifies if transform
+is GDAL variety (True) or rasterio/affine (False)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Affine transform</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">affine.Affine</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>

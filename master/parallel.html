@@ -1,0 +1,415 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Parallel Computing Helpers &mdash; stems 0+untagged.50.g63f59df documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Developer Notes" href="dev.html" />
+    <link rel="prev" title="Tile Grid Systems" href="gis_grids.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> stems
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0+untagged.50.g63f59df
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequenty Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="gis.html">Geographic Information Systems (GIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gis_grids.html">Tile Grid Systems</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Parallel Computing Helpers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#distributed-cluster-setup">Distributed Cluster Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#command-line-applications">Command Line Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#block-mapping-of-functions">Block Mapping of Functions</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">stems</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Parallel Computing Helpers</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/ceholden/stems/blob/master/docs/source/parallel.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="parallel-computing-helpers">
+<span id="parallel"></span><h1>Parallel Computing Helpers<a class="headerlink" href="#parallel-computing-helpers" title="Permalink to this headline">¶</a></h1>
+<p>The stems project has tries to help facilitate running geospatial time series
+analysis in parallel using <a class="reference external" href="http://docs.dask.org/en/latest/">dask</a> and <a class="reference external" href="http://distributed.dask.org/en/latest/">dask.distributed</a>.</p>
+<div class="section" id="distributed-cluster-setup">
+<h2>Distributed Cluster Setup<a class="headerlink" href="#distributed-cluster-setup" title="Permalink to this headline">¶</a></h2>
+<p>This package contains a few functions that help create and shutdown
+<code class="xref py py-class docutils literal notranslate"><span class="pre">distributed.LocalCluster</span></code></p>
+<dl class="function">
+<dt id="stems.executor.setup_executor">
+<code class="descclassname">stems.executor.</code><code class="descname">setup_executor</code><span class="sig-paren">(</span><em>address=None</em>, <em>n_workers=None</em>, <em>threads_per_worker=1</em>, <em>**kwds</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stems/executor.html#setup_executor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.executor.setup_executor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Setup a Dask distributed cluter</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>address</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) – This can be the address of a <code class="docutils literal notranslate"><span class="pre">Scheduler</span></code> server like a string
+<code class="docutils literal notranslate"><span class="pre">'127.0.0.1:8786'</span></code>. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, sets up a <code class="docutils literal notranslate"><span class="pre">LocalCluster</span></code></li>
+<li><strong>n_workers</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – Number of workers. Only used if setting up a <code class="docutils literal notranslate"><span class="pre">LocalCluster</span></code></li>
+<li><strong>threads_per_worker</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – Number of threads per worker</li>
+<li><strong>kwds</strong> – Additional options passed to <code class="xref py py-func docutils literal notranslate"><span class="pre">distributed.Client()</span></code></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Distributed compute client</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="http://docs.dask.org/en/latest/futures.html#distributed.Client" title="(in Dask v1.1.4)">distributed.Client</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.executor.executor_info">
+<code class="descclassname">stems.executor.</code><code class="descname">executor_info</code><span class="sig-paren">(</span><em>client</em>, <em>ip=True</em>, <em>bokeh=True</em>, <em>stats=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stems/executor.html#executor_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.executor.executor_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of strings with info for a scheduler</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>client</strong> (<em>distributed.client.Client</em>) – Scheduler (e.g., from <code class="docutils literal notranslate"><span class="pre">client.scheduler</span></code>)</li>
+<li><strong>ip</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Include scheduler IP</li>
+<li><strong>bokeh</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Include Bokeh visualization IP</li>
+<li><strong>stats</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Include stats on cluster (ncores, memory, etc)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Cluster information items</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)">list</a>[<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)">str</a>]</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="command-line-applications">
+<h2>Command Line Applications<a class="headerlink" href="#command-line-applications" title="Permalink to this headline">¶</a></h2>
+<p>When building command line applications, you can use some of the <a class="reference external" href="https://click.palletsprojects.com/en/7.x/">Click</a>-based
+callbacks and program arguments or options.</p>
+<dl class="data">
+<dt id="stems.cli.options.opt_nprocs">
+<code class="descclassname">stems.cli.options.</code><code class="descname">opt_nprocs</code><em class="property"> = &lt;function option.&lt;locals&gt;.decorator&gt;</em><a class="headerlink" href="#stems.cli.options.opt_nprocs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt>
+<code class="descclassname">stems.cli.options.</code><code class="descname">opt_nprocs</code><em class="property"> = &lt;function option.&lt;locals&gt;.decorator&gt;</em></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt>
+<code class="descclassname">stems.cli.options.</code><code class="descname">opt_nprocs</code><em class="property"> = &lt;function option.&lt;locals&gt;.decorator&gt;</em></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="stems.cli.options.cb_executor">
+<code class="descclassname">stems.cli.options.</code><code class="descname">cb_executor</code><span class="sig-paren">(</span><em>ctx</em>, <em>param</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stems/cli/options.html#cb_executor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.cli.options.cb_executor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback for returning a Distributed client</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.cli.options.close_scheduler">
+<code class="descclassname">stems.cli.options.</code><code class="descname">close_scheduler</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/stems/cli/options.html#close_scheduler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.cli.options.close_scheduler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close all clients/clusters on exit using <code class="docutils literal notranslate"><span class="pre">ctx.call_on_close</span></code></p>
+</dd></dl>
+
+</div>
+<div class="section" id="block-mapping-of-functions">
+<h2>Block Mapping of Functions<a class="headerlink" href="#block-mapping-of-functions" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="stems/stems.parallel.html#module-stems.parallel" title="stems.parallel"><code class="xref py py-mod docutils literal notranslate"><span class="pre">stems.parallel</span></code></a> module contains functions that help you run
+functions on chunks of data.</p>
+<p>The functions, <a class="reference internal" href="stems/stems.parallel.html#stems.parallel.iter_chunks" title="stems.parallel.iter_chunks"><code class="xref py py-func docutils literal notranslate"><span class="pre">stems.parallel.iter_chunks()</span></code></a> and
+<a class="reference internal" href="stems/stems.parallel.html#stems.parallel.iter_noncore_chunks" title="stems.parallel.iter_noncore_chunks"><code class="xref py py-func docutils literal notranslate"><span class="pre">stems.parallel.iter_noncore_chunks()</span></code></a> assist you in iterating across
+blocks of data by yielding array dimension slices.</p>
+<dl class="function">
+<dt id="stems.parallel.iter_chunks">
+<code class="descclassname">stems.parallel.</code><code class="descname">iter_chunks</code><span class="sig-paren">(</span><em>dim_sizes</em>, <em>chunk_sizes=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stems/parallel.html#iter_chunks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.parallel.iter_chunks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return slices that help iterate over dimensions in chunks/blocks</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>dim_sizes</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>]</em>) – Dimension sizes</li>
+<li><strong>chunk_sizes</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)"><em>None</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, or </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>]</em>) – Sizes of chunks. If <code class="docutils literal notranslate"><span class="pre">int</span></code>, will use the same size for all dimensions.
+If <code class="docutils literal notranslate"><span class="pre">None</span></code>, will iter over each element in all dimensions (e.g., one
+pixel)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Yields:</th><td class="field-body"><p class="first last"><em>dict[str, slice or int]</em> – Mapping of dimension name to select statement (e.g.,
+<code class="docutils literal notranslate"><span class="pre">{'x':</span> <span class="pre">slice(0,</span> <span class="pre">50),</span> <span class="pre">'y':</span> <span class="pre">slice(0,</span> <span class="pre">50)}</span></code>)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.parallel.iter_noncore_chunks">
+<code class="descclassname">stems.parallel.</code><code class="descname">iter_noncore_chunks</code><span class="sig-paren">(</span><em>data</em>, <em>core_dims</em>, <em>chunk_sizes=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stems/parallel.html#iter_noncore_chunks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.parallel.iter_noncore_chunks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yield data in chunks selected out from non-core dimensions</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>data</strong> (<em>xr.DataArray</em><em> or </em><em>xr.Dataset</em>) – Data</li>
+<li><strong>core_dims</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>]</em>) – One or more dimensions to exclude from selection. These dimensions
+will be the only dimensions on the data returned</li>
+<li><strong>chunk_size</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>]</em><em>, or </em><a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)"><em>None</em></a>) – Chunk/block/window size when iterating over noncore dimensions. If
+<code class="docutils literal notranslate"><span class="pre">None</span></code>, will return a slice for each element in each dimension.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Yields:</th><td class="field-body"><p class="first last"><em>dict[str, slice]</em> – <code class="docutils literal notranslate"><span class="pre">isel</span></code> select statements to retrieve data</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>You can nest these to run an inner function on each pixel within a block on a
+worker (e.g., <code class="docutils literal notranslate"><span class="pre">chunksize=1</span></code> for each dimension), and process many blocks in
+parallel using the slices (e.g., <code class="docutils literal notranslate"><span class="pre">chunksize=100</span></code> in x/y) you calculate using
+the same <a class="reference internal" href="stems/stems.parallel.html#stems.parallel.iter_chunks" title="stems.parallel.iter_chunks"><code class="xref py py-func docutils literal notranslate"><span class="pre">stems.parallel.iter_chunks()</span></code></a> function.</p>
+<p>Sometimes you want to run a function across some arbitrary dimensions and
+collect the results in a single list. One common example is running the CCDC
+algorithm on pixels from an image (<code class="docutils literal notranslate"><span class="pre">dims=('band',</span> <span class="pre">'time',</span> <span class="pre">'y',</span> <span class="pre">'x',</span> <span class="pre">)</span></code>) or
+from a list of samples (<code class="docutils literal notranslate"><span class="pre">dims=('band',</span> <span class="pre">'time',</span> <span class="pre">'sample_id',</span> <span class="pre">)</span></code>) and
+collecting all the segments estimated into a single dimension array
+(<code class="docutils literal notranslate"><span class="pre">dims=('segment_id',</span> <span class="pre">)</span></code>).</p>
+<p>The function <a class="reference internal" href="stems/stems.parallel.html#stems.parallel.map_collect_1d" title="stems.parallel.map_collect_1d"><code class="xref py py-func docutils literal notranslate"><span class="pre">stems.parallel.map_collect_1d()</span></code></a> is designed to help with
+this task:</p>
+<dl class="function">
+<dt id="stems.parallel.map_collect_1d">
+<code class="descclassname">stems.parallel.</code><code class="descname">map_collect_1d</code><span class="sig-paren">(</span><em>core_dims</em>, <em>arg_idx=0</em>, <em>concat_axis=0</em>, <em>concat_func=&lt;built-in function concatenate&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stems/parallel.html#map_collect_1d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.parallel.map_collect_1d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator that maps a function across pixels and concatenates the result</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>core_dims</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>]</em>) – Core dimensions to exclude from broadcast/selection. For example,
+if applying a time series model over all x/y in a DataArray,
+the <code class="docutils literal notranslate"><span class="pre">core_dim</span></code> could be ‘time’.</li>
+<li><strong>arg_idx</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>]</em><em>, </em><em>optional</em>) – Index(es) of <code class="docutils literal notranslate"><span class="pre">*args</span></code> to pick as the data to iterate over.</li>
+<li><strong>concat_axis</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – Axis along which the arrays will be joined (passed to <code class="docutils literal notranslate"><span class="pre">concat_func</span></code>)</li>
+<li><strong>concat_func</strong> (<em>callable</em><em>, </em><em>optional</em>) – Function used to concatenate the data. Should take the <code class="docutils literal notranslate"><span class="pre">axis</span></code> keyword</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Decorator for function (parametrized by <code class="docutils literal notranslate"><span class="pre">core_dims</span></code> and <code class="docutils literal notranslate"><span class="pre">arg_idx</span></code>)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">callable</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="dev.html" class="btn btn-neutral float-right" title="Developer Notes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="gis_grids.html" class="btn btn-neutral float-left" title="Tile Grid Systems" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

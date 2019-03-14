@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.geom module &mdash; stems 0+untagged.50.gb0c2af1 documentation</title>
+  <title>stems.gis.geom module &mdash; stems 0+untagged.50.g63f59df documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.gb0c2af1
+                0+untagged.50.g63f59df
               </div>
             
           
@@ -82,10 +82,22 @@
               
             
             
-              <ul>
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../history.html#change-log">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequenty Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../gis.html">Geographic Information Systems (GIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gis_grids.html">Tile Grid Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel.html">Parallel Computing Helpers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
 </ul>
 
             
@@ -159,118 +171,150 @@
 <dt id="stems.gis.geom.bounds_intersection">
 <code class="descclassname">stems.gis.geom.</code><code class="descname">bounds_intersection</code><span class="sig-paren">(</span><em>*bounds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/geom.html#bounds_intersection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.geom.bounds_intersection" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the intersection of some BoundingBox(s)</p>
-<dl class="docutils">
-<dt>bounds <span class="classifier-delimiter">:</span> <span class="classifier">BoundingBox</span></dt>
-<dd>Bounding boxes</dd>
-</dl>
-<dl class="docutils">
-<dt>BoundingBox</dt>
-<dd>The intersection of all input BoundingBox</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>bounds</strong> (<em>BoundingBox</em>) – Bounding boxes</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The intersection of all input BoundingBox</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">BoundingBox</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="stems.gis.geom.bounds_transform_union">
 <code class="descclassname">stems.gis.geom.</code><code class="descname">bounds_transform_union</code><span class="sig-paren">(</span><em>bounds</em>, <em>transform</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/geom.html#bounds_transform_union"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.geom.bounds_transform_union" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate union of bounds for some transform</p>
-<dl class="docutils">
-<dt>bounds <span class="classifier-delimiter">:</span> <span class="classifier">Sequence[BoundingBox]</span></dt>
-<dd>Bounding boxes</dd>
-<dt>transform <span class="classifier-delimiter">:</span> <span class="classifier">Affine</span></dt>
-<dd>Affine transform to use</dd>
-</dl>
-<dl class="docutils">
-<dt>rasterio.coords.BoundingBox</dt>
-<dd>Union of BoundingBox</dd>
-<dt>affine.Affine</dt>
-<dd>Unified affine transform</dd>
-<dt>tuple[int, int]</dt>
-<dd>Shape of union (nrow, ncol)</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>bounds</strong> (<em>Sequence</em><em>[</em><em>BoundingBox</em><em>]</em>) – Bounding boxes</li>
+<li><strong>transform</strong> (<em>Affine</em>) – Affine transform to use</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
+<li><em>rasterio.coords.BoundingBox</em> – Union of BoundingBox</li>
+<li><em>affine.Affine</em> – Unified affine transform</li>
+<li><em>tuple[int, int]</em> – Shape of union (nrow, ncol)</li>
+</ul>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="stems.gis.geom.bounds_union">
 <code class="descclassname">stems.gis.geom.</code><code class="descname">bounds_union</code><span class="sig-paren">(</span><em>*bounds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/geom.html#bounds_union"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.geom.bounds_union" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the union of some BoundingBox(s)</p>
-<dl class="docutils">
-<dt>bounds <span class="classifier-delimiter">:</span> <span class="classifier">BoundingBox</span></dt>
-<dd>Bounding boxes</dd>
-</dl>
-<dl class="docutils">
-<dt>BoundingBox</dt>
-<dd>The union of all input BoundingBox</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>bounds</strong> (<em>BoundingBox</em>) – Bounding boxes</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The union of all input BoundingBox</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">BoundingBox</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="stems.gis.geom.calculate_dst_window">
 <code class="descclassname">stems.gis.geom.</code><code class="descname">calculate_dst_window</code><span class="sig-paren">(</span><em>src_bounds</em>, <em>dst_transform</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/geom.html#calculate_dst_window"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.geom.calculate_dst_window" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the rounded source window for some other transform</p>
-<dl class="docutils">
-<dt>src_bounds <span class="classifier-delimiter">:</span> <span class="classifier">rasterio.coords.BoundingBox</span></dt>
-<dd>Input bounds for the source raster image</dd>
-<dt>dst_transform <span class="classifier-delimiter">:</span> <span class="classifier">affine.Affine</span></dt>
-<dd>Destination Affine transform</dd>
-</dl>
-<dl class="docutils">
-<dt>rasterio.windows.Window</dt>
-<dd>Window of source that conforms (pixel size, upper left) to
-<code class="docutils literal notranslate"><span class="pre">dst_tranform</span></code></dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>src_bounds</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.coords.html#rasterio.coords.BoundingBox" title="(in rasterio v1.0.21)"><em>rasterio.coords.BoundingBox</em></a>) – Input bounds for the source raster image</li>
+<li><strong>dst_transform</strong> (<em>affine.Affine</em>) – Destination Affine transform</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Window of source that conforms (pixel size, upper left) to
+<code class="docutils literal notranslate"><span class="pre">dst_tranform</span></code></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.windows.html#rasterio.windows.Window" title="(in rasterio v1.0.21)">rasterio.windows.Window</a></p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="stems.gis.geom.calculate_src_window">
 <code class="descclassname">stems.gis.geom.</code><code class="descname">calculate_src_window</code><span class="sig-paren">(</span><em>src_bounds</em>, <em>src_transform</em>, <em>dst_bounds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/geom.html#calculate_src_window"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.geom.calculate_src_window" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the source window for some output bounds</p>
-<dl class="docutils">
-<dt>src_bounds <span class="classifier-delimiter">:</span> <span class="classifier">rasterio.coords.BoundingBox</span></dt>
-<dd>Input bounds for the source raster image</dd>
-<dt>src_transform <span class="classifier-delimiter">:</span> <span class="classifier">affine.Affine</span></dt>
-<dd>Affine transform for the source raster image</dd>
-<dt>dst_bounds <span class="classifier-delimiter">:</span> <span class="classifier">rasterio.coords.BoundingBox</span></dt>
-<dd>Destination bounds</dd>
-</dl>
-<dl class="docutils">
-<dt>rasterio.windows.Window</dt>
-<dd>Window of source that contains <code class="docutils literal notranslate"><span class="pre">dst_bounds</span></code></dd>
-<dt>rasterio.coords.BoundingBox</dt>
-<dd>The BoundingBox representing the destination window for the source</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>src_bounds</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.coords.html#rasterio.coords.BoundingBox" title="(in rasterio v1.0.21)"><em>rasterio.coords.BoundingBox</em></a>) – Input bounds for the source raster image</li>
+<li><strong>src_transform</strong> (<em>affine.Affine</em>) – Affine transform for the source raster image</li>
+<li><strong>dst_bounds</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.coords.html#rasterio.coords.BoundingBox" title="(in rasterio v1.0.21)"><em>rasterio.coords.BoundingBox</em></a>) – Destination bounds</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
+<li><em>rasterio.windows.Window</em> – Window of source that contains <code class="docutils literal notranslate"><span class="pre">dst_bounds</span></code></li>
+<li><em>rasterio.coords.BoundingBox</em> – The BoundingBox representing the destination window for the source</li>
+</ul>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="stems.gis.geom.fix_geojson_rfc7946">
 <code class="descclassname">stems.gis.geom.</code><code class="descname">fix_geojson_rfc7946</code><span class="sig-paren">(</span><em>geojson</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/geom.html#fix_geojson_rfc7946"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.geom.fix_geojson_rfc7946" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fixes issues with dateline and meridian cutting</p>
-<dl class="docutils">
-<dt>geojson <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
-<dd>GeoJSON as a dict</dd>
-</dl>
-<dl class="docutils">
-<dt>dict</dt>
-<dd>Fixed up GeoJSON</dd>
-</dl>
-<ul class="simple">
-<li>Q1: Can we do this ourself using shapely/maths?</li>
-<li>Q2: Is solution to Q1 faster? Avoids dumps/loads</li>
-</ul>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>geojson</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – GeoJSON as a dict</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Fixed up GeoJSON</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="stems.gis.geom.is_null">
 <code class="descclassname">stems.gis.geom.</code><code class="descname">is_null</code><span class="sig-paren">(</span><em>geom</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/geom.html#is_null"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.geom.is_null" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return True if a geometry is not valid / null</p>
-<dl class="docutils">
-<dt>shapely.geometry.BaseGeometry</dt>
-<dd>Some shapely geometry (or something that supports
-__geo_interface__)</dd>
-</dl>
-<dl class="docutils">
-<dt>bool</dt>
-<dd>Null or not</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>shapely.geometry.BaseGeometry</strong> – Some shapely geometry (or something that supports
+__geo_interface__)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Null or not</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)">bool</a></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>

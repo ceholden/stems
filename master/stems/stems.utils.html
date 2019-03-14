@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.utils module &mdash; stems 0+untagged.50.gb0c2af1 documentation</title>
+  <title>stems.utils module &mdash; stems 0+untagged.50.g63f59df documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.gb0c2af1
+                0+untagged.50.g63f59df
               </div>
             
           
@@ -82,10 +82,22 @@
               
             
             
-              <ul>
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../history.html#change-log">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequenty Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../gis.html">Geographic Information Systems (GIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gis_grids.html">Tile Grid Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel.html">Parallel Computing Helpers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
 </ul>
 
             
@@ -157,7 +169,7 @@
 <dl class="class">
 <dt id="stems.utils.FrozenKeyDict">
 <em class="property">class </em><code class="descclassname">stems.utils.</code><code class="descname">FrozenKeyDict</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/utils.html#FrozenKeyDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.utils.FrozenKeyDict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">collections.abc.MutableMapping</span></code></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/collections.abc.html#collections.abc.MutableMapping" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">collections.abc.MutableMapping</span></code></a></p>
 <p>A dict that doesn’t allow new keys</p>
 <dl class="method">
 <dt id="stems.utils.FrozenKeyDict.copy">
@@ -176,98 +188,122 @@
 <dt id="stems.utils.concat_lists">
 <code class="descclassname">stems.utils.</code><code class="descname">concat_lists</code><span class="sig-paren">(</span><em>l</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/utils.html#concat_lists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.utils.concat_lists" title="Permalink to this definition">¶</a></dt>
 <dd><p>Concatenate all list-like items in <code class="docutils literal notranslate"><span class="pre">l</span></code></p>
-<dl class="docutils">
-<dt>l <span class="classifier-delimiter">:</span> <span class="classifier">list or tuple</span></dt>
-<dd>Sequence (but not a str)</dd>
-</dl>
-<dl class="docutils">
-<dt>list</dt>
-<dd>Concatenated list items</dd>
-</dl>
-<dl class="docutils">
-<dt>toolz.concat</dt>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>l</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a>) – Sequence (but not a str)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Yields:</th><td class="field-body"><em>list</em> – Concatenated list items</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><code class="xref py py-func docutils literal notranslate"><span class="pre">toolz.concat()</span></code></dt>
 <dd>Similar function, but concatenates all iterables</dd>
-<dt>flatten_lists</dt>
+<dt><a class="reference internal" href="#stems.utils.flatten_lists" title="stems.utils.flatten_lists"><code class="xref py py-func docutils literal notranslate"><span class="pre">flatten_lists()</span></code></a></dt>
 <dd>Recursive version of this function</dd>
 </dl>
+</div>
 </dd></dl>
 
 <dl class="function">
 <dt id="stems.utils.dtype_info">
 <code class="descclassname">stems.utils.</code><code class="descname">dtype_info</code><span class="sig-paren">(</span><em>arr</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/utils.html#dtype_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.utils.dtype_info" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return integer or float dtype info</p>
-<dl class="docutils">
-<dt>arr <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
-<dd>Array</dd>
-</dl>
-<dl class="docutils">
-<dt>numpy.core.getlimits.finfo or numpy.core.getlimits.iinfo</dt>
-<dd>NumPy type information</dd>
-</dl>
-<dl class="docutils">
-<dt>TypeError</dt>
-<dd>Raised if <code class="docutils literal notranslate"><span class="pre">arr</span></code> is not a int or float type</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>arr</strong> (<em>np.ndarray</em>) – Array</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">NumPy type information</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">numpy.core.getlimits.finfo or numpy.core.getlimits.iinfo</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/exceptions.html#TypeError" title="(in Python v3.6)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a> – Raised if <code class="docutils literal notranslate"><span class="pre">arr</span></code> is not a int or float type</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="stems.utils.find">
 <code class="descclassname">stems.utils.</code><code class="descname">find</code><span class="sig-paren">(</span><em>location</em>, <em>pattern</em>, <em>regex=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/utils.html#find"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.utils.find" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a sorted list of files matching pattern</p>
-<dl class="docutils">
-<dt>location <span class="classifier-delimiter">:</span> <span class="classifier">str or pathlib.Path</span></dt>
-<dd>Directory location to search</dd>
-<dt>pattern <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd>Search pattern for files</dd>
-<dt>regex <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
-<dd>True if <code class="docutils literal notranslate"><span class="pre">pattern</span></code> is a regular expression</dd>
-</dl>
-<dl class="docutils">
-<dt>list</dt>
-<dd>List of file paths for files found</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>location</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.6/library/pathlib.html#pathlib.Path" title="(in Python v3.6)"><em>pathlib.Path</em></a>) – Directory location to search</li>
+<li><strong>pattern</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Search pattern for files</li>
+<li><strong>regex</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – True if <code class="docutils literal notranslate"><span class="pre">pattern</span></code> is a regular expression</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">List of file paths for files found</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)">list</a></p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="stems.utils.find_subclasses">
 <code class="descclassname">stems.utils.</code><code class="descname">find_subclasses</code><span class="sig-paren">(</span><em>cls_</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/utils.html#find_subclasses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.utils.find_subclasses" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find subclasses of an object</p>
-<dl class="docutils">
-<dt><a href="#id1"><span class="problematic" id="id2">cls_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">class</span></dt>
-<dd>A Python class</dd>
-</dl>
-<dl class="docutils">
-<dt>set[class]</dt>
-<dd>Classes that inherit from <code class="docutils literal notranslate"><span class="pre">cls_</span></code></dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cls</strong> (<em>class</em>) – A Python class</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Classes that inherit from <code class="docutils literal notranslate"><span class="pre">cls_</span></code></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#set" title="(in Python v3.6)">set</a>[class]</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="stems.utils.flatten_lists">
 <code class="descclassname">stems.utils.</code><code class="descname">flatten_lists</code><span class="sig-paren">(</span><em>l</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/utils.html#flatten_lists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.utils.flatten_lists" title="Permalink to this definition">¶</a></dt>
 <dd><p>Flatten all list-like items in <code class="docutils literal notranslate"><span class="pre">l</span></code></p>
-<dl class="docutils">
-<dt>l <span class="classifier-delimiter">:</span> <span class="classifier">list or tuple</span></dt>
-<dd>Sequence (but not a str)</dd>
-</dl>
-<dl class="docutils">
-<dt>list</dt>
-<dd>Flattened list items</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>l</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a>) – Sequence (but not a str)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Yields:</th><td class="field-body"><em>list</em> – Flattened list items</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="stems.utils.import_object">
 <code class="descclassname">stems.utils.</code><code class="descname">import_object</code><span class="sig-paren">(</span><em>string</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/utils.html#import_object"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.utils.import_object" title="Permalink to this definition">¶</a></dt>
 <dd><p>Import a Python module/class/function from its string</p>
-<dl class="docutils">
-<dt>string <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd>A Python object path</dd>
-</dl>
-<dl class="docutils">
-<dt>object</dt>
-<dd>The imported object (class/module/function)</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>string</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A Python object path</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The imported object (class/module/function)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)">object</a></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
@@ -276,97 +312,131 @@
 <dd><p>Return True if <code class="docutils literal notranslate"><span class="pre">obj</span></code> is list-like</p>
 <p>List-like includes lists, tuples, and numpy.ndarrays, but not
 other sequences like str or Mapping.</p>
-<dl class="docutils">
-<dt>obj <span class="classifier-delimiter">:</span> <span class="classifier">object</span></dt>
-<dd>An object</dd>
-</dl>
-<dl class="docutils">
-<dt>bool</dt>
-<dd>True if <code class="docutils literal notranslate"><span class="pre">obj</span></code> is a list (sequence but not str)</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>obj</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><em>object</em></a>) – An object</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if <code class="docutils literal notranslate"><span class="pre">obj</span></code> is a list (sequence but not str)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)">bool</a></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="stems.utils.np_promote_all_types">
 <code class="descclassname">stems.utils.</code><code class="descname">np_promote_all_types</code><span class="sig-paren">(</span><em>*dtypes</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/utils.html#np_promote_all_types"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.utils.np_promote_all_types" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the largest NumPy datatype required to hold all types</p>
-<dl class="docutils">
-<dt>dtypes <span class="classifier-delimiter">:</span> <span class="classifier">iterable</span></dt>
-<dd>NumPy datatypes to promote</dd>
-</dl>
-<dl class="docutils">
-<dt>np.dtype</dt>
-<dd>Smallest NumPy datatype required to store all input datatypes</dd>
-</dl>
-<p>np.promote_types</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dtypes</strong> (<em>iterable</em>) – NumPy datatypes to promote</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Smallest NumPy datatype required to store all input datatypes</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">np.dtype</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><code class="xref py py-func docutils literal notranslate"><span class="pre">np.promote_types()</span></code></p>
+</div>
 </dd></dl>
 
 <dl class="function">
 <dt id="stems.utils.register_multi_singledispatch">
 <code class="descclassname">stems.utils.</code><code class="descname">register_multi_singledispatch</code><span class="sig-paren">(</span><em>func</em>, <em>types</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/utils.html#register_multi_singledispatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.utils.register_multi_singledispatch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Register multiple types for singledispatch</p>
-<dl class="docutils">
-<dt>func <span class="classifier-delimiter">:</span> <span class="classifier">callable</span></dt>
-<dd>Function</dd>
-<dt>types <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Multiple types to register</dd>
-</dl>
-<dl class="docutils">
-<dt>func <span class="classifier-delimiter">:</span> <span class="classifier">callable</span></dt>
-<dd>Decorated function</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>func</strong> (<em>callable</em>) – Function</li>
+<li><strong>types</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a>) – Multiple types to register</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>func</strong> – Decorated function</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">callable</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="stems.utils.relative_to">
 <code class="descclassname">stems.utils.</code><code class="descname">relative_to</code><span class="sig-paren">(</span><em>one</em>, <em>two</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/utils.html#relative_to"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.utils.relative_to" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the relative path of a file compared to another</p>
-<dl class="docutils">
-<dt>one <span class="classifier-delimiter">:</span> <span class="classifier">str or Path</span></dt>
-<dd>File to return relative path for</dd>
-<dt>two <span class="classifier-delimiter">:</span> <span class="classifier">str or Path</span></dt>
-<dd>File <code class="docutils literal notranslate"><span class="pre">one</span></code> will be relative to</dd>
-</dl>
-<dl class="docutils">
-<dt>Path</dt>
-<dd>Relative path of <code class="docutils literal notranslate"><span class="pre">one</span></code></dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>one</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><em>Path</em>) – File to return relative path for</li>
+<li><strong>two</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><em>Path</em>) – File <code class="docutils literal notranslate"><span class="pre">one</span></code> will be relative to</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Relative path of <code class="docutils literal notranslate"><span class="pre">one</span></code></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">Path</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="stems.utils.renamed_upon_completion">
 <code class="descclassname">stems.utils.</code><code class="descname">renamed_upon_completion</code><span class="sig-paren">(</span><em>destination</em>, <em>tmpdir=None</em>, <em>prefix=''</em>, <em>suffix='.tmp'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/utils.html#renamed_upon_completion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.utils.renamed_upon_completion" title="Permalink to this definition">¶</a></dt>
 <dd><p>Help save/write to file and move upon completion</p>
-<dl class="docutils">
-<dt>destination <span class="classifier-delimiter">:</span> <span class="classifier">str or Path</span></dt>
-<dd>The final intended location of the file</dd>
-<dt>tmpdir <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
-<dd>By default, this function will yield a temporary filename
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>destination</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><em>Path</em>) – The final intended location of the file</li>
+<li><strong>tmpdir</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) – By default, this function will yield a temporary filename
 in the same directory as <code class="docutils literal notranslate"><span class="pre">destination</span></code>, but you may specify
-another location using <code class="docutils literal notranslate"><span class="pre">tmpdir</span></code>.</dd>
-<dt>prefix <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
-<dd>Characters to prefix the temporary file with</dd>
-<dt>suffix <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
-<dd>Characters to add at the end of the temporary filename</dd>
-</dl>
-<dl class="docutils">
-<dt>str</dt>
-<dd>A temporary filename to use during writing/saving/etc</dd>
-</dl>
+another location using <code class="docutils literal notranslate"><span class="pre">tmpdir</span></code>.</li>
+<li><strong>prefix</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) – Characters to prefix the temporary file with</li>
+<li><strong>suffix</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) – Characters to add at the end of the temporary filename</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Yields:</th><td class="field-body"><p class="first last"><em>str</em> – A temporary filename to use during writing/saving/etc</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="stems.utils.squeeze">
 <code class="descclassname">stems.utils.</code><code class="descname">squeeze</code><span class="sig-paren">(</span><em>l</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/utils.html#squeeze"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.utils.squeeze" title="Permalink to this definition">¶</a></dt>
 <dd><p>Squeeze Sequences with 1 item into a scalar</p>
-<dl class="docutils">
-<dt>l <span class="classifier-delimiter">:</span> <span class="classifier">Sequence</span></dt>
-<dd>List, tuple, etc</dd>
-</dl>
-<dl class="docutils">
-<dt>object</dt>
-<dd>Either original object if <code class="docutils literal notranslate"><span class="pre">len(l)</span> <span class="pre">!=</span> <span class="pre">1</span></code> else <code class="docutils literal notranslate"><span class="pre">l[0]</span></code></dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>l</strong> (<em>Sequence</em>) – List, tuple, etc</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Either original object if <code class="docutils literal notranslate"><span class="pre">len(l)</span> <span class="pre">!=</span> <span class="pre">1</span></code> else <code class="docutils literal notranslate"><span class="pre">l[0]</span></code></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)">object</a></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
@@ -379,16 +449,24 @@ another location using <code class="docutils literal notranslate"><span class="p
 <dt id="stems.utils.update_nested">
 <code class="descclassname">stems.utils.</code><code class="descname">update_nested</code><span class="sig-paren">(</span><em>d</em>, <em>other</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/utils.html#update_nested"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.utils.update_nested" title="Permalink to this definition">¶</a></dt>
 <dd><p>Update a potentially nested dict with another</p>
-<dl class="docutils">
-<dt>d <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
-<dd>Dictionary to update</dd>
-<dt>other <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
-<dd>Other dict with replacement values</dd>
-</dl>
-<dl class="docutils">
-<dt>dict</dt>
-<dd>Updated dict</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>d</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – Dictionary to update</li>
+<li><strong>other</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – Other dict with replacement values</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Updated dict</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>

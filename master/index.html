@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Welcome to stems’s documentation! &mdash; stems 0+untagged.50.gb0c2af1 documentation</title>
+  <title>Spatio-temporal Tools for Earth Monitoring Science (STEMS) &mdash; stems 0+untagged.50.g63f59df documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0+untagged.50.gb0c2af1
+                0+untagged.50.g63f59df
               </div>
             
           
@@ -83,10 +83,22 @@
               
             
             
-              <ul>
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="history.html#change-log">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequenty Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="gis.html">Geographic Information Systems (GIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gis_grids.html">Tile Grid Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parallel.html">Parallel Computing Helpers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
 </ul>
 
             
@@ -132,7 +144,7 @@
     
       <li><a href="#">Docs</a> &raquo;</li>
         
-      <li>Welcome to stems’s documentation!</li>
+      <li>Spatio-temporal Tools for Earth Monitoring Science (STEMS)</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -153,29 +165,60 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="welcome-to-stems-s-documentation">
-<h1>Welcome to stems’s documentation!<a class="headerlink" href="#welcome-to-stems-s-documentation" title="Permalink to this headline">¶</a></h1>
-<p>Contents:</p>
+  <div class="section" id="spatio-temporal-tools-for-earth-monitoring-science-stems">
+<span id="index"></span><h1>Spatio-temporal Tools for Earth Monitoring Science (STEMS)<a class="headerlink" href="#spatio-temporal-tools-for-earth-monitoring-science-stems" title="Permalink to this headline">¶</a></h1>
+<p>STEMS is a library to help with analysis of geospatial time series data. It
+tries to integrate geospatial libraries (<a class="reference external" href="https://rasterio.readthedocs.io">rasterio</a>, <a class="reference external" href="https://fiona.readthedocs.io/">fiona</a>, and
+<a class="reference external" href="https://shapely.readthedocs.io/">shapely</a>) with the xarray library to make it easier to use <a class="reference external" href="http://unidata.github.io/netcdf4-python/">netCDF4</a>
+files for large data processing. This library also contains functions and tools
+to facilitate processing these data with <a class="reference external" href="http://docs.dask.org/en/latest/">dask</a> and <a class="reference external" href="http://distributed.dask.org/en/latest/">distributed</a>.</p>
 <div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Getting Started</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="install.html#required-dependencies">Required Dependencies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="install.html#optional-dependencies">Optional Dependencies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="install.html#instructions">Instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequenty Asked Questions</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="gis.html">Geographic Information Systems (GIS)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gis_conventions.html">Climate Forecast (CF) Conventions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gis_projections.html">Projection Format Conversion Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gis_coords.html">Coordinates and Affine Transforms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gis_convert.html">GIS Conversion Tools</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="history.html#change-log">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gis_grids.html">Tile Grid Systems</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gis_grids.html#tilegrid">TileGrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gis_grids.html#tile">Tile</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="parallel.html">Parallel Computing Helpers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="parallel.html#distributed-cluster-setup">Distributed Cluster Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parallel.html#command-line-applications">Command Line Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parallel.html#block-mapping-of-functions">Block Mapping of Functions</a></li>
+</ul>
+</li>
 </ul>
 </div>
-</div>
-<div class="section" id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
-<ul class="simple">
-<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
-<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
-<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="dev.html">Developer Notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dev.html#documentation">Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dev.html#api-doc">API Doc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dev.html#html">HTML</a></li>
 </ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dev.html#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.html#continuous-integration">Continuous Integration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+</ul>
+</div>
 </div>
 
 

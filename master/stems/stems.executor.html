@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.executor module &mdash; stems 0+untagged.50.gb0c2af1 documentation</title>
+  <title>stems.executor module &mdash; stems 0+untagged.50.g63f59df documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.gb0c2af1
+                0+untagged.50.g63f59df
               </div>
             
           
@@ -82,10 +82,22 @@
               
             
             
-              <ul>
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../history.html#change-log">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequenty Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../gis.html">Geographic Information Systems (GIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gis_grids.html">Tile Grid Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel.html">Parallel Computing Helpers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
 </ul>
 
             
@@ -159,41 +171,53 @@
 <dt id="stems.executor.executor_info">
 <code class="descclassname">stems.executor.</code><code class="descname">executor_info</code><span class="sig-paren">(</span><em>client</em>, <em>ip=True</em>, <em>bokeh=True</em>, <em>stats=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/executor.html#executor_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.executor.executor_info" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a list of strings with info for a scheduler</p>
-<dl class="docutils">
-<dt>client <span class="classifier-delimiter">:</span> <span class="classifier">distributed.client.Client</span></dt>
-<dd>Scheduler (e.g., from <code class="docutils literal notranslate"><span class="pre">client.scheduler</span></code>)</dd>
-<dt>ip <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
-<dd>Include scheduler IP</dd>
-<dt>bokeh <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
-<dd>Include Bokeh visualization IP</dd>
-<dt>stats <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
-<dd>Include stats on cluster (ncores, memory, etc)</dd>
-</dl>
-<dl class="docutils">
-<dt>list[str]</dt>
-<dd>Cluster information items</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>client</strong> (<em>distributed.client.Client</em>) – Scheduler (e.g., from <code class="docutils literal notranslate"><span class="pre">client.scheduler</span></code>)</li>
+<li><strong>ip</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Include scheduler IP</li>
+<li><strong>bokeh</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Include Bokeh visualization IP</li>
+<li><strong>stats</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Include stats on cluster (ncores, memory, etc)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Cluster information items</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)">list</a>[<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)">str</a>]</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="stems.executor.setup_executor">
 <code class="descclassname">stems.executor.</code><code class="descname">setup_executor</code><span class="sig-paren">(</span><em>address=None</em>, <em>n_workers=None</em>, <em>threads_per_worker=1</em>, <em>**kwds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/executor.html#setup_executor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.executor.setup_executor" title="Permalink to this definition">¶</a></dt>
 <dd><p>Setup a Dask distributed cluter</p>
-<dl class="docutils">
-<dt>address <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
-<dd>This can be the address of a <code class="docutils literal notranslate"><span class="pre">Scheduler</span></code> server like a string
-<code class="docutils literal notranslate"><span class="pre">'127.0.0.1:8786'</span></code>. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, sets up a <code class="docutils literal notranslate"><span class="pre">LocalCluster</span></code></dd>
-<dt>n_workers <span class="classifier-delimiter">:</span> <span class="classifier">int, optional</span></dt>
-<dd>Number of workers. Only used if setting up a <code class="docutils literal notranslate"><span class="pre">LocalCluster</span></code></dd>
-<dt>threads_per_worker <span class="classifier-delimiter">:</span> <span class="classifier">int, optional</span></dt>
-<dd>Number of threads per worker</dd>
-<dt>kwds</dt>
-<dd>Additional options passed to <code class="xref py py-func docutils literal notranslate"><span class="pre">distributed.Client()</span></code></dd>
-</dl>
-<dl class="docutils">
-<dt>distributed.Client</dt>
-<dd>Distributed compute client</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>address</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) – This can be the address of a <code class="docutils literal notranslate"><span class="pre">Scheduler</span></code> server like a string
+<code class="docutils literal notranslate"><span class="pre">'127.0.0.1:8786'</span></code>. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, sets up a <code class="docutils literal notranslate"><span class="pre">LocalCluster</span></code></li>
+<li><strong>n_workers</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – Number of workers. Only used if setting up a <code class="docutils literal notranslate"><span class="pre">LocalCluster</span></code></li>
+<li><strong>threads_per_worker</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – Number of threads per worker</li>
+<li><strong>kwds</strong> – Additional options passed to <code class="xref py py-func docutils literal notranslate"><span class="pre">distributed.Client()</span></code></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Distributed compute client</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="http://docs.dask.org/en/latest/futures.html#distributed.Client" title="(in Dask v1.1.4)">distributed.Client</a></p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.coords module &mdash; stems 0+untagged.50.gb0c2af1 documentation</title>
+  <title>stems.gis.coords module &mdash; stems 0+untagged.50.g63f59df documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.gb0c2af1
+                0+untagged.50.g63f59df
               </div>
             
           
@@ -82,10 +82,22 @@
               
             
             
-              <ul>
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../history.html#change-log">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequenty Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../gis.html">Geographic Information Systems (GIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gis_grids.html">Tile Grid Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel.html">Parallel Computing Helpers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
 </ul>
 
             
@@ -162,22 +174,28 @@
 <p>If the Affine <code class="docutils literal notranslate"><span class="pre">transform</span></code> of the data is known, it can be provided.
 Otherwise this function runs <a class="reference internal" href="#stems.gis.coords.coords_to_transform" title="stems.gis.coords.coords_to_transform"><code class="xref py py-func docutils literal notranslate"><span class="pre">coords_to_transform()</span></code></a> to determine
 the pixel sizing.</p>
-<dl class="docutils">
-<dt>y <span class="classifier-delimiter">:</span> <span class="classifier">array-like</span></dt>
-<dd>Y coordinates (latitude, y, etc)</dd>
-<dt>x <span class="classifier-delimiter">:</span> <span class="classifier">array-like</span></dt>
-<dd>X coordinates (longitude, x, etc)</dd>
-<dt>center <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
-<dd>Are coordinates provided pixel center (True) or
-upper-left (False)</dd>
-<dt>assume_unique <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
-<dd>Assume coordinates are sorted and unique. Otherwise, will run
-<code class="docutils literal notranslate"><span class="pre">np.unique</span></code> on each</dd>
-</dl>
-<dl class="docutils">
-<dt>BoundingBox</dt>
-<dd>Bounds expressed as left, bottom, right, top</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>y</strong> (<em>array-like</em>) – Y coordinates (latitude, y, etc)</li>
+<li><strong>x</strong> (<em>array-like</em>) – X coordinates (longitude, x, etc)</li>
+<li><strong>center</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Are coordinates provided pixel center (True) or
+upper-left (False)</li>
+<li><strong>assume_unique</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Assume coordinates are sorted and unique. Otherwise, will run
+<code class="docutils literal notranslate"><span class="pre">np.unique</span></code> on each</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Bounds expressed as left, bottom, right, top</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">BoundingBox</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
@@ -185,40 +203,53 @@ upper-left (False)</dd>
 <code class="descclassname">stems.gis.coords.</code><code class="descname">coords_to_transform</code><span class="sig-paren">(</span><em>y</em>, <em>x</em>, <em>center=True</em>, <em>assume_unique=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/coords.html#coords_to_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.coords.coords_to_transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate Affine transform from coordinates</p>
 <p>Note: y/x will be loaded into memory</p>
-<dl class="docutils">
-<dt>y <span class="classifier-delimiter">:</span> <span class="classifier">array-like</span></dt>
-<dd>Y coordinates (latitude, y, etc)</dd>
-<dt>x <span class="classifier-delimiter">:</span> <span class="classifier">array-like</span></dt>
-<dd>X coordinates (longitude, x, etc)</dd>
-<dt>center <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
-<dd>Are coordinates provided pixel center (True) or
-upper-left (False)</dd>
-<dt>assume_unique <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
-<dd>Assume coordinates are sorted and unique. Otherwise, will run
-<code class="docutils literal notranslate"><span class="pre">np.unique</span></code> on each</dd>
-</dl>
-<dl class="docutils">
-<dt>affine.Affine</dt>
-<dd>Affine transformation</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>y</strong> (<em>array-like</em>) – Y coordinates (latitude, y, etc)</li>
+<li><strong>x</strong> (<em>array-like</em>) – X coordinates (longitude, x, etc)</li>
+<li><strong>center</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Are coordinates provided pixel center (True) or
+upper-left (False)</li>
+<li><strong>assume_unique</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Assume coordinates are sorted and unique. Otherwise, will run
+<code class="docutils literal notranslate"><span class="pre">np.unique</span></code> on each</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Affine transformation</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">affine.Affine</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="stems.gis.coords.transform_to_bounds">
 <code class="descclassname">stems.gis.coords.</code><code class="descname">transform_to_bounds</code><span class="sig-paren">(</span><em>transform</em>, <em>height</em>, <em>width</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/coords.html#transform_to_bounds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.coords.transform_to_bounds" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a BoundingBox for some transform and shape</p>
-<dl class="docutils">
-<dt>transform <span class="classifier-delimiter">:</span> <span class="classifier">affine.Affine</span></dt>
-<dd>Affine transformation</dd>
-<dt>height <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd>Height in pixels</dd>
-<dt>width <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd>Width in pixels</dd>
-</dl>
-<dl class="docutils">
-<dt>BoundingBox</dt>
-<dd>left, bottom, right, &amp; top bounding box coordinates</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>transform</strong> (<em>affine.Affine</em>) – Affine transformation</li>
+<li><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Height in pixels</li>
+<li><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Width in pixels</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">left, bottom, right, &amp; top bounding box coordinates</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">BoundingBox</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
@@ -226,41 +257,50 @@ upper-left (False)</dd>
 <code class="descclassname">stems.gis.coords.</code><code class="descname">transform_to_coords</code><span class="sig-paren">(</span><em>transform</em>, <em>bbox=None</em>, <em>width=None</em>, <em>height=None</em>, <em>center=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/coords.html#transform_to_coords"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.coords.transform_to_coords" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the coordinates for a given transform</p>
 <p>This function needs to know how many pixels are in the raster,
-so either a <code class="xref py py-class docutils literal notranslate"><span class="pre">rasterio.coords.BoundingBox</span></code> or
+so either a <a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.coords.html#rasterio.coords.BoundingBox" title="(in rasterio v1.0.21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">rasterio.coords.BoundingBox</span></code></a> or
 height and width arguments must be supplied.</p>
-<dl class="docutils">
-<dt>transform <span class="classifier-delimiter">:</span> <span class="classifier">affine.Affine</span></dt>
-<dd>Affine transform</dd>
-<dt>bbox <span class="classifier-delimiter">:</span> <span class="classifier">BoundingBox</span></dt>
-<dd>Return the coordinates for this transform that are contained inside
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>transform</strong> (<em>affine.Affine</em>) – Affine transform</li>
+<li><strong>bbox</strong> (<em>BoundingBox</em>) – Return the coordinates for this transform that are contained inside
 the provided bounds (left, bottom, right, up). Coordinates will
 be aligned/spaced according to the transform and will not necessarily
-match the upper-left of this <code class="docutils literal notranslate"><span class="pre">bbox</span></code></dd>
-<dt>height <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd>Number of pixels tall</dd>
-<dt>width <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd>Number of pixels wide</dd>
-<dt>center <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
-<dd>Return coordinates for the center of each pixel</dd>
-</dl>
-<dl class="docutils">
-<dt>y, x <span class="classifier-delimiter">:</span> <span class="classifier">tuple[np.ndarray, np.ndarray]</span></dt>
-<dd>Y/X coordinate pairs (e.g., latitude/longitude)</dd>
-</dl>
+match the upper-left of this <code class="docutils literal notranslate"><span class="pre">bbox</span></code></li>
+<li><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Number of pixels tall</li>
+<li><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Number of pixels wide</li>
+<li><strong>center</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Return coordinates for the center of each pixel</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>y, x</strong> – Y/X coordinate pairs (e.g., latitude/longitude)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a>[np.ndarray, np.ndarray]</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="stems.gis.coords.transform_to_res">
 <code class="descclassname">stems.gis.coords.</code><code class="descname">transform_to_res</code><span class="sig-paren">(</span><em>transform</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/coords.html#transform_to_res"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.coords.transform_to_res" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the resolution from a transform</p>
-<dl class="docutils">
-<dt>transform <span class="classifier-delimiter">:</span> <span class="classifier">affine.Affine</span></dt>
-<dd>Affine transform</dd>
-</dl>
-<dl class="docutils">
-<dt>tuple[float, float]</dt>
-<dd>Width and height</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>transform</strong> (<em>affine.Affine</em>) – Affine transform</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Width and height</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)">float</a>, <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)">float</a>]</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>
