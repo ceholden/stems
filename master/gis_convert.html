@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>GIS Conversion Tools &mdash; stems 0+untagged.50.g63f59df documentation</title>
+  <title>GIS Conversion Tools &mdash; stems 0+untagged.50.g8f28b40 documentation</title>
   
 
   
@@ -34,7 +34,9 @@
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Tile Grid Systems" href="gis_grids.html" />
+    <link rel="prev" title="Coordinates and Affine Transforms" href="gis_coords.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -58,7 +60,7 @@
             
             
               <div class="version">
-                0+untagged.50.g63f59df
+                0+untagged.50.g8f28b40
               </div>
             
           
@@ -94,9 +96,7 @@
 <li class="toctree-l2"><a class="reference internal" href="gis_conventions.html">Climate Forecast (CF) Conventions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gis_projections.html">Projection Format Conversion Tools</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gis_coords.html">Coordinates and Affine Transforms</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">GIS Conversion Tools</a><ul class="simple">
-</ul>
-</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">GIS Conversion Tools</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="gis_grids.html">Tile Grid Systems</a></li>
@@ -176,6 +176,35 @@
             
   <div class="section" id="gis-conversion-tools">
 <span id="gis-convert"></span><h1>GIS Conversion Tools<a class="headerlink" href="#gis-conversion-tools" title="Permalink to this headline">¶</a></h1>
+<p>The <a class="reference internal" href="stems/stems.gis.convert.html#module-stems.gis.convert" title="stems.gis.convert"><code class="xref py py-mod docutils literal notranslate"><span class="pre">stems.gis.convert</span></code></a> module contains dispatch functions to
+convert representations of fundamental GIS data (projections, transforms,
+bounding boxes, and polygons) to the standard types used internally to this
+package.</p>
+<p>These “standard types” for GIS data variables are the following:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="41%" />
+<col width="59%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><strong>GIS</strong></td>
+<td><strong>Object Type</strong></td>
+</tr>
+<tr class="row-even"><td>Affine transform</td>
+<td><code class="xref py py-class docutils literal notranslate"><span class="pre">affine.Affine</span></code></td>
+</tr>
+<tr class="row-odd"><td>Coordinate Reference System</td>
+<td><a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">rasterio.crs.CRS</span></code></a></td>
+</tr>
+<tr class="row-even"><td>Bounding Box (extent)</td>
+<td><a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.coords.html#rasterio.coords.BoundingBox" title="(in rasterio v1.0.21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">rasterio.coords.BoundingBox</span></code></a></td>
+</tr>
+<tr class="row-odd"><td>Bounding Box (polygon)</td>
+<td><code class="xref py py-class docutils literal notranslate"><span class="pre">shapely.geometry.Polygon</span></code></td>
+</tr>
+</tbody>
+</table>
+<p>The conversion functions:</p>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
@@ -183,16 +212,16 @@
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="stems/stems.gis.convert.html#stems.gis.convert.to_transform" title="stems.gis.convert.to_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_transform</span></code></a>(value[,&nbsp;from_gdal])</td>
-<td>Convert input into an Affine transform</td>
+<td>Convert input into an <code class="xref py py-class docutils literal notranslate"><span class="pre">affine.Affine</span></code> transform</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="stems/stems.gis.convert.html#stems.gis.convert.to_crs" title="stems.gis.convert.to_crs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_crs</span></code></a>(value)</td>
-<td>Convert a CRS representation to a <cite>rasterio.crs.CRS</cite></td>
+<td>Convert a CRS representation to a <a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">rasterio.crs.CRS</span></code></a></td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="stems/stems.gis.convert.html#stems.gis.convert.to_bounds" title="stems.gis.convert.to_bounds"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_bounds</span></code></a>(value)</td>
-<td>Convert input to a <code class="xref py py-data docutils literal notranslate"><span class="pre">rasterio.coords.BoundingBox</span></code></td>
+<td>Convert input to a <a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.coords.html#rasterio.coords.BoundingBox" title="(in rasterio v1.0.21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">rasterio.coords.BoundingBox</span></code></a></td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="stems/stems.gis.convert.html#stems.gis.convert.to_bbox" title="stems.gis.convert.to_bbox"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_bbox</span></code></a>(value)</td>
-<td>Convert input a bounding box polygon</td>
+<td>Convert input a bounding box <code class="xref py py-class docutils literal notranslate"><span class="pre">shapely.geometry.Polygon</span></code></td>
 </tr>
 </tbody>
 </table>
@@ -203,6 +232,15 @@
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="gis_grids.html" class="btn btn-neutral float-right" title="Tile Grid Systems" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="gis_coords.html" class="btn btn-neutral float-left" title="Coordinates and Affine Transforms" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

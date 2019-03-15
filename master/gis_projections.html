@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Projection Format Conversion Tools &mdash; stems 0+untagged.50.g63f59df documentation</title>
+  <title>Projection Format Conversion Tools &mdash; stems 0+untagged.50.g8f28b40 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0+untagged.50.g63f59df
+                0+untagged.50.g8f28b40
               </div>
             
           
@@ -93,7 +93,11 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="gis.html">Geographic Information Systems (GIS)</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="gis_conventions.html">Climate Forecast (CF) Conventions</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Projection Format Conversion Tools</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Projection Format Conversion Tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#climate-forecast-cf-parameters">Climate Forecast (CF) Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#epsg-codes">EPSG Codes</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="gis_coords.html">Coordinates and Affine Transforms</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gis_convert.html">GIS Conversion Tools</a></li>
 </ul>
@@ -173,203 +177,92 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="module-stems.gis.projections">
-<span id="projection-format-conversion-tools"></span><span id="gis-projections"></span><h1>Projection Format Conversion Tools<a class="headerlink" href="#module-stems.gis.projections" title="Permalink to this headline">¶</a></h1>
-<p>Projection handling - OSGEO/Rasterio, CF/NetCDF, and Cartopy</p>
-<div class="admonition seealso">
-<p class="first admonition-title">See also</p>
-<ul class="last simple">
-<li><a class="reference external" href="https://trac.osgeo.org/gdal/wiki/NetCDF_ProjectionTestingStatus">https://trac.osgeo.org/gdal/wiki/NetCDF_ProjectionTestingStatus</a></li>
-<li><a class="reference external" href="http://cfconventions.org/Data/cf-conventions/cf-conventions-1.7/build/cf-conventions.html#appendix-grid-mappings">http://cfconventions.org/Data/cf-conventions/cf-conventions-1.7/build/cf-conventions.html#appendix-grid-mappings</a></li>
-</ul>
+  <div class="section" id="projection-format-conversion-tools">
+<span id="gis-projections"></span><h1>Projection Format Conversion Tools<a class="headerlink" href="#projection-format-conversion-tools" title="Permalink to this headline">¶</a></h1>
+<p>The <a class="reference internal" href="stems/stems.gis.projections.html#module-stems.gis.projections" title="stems.gis.projections"><code class="xref py py-mod docutils literal notranslate"><span class="pre">stems.gis.projections</span></code></a> module contains tools to help convert
+between representations of projections, including between the Open Geospatial
+Consortium (OGC) and the Climate Forecast (CF) convention systems.</p>
+<p>There are also functions that help retrieve useful information from a Rasterio
+<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">rasterio.crs.CRS</span></code></a>, including the “long name” (e.g.,
+<code class="docutils literal notranslate"><span class="pre">&quot;WGS</span> <span class="pre">84</span> <span class="pre">/</span> <span class="pre">Pseudo-Mercator&quot;</span></code>)</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="stems/stems.gis.projections.html#stems.gis.projections.crs_longname" title="stems.gis.projections.crs_longname"><code class="xref py py-obj docutils literal notranslate"><span class="pre">crs_longname</span></code></a>(crs)</td>
+<td>Return name of a CRS / ellipsoid pair</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="climate-forecast-cf-parameters">
+<h2>Climate Forecast (CF) Parameters<a class="headerlink" href="#climate-forecast-cf-parameters" title="Permalink to this headline">¶</a></h2>
+<p>The following functions are useful for retrieving CF
+parameters from <a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">rasterio.crs.CRS</span></code></a> representations of coordinate
+reference systems:</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="stems/stems.gis.projections.html#stems.gis.projections.cf_crs_name" title="stems.gis.projections.cf_crs_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cf_crs_name</span></code></a>(crs)</td>
+<td>Return CF name of a CRS projection</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="stems/stems.gis.projections.html#stems.gis.projections.cf_crs_attrs" title="stems.gis.projections.cf_crs_attrs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cf_crs_attrs</span></code></a>(crs)</td>
+<td>Return CF-compliant CRS info to prevent “unknown” CRS/Ellipse/Geoid</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="stems/stems.gis.projections.html#stems.gis.projections.cf_proj_params" title="stems.gis.projections.cf_proj_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cf_proj_params</span></code></a>(crs)</td>
+<td>Return projection parameters for a CRS</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="stems/stems.gis.projections.html#stems.gis.projections.cf_ellps_params" title="stems.gis.projections.cf_ellps_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cf_ellps_params</span></code></a>(crs)</td>
+<td>Return ellipsoid parameters for a CRS</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="stems/stems.gis.projections.html#stems.gis.projections.cf_xy_coord_names" title="stems.gis.projections.cf_xy_coord_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cf_xy_coord_names</span></code></a>(crs)</td>
+<td>Returns appropriate names for coordinates given CRS</td>
+</tr>
+</tbody>
+</table>
+<p>These functions rely on a few data variables that contain the translations
+between the OGC and CF systems:</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">CF_CRS_NAMES</span></code></td>
+<td>tuple() -&gt; empty tuple tuple(iterable) -&gt; tuple initialized from iterable’s items</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="stems/stems.gis.projections.html#stems.gis.projections.CF_PROJECTION_NAMES" title="stems.gis.projections.CF_PROJECTION_NAMES"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CF_PROJECTION_NAMES</span></code></a></td>
+<td>Mapping between OGC WKT &lt;-&gt; CF projection names</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="stems/stems.gis.projections.html#stems.gis.projections.CF_ELLIPSOID_DEFS" title="stems.gis.projections.CF_ELLIPSOID_DEFS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CF_ELLIPSOID_DEFS</span></code></a></td>
+<td>mapping from CF ellipsoid parameter to SpatialReference method calls</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="stems/stems.gis.projections.html#stems.gis.projections.CF_PROJECTION_DEFS" title="stems.gis.projections.CF_PROJECTION_DEFS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CF_PROJECTION_DEFS</span></code></a></td>
+<td>Mapping between CF &lt;-&gt; OGC WKT projection parameters for projections</td>
+</tr>
+</tbody>
+</table>
 </div>
-<dl class="data">
-<dt id="stems.gis.projections.CF_ELLIPSOID_DEFS">
-<code class="descclassname">stems.gis.projections.</code><code class="descname">CF_ELLIPSOID_DEFS</code><em class="property"> = (('semi_major_axis', 'GetSemiMajor'), ('semi_minor_axis', 'GetSemiMinor'), ('inverse_flattening', 'GetInvFlattening'))</em><a class="headerlink" href="#stems.gis.projections.CF_ELLIPSOID_DEFS" title="Permalink to this definition">¶</a></dt>
-<dd><p>mapping from CF ellipsoid parameter to SpatialReference method calls</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
+<div class="section" id="epsg-codes">
+<h2>EPSG Codes<a class="headerlink" href="#epsg-codes" title="Permalink to this headline">¶</a></h2>
+<p>You can also try to retrieve the European Petroleum Survey Group (EPSG) code
+from a <a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">rasterio.crs.CRS</span></code></a>:</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a></td>
+<tr class="row-odd"><td><a class="reference internal" href="stems/stems.gis.projections.html#stems.gis.projections.epsg_code" title="stems.gis.projections.epsg_code"><code class="xref py py-obj docutils literal notranslate"><span class="pre">epsg_code</span></code></a>(crs)</td>
+<td>Return EPSG code for a CRS</td>
 </tr>
 </tbody>
 </table>
-</dd></dl>
-
-<dl class="data">
-<dt id="stems.gis.projections.CF_PROJECTION_DEFS">
-<code class="descclassname">stems.gis.projections.</code><code class="descname">CF_PROJECTION_DEFS</code><em class="property"> = {'albers_conic_equal_area': (('latitude_of_projection_origin', 'latitude_of_center'), ('longitude_of_central_meridian', 'longitude_of_center'), ('standard_parallel', ('standard_parallel_1', 'standard_parallel_2')), ('false_easting', 'false_easting'), ('false_northing', 'false_northing')), 'lambert_azimuthal_equal_area': (('longitude_of_projection_origin', 'longitude_of_center'), ('latitude_of_projection_origin', 'latitude_of_center'), ('false_easting', 'false_easting'), ('false_northing', 'false_northing')), 'latitude_longitude': (), 'sinusoidal': (('longitude_of_central_meridian', 'central_meridian'), ('false_northing', 'false_northing'), ('false_easting', 'false_easting')), 'transverse_mercator': (('latitude_of_projection_origin', 'latitude_of_origin'), ('longitude_of_central_meridian', 'central_meridian'), ('scale_factor_at_central_meridian', 'scale_factor'), ('false_easting', 'false_easting'), ('false_northing', 'false_northing')), 'universal_transverse_mercator': ('utm_zone_number', 'utm_zone_number')}</em><a class="headerlink" href="#stems.gis.projections.CF_PROJECTION_DEFS" title="Permalink to this definition">¶</a></dt>
-<dd><p>Mapping between CF &lt;-&gt; OGC WKT projection parameters for projections</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="data">
-<dt id="stems.gis.projections.CF_PROJECTION_NAMES">
-<code class="descclassname">stems.gis.projections.</code><code class="descname">CF_PROJECTION_NAMES</code><em class="property"> = {'Albers_Conic_Equal_Area': 'albers_conic_equal_area', 'Azimuthal_Equidistant': 'azimuthal_equidistant', 'Lambert_Azimuthal_Equal_Area': 'lambert_azimuthal_equal_area', 'Sinusoidal': 'sinusoidal', 'Transverse_Mercator': 'transverse_mercator'}</em><a class="headerlink" href="#stems.gis.projections.CF_PROJECTION_NAMES" title="Permalink to this definition">¶</a></dt>
-<dd><p>Mapping between OGC WKT &lt;-&gt; CF projection names</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="stems.gis.projections.cf_crs_attrs">
-<code class="descclassname">stems.gis.projections.</code><code class="descname">cf_crs_attrs</code><span class="sig-paren">(</span><em>crs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stems/gis/projections.html#cf_crs_attrs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.projections.cf_crs_attrs" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return CF-compliant CRS info to prevent “unknown” CRS/Ellipse/Geoid</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.21)"><em>rasterio.crs.CRS</em></a>) – CRS</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">CF attributes</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">OrderedDict</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">References</p>
-<table class="docutils footnote" frame="void" id="id1" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label">[1]</td><td><a class="reference external" href="https://cf-pcmdi.llnl.gov/trac/wiki/Cf2CrsWkt#Table2-FutureCF-1.7CFGridMappingAttributes">https://cf-pcmdi.llnl.gov/trac/wiki/Cf2CrsWkt#Table2-FutureCF-1.7CFGridMappingAttributes</a></td></tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="stems.gis.projections.cf_crs_name">
-<code class="descclassname">stems.gis.projections.</code><code class="descname">cf_crs_name</code><span class="sig-paren">(</span><em>crs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stems/gis/projections.html#cf_crs_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.projections.cf_crs_name" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return CF name of a CRS projection</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.21)"><em>rasterio.crs.CRS</em></a>) – CRS</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Lowercase projection name (see keys of <code class="xref py py-mod docutils literal notranslate"><span class="pre">CF_PROJECTION_DEFS</span></code>)</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)">str</a></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="stems.gis.projections.cf_ellps_params">
-<code class="descclassname">stems.gis.projections.</code><code class="descname">cf_ellps_params</code><span class="sig-paren">(</span><em>crs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stems/gis/projections.html#cf_ellps_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.projections.cf_ellps_params" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return ellipsoid parameters for a CRS</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.21)"><em>rasterio.crs.CRS</em></a>) – CRS</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Ellipsoid parameters and values</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">OrderedDict</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="stems.gis.projections.cf_proj_params">
-<code class="descclassname">stems.gis.projections.</code><code class="descname">cf_proj_params</code><span class="sig-paren">(</span><em>crs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stems/gis/projections.html#cf_proj_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.projections.cf_proj_params" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return projection parameters for a CRS</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.21)"><em>rasterio.crs.CRS</em></a>) – CRS</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">CRS parameters and values</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">OrderedDict</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="stems/stems.errors.html#stems.errors.TODO" title="stems.errors.TODO"><code class="xref py py-exc docutils literal notranslate"><span class="pre">stems.errors.TODO</span></code></a> – Raise if CRS isn’t supported yet</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="stems.gis.projections.cf_xy_coord_names">
-<code class="descclassname">stems.gis.projections.</code><code class="descname">cf_xy_coord_names</code><span class="sig-paren">(</span><em>crs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stems/gis/projections.html#cf_xy_coord_names"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.projections.cf_xy_coord_names" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns appropriate names for coordinates given CRS</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.21)"><em>rasterio.crs.CRS</em></a>) – Coordinate reference system</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><ul class="simple">
-<li><strong>str</strong> (<em>x_coord_name</em>) – X coordinate name</li>
-<li><strong>str</strong> (<em>y_coord_name</em>) – Y coordinate name</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="stems.gis.projections.crs_longname">
-<code class="descclassname">stems.gis.projections.</code><code class="descname">crs_longname</code><span class="sig-paren">(</span><em>crs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stems/gis/projections.html#crs_longname"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.projections.crs_longname" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return name of a CRS / ellipsoid pair</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.21)"><em>rasterio.crs.CRS</em></a>) – CRS</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Lowercase projection name (see keys of <span class="xref std std-ref">CF_PROJECTION_DEFS</span>)</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)">str</a></td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Examples</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">proj</span> <span class="o">=</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">3857</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">crs_longname</span><span class="p">(</span><span class="n">proj</span><span class="p">)</span>
-<span class="go">&quot;WGS 84 / Pseudo-Mercator&quot;</span>
-</pre></div>
 </div>
-</dd></dl>
-
-<dl class="function">
-<dt id="stems.gis.projections.epsg_code">
-<code class="descclassname">stems.gis.projections.</code><code class="descname">epsg_code</code><span class="sig-paren">(</span><em>crs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stems/gis/projections.html#epsg_code"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.projections.epsg_code" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return EPSG code for a CRS</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>crs</strong> (<em>CRS</em><em> or </em><em>osr.SpatialReference</em>) – Coordinate reference system defined by an EPSG code</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">EPSG code string</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)">str</a></td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/exceptions.html#ValueError" title="(in Python v3.6)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> – Raised if projection does not correspond to an EPSG code</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
 </div>
 
 

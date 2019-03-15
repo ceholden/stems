@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.convert &mdash; stems 0+untagged.50.g63f59df documentation</title>
+  <title>stems.gis.convert &mdash; stems 0+untagged.50.g8f28b40 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g63f59df
+                0+untagged.50.g8f28b40
               </div>
             
           
@@ -203,7 +203,7 @@
 <span class="c1"># Affine geotransform</span>
 <div class="viewcode-block" id="to_transform"><a class="viewcode-back" href="../../../stems/stems.gis.convert.html#stems.gis.convert.to_transform">[docs]</a><span class="nd">@singledispatch</span>
 <span class="k">def</span> <span class="nf">to_transform</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">from_gdal</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Convert input into an Affine transform</span>
+    <span class="sd">&quot;&quot;&quot; Convert input into an :py:class:`affine.Affine` transform</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -239,7 +239,7 @@
 <span class="c1"># TODO: Dispatch function for Cartopy</span>
 <div class="viewcode-block" id="to_crs"><a class="viewcode-back" href="../../../stems/stems.gis.convert.html#stems.gis.convert.to_crs">[docs]</a><span class="nd">@singledispatch</span>
 <span class="k">def</span> <span class="nf">to_crs</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Convert a CRS representation to a `rasterio.crs.CRS`</span>
+    <span class="sd">&quot;&quot;&quot; Convert a CRS representation to a :py:class:`rasterio.crs.CRS`</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -297,7 +297,7 @@
 <span class="c1"># BoundingBox</span>
 <div class="viewcode-block" id="to_bounds"><a class="viewcode-back" href="../../../stems/stems.gis.convert.html#stems.gis.convert.to_bounds">[docs]</a><span class="nd">@singledispatch</span>
 <span class="k">def</span> <span class="nf">to_bounds</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Convert input to a :py:data:`rasterio.coords.BoundingBox`</span>
+    <span class="sd">&quot;&quot;&quot; Convert input to a :py:class:`rasterio.coords.BoundingBox`</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -332,7 +332,7 @@
 <span class="c1"># Polygon</span>
 <div class="viewcode-block" id="to_bbox"><a class="viewcode-back" href="../../../stems/stems.gis.convert.html#stems.gis.convert.to_bbox">[docs]</a><span class="nd">@singledispatch</span>
 <span class="k">def</span> <span class="nf">to_bbox</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Convert input a bounding box polygon</span>
+    <span class="sd">&quot;&quot;&quot; Convert input a bounding box :py:class:`shapely.geometry.Polygon`</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>

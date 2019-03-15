@@ -313,7 +313,7 @@
 <p id="t40" class="pln"><span class="com"># Affine geotransform</span><span class="strut">&nbsp;</span></p>
 <p id="t41" class="stm run hide_run"><span class="op">@</span><span class="nam">singledispatch</span><span class="strut">&nbsp;</span></p>
 <p id="t42" class="stm run hide_run"><span class="key">def</span> <span class="nam">to_transform</span><span class="op">(</span><span class="nam">value</span><span class="op">,</span> <span class="nam">from_gdal</span><span class="op">=</span><span class="key">False</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t43" class="pln">    <span class="str">""" Convert input into an Affine transform</span><span class="strut">&nbsp;</span></p>
+<p id="t43" class="pln">    <span class="str">""" Convert input into an :py:class:`affine.Affine` transform</span><span class="strut">&nbsp;</span></p>
 <p id="t44" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t45" class="pln"><span class="str">    Parameters</span><span class="strut">&nbsp;</span></p>
 <p id="t46" class="pln"><span class="str">    ----------</span><span class="strut">&nbsp;</span></p>
@@ -349,7 +349,7 @@
 <p id="t76" class="pln"><span class="com"># TODO: Dispatch function for Cartopy</span><span class="strut">&nbsp;</span></p>
 <p id="t77" class="stm run hide_run"><span class="op">@</span><span class="nam">singledispatch</span><span class="strut">&nbsp;</span></p>
 <p id="t78" class="pln"><span class="key">def</span> <span class="nam">to_crs</span><span class="op">(</span><span class="nam">value</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t79" class="pln">    <span class="str">""" Convert a CRS representation to a `rasterio.crs.CRS`</span><span class="strut">&nbsp;</span></p>
+<p id="t79" class="pln">    <span class="str">""" Convert a CRS representation to a :py:class:`rasterio.crs.CRS`</span><span class="strut">&nbsp;</span></p>
 <p id="t80" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t81" class="pln"><span class="str">    Parameters</span><span class="strut">&nbsp;</span></p>
 <p id="t82" class="pln"><span class="str">    ----------</span><span class="strut">&nbsp;</span></p>
@@ -407,7 +407,7 @@
 <p id="t134" class="pln"><span class="com"># BoundingBox</span><span class="strut">&nbsp;</span></p>
 <p id="t135" class="stm run hide_run"><span class="op">@</span><span class="nam">singledispatch</span><span class="strut">&nbsp;</span></p>
 <p id="t136" class="pln"><span class="key">def</span> <span class="nam">to_bounds</span><span class="op">(</span><span class="nam">value</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t137" class="pln">    <span class="str">""" Convert input to a :py:data:`rasterio.coords.BoundingBox`</span><span class="strut">&nbsp;</span></p>
+<p id="t137" class="pln">    <span class="str">""" Convert input to a :py:class:`rasterio.coords.BoundingBox`</span><span class="strut">&nbsp;</span></p>
 <p id="t138" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t139" class="pln"><span class="str">    Parameters</span><span class="strut">&nbsp;</span></p>
 <p id="t140" class="pln"><span class="str">    ----------</span><span class="strut">&nbsp;</span></p>
@@ -442,7 +442,7 @@
 <p id="t169" class="pln"><span class="com"># Polygon</span><span class="strut">&nbsp;</span></p>
 <p id="t170" class="stm run hide_run"><span class="op">@</span><span class="nam">singledispatch</span><span class="strut">&nbsp;</span></p>
 <p id="t171" class="pln"><span class="key">def</span> <span class="nam">to_bbox</span><span class="op">(</span><span class="nam">value</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t172" class="pln">    <span class="str">""" Convert input a bounding box polygon</span><span class="strut">&nbsp;</span></p>
+<p id="t172" class="pln">    <span class="str">""" Convert input a bounding box :py:class:`shapely.geometry.Polygon`</span><span class="strut">&nbsp;</span></p>
 <p id="t173" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t174" class="pln"><span class="str">    Parameters</span><span class="strut">&nbsp;</span></p>
 <p id="t175" class="pln"><span class="str">    ----------</span><span class="strut">&nbsp;</span></p>
@@ -482,7 +482,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.3</a>,
-            created at 2019-03-14 21:12
+            created at 2019-03-15 17:37
         </p>
     </div>
 </div>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.convert module &mdash; stems 0+untagged.50.g63f59df documentation</title>
+  <title>stems.gis.convert module &mdash; stems 0+untagged.50.g8f28b40 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g63f59df
+                0+untagged.50.g8f28b40
               </div>
             
           
@@ -207,7 +207,7 @@ representations:</p>
 <dl class="function">
 <dt id="stems.gis.convert.to_bbox">
 <code class="descclassname">stems.gis.convert.</code><code class="descname">to_bbox</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/convert.html#to_bbox"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.convert.to_bbox" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert input a bounding box polygon</p>
+<dd><p>Convert input a bounding box <code class="xref py py-class docutils literal notranslate"><span class="pre">shapely.geometry.Polygon</span></code></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -226,7 +226,7 @@ we can use to calculate one from</td>
 <dl class="function">
 <dt id="stems.gis.convert.to_bounds">
 <code class="descclassname">stems.gis.convert.</code><code class="descname">to_bounds</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/convert.html#to_bounds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.convert.to_bounds" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert input to a <code class="xref py py-data docutils literal notranslate"><span class="pre">rasterio.coords.BoundingBox</span></code></p>
+<dd><p>Convert input to a <a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.coords.html#rasterio.coords.BoundingBox" title="(in rasterio v1.0.21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">rasterio.coords.BoundingBox</span></code></a></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -245,7 +245,7 @@ we can use to calculate one from</td>
 <dl class="function">
 <dt id="stems.gis.convert.to_crs">
 <code class="descclassname">stems.gis.convert.</code><code class="descname">to_crs</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/convert.html#to_crs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.convert.to_crs" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert a CRS representation to a <cite>rasterio.crs.CRS</cite></p>
+<dd><p>Convert a CRS representation to a <a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">rasterio.crs.CRS</span></code></a></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -264,7 +264,7 @@ rasterio-compatible proj4 attributes in a dict, or OSR definition</td>
 <dl class="function">
 <dt id="stems.gis.convert.to_transform">
 <code class="descclassname">stems.gis.convert.</code><code class="descname">to_transform</code><span class="sig-paren">(</span><em>value</em>, <em>from_gdal=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/convert.html#to_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.convert.to_transform" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert input into an Affine transform</p>
+<dd><p>Convert input into an <code class="xref py py-class docutils literal notranslate"><span class="pre">affine.Affine</span></code> transform</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
