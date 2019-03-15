@@ -69,6 +69,10 @@ indexing the row and column (or vertical, horizontal) as you would a ``dict``.
 Tile
 ====
 
+
+Attributes
+----------
+
 .. autosummary::
 
     Tile.index
@@ -76,11 +80,17 @@ Tile
     Tile.bounds
     Tile.res
     Tile.size
+    Tile.bbox
     Tile.vertical
     Tile.horizontal
-    Tile.transform
-    Tile.bbox
     Tile.width
     Tile.height
-    Tile.coords
-    Tile.geojson
+    Tile.transform
+
+Methods
+-------
+
+.. autosummary::
+
+   Tile.coords
+   Tile.geojson

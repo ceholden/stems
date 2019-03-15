@@ -62,6 +62,7 @@ Documentation is built using Sphinx and requires:
 - sphinx
 - sphinx_rtd_theme
 - sphinxcontrib-bibtex
+- numpydoc
 
 
 Instructions

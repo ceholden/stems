@@ -53,25 +53,6 @@ class TileGrid(collections.abc.Mapping):
     """
 
     def __init__(self, ul, crs, res, size, limits=None, name='Grid'):
-        """ A tile specification or tile scheme
-
-        Parameters
-        ----------
-        ul : tuple
-            Upper left X/Y coordinates
-        crs : str, int, dict, or rasterio.crs.CRS
-            Coordinate system information, given as a proj4 string, EPSG code,
-            rasterio-compatible `dict`, or a :py:class:`rasterio.crs.CRS`
-        res : tuple
-            Pixel X/Y resolution
-        size : tuple
-            Number of pixels in X/Y dimensions for each tile
-        limits : Sequence, optional
-            Optionally, provide the minimum/maximum row and column indices for
-            this grid (e.g., ``limits=[(0, 10), (0, 25)]``)
-        name : str, optional
-            Name of this tiling scheme
-        """
         crs_ = convert.to_crs(crs)
         assert crs_.is_valid
 
@@ -246,7 +227,8 @@ class TileGrid(collections.abc.Mapping):
         Parameters
         ----------
         point : tuple
-            X/Y coordinates in tile specification's CRS
+            X/Y coordinates. Coordinates must be in the same CRS as the
+            TileGrid.
 
         Returns
         -------
@@ -262,15 +244,11 @@ class TileGrid(collections.abc.Mapping):
     def bounds_to_tiles(self, bounds):
         """ Yield Tile objects for this grid within a given bounds
 
-        .. note::
-
-            It is required that the input ``bounds`` be in the same
-            coordinate reference system as ``crs``.
 
         Parameters
         ----------
         bounds : BoundingBox
-            Input bounds
+            Input bounds. Bounds must be in the same CRS as the TileGrid.
 
         Yields
         ------
@@ -286,12 +264,12 @@ class TileGrid(collections.abc.Mapping):
         Parameters
         ----------
         roi : Polygon, MultiPolygon, etc.
-            A shapely geometry in the tile specifications' crs
+            A shapely geometry. Must be in the same CRS as the TileGrid.
 
         Yields
         ------
         iterable[Tile]
-            Yields ``Tile``s within provided Region of Interest
+            Yields ``Tile`` objects within provided Region of Interest
         """
         bounds = BoundingBox(*roi.bounds)
         grid_ys, grid_xs = self._frame_bounds(bounds)
@@ -397,24 +375,21 @@ class TileGrid(collections.abc.Mapping):
 
 class Tile(object):
     """ A Tile
+
+    Attributes
+    ----------
+    index : tuple[int, int]
+        The (row, column) index of this tile in the grid
+    crs : rasterio.crs.CRS
+        The tile coordinate reference system
+    bounds : BoundingBox
+        The bounding box of the tile
+    res : tuple[float, float]
+        Pixel X/Y resolution
+    size : tuple[int, int]
+        Number of columns and rows in tile
     """
     def __init__(self, index, crs, bounds, res, size):
-        """ A Tile
-
-        Parameters
-        ----------
-        index : tuple[int, int]
-            The (row, column) index of this tile in the larger tile
-            specification
-        crs : rasterio.crs.CRS
-            The coordinate reference system of the tile
-        bounds : BoundingBox
-            The bounding box of the tile
-        res : tuple[float, float]
-            Pixel X/Y resolution of tile
-        size : tuple[int, int]
-            Number of pixels in X/Y dimensions for each tile
-        """
         self.index = index
         self.crs = crs
         self.bounds = bounds
@@ -435,7 +410,7 @@ class Tile(object):
 
     @property
     def transform(self):
-        """ Affine: The ``Affine`` transform for the tile
+        """ affine.Affine: The ``Affine`` transform for the tile
         """
         return Affine(self.res[0], 0, self.bounds.left,
                       0, -self.res[1], self.bounds.top)
@@ -468,8 +443,10 @@ class Tile(object):
 
         Returns
         -------
-        tuple[np.ndarray]
-            Y/X coordinates
+        np.ndarray
+            Y coordinates
+        np.ndarray
+            X coordinates
         """
         return transform_to_coords(self.transform,
                                    width=self.width,
@@ -477,7 +454,7 @@ class Tile(object):
                                    center=center)
 
     def geojson(self, crs=_GEOJSON_EPSG_4326_STRING):
-        """ Return this Tile's geomtry as GeoJSON
+        """ Return this Tile's geometry as GeoJSON
 
         Parameters
         ----------

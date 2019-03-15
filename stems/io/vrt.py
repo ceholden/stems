@@ -148,6 +148,7 @@ class VRTDataset(object):
 
     def add_band(self, path, src_bidx=1, vrt_bidx=None, **band_kwds):
         """ Add a band to VRT dataset
+
         Parameters
         ----------
         path : str

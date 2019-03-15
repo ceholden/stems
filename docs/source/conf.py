@@ -48,7 +48,10 @@ extensions = [
     'sphinx.ext.napoleon',
     'sphinx.ext.todo',
     'sphinx.ext.viewcode',
+    'numpydoc'
 ]
+# https://github.com/numpy/numpydoc/issues/69
+numpydoc_show_class_members = False
 
 # Mapping to other project docs so we can link to classes, functions, etc
 _py_version = f'{sys.version_info.major}.{sys.version_info.minor}'

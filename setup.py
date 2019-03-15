@@ -55,7 +55,7 @@ INSTALL_REQUIRES.extend(['click>=6.0', 'click-plugins', 'cligj>=0.5'])
 SETUP_REQUIRES = ['pytest-runner']
 TESTS_REQUIRE = [
     'pytest', 'pytest-cov', 'pytest-lazy-fixture', 'coverage',
-    'sphinx', 'sphinx_rtd_theme', 'sphinxcontrib-bibtex'
+    'sphinx', 'sphinx_rtd_theme', 'sphinxcontrib-bibtex', 'numpydoc'
 ]
 EXTRAS_REQUIRE = {
     'core': INSTALL_REQUIRES,
