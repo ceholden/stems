@@ -61,6 +61,7 @@ intersphinx_mapping = {
     'xarray': ('http://xarray.pydata.org/en/stable/', None),
     'xr': ('http://xarray.pydata.org/en/stable/', None),
     'dask': ('http://docs.dask.org/en/latest/', None),
+    'distributed': ('http://distributed.dask.org/en/latest/', None),
     'fiona': ('https://fiona.readthedocs.io/en/latest/', None),
     'rasterio': ('https://rasterio.readthedocs.io/en/latest/', None),
     'shapely': ('https://shapely.readthedocs.io/en/latest/', None),

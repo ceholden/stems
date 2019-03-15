@@ -40,7 +40,7 @@ GEOM_TYPE = find_subclasses(shapely.geometry.base.BaseGeometry)
 # Affine geotransform
 @singledispatch
 def to_transform(value, from_gdal=False):
-    """ Convert input into an Affine transform
+    """ Convert input into an :py:class:`affine.Affine` transform
 
     Parameters
     ----------
@@ -76,7 +76,7 @@ def _to_transform_iter(value, from_gdal=False):
 # TODO: Dispatch function for Cartopy
 @singledispatch
 def to_crs(value):
-    """ Convert a CRS representation to a `rasterio.crs.CRS`
+    """ Convert a CRS representation to a :py:class:`rasterio.crs.CRS`
 
     Parameters
     ----------
@@ -134,7 +134,7 @@ def _to_crs_osr(value):
 # BoundingBox
 @singledispatch
 def to_bounds(value):
-    """ Convert input to a :py:data:`rasterio.coords.BoundingBox`
+    """ Convert input to a :py:class:`rasterio.coords.BoundingBox`
 
     Parameters
     ----------
@@ -169,7 +169,7 @@ def _to_bounds_geom(value):
 # Polygon
 @singledispatch
 def to_bbox(value):
-    """ Convert input a bounding box polygon
+    """ Convert input a bounding box :py:class:`shapely.geometry.Polygon`
 
     Parameters
     ----------
