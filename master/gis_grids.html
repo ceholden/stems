@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Tile Grid Systems &mdash; stems 0+untagged.50.g8f28b40 documentation</title>
+  <title>Tile Grid Systems &mdash; stems 0+untagged.50.gfbb53a1 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0+untagged.50.g8f28b40
+                0+untagged.50.gfbb53a1
               </div>
             
           
@@ -101,7 +101,11 @@
 <li class="toctree-l3"><a class="reference internal" href="#dictionary-interface">Dictionary Interface</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#tile">Tile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tile">Tile</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Attributes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#methods">Methods</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="parallel.html">Parallel Computing Helpers</a></li>
@@ -304,53 +308,67 @@ indexing the row and column (or vertical, horizontal) as you would a <code class
 </div>
 <div class="section" id="tile">
 <h2>Tile<a class="headerlink" href="#tile" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h3>Attributes<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.index</span></code></td>
+<tr class="row-odd"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.Tile.index" title="stems.gis.grids.Tile.index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.index</span></code></a></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.crs</span></code></td>
+<tr class="row-even"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.Tile.crs" title="stems.gis.grids.Tile.crs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.crs</span></code></a></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.bounds</span></code></td>
+<tr class="row-odd"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.Tile.bounds" title="stems.gis.grids.Tile.bounds"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.bounds</span></code></a></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.res</span></code></td>
+<tr class="row-even"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.Tile.res" title="stems.gis.grids.Tile.res"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.res</span></code></a></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.size</span></code></td>
+<tr class="row-odd"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.Tile.size" title="stems.gis.grids.Tile.size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.size</span></code></a></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.Tile.vertical" title="stems.gis.grids.Tile.vertical"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.vertical</span></code></a></td>
-<td>The horizontal index of this tile in its tile specification</td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.Tile.horizontal" title="stems.gis.grids.Tile.horizontal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.horizontal</span></code></a></td>
-<td>The horizontal index of this tile in its tile specification</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.Tile.transform" title="stems.gis.grids.Tile.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.transform</span></code></a></td>
-<td>The <code class="docutils literal notranslate"><span class="pre">Affine</span></code> transform for the tile</td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.Tile.bbox" title="stems.gis.grids.Tile.bbox"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.bbox</span></code></a></td>
+<tr class="row-even"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.Tile.bbox" title="stems.gis.grids.Tile.bbox"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.bbox</span></code></a></td>
 <td>This tile’s bounding box geometry</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.Tile.width" title="stems.gis.grids.Tile.width"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.width</span></code></a></td>
+<tr class="row-odd"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.Tile.vertical" title="stems.gis.grids.Tile.vertical"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.vertical</span></code></a></td>
+<td>The horizontal index of this tile in its tile specification</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.Tile.horizontal" title="stems.gis.grids.Tile.horizontal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.horizontal</span></code></a></td>
+<td>The horizontal index of this tile in its tile specification</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.Tile.width" title="stems.gis.grids.Tile.width"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.width</span></code></a></td>
 <td>The number of columns in this Tile</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.Tile.height" title="stems.gis.grids.Tile.height"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.height</span></code></a></td>
+<tr class="row-even"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.Tile.height" title="stems.gis.grids.Tile.height"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.height</span></code></a></td>
 <td>The number of columns in this Tile</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.Tile.coords" title="stems.gis.grids.Tile.coords"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.coords</span></code></a>([center])</td>
-<td>Return y/x pixel coordinates</td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.Tile.geojson" title="stems.gis.grids.Tile.geojson"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.geojson</span></code></a>([crs])</td>
-<td>Return this Tile’s geomtry as GeoJSON</td>
+<tr class="row-odd"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.Tile.transform" title="stems.gis.grids.Tile.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.transform</span></code></a></td>
+<td>The <code class="docutils literal notranslate"><span class="pre">Affine</span></code> transform for the tile</td>
 </tr>
 </tbody>
 </table>
+</div>
+<div class="section" id="methods">
+<h3>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.Tile.coords" title="stems.gis.grids.Tile.coords"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.coords</span></code></a>([center])</td>
+<td>Return y/x pixel coordinates</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.Tile.geojson" title="stems.gis.grids.Tile.geojson"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.geojson</span></code></a>([crs])</td>
+<td>Return this Tile’s geometry as GeoJSON</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 </div>
 

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.projections module &mdash; stems 0+untagged.50.g8f28b40 documentation</title>
+  <title>stems.gis.projections module &mdash; stems 0+untagged.50.gfbb53a1 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g8f28b40
+                0+untagged.50.gfbb53a1
               </div>
             
           
@@ -233,12 +233,25 @@
 </tbody>
 </table>
 <p class="rubric">References</p>
-<table class="docutils footnote" frame="void" id="id1" rules="none">
+<table class="docutils citation" frame="void" id="rab7b9d14ed12-1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label">[1]</td><td><a class="reference external" href="https://cf-pcmdi.llnl.gov/trac/wiki/Cf2CrsWkt#Table2-FutureCF-1.7CFGridMappingAttributes">https://cf-pcmdi.llnl.gov/trac/wiki/Cf2CrsWkt#Table2-FutureCF-1.7CFGridMappingAttributes</a></td></tr>
 </tbody>
 </table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cf_crs_attrs</span><span class="p">(</span><span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">4326</span><span class="p">))</span>  <span class="c1"># WGS84</span>
+<span class="go">OrderedDict([(&#39;geographic_coordinate_system_name&#39;, &#39;WGS 84&#39;),</span>
+<span class="go">         (&#39;horizontal_datum_name&#39;, &#39;WGS_1984&#39;),</span>
+<span class="go">         (&#39;reference_ellipsoid_name&#39;, &#39;WGS 84&#39;),</span>
+<span class="go">         (&#39;prime_meridian_name&#39;, &#39;Greenwich&#39;)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cf_crs_attrs</span><span class="p">(</span><span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">32619</span><span class="p">))</span>  <span class="c1"># UTM19N</span>
+<span class="go">OrderedDict([(&#39;projected_coordinate_system_name&#39;, &#39;WGS 84 / UTM zone 19N&#39;),</span>
+<span class="go">             (&#39;horizontal_datum_name&#39;, &#39;WGS_1984&#39;),</span>
+<span class="go">             (&#39;reference_ellipsoid_name&#39;, &#39;WGS 84&#39;),</span>
+<span class="go">             (&#39;prime_meridian_name&#39;, &#39;Greenwich&#39;)])</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="function">
@@ -257,6 +270,13 @@
 </tr>
 </tbody>
 </table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cf_crs_attrs</span><span class="p">(</span><span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">4326</span><span class="p">))</span>  <span class="c1"># WGS84</span>
+<span class="go">&#39;latitude_longitude&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cf_crs_attrs</span><span class="p">(</span><span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">32619</span><span class="p">))</span>  <span class="c1"># UTM19N</span>
+<span class="go">&#39;transverse_mercator&#39;</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="function">
@@ -275,6 +295,17 @@
 </tr>
 </tbody>
 </table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cf_crs_attrs</span><span class="p">(</span><span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">4326</span><span class="p">))</span>  <span class="c1"># WGS84</span>
+<span class="go">OrderedDict([(&#39;semi_major_axis&#39;, 6378137.0),</span>
+<span class="go">             (&#39;semi_minor_axis&#39;, 6356752.314245179),</span>
+<span class="go">             (&#39;inverse_flattening&#39;, 298.257223563)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cf_crs_attrs</span><span class="p">(</span><span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">32619</span><span class="p">))</span>  <span class="c1"># UTM19N</span>
+<span class="go">OrderedDict([(&#39;semi_major_axis&#39;, 6378137.0),</span>
+<span class="go">             (&#39;semi_minor_axis&#39;, 6356752.314245179),</span>
+<span class="go">             (&#39;inverse_flattening&#39;, 298.257223563)])</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="function">
@@ -295,6 +326,17 @@
 </tr>
 </tbody>
 </table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cf_crs_attrs</span><span class="p">(</span><span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">4326</span><span class="p">))</span>  <span class="c1"># WGS84</span>
+<span class="go">OrderedDict()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cf_crs_attrs</span><span class="p">(</span><span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">32619</span><span class="p">))</span>  <span class="c1"># UTM19N</span>
+<span class="go">OrderedDict([(&#39;latitude_of_projection_origin&#39;, 0.0),</span>
+<span class="go">             (&#39;longitude_of_central_meridian&#39;, -69.0),</span>
+<span class="go">             (&#39;scale_factor_at_central_meridian&#39;, 0.9996),</span>
+<span class="go">             (&#39;false_easting&#39;, 500000.0),</span>
+<span class="go">             (&#39;false_northing&#39;, 0.0)])</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="function">
@@ -315,6 +357,13 @@
 </tr>
 </tbody>
 </table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cf_crs_attrs</span><span class="p">(</span><span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">4326</span><span class="p">))</span>  <span class="c1"># WGS84</span>
+<span class="go">(&#39;longitude&#39;, &#39;latitude&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cf_crs_attrs</span><span class="p">(</span><span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">32619</span><span class="p">))</span>  <span class="c1"># UTM19N</span>
+<span class="go">(&#39;x&#39;, &#39;y&#39;)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="function">
@@ -327,16 +376,17 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.21)"><em>rasterio.crs.CRS</em></a>) – CRS</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Lowercase projection name (see keys of <span class="xref std std-ref">CF_PROJECTION_DEFS</span>)</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Lowercase projection name (see keys of <a class="reference internal" href="#stems.gis.projections.CF_PROJECTION_DEFS" title="stems.gis.projections.CF_PROJECTION_DEFS"><code class="xref py py-data docutils literal notranslate"><span class="pre">CF_PROJECTION_DEFS</span></code></a>)</td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)">str</a></td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Examples</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">proj</span> <span class="o">=</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">3857</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">crs_longname</span><span class="p">(</span><span class="n">proj</span><span class="p">)</span>
-<span class="go">&quot;WGS 84 / Pseudo-Mercator&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crs_longname</span><span class="p">(</span><span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">3857</span><span class="p">))</span>  <span class="c1"># Web Mercator</span>
+<span class="go">&#39;WGS 84 / Pseudo-Mercator&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs_longname</span><span class="p">(</span><span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">32619</span><span class="p">))</span>  <span class="c1"># UTM19N</span>
+<span class="go">&#39;WGS 84 / UTM zone 19N&#39;</span>
 </pre></div>
 </div>
 </dd></dl>

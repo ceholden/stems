@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.grids &mdash; stems 0+untagged.50.g8f28b40 documentation</title>
+  <title>stems.gis.grids &mdash; stems 0+untagged.50.gfbb53a1 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g8f28b40
+                0+untagged.50.gfbb53a1
               </div>
             
           
@@ -216,25 +216,6 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ul</span><span class="p">,</span> <span class="n">crs</span><span class="p">,</span> <span class="n">res</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Grid&#39;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; A tile specification or tile scheme</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        ul : tuple</span>
-<span class="sd">            Upper left X/Y coordinates</span>
-<span class="sd">        crs : str, int, dict, or rasterio.crs.CRS</span>
-<span class="sd">            Coordinate system information, given as a proj4 string, EPSG code,</span>
-<span class="sd">            rasterio-compatible `dict`, or a :py:class:`rasterio.crs.CRS`</span>
-<span class="sd">        res : tuple</span>
-<span class="sd">            Pixel X/Y resolution</span>
-<span class="sd">        size : tuple</span>
-<span class="sd">            Number of pixels in X/Y dimensions for each tile</span>
-<span class="sd">        limits : Sequence, optional</span>
-<span class="sd">            Optionally, provide the minimum/maximum row and column indices for</span>
-<span class="sd">            this grid (e.g., ``limits=[(0, 10), (0, 25)]``)</span>
-<span class="sd">        name : str, optional</span>
-<span class="sd">            Name of this tiling scheme</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">crs_</span> <span class="o">=</span> <span class="n">convert</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">crs</span><span class="p">)</span>
         <span class="k">assert</span> <span class="n">crs_</span><span class="o">.</span><span class="n">is_valid</span>
 
@@ -409,7 +390,8 @@
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        point : tuple</span>
-<span class="sd">            X/Y coordinates in tile specification&#39;s CRS</span>
+<span class="sd">            X/Y coordinates. Coordinates must be in the same CRS as the</span>
+<span class="sd">            TileGrid.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -425,15 +407,11 @@
 <div class="viewcode-block" id="TileGrid.bounds_to_tiles"><a class="viewcode-back" href="../../../stems/stems.gis.grids.html#stems.gis.grids.TileGrid.bounds_to_tiles">[docs]</a>    <span class="k">def</span> <span class="nf">bounds_to_tiles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bounds</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Yield Tile objects for this grid within a given bounds</span>
 
-<span class="sd">        .. note::</span>
-
-<span class="sd">            It is required that the input ``bounds`` be in the same</span>
-<span class="sd">            coordinate reference system as ``crs``.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        bounds : BoundingBox</span>
-<span class="sd">            Input bounds</span>
+<span class="sd">            Input bounds. Bounds must be in the same CRS as the TileGrid.</span>
 
 <span class="sd">        Yields</span>
 <span class="sd">        ------</span>
@@ -449,12 +427,12 @@
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        roi : Polygon, MultiPolygon, etc.</span>
-<span class="sd">            A shapely geometry in the tile specifications&#39; crs</span>
+<span class="sd">            A shapely geometry. Must be in the same CRS as the TileGrid.</span>
 
 <span class="sd">        Yields</span>
 <span class="sd">        ------</span>
 <span class="sd">        iterable[Tile]</span>
-<span class="sd">            Yields ``Tile``s within provided Region of Interest</span>
+<span class="sd">            Yields ``Tile`` objects within provided Region of Interest</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">bounds</span> <span class="o">=</span> <span class="n">BoundingBox</span><span class="p">(</span><span class="o">*</span><span class="n">roi</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
         <span class="n">grid_ys</span><span class="p">,</span> <span class="n">grid_xs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_frame_bounds</span><span class="p">(</span><span class="n">bounds</span><span class="p">)</span>
@@ -560,24 +538,21 @@
 
 <div class="viewcode-block" id="Tile"><a class="viewcode-back" href="../../../stems/stems.gis.grids.html#stems.gis.grids.Tile">[docs]</a><span class="k">class</span> <span class="nc">Tile</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; A Tile</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    index : tuple[int, int]</span>
+<span class="sd">        The (row, column) index of this tile in the grid</span>
+<span class="sd">    crs : rasterio.crs.CRS</span>
+<span class="sd">        The tile coordinate reference system</span>
+<span class="sd">    bounds : BoundingBox</span>
+<span class="sd">        The bounding box of the tile</span>
+<span class="sd">    res : tuple[float, float]</span>
+<span class="sd">        Pixel X/Y resolution</span>
+<span class="sd">    size : tuple[int, int]</span>
+<span class="sd">        Number of columns and rows in tile</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">crs</span><span class="p">,</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">res</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; A Tile</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        index : tuple[int, int]</span>
-<span class="sd">            The (row, column) index of this tile in the larger tile</span>
-<span class="sd">            specification</span>
-<span class="sd">        crs : rasterio.crs.CRS</span>
-<span class="sd">            The coordinate reference system of the tile</span>
-<span class="sd">        bounds : BoundingBox</span>
-<span class="sd">            The bounding box of the tile</span>
-<span class="sd">        res : tuple[float, float]</span>
-<span class="sd">            Pixel X/Y resolution of tile</span>
-<span class="sd">        size : tuple[int, int]</span>
-<span class="sd">            Number of pixels in X/Y dimensions for each tile</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">index</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">crs</span> <span class="o">=</span> <span class="n">crs</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span> <span class="o">=</span> <span class="n">bounds</span>
@@ -598,7 +573,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Affine: The ``Affine`` transform for the tile</span>
+        <span class="sd">&quot;&quot;&quot; affine.Affine: The ``Affine`` transform for the tile</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Affine</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="n">left</span><span class="p">,</span>
                       <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="n">top</span><span class="p">)</span>
@@ -631,8 +606,10 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        tuple[np.ndarray]</span>
-<span class="sd">            Y/X coordinates</span>
+<span class="sd">        np.ndarray</span>
+<span class="sd">            Y coordinates</span>
+<span class="sd">        np.ndarray</span>
+<span class="sd">            X coordinates</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">transform_to_coords</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">,</span>
                                    <span class="n">width</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
@@ -640,7 +617,7 @@
                                    <span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Tile.geojson"><a class="viewcode-back" href="../../../stems/stems.gis.grids.html#stems.gis.grids.Tile.geojson">[docs]</a>    <span class="k">def</span> <span class="nf">geojson</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="n">_GEOJSON_EPSG_4326_STRING</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Return this Tile&#39;s geomtry as GeoJSON</span>
+        <span class="sd">&quot;&quot;&quot; Return this Tile&#39;s geometry as GeoJSON</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>

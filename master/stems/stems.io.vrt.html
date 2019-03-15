@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.io.vrt module &mdash; stems 0+untagged.50.g8f28b40 documentation</title>
+  <title>stems.io.vrt module &mdash; stems 0+untagged.50.gfbb53a1 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g8f28b40
+                0+untagged.50.gfbb53a1
               </div>
             
           
@@ -183,25 +183,28 @@
 <dl class="method">
 <dt id="stems.io.vrt.VRTDataset.add_band">
 <code class="descname">add_band</code><span class="sig-paren">(</span><em>path</em>, <em>src_bidx=1</em>, <em>vrt_bidx=None</em>, <em>**band_kwds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/vrt.html#VRTDataset.add_band"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.vrt.VRTDataset.add_band" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add a band to VRT dataset
-:param path: List of paths to open as datasets
-:type path: str
-:param src_bidx: Band indices of <cite>datasets</cite> to include. Defaults to <code class="docutils literal notranslate"><span class="pre">1</span></code>
-:type src_bidx: int, optional
-:param vrt_bidx: Destination band in VRT for new band. Only used if</p>
-<blockquote>
-<div><code class="docutils literal notranslate"><span class="pre">self.separate</span></code> is True</div></blockquote>
+<dd><p>Add a band to VRT dataset</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>band_kwds</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – Additional keyword arguments passed onto <a class="reference internal" href="#stems.io.vrt.VRTSourceBand" title="stems.io.vrt.VRTSourceBand"><code class="xref py py-class docutils literal notranslate"><span class="pre">VRTSourceBand</span></code></a></td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – List of paths to open as datasets</li>
+<li><strong>src_bidx</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – Band indices of <cite>datasets</cite> to include. Defaults to <code class="docutils literal notranslate"><span class="pre">1</span></code></li>
+<li><strong>vrt_bidx</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)"><em>None</em></a>) – Destination band in VRT for new band. Only used if
+<code class="docutils literal notranslate"><span class="pre">self.separate</span></code> is True</li>
+<li><strong>band_kwds</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – Additional keyword arguments passed onto <a class="reference internal" href="#stems.io.vrt.VRTSourceBand" title="stems.io.vrt.VRTSourceBand"><code class="xref py py-class docutils literal notranslate"><span class="pre">VRTSourceBand</span></code></a></li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>vrt_bidx</strong> – VRT band index</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>vrt_bidx</strong> – VRT band index</p>
+</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a></p>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/exceptions.html#ValueError" title="(in Python v3.6)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> – Raised if vrt_bidx is invalid</td>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3.6/library/exceptions.html#ValueError" title="(in Python v3.6)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> – Raised if vrt_bidx is invalid</p>
+</td>
 </tr>
 </tbody>
 </table>
