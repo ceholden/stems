@@ -140,13 +140,14 @@ def crs_longname(crs):
     Returns
     -------
     str
-        Lowercase projection name (see keys of :ref:`CF_PROJECTION_DEFS`)
+        Lowercase projection name (see keys of :py:data:`CF_PROJECTION_DEFS`)
 
     Examples
     --------
-    >>> proj = rasterio.crs.CRS.from_epsg(3857)
-    >>> crs_longname(proj)
-    "WGS 84 / Pseudo-Mercator"
+    >>> crs_longname(CRS.from_epsg(3857))  # Web Mercator
+    'WGS 84 / Pseudo-Mercator'
+    >>> crs_longname(CRS.from_epsg(32619))  # UTM19N
+    'WGS 84 / UTM zone 19N'
     """
     # This doesn't necessarily relate to CF but it's nice to have
     crs_osr = crs2osr(crs)
@@ -170,6 +171,13 @@ def cf_crs_name(crs):
     -------
     str
         Lowercase projection name (see keys of :py:mod:`CF_PROJECTION_DEFS`)
+
+    Examples
+    --------
+    >>> cf_crs_attrs(CRS.from_epsg(4326))  # WGS84
+    'latitude_longitude'
+    >>> cf_crs_attrs(CRS.from_epsg(32619))  # UTM19N
+    'transverse_mercator'
     """
     crs_osr = crs2osr(crs)
     if crs.is_projected:
@@ -200,8 +208,20 @@ def cf_crs_attrs(crs):
 
     References
     ----------
-
     .. [1] https://cf-pcmdi.llnl.gov/trac/wiki/Cf2CrsWkt#Table2-FutureCF-1.7CFGridMappingAttributes
+
+    Examples
+    --------
+    >>> cf_crs_attrs(CRS.from_epsg(4326))  # WGS84
+    OrderedDict([('geographic_coordinate_system_name', 'WGS 84'),
+             ('horizontal_datum_name', 'WGS_1984'),
+             ('reference_ellipsoid_name', 'WGS 84'),
+             ('prime_meridian_name', 'Greenwich')])
+    >>> cf_crs_attrs(CRS.from_epsg(32619))  # UTM19N
+    OrderedDict([('projected_coordinate_system_name', 'WGS 84 / UTM zone 19N'),
+                 ('horizontal_datum_name', 'WGS_1984'),
+                 ('reference_ellipsoid_name', 'WGS 84'),
+                 ('prime_meridian_name', 'Greenwich')])
     """
     osr_crs = crs2osr(crs)
     attrs = OrderedDict()
@@ -236,6 +256,17 @@ def cf_proj_params(crs):
     ------
     stems.errors.TODO
         Raise if CRS isn't supported yet
+
+    Examples
+    --------
+    >>> cf_crs_attrs(CRS.from_epsg(4326))  # WGS84
+    OrderedDict()
+    >>> cf_crs_attrs(CRS.from_epsg(32619))  # UTM19N
+    OrderedDict([('latitude_of_projection_origin', 0.0),
+                 ('longitude_of_central_meridian', -69.0),
+                 ('scale_factor_at_central_meridian', 0.9996),
+                 ('false_easting', 500000.0),
+                 ('false_northing', 0.0)])
     """
     name = cf_crs_name(crs)
     osr_crs = crs2osr(crs)
@@ -249,6 +280,7 @@ def cf_proj_params(crs):
             parms[cf_parm] = tuple(osr_crs.GetProjParm(p) for p in osgeo_parm)
         else:
             parms[cf_parm] = osr_crs.GetProjParm(osgeo_parm)
+
     return parms
 
 
@@ -265,6 +297,16 @@ def cf_ellps_params(crs):
     OrderedDict
         Ellipsoid parameters and values
 
+    Examples
+    --------
+    >>> cf_crs_attrs(CRS.from_epsg(4326))  # WGS84
+    OrderedDict([('semi_major_axis', 6378137.0),
+                 ('semi_minor_axis', 6356752.314245179),
+                 ('inverse_flattening', 298.257223563)])
+    >>> cf_crs_attrs(CRS.from_epsg(32619))  # UTM19N
+    OrderedDict([('semi_major_axis', 6378137.0),
+                 ('semi_minor_axis', 6356752.314245179),
+                 ('inverse_flattening', 298.257223563)])
     """
     osr_crs = crs2osr(crs)
 
@@ -288,6 +330,13 @@ def cf_xy_coord_names(crs):
         X coordinate name
     str : y_coord_name
         Y coordinate name
+
+    Examples
+    --------
+    >>> cf_crs_attrs(CRS.from_epsg(4326))  # WGS84
+    ('longitude', 'latitude')
+    >>> cf_crs_attrs(CRS.from_epsg(32619))  # UTM19N
+    ('x', 'y')
     """
     # CRSError is raised if neither is true, so we don't handle
     if crs.is_geographic:
