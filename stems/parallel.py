@@ -7,6 +7,7 @@ References
 """
 from collections import defaultdict
 import functools
+import inspect
 from itertools import product
 import logging
 
@@ -92,8 +93,7 @@ def iter_noncore_chunks(data, core_dims, chunk_sizes=None):
         yield i
 
 
-def map_collect_1d(core_dims, arg_idx=0, concat_axis=0,
-                   concat_func=np.concatenate):
+def map_collect_1d(core_dims, arg_idx=0, concat_func=None, concat_axis=0):
     """ Decorator that maps a function across pixels and concatenates the result
 
     Parameters
@@ -104,15 +104,35 @@ def map_collect_1d(core_dims, arg_idx=0, concat_axis=0,
         the ``core_dim`` could be 'time'.
     arg_idx : int or tuple[int], optional
         Index(es) of ``*args`` to pick as the data to iterate over.
-    concat_axis : int, optional
-        Axis along which the arrays will be joined (passed to ``concat_func``)
     concat_func : callable, optional
         Function used to concatenate the data. Should take the ``axis`` keyword
+    concat_axis : int, optional
+        Axis along which the arrays will be joined (passed to ``concat_func``)
 
     Returns
     -------
     callable
         Decorator for function (parametrized by ``core_dims`` and ``arg_idx``)
+
+    Examples
+    --------
+    The decorated function can get information about where it is in the array
+    by accepting a special ``block_info`` keyword argument. This ``block_info``
+    is similar in concept to what can be passed using
+    :py:func:`dask.array.map_blocks`, but with extra coordinate information.
+
+    >>> def func(block, block_info=None):
+    ...     pass
+
+
+    this ``block_info`` will be a dict with keys for the argument index or
+    keyword and the values the following information:
+
+    - shape
+    - num-chunks
+    - array-location
+    - coord-location
+
     """
     if isinstance(arg_idx, (int, )):
         arg_idx = (arg_idx, )
@@ -134,6 +154,11 @@ def map_collect_1d(core_dims, arg_idx=0, concat_axis=0,
             # `None` for chunk_sizes defaults to 1 and avoids slices
             iter_ = iter_chunks(noncore_dims_sizes, None)
 
+            # Check if we should provide ``block_info``
+            has_block_info = _has_keyword('block_info', func)
+
+            # TODO: delayed func?
+
             # Store arguments so we can replace some with data post-selection
             func_args = list(args)
 
@@ -147,14 +172,22 @@ def map_collect_1d(core_dims, arg_idx=0, concat_axis=0,
                 for dat_i, arg_i in enumerate(arg_idx):
                     func_args[arg_i] = data_[dat_i]
 
-                # TODO: delayed?
-                # Run and collect
-                result = func(*func_args, **kwds)
+                # Block information if requested
+                if has_block_info:
+                    block_info = {i: _isel_block_info(dat, **window)
+                                  for i, dat in enumerate(data)}
+                    result = func(*func_args, block_info=block_info, **kwds)
+                else:
+                    result = func(*func_args, **kwds)
+
+                # TODO: unpack multiple outputs
                 results.append(result)
 
-            # Concatenate and return
-            results_ = concat_func(results, axis=concat_axis)
-            return results_
+            # Concatenate if needed
+            if concat_func:
+                results = concat_func(results, axis=concat_axis)
+
+            return results
 
         return inner
 
@@ -196,3 +229,37 @@ def _isel_n_squeeze(xarr, noncore_dims, **isel):
     if squeeze_dims:
         item = item.squeeze(dim=squeeze_dims)
     return item
+
+
+def _isel_block_info(xarr, **isel):
+    isel_dims = list(isel.keys())
+
+    if xarr.chunks:
+        num_chunks = tuple(len(c) for c in xarr.chunks)
+    else:
+        num_chunks = (0, ) * len(xarr.dims)
+
+    array_location = []
+    for dim in xarr.dims:
+        slc = isel.get(dim, (0, xarr[dim].size))
+        if isinstance(slc, int):
+            slc = (slc, slc + 1)
+        elif isinstance(slc, slice):
+            slc = (slc.start, slc.stop)
+        array_location.append(slc)
+
+    coord_location = [
+        (xarr[dim][aloc[0]].item(), xarr[dim][aloc[1] - 1].item())
+        for dim, aloc in zip(xarr.dims, array_location)
+    ]
+
+    return {
+        'shape': xarr.shape,
+        'num-chunks': num_chunks,
+        'array-location': array_location,
+        'coord-location': coord_location,
+    }
+
+
+def _has_keyword(keyword, func):
+    return keyword in inspect.signature(func).parameters
