@@ -92,8 +92,8 @@ def _netcdf_encoding_dataarray(data,
     encoding[name].update(dtype_)
 
     # chunksizes: Determine and guard/fixup
-    chunks = encoding_chunksize(data, chunks=chunks)
-    chunks = guard_chunksize_str(data, guard_chunksize(data, chunks))
+    chunks = encoding_chunksizes(data, chunks=chunks)
+    chunks = guard_chunksizes_str(data, guard_chunksizes(data, chunks))
     assert isinstance(chunks, tuple)
     assert all(isinstance(i, int) for i in chunks)
     if chunks:
@@ -131,7 +131,7 @@ def _netcdf_encoding_dataset(data,
         var_encoding = _netcdf_encoding_dataarray(
             data[var],
             dtype=dtype[var] if _is_dict(dtype) else dtype,
-            chunks=chunks[var] if _is_dict(chunks) else chunks,
+            chunks=chunks[var] if _has_key(chunks, var) else chunks,
             zlib=zlib[var] if _is_dict(zlib) else zlib,
             complevel=complevel[var] if _is_dict(complevel) else complevel,
             nodata=nodata[var] if _is_dict(nodata) else nodata,
@@ -181,7 +181,7 @@ def encoding_dtype(xarr):
     return {'dtype': xarr.dtype}
 
 
-def encoding_chunksize(xarr, chunks=None):
+def encoding_chunksizes(xarr, chunks=None):
     """ Find/resolve chunksize for a DataArray
 
     Parameters
@@ -208,7 +208,7 @@ def encoding_chunksize(xarr, chunks=None):
 
 # ----------------------------------------------------------------------------
 # Encoding checks, safeguards, and fixes
-def guard_chunksize(xarr, chunksizes):
+def guard_chunksizes(xarr, chunksizes):
     """ Guard chunksize to be <= dimension sizes
 
     Parameters
@@ -238,7 +238,7 @@ def guard_chunksize(xarr, chunksizes):
     return tuple(chunksizes_)
 
 
-def guard_chunksize_str(xarr, chunksizes):
+def guard_chunksizes_str(xarr, chunksizes):
     """Guard chunk sizes for str datatypes
 
     Chunks for ``str`` need to include string length dimension since
@@ -293,3 +293,7 @@ def guard_dtype(xarr, dtype_):
 
 def _is_dict(x):
     return isinstance(x, dict)
+
+
+def _has_key(d, k):
+    return _is_dict(d) and k in d
