@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.conventions module &mdash; stems 0+untagged.50.g0a9d165 documentation</title>
+  <title>stems.gis.conventions module &mdash; stems 0+untagged.50.ga274142 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g0a9d165
+                0+untagged.50.ga274142
               </div>
             
           
@@ -180,7 +180,7 @@ coordinating naming, grid mapping variables, etc)</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>y</strong> (<em>np.ndarray</em>) – Y coordinate</li>
 <li><strong>x</strong> (<em>np.ndarray</em>) – X coordinate</li>
-<li><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.21)"><em>rasterio.crs.CRS</em></a>) – Coordinate reference system of <code class="docutils literal notranslate"><span class="pre">y</span></code> and <code class="docutils literal notranslate"><span class="pre">x</span></code></li>
+<li><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.22)"><em>rasterio.crs.CRS</em></a>) – Coordinate reference system of <code class="docutils literal notranslate"><span class="pre">y</span></code> and <code class="docutils literal notranslate"><span class="pre">x</span></code></li>
 </ul>
 </td>
 </tr>
@@ -205,13 +205,13 @@ coordinating naming, grid mapping variables, etc)</p>
 <dl class="function">
 <dt id="stems.gis.conventions.create_grid_mapping">
 <code class="descclassname">stems.gis.conventions.</code><code class="descname">create_grid_mapping</code><span class="sig-paren">(</span><em>crs</em>, <em>transform</em>, <em>grid_mapping='crs'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/conventions.html#create_grid_mapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.conventions.create_grid_mapping" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return an <a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.11.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a> of CF-compliant CRS info</p>
+<dd><p>Return an <a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a> of CF-compliant CRS info</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.21)"><em>rasterio.crs.CRS</em></a>) – Coordinate reference system information</li>
+<li><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.22)"><em>rasterio.crs.CRS</em></a>) – Coordinate reference system information</li>
 <li><strong>transform</strong> (<em>affine.Affine</em>) – Affine transform</li>
 <li><strong>grid_mapping</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) – Name of grid mapping variable. Defaults to ‘crs’</li>
 </ul>
@@ -220,7 +220,7 @@ coordinating naming, grid mapping variables, etc)</p>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">“crs” variable holding CRS information</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.11.3)">xarray.DataArray</a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.0)">xarray.DataArray</a></p>
 </td>
 </tr>
 </tbody>

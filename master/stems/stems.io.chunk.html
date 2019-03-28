@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.io.chunk module &mdash; stems 0+untagged.50.g0a9d165 documentation</title>
+  <title>stems.io.chunk module &mdash; stems 0+untagged.50.ga274142 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g0a9d165
+                0+untagged.50.ga274142
               </div>
             
           
@@ -174,9 +174,9 @@
 <blockquote>
 <div><ul class="simple">
 <li>e.g., <code class="docutils literal notranslate"><span class="pre">{'time':</span> <span class="pre">(3,</span> <span class="pre">3,</span> <span class="pre">3,</span> <span class="pre">1,</span> <span class="pre">)}</span></code></li>
-<li>For <a class="reference external" href="http://docs.dask.org/en/latest/array-api.html#dask.array.Array" title="(in Dask v1.1.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dask.array.Array</span></code></a> and <a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.11.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>,
+<li>For <a class="reference external" href="http://docs.dask.org/en/latest/array-api.html#dask.array.Array" title="(in Dask v1.1.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dask.array.Array</span></code></a> and <a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>,
 <code class="docutils literal notranslate"><span class="pre">.chunks</span></code> is a tuple</li>
-<li><a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v0.11.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a> <code class="docutils literal notranslate"><span class="pre">.chunks</span></code> is a mapping</li>
+<li><a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v0.12.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a> <code class="docutils literal notranslate"><span class="pre">.chunks</span></code> is a mapping</li>
 </ul>
 </div></blockquote>
 <p>“Chunksizes” refers to a scalar size (an integer) organized by dimension</p>
@@ -252,7 +252,7 @@ another 3 had a chunksize of 500, the guess is determined by
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>data</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.11.3)"><em>xarray.DataArray</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a><em>, or </em><a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v0.11.3)"><em>xarray.Dataset</em></a>) – Input data containing chunk information</li>
+<li><strong>data</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.0)"><em>xarray.DataArray</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a><em>, or </em><a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v0.12.0)"><em>xarray.Dataset</em></a>) – Input data containing chunk information</li>
 <li><strong>dims</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>]</em><em>, </em><em>optional</em>) – Optionally, provide the order in which dimension chunksizes
 should be returned. Useful when asking for chunksizes from
 not-necessarily-ordered data (dicts and Datasets)</li>
