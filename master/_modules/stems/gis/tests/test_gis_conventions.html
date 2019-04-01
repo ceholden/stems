@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.tests.test_gis_conventions &mdash; stems 0+untagged.50.ga274142 documentation</title>
+  <title>stems.gis.tests.test_gis_conventions &mdash; stems 0+untagged.50.ga804029 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.ga274142
+                0+untagged.50.ga804029
               </div>
             
           
@@ -167,8 +167,39 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">rasterio.crs</span> <span class="k">import</span> <span class="n">CRS</span>
 <span class="kn">import</span> <span class="nn">pytest</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
 
 <span class="kn">from</span> <span class="nn">stems.gis</span> <span class="k">import</span> <span class="n">conventions</span>
+
+
+<span class="c1"># ----------------------------------------------------------------------------</span>
+<span class="c1"># georeference / is_georeferenced</span>
+<div class="viewcode-block" id="test_is_georeferenced"><a class="viewcode-back" href="../../../../stems/stems.gis.tests.test_gis_conventions.html#stems.gis.tests.test_gis_conventions.test_is_georeferenced">[docs]</a><span class="k">def</span> <span class="nf">test_is_georeferenced</span><span class="p">():</span>
+    <span class="c1"># Create ungeoreferenced data</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)),</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="p">),</span>
+                     <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">5</span><span class="p">)})</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">({</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="n">a</span><span class="p">})</span>
+
+    <span class="n">ans</span> <span class="o">=</span> <span class="n">conventions</span><span class="o">.</span><span class="n">is_georeferenced</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">ans</span> <span class="ow">is</span> <span class="kc">False</span>
+    <span class="n">ans</span> <span class="o">=</span> <span class="n">conventions</span><span class="o">.</span><span class="n">is_georeferenced</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">ans</span> <span class="ow">is</span> <span class="kc">False</span>
+
+    <span class="n">crs_</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">32619</span><span class="p">)</span>
+    <span class="n">transform_</span> <span class="o">=</span> <span class="n">Affine</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+
+    <span class="c1"># Create georeferenced data</span>
+    <span class="n">a_</span> <span class="o">=</span> <span class="n">conventions</span><span class="o">.</span><span class="n">georeference</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">crs_</span><span class="p">,</span> <span class="n">transform_</span><span class="p">)</span>
+    <span class="n">ds_</span> <span class="o">=</span> <span class="n">conventions</span><span class="o">.</span><span class="n">georeference</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">crs_</span><span class="p">,</span> <span class="n">transform_</span><span class="p">)</span>
+
+    <span class="n">ans</span> <span class="o">=</span> <span class="n">conventions</span><span class="o">.</span><span class="n">is_georeferenced</span><span class="p">(</span><span class="n">a_</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">ans</span> <span class="ow">is</span> <span class="kc">True</span>
+    <span class="n">ans</span> <span class="o">=</span> <span class="n">conventions</span><span class="o">.</span><span class="n">is_georeferenced</span><span class="p">(</span><span class="n">ds_</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">ans</span> <span class="ow">is</span> <span class="kc">True</span>
+
+    <span class="n">gm_ds</span> <span class="o">=</span> <span class="n">conventions</span><span class="o">.</span><span class="n">get_grid_mapping</span><span class="p">(</span><span class="n">ds_</span><span class="p">)</span>
+    <span class="n">gm_a</span> <span class="o">=</span> <span class="n">conventions</span><span class="o">.</span><span class="n">get_grid_mapping</span><span class="p">(</span><span class="n">a_</span><span class="p">)</span>
+    <span class="n">xr</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">gm_ds</span><span class="p">,</span> <span class="n">gm_a</span><span class="p">)</span></div>
 
 
 <span class="c1"># ----------------------------------------------------------------------------</span>
@@ -245,6 +276,7 @@
 
 <span class="c1"># ============================================================================</span>
 <span class="c1"># Test integration with GDAL</span>
+<span class="c1"># TODO: write to NetCDF4 and try to retrieve info from GDAL</span>
 </pre></div>
 
            </div>

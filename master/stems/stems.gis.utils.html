@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.utils module &mdash; stems 0+untagged.50.ga274142 documentation</title>
+  <title>stems.gis.utils module &mdash; stems 0+untagged.50.ga804029 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.ga274142
+                0+untagged.50.ga804029
               </div>
             
           
@@ -171,18 +171,17 @@
 <dt id="stems.gis.utils.crs2osr">
 <code class="descclassname">stems.gis.utils.</code><code class="descname">crs2osr</code><span class="sig-paren">(</span><em>crs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/utils.html#crs2osr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.utils.crs2osr" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return <cite>osgeo.osr.SpatialReference</cite> of a <cite>rasterio.crs.CRS</cite></p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.22)"><em>rasterio.crs.CRS</em></a>) – Rasterio coordinate reference system</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">CRS as OSR object</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">osr.SpatialReference</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.22)"><em>rasterio.crs.CRS</em></a>) – Rasterio coordinate reference system</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>CRS as OSR object</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>osr.SpatialReference</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
@@ -192,39 +191,37 @@
 <p>Converts Rasterio <code class="docutils literal notranslate"><span class="pre">CRS</span></code> to <code class="docutils literal notranslate"><span class="pre">OSRSpatialReference</span></code>
 and compares using OSR because comparing CRS from
 WKT with CRS from EPSG/Proj4 can be buggy.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>*crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.22)"><em>rasterio.crs.CRS</em></a>) – Two or more CRS</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if all CRS are equivalent</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)">bool</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>*crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.22)"><em>rasterio.crs.CRS</em></a>) – Two or more CRS</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True if all CRS are equivalent</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)">bool</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="stems.gis.utils.same_crs">
 <code class="descclassname">stems.gis.utils.</code><code class="descname">same_crs</code><span class="sig-paren">(</span><em>*crs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/utils.html#same_crs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.utils.same_crs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check if multiple CRS are the same</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.22)"><em>rasterio.crs.CRS</em></a>) – Multiple CRS to compare</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if all of the CRS inputs are the same (according to rasterio)</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)">bool</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.22)"><em>rasterio.crs.CRS</em></a>) – Multiple CRS to compare</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True if all of the CRS inputs are the same (according to rasterio)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)">bool</a></p>
+</dd>
+</dl>
 <div class="admonition seealso">
-<p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="#stems.gis.utils.osr_same_crs" title="stems.gis.utils.osr_same_crs"><code class="xref py py-func docutils literal notranslate"><span class="pre">osr_same_crs()</span></code></a></p>
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#stems.gis.utils.osr_same_crs" title="stems.gis.utils.osr_same_crs"><code class="xref py py-func docutils literal notranslate"><span class="pre">osr_same_crs()</span></code></a></p>
 </div>
 </dd></dl>
 

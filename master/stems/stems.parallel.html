@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.parallel module &mdash; stems 0+untagged.50.ga274142 documentation</title>
+  <title>stems.parallel module &mdash; stems 0+untagged.50.ga804029 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.ga274142
+                0+untagged.50.ga804029
               </div>
             
           
@@ -174,76 +174,64 @@
 <dt id="stems.parallel.iter_chunks">
 <code class="descclassname">stems.parallel.</code><code class="descname">iter_chunks</code><span class="sig-paren">(</span><em>dim_sizes</em>, <em>chunk_sizes=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/parallel.html#iter_chunks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.parallel.iter_chunks" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return slices that help iterate over dimensions in chunks/blocks</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>dim_sizes</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>]</em>) – Dimension sizes</li>
-<li><strong>chunk_sizes</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)"><em>None</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, or </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>]</em>) – Sizes of chunks. If <code class="docutils literal notranslate"><span class="pre">int</span></code>, will use the same size for all dimensions.
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dim_sizes</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>]</em>) – Dimension sizes</p></li>
+<li><p><strong>chunk_sizes</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)"><em>None</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, or </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>]</em>) – Sizes of chunks. If <code class="docutils literal notranslate"><span class="pre">int</span></code>, will use the same size for all dimensions.
 If <code class="docutils literal notranslate"><span class="pre">None</span></code>, will iter over each element in all dimensions (e.g., one
-pixel)</li>
+pixel)</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Yields:</th><td class="field-body"><p class="first last"><em>dict[str, slice or int]</em> – Mapping of dimension name to select statement (e.g.,
+</dd>
+<dt class="field-even">Yields</dt>
+<dd class="field-even"><p><em>dict[str, slice or int]</em> – Mapping of dimension name to select statement (e.g.,
 <code class="docutils literal notranslate"><span class="pre">{'x':</span> <span class="pre">slice(0,</span> <span class="pre">50),</span> <span class="pre">'y':</span> <span class="pre">slice(0,</span> <span class="pre">50)}</span></code>)</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="stems.parallel.iter_noncore_chunks">
 <code class="descclassname">stems.parallel.</code><code class="descname">iter_noncore_chunks</code><span class="sig-paren">(</span><em>data</em>, <em>core_dims</em>, <em>chunk_sizes=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/parallel.html#iter_noncore_chunks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.parallel.iter_noncore_chunks" title="Permalink to this definition">¶</a></dt>
 <dd><p>Yield data in chunks selected out from non-core dimensions</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>data</strong> (<em>xr.DataArray</em><em> or </em><em>xr.Dataset</em>) – Data</li>
-<li><strong>core_dims</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>]</em>) – One or more dimensions to exclude from selection. These dimensions
-will be the only dimensions on the data returned</li>
-<li><strong>chunk_size</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>]</em><em>, or </em><a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)"><em>None</em></a>) – Chunk/block/window size when iterating over noncore dimensions. If
-<code class="docutils literal notranslate"><span class="pre">None</span></code>, will return a slice for each element in each dimension.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>xr.DataArray</em><em> or </em><em>xr.Dataset</em>) – Data</p></li>
+<li><p><strong>core_dims</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>]</em>) – One or more dimensions to exclude from selection. These dimensions
+will be the only dimensions on the data returned</p></li>
+<li><p><strong>chunk_size</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>]</em><em>, or </em><a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)"><em>None</em></a>) – Chunk/block/window size when iterating over noncore dimensions. If
+<code class="docutils literal notranslate"><span class="pre">None</span></code>, will return a slice for each element in each dimension.</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Yields:</th><td class="field-body"><p class="first last"><em>dict[str, slice]</em> – <code class="docutils literal notranslate"><span class="pre">isel</span></code> select statements to retrieve data</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Yields</dt>
+<dd class="field-even"><p><em>dict[str, slice]</em> – <code class="docutils literal notranslate"><span class="pre">isel</span></code> select statements to retrieve data</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="stems.parallel.map_collect_1d">
 <code class="descclassname">stems.parallel.</code><code class="descname">map_collect_1d</code><span class="sig-paren">(</span><em>core_dims</em>, <em>arg_idx=0</em>, <em>concat_func=None</em>, <em>concat_axis=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/parallel.html#map_collect_1d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.parallel.map_collect_1d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decorator that maps a function across pixels and concatenates the result</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>core_dims</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>]</em>) – Core dimensions to exclude from broadcast/selection. For example,
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>core_dims</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>]</em>) – Core dimensions to exclude from broadcast/selection. For example,
 if applying a time series model over all x/y in a DataArray,
-the <code class="docutils literal notranslate"><span class="pre">core_dim</span></code> could be ‘time’.</li>
-<li><strong>arg_idx</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>]</em><em>, </em><em>optional</em>) – Index(es) of <code class="docutils literal notranslate"><span class="pre">*args</span></code> to pick as the data to iterate over.</li>
-<li><strong>concat_func</strong> (<em>callable</em><em>, </em><em>optional</em>) – Function used to concatenate the data. Should take the <code class="docutils literal notranslate"><span class="pre">axis</span></code> keyword</li>
-<li><strong>concat_axis</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – Axis along which the arrays will be joined (passed to <code class="docutils literal notranslate"><span class="pre">concat_func</span></code>)</li>
+the <code class="docutils literal notranslate"><span class="pre">core_dim</span></code> could be ‘time’.</p></li>
+<li><p><strong>arg_idx</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>]</em><em>, </em><em>optional</em>) – Index(es) of <code class="docutils literal notranslate"><span class="pre">*args</span></code> to pick as the data to iterate over.</p></li>
+<li><p><strong>concat_func</strong> (<em>callable</em><em>, </em><em>optional</em>) – Function used to concatenate the data. Should take the <code class="docutils literal notranslate"><span class="pre">axis</span></code> keyword</p></li>
+<li><p><strong>concat_axis</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – Axis along which the arrays will be joined (passed to <code class="docutils literal notranslate"><span class="pre">concat_func</span></code>)</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Decorator for function (parametrized by <code class="docutils literal notranslate"><span class="pre">core_dims</span></code> and <code class="docutils literal notranslate"><span class="pre">arg_idx</span></code>)</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">callable</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Decorator for function (parametrized by <code class="docutils literal notranslate"><span class="pre">core_dims</span></code> and <code class="docutils literal notranslate"><span class="pre">arg_idx</span></code>)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>callable</p>
+</dd>
+</dl>
 <p class="rubric">Examples</p>
 <p>The decorated function can get information about where it is in the array
 by accepting a special <code class="docutils literal notranslate"><span class="pre">block_info</span></code> keyword argument. This <code class="docutils literal notranslate"><span class="pre">block_info</span></code>
@@ -256,10 +244,10 @@ is similar in concept to what can be passed using
 <p>this <code class="docutils literal notranslate"><span class="pre">block_info</span></code> will be a dict with keys for the argument index or
 keyword and the values the following information:</p>
 <ul class="simple">
-<li>shape</li>
-<li>num-chunks</li>
-<li>array-location</li>
-<li>coord-location</li>
+<li><p>shape</p></li>
+<li><p>num-chunks</p></li>
+<li><p>array-location</p></li>
+<li><p>coord-location</p></li>
 </ul>
 </dd></dl>
 

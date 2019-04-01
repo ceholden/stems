@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.conventions &mdash; stems 0+untagged.50.ga274142 documentation</title>
+  <title>stems.gis.conventions &mdash; stems 0+untagged.50.ga804029 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.ga274142
+                0+untagged.50.ga804029
               </div>
             
           
@@ -169,6 +169,7 @@
 <span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 
+<span class="kn">from</span> <span class="nn">affine</span> <span class="k">import</span> <span class="n">Affine</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">rasterio.crs</span> <span class="k">import</span> <span class="n">CRS</span>
 <span class="kn">from</span> <span class="nn">rasterio.coords</span> <span class="k">import</span> <span class="n">BoundingBox</span>
@@ -222,8 +223,141 @@
 <span class="p">))</span>
 
 
+<span class="c1"># ============================================================================</span>
+<span class="c1"># Georeferencing</span>
+<div class="viewcode-block" id="georeference"><a class="viewcode-back" href="../../../stems/stems.gis.conventions.html#stems.gis.conventions.georeference">[docs]</a><span class="k">def</span> <span class="nf">georeference</span><span class="p">(</span><span class="n">xarr</span><span class="p">,</span> <span class="n">crs</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">grid_mapping</span><span class="o">=</span><span class="s1">&#39;crs&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Georeference XArray data with the CRS and Affine transform</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xarr : xarray.DataArray or xarray.Dataset</span>
+<span class="sd">        XArray data to georeference</span>
+<span class="sd">    crs : rasterio.crs.CRS</span>
+<span class="sd">        Rasterio CRS</span>
+<span class="sd">    transform : affine.Affine</span>
+<span class="sd">        Affine transform of the data</span>
+<span class="sd">    grid_mapping : str, optional</span>
+<span class="sd">        Name to use for grid mapping variable</span>
+<span class="sd">    inplace : bool, optional</span>
+<span class="sd">        If ``False``, returns a modified shallow copy of ``xarr``</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    xarray.DataArray or xarray.Dataset</span>
+<span class="sd">        Georeferenced data (type depending on input)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">xarr</span><span class="p">,</span> <span class="p">(</span><span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">))</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="n">CRS</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">Affine</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">grid_mapping</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+
+    <span class="c1"># Copy as needed</span>
+    <span class="n">xarr</span> <span class="o">=</span> <span class="n">xarr</span> <span class="k">if</span> <span class="n">inplace</span> <span class="k">else</span> <span class="n">xarr</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="c1"># Create grid mapping</span>
+    <span class="n">xarr</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="n">grid_mapping</span><span class="p">]</span> <span class="o">=</span> <span class="n">create_grid_mapping</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span>
+                                                    <span class="n">grid_mapping</span><span class="o">=</span><span class="n">grid_mapping</span><span class="p">)</span>
+
+    <span class="c1"># &quot;Georeference&quot; 2D data (variables)</span>
+    <span class="n">dim_x</span><span class="p">,</span> <span class="n">dim_y</span> <span class="o">=</span> <span class="n">projections</span><span class="o">.</span><span class="n">cf_xy_coord_names</span><span class="p">(</span><span class="n">crs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">georef</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">dim_x</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">dims</span> <span class="ow">and</span> <span class="n">dim_y</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">dims</span><span class="p">:</span>
+            <span class="n">x</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;grid_mapping&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">grid_mapping</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Not georeferencing &quot;</span><span class="si">{x.name}</span><span class="s1">&quot; because it lacks x/y &#39;</span>
+                         <span class="n">f</span><span class="s1">&#39;dimensions (&quot;</span><span class="si">{dim_x}</span><span class="s1">&quot; and &quot;</span><span class="si">{dim_y}</span><span class="s1">&quot;)&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">xarr</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">):</span>
+        <span class="n">xarr</span> <span class="o">=</span> <span class="n">georef</span><span class="p">(</span><span class="n">xarr</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">xarr</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">xarr</span><span class="o">.</span><span class="n">data_vars</span><span class="p">:</span>
+            <span class="n">xarr</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">georef</span><span class="p">(</span><span class="n">xarr</span><span class="p">[</span><span class="n">var</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Cannot georeference type &quot;{type(xarr)}&quot;&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Add additional CF related attributes</span>
+    <span class="n">xarr</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">CF_NC_ATTRS</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">xarr</span></div>
+
+
+<div class="viewcode-block" id="is_georeferenced"><a class="viewcode-back" href="../../../stems/stems.gis.conventions.html#stems.gis.conventions.is_georeferenced">[docs]</a><span class="k">def</span> <span class="nf">is_georeferenced</span><span class="p">(</span><span class="n">xarr</span><span class="p">,</span> <span class="n">grid_mapping</span><span class="o">=</span><span class="s1">&#39;crs&#39;</span><span class="p">,</span> <span class="n">required_gdal</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Determine if XArray data is georeferenced</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xarr : xarray.DataArray or xarray.Dataset</span>
+<span class="sd">        XArray data to check for georeferencing</span>
+<span class="sd">    grid_mapping : str, optional</span>
+<span class="sd">        Name to use for grid mapping variable</span>
+<span class="sd">    require_gdal : bool, optional</span>
+<span class="sd">        Require presence of attributes GDAL uses to georeference</span>
+<span class="sd">        as backup (&quot;spatial_ref&quot; and &quot;GeoTransform&quot;)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bool</span>
+<span class="sd">        True if is georeferenced</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cf_infos</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;grid_mapping_name&#39;</span><span class="p">,</span> <span class="p">)</span>
+    <span class="n">gdal_infos</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;spatial_ref&#39;</span><span class="p">,</span> <span class="s1">&#39;GeoTransform&#39;</span><span class="p">,</span> <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">check</span><span class="p">(</span><span class="n">var_gm</span><span class="p">,</span> <span class="n">infos</span><span class="p">):</span>
+        <span class="n">ok</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="ow">in</span> <span class="n">var_gm</span><span class="o">.</span><span class="n">attrs</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">infos</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="n">ok</span><span class="p">):</span>
+            <span class="n">quote</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">f</span><span class="s1">&#39;&quot;</span><span class="si">{s}</span><span class="s1">&quot;&#39;</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Cannot find required grid mapping attributes &#39;</span>
+                         <span class="n">f</span><span class="s1">&#39;{&quot;, &quot;.join([quote(i) for i in infos])}&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="c1"># Retrieve grid_mapping</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">var_grid_mapping</span> <span class="o">=</span> <span class="n">get_grid_mapping</span><span class="p">(</span><span class="n">xarr</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Needs to have require information</span>
+        <span class="n">cf_ok</span> <span class="o">=</span> <span class="n">check</span><span class="p">(</span><span class="n">var_grid_mapping</span><span class="p">,</span> <span class="n">cf_infos</span><span class="p">)</span>
+        <span class="n">gdal_ok</span> <span class="o">=</span> <span class="n">check</span><span class="p">(</span><span class="n">var_grid_mapping</span><span class="p">,</span> <span class="n">gdal_infos</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">cf_ok</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">gdal_ok</span> <span class="ow">and</span> <span class="n">require_gdal</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+
 <span class="c1"># =============================================================================</span>
 <span class="c1"># Projection</span>
+<div class="viewcode-block" id="get_grid_mapping"><a class="viewcode-back" href="../../../stems/stems.gis.conventions.html#stems.gis.conventions.get_grid_mapping">[docs]</a><span class="k">def</span> <span class="nf">get_grid_mapping</span><span class="p">(</span><span class="n">xarr</span><span class="p">,</span> <span class="n">grid_mapping</span><span class="o">=</span><span class="s1">&#39;crs&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return grid mapping variable</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xarr : xarray.Dataset or xarray.DataArray</span>
+<span class="sd">        XArray data</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    xarray.Variable</span>
+<span class="sd">        XArray grid mapping variable</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    KeyError</span>
+<span class="sd">        Raised if grid mapping variable does not exist</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">var_gm</span> <span class="o">=</span> <span class="n">xarr</span><span class="o">.</span><span class="n">coords</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">grid_mapping</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">var_gm</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s1">&#39;No grid mapping variable found&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">var_gm</span></div>
+
+
 <div class="viewcode-block" id="create_grid_mapping"><a class="viewcode-back" href="../../../stems/stems.gis.conventions.html#stems.gis.conventions.create_grid_mapping">[docs]</a><span class="k">def</span> <span class="nf">create_grid_mapping</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">grid_mapping</span><span class="o">=</span><span class="s1">&#39;crs&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Return an :py:class:`xarray.DataArray` of CF-compliant CRS info</span>
 
@@ -244,10 +378,15 @@
     <span class="n">name</span> <span class="o">=</span> <span class="n">projections</span><span class="o">.</span><span class="n">cf_crs_name</span><span class="p">(</span><span class="n">crs</span><span class="p">)</span>
 
     <span class="c1"># This part is entirely unnecessary!</span>
-    <span class="n">epsg_code</span> <span class="o">=</span> <span class="n">projections</span><span class="o">.</span><span class="n">epsg_code</span><span class="p">(</span><span class="n">crs</span><span class="p">)</span> <span class="ow">or</span> <span class="mi">0</span>
-    <span class="k">if</span> <span class="n">epsg_code</span><span class="p">:</span>
-        <span class="n">epsg_auth</span><span class="p">,</span> <span class="n">epsg_code</span> <span class="o">=</span> <span class="n">epsg_code</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)</span>
-    <span class="n">epsg_code</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">epsg_code</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">epsg_code</span> <span class="o">=</span> <span class="n">projections</span><span class="o">.</span><span class="n">epsg_code</span><span class="p">(</span><span class="n">crs</span><span class="p">)</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">ve</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Could not determine EPSG code for CRS (&quot;</span><span class="si">{crs.wkt}</span><span class="s1">&quot;)&#39;</span><span class="p">)</span>
+        <span class="n">epsg_code</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">epsg_code</span><span class="p">:</span>
+            <span class="n">epsg_auth</span><span class="p">,</span> <span class="n">epsg_code</span> <span class="o">=</span> <span class="n">epsg_code</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)</span>
+        <span class="n">epsg_code</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">epsg_code</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
 
     <span class="n">da</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">epsg_code</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">grid_mapping</span><span class="p">)</span>
     <span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;grid_mapping_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">name</span>

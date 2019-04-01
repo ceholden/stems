@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.datasets.simulate module &mdash; stems 0+untagged.50.ga274142 documentation</title>
+  <title>stems.datasets.simulate module &mdash; stems 0+untagged.50.ga804029 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.ga274142
+                0+untagged.50.ga804029
               </div>
             
           
@@ -175,28 +175,24 @@ by the <a class="reference external" href="https://scikit-learn.org/stable/modul
 <dt id="stems.datasets.simulate.make_dates">
 <code class="descclassname">stems.datasets.simulate.</code><code class="descname">make_dates</code><span class="sig-paren">(</span><em>date_start=None</em>, <em>date_end=None</em>, <em>date_freq=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/datasets/simulate.html#make_dates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.datasets.simulate.make_dates" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return <code class="docutils literal notranslate"><span class="pre">datetime64</span></code> dates</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>date_start</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>datetime</em><em>, </em><em>and more</em><em>, </em><em>optional</em>) – Starting date (in a format known to Pandas)</li>
-<li><strong>date_end</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>datetime</em><em>, </em><em>and more</em><em>, </em><em>optional</em>) – Ending date (in a format known to Pandas)</li>
-<li><strong>date_freq</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) – Date frequency</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>date_start</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>datetime</em><em>, </em><em>and more</em><em>, </em><em>optional</em>) – Starting date (in a format known to Pandas)</p></li>
+<li><p><strong>date_end</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>datetime</em><em>, </em><em>and more</em><em>, </em><em>optional</em>) – Ending date (in a format known to Pandas)</p></li>
+<li><p><strong>date_freq</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) – Date frequency</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Dates as <code class="docutils literal notranslate"><span class="pre">np.datetime64</span></code></p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">np.ndarray</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dates as <code class="docutils literal notranslate"><span class="pre">np.datetime64</span></code></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
 <div class="admonition seealso">
-<p class="first admonition-title">See also</p>
-<p class="last"><a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.date_range.html#pandas.date_range" title="(in pandas v0.24.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">pandas.date_range()</span></code></a></p>
+<p class="admonition-title">See also</p>
+<p><a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.date_range.html#pandas.date_range" title="(in pandas v0.24.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">pandas.date_range()</span></code></a></p>
 </div>
 </dd></dl>
 
@@ -204,41 +200,37 @@ by the <a class="reference external" href="https://scikit-learn.org/stable/modul
 <dt id="stems.datasets.simulate.make_segments">
 <code class="descclassname">stems.datasets.simulate.</code><code class="descname">make_segments</code><span class="sig-paren">(</span><em>date_start=None</em>, <em>date_end=None</em>, <em>date_freq=None</em>, <em>n_series=3</em>, <em>n_segments=2</em>, <em>seg_sep=None</em>, <em>means=None</em>, <em>stds=None</em>, <em>trends=None</em>, <em>amplitudes=None</em>, <em>phases=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/datasets/simulate.html#make_segments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.datasets.simulate.make_segments" title="Permalink to this definition">¶</a></dt>
 <dd><p>Simulate data from multiple temporal segments</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>date_start</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>datetime</em><em>, </em><em>and more</em><em>, </em><em>optional</em>) – Starting date (in a format known to Pandas)</li>
-<li><strong>date_end</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>datetime</em><em>, </em><em>and more</em><em>, </em><em>optional</em>) – Ending date (in a format known to Pandas)</li>
-<li><strong>date_freq</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) – Date frequency</li>
-<li><strong>n_series</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Number of series/spectral bands to simulate</li>
-<li><strong>n_segments</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Number of segments to simulate</li>
-<li><strong>seg_sep</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>]</em>) – Separability of segments (i.e., the size of the disturbance)</li>
-<li><strong>means</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>]</em>) – The mean value for each series/spectral band (passed to
-<a class="reference internal" href="#stems.datasets.simulate.make_time_series_mean" title="stems.datasets.simulate.make_time_series_mean"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_time_series_mean()</span></code></a>)</li>
-<li><strong>stds</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>]</em>) – The standard deviation for each series/spectral band (passed to
-<a class="reference internal" href="#stems.datasets.simulate.make_time_series_mean" title="stems.datasets.simulate.make_time_series_mean"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_time_series_mean()</span></code></a>)</li>
-<li><strong>trends</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>]</em>) – The time trend for each series/spectral band (passed to
-<a class="reference internal" href="#stems.datasets.simulate.make_time_series_trend" title="stems.datasets.simulate.make_time_series_trend"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_time_series_trend()</span></code></a>)</li>
-<li><strong>amplitudes</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>]</em>) – The harmonic amplitude value for each series/spectral band (passed to
-<a class="reference internal" href="#stems.datasets.simulate.make_time_series_harmonic" title="stems.datasets.simulate.make_time_series_harmonic"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_time_series_harmonic()</span></code></a>)</li>
-<li><strong>phases</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>]</em>) – The harmonic phase value for each series/spectral band (passed to
-<a class="reference internal" href="#stems.datasets.simulate.make_time_series_harmonic" title="stems.datasets.simulate.make_time_series_harmonic"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_time_series_harmonic()</span></code></a>)</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>date_start</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>datetime</em><em>, </em><em>and more</em><em>, </em><em>optional</em>) – Starting date (in a format known to Pandas)</p></li>
+<li><p><strong>date_end</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>datetime</em><em>, </em><em>and more</em><em>, </em><em>optional</em>) – Ending date (in a format known to Pandas)</p></li>
+<li><p><strong>date_freq</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) – Date frequency</p></li>
+<li><p><strong>n_series</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Number of series/spectral bands to simulate</p></li>
+<li><p><strong>n_segments</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Number of segments to simulate</p></li>
+<li><p><strong>seg_sep</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>]</em>) – Separability of segments (i.e., the size of the disturbance)</p></li>
+<li><p><strong>means</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>]</em>) – The mean value for each series/spectral band (passed to
+<a class="reference internal" href="#stems.datasets.simulate.make_time_series_mean" title="stems.datasets.simulate.make_time_series_mean"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_time_series_mean()</span></code></a>)</p></li>
+<li><p><strong>stds</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>]</em>) – The standard deviation for each series/spectral band (passed to
+<a class="reference internal" href="#stems.datasets.simulate.make_time_series_mean" title="stems.datasets.simulate.make_time_series_mean"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_time_series_mean()</span></code></a>)</p></li>
+<li><p><strong>trends</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>]</em>) – The time trend for each series/spectral band (passed to
+<a class="reference internal" href="#stems.datasets.simulate.make_time_series_trend" title="stems.datasets.simulate.make_time_series_trend"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_time_series_trend()</span></code></a>)</p></li>
+<li><p><strong>amplitudes</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>]</em>) – The harmonic amplitude value for each series/spectral band (passed to
+<a class="reference internal" href="#stems.datasets.simulate.make_time_series_harmonic" title="stems.datasets.simulate.make_time_series_harmonic"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_time_series_harmonic()</span></code></a>)</p></li>
+<li><p><strong>phases</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>]</em>) – The harmonic phase value for each series/spectral band (passed to
+<a class="reference internal" href="#stems.datasets.simulate.make_time_series_harmonic" title="stems.datasets.simulate.make_time_series_harmonic"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_time_series_harmonic()</span></code></a>)</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
-<li><em>xr.DataArray</em> – Simulated data for <code class="docutils literal notranslate"><span class="pre">n_segments</span></code> across <code class="docutils literal notranslate"><span class="pre">n_series</span></code> series/spectral
-bands</li>
-<li><em>np.ndarray</em> – Array of <code class="docutils literal notranslate"><span class="pre">datetime64</span></code> indicating the dates of change
-(size=``n_segments - 1``)</li>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>xr.DataArray</em> – Simulated data for <code class="docutils literal notranslate"><span class="pre">n_segments</span></code> across <code class="docutils literal notranslate"><span class="pre">n_series</span></code> series/spectral
+bands</p></li>
+<li><p><em>np.ndarray</em> – Array of <code class="docutils literal notranslate"><span class="pre">datetime64</span></code> indicating the dates of change
+(size=``n_segments - 1``)</p></li>
 </ul>
 </p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.geohash module &mdash; stems 0+untagged.50.ga274142 documentation</title>
+  <title>stems.gis.geohash module &mdash; stems 0+untagged.50.ga804029 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.ga274142
+                0+untagged.50.ga804029
               </div>
             
           
@@ -177,69 +177,57 @@ point where they are useful as global, unique identifiers for pixel coordinates
 (assuming you pick a precision that creates quadrant cells smaller than your
 image pixel size).</p>
 <p class="rubric">References</p>
-<table class="docutils citation" frame="void" id="r9457147864ca-1" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label">[R9457147864ca-1]</td><td><a class="reference external" href="https://en.wikipedia.org/wiki/Geohash">https://en.wikipedia.org/wiki/Geohash</a></td></tr>
-</tbody>
-</table>
-<table class="docutils citation" frame="void" id="r9457147864ca-2" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label">[R9457147864ca-2]</td><td><a class="reference external" href="https://www.movable-type.co.uk/scripts/geohash.html">https://www.movable-type.co.uk/scripts/geohash.html</a></td></tr>
-</tbody>
-</table>
+<dl class="citation">
+<dt class="label" id="r9457147864ca-1"><span class="brackets">R9457147864ca-1</span></dt>
+<dd><p><a class="reference external" href="https://en.wikipedia.org/wiki/Geohash">https://en.wikipedia.org/wiki/Geohash</a></p>
+</dd>
+<dt class="label" id="r9457147864ca-2"><span class="brackets">R9457147864ca-2</span></dt>
+<dd><p><a class="reference external" href="https://www.movable-type.co.uk/scripts/geohash.html">https://www.movable-type.co.uk/scripts/geohash.html</a></p>
+</dd>
+</dl>
 <dl class="function">
 <dt id="stems.gis.geohash.geohash_decode">
 <code class="descclassname">stems.gis.geohash.</code><code class="descname">geohash_decode</code><span class="sig-paren">(</span><em>geohashes</em>, <em>crs=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/geohash.html#geohash_decode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.geohash.geohash_decode" title="Permalink to this definition">¶</a></dt>
 <dd><p>Encode Y/X coordinates into a geohash, reprojecting as needed</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>np.ndarry</strong> – The geohashes for all Y/X</li>
-<li><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.22)"><em>rasterio.crs.CRS</em></a><em>, </em><em>optional</em>) – Reproject Y/X latitude/longitude values for each geohash into this CRS
-before returning (to help with end-to-end encode/decode)</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>np.ndarry</strong> – The geohashes for all Y/X</p></li>
+<li><p><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.22)"><em>rasterio.crs.CRS</em></a><em>, </em><em>optional</em>) – Reproject Y/X latitude/longitude values for each geohash into this CRS
+before returning (to help with end-to-end encode/decode)</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
-<li><strong>y</strong> (<em>np.ndarray</em>) – Y coordinates</li>
-<li><strong>x</strong> (<em>np.ndarray</em>) – X coordinates</li>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>y</strong> (<em>np.ndarray</em>) – Y coordinates</p></li>
+<li><p><strong>x</strong> (<em>np.ndarray</em>) – X coordinates</p></li>
 </ul>
 </p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="stems.gis.geohash.geohash_encode">
 <code class="descclassname">stems.gis.geohash.</code><code class="descname">geohash_encode</code><span class="sig-paren">(</span><em>y</em>, <em>x</em>, <em>crs=None</em>, <em>precision=12</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/geohash.html#geohash_encode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.geohash.geohash_encode" title="Permalink to this definition">¶</a></dt>
 <dd><p>Encode Y/X coordinates into a geohash, reprojecting as needed</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>y</strong> (<em>np.ndarray</em>) – Y coordinates</li>
-<li><strong>x</strong> (<em>np.ndarray</em>) – X coordinates</li>
-<li><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.22)"><em>rasterio.crs.CRS</em></a><em>, </em><em>optional</em>) – If Y/X aren’t in latitude/longitude (EPSG:4326), then provide their
-coordinate reference system</li>
-<li><strong>precision</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – Characters of precision for the geohash</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y</strong> (<em>np.ndarray</em>) – Y coordinates</p></li>
+<li><p><strong>x</strong> (<em>np.ndarray</em>) – X coordinates</p></li>
+<li><p><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.22)"><em>rasterio.crs.CRS</em></a><em>, </em><em>optional</em>) – If Y/X aren’t in latitude/longitude (EPSG:4326), then provide their
+coordinate reference system</p></li>
+<li><p><strong>precision</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – Characters of precision for the geohash</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The geohashes for all Y/X (dtype=``np.dtype((‘U’, precision))``)</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">np.ndarry</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The geohashes for all Y/X (dtype=``np.dtype((‘U’, precision))``)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarry</p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>

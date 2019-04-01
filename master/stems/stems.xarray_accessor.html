@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.datasets package &mdash; stems 0+untagged.50.ga804029 documentation</title>
+  <title>stems.xarray_accessor module &mdash; stems 0+untagged.50.ga804029 documentation</title>
   
 
   
@@ -143,14 +143,14 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>stems.datasets package</li>
+      <li>stems.xarray_accessor module</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
             
-              <a href="https://github.com/ceholden/stems/blob/master/docs/source/stems/stems.datasets.rst" class="fa fa-github"> Edit on GitHub</a>
+              <a href="https://github.com/ceholden/stems/blob/master/docs/source/stems/stems.xarray_accessor.rst" class="fa fa-github"> Edit on GitHub</a>
             
           
         
@@ -164,35 +164,30 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="stems-datasets-package">
-<h1>stems.datasets package<a class="headerlink" href="#stems-datasets-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="subpackages">
-<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="stems.datasets.tests.html">stems.datasets.tests package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="stems.datasets.tests.html#submodules">Submodules</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="stems.datasets.tests.test_datasets_simulate.html">stems.datasets.tests.test_datasets_simulate module</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="stems.datasets.tests.html#module-stems.datasets.tests">Module contents</a></li>
-</ul>
-</li>
-</ul>
+  <div class="section" id="module-stems.xarray_accessor">
+<span id="stems-xarray-accessor-module"></span><h1>stems.xarray_accessor module<a class="headerlink" href="#module-stems.xarray_accessor" title="Permalink to this headline">¶</a></h1>
+<p>Extend XArray with the <code class="docutils literal notranslate"><span class="pre">.stems</span></code> accessor</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference external" href="https://docs.python.org/3.6/library/http.html#module-http" title="(in Python v3.6)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">http</span></code></a></dt><dd><p>//xarray.pydata.org/en/stable/internals.html#extending-xarray</p>
+</dd>
+</dl>
 </div>
-</div>
-<div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="stems.datasets.simulate.html">stems.datasets.simulate module</a></li>
-</ul>
-</div>
-</div>
-<div class="section" id="module-stems.datasets">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-stems.datasets" title="Permalink to this headline">¶</a></h2>
-<p>The <a class="reference internal" href="#module-stems.datasets" title="stems.datasets"><code class="xref py py-mod docutils literal notranslate"><span class="pre">stems.datasets</span></code></a> includes tools to load or generate datasets</p>
-</div>
+<dl class="class">
+<dt id="stems.xarray_accessor.DataArrayAccessor">
+<em class="property">class </em><code class="descclassname">stems.xarray_accessor.</code><code class="descname">DataArrayAccessor</code><span class="sig-paren">(</span><em>xarray_obj</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/xarray_accessor.html#DataArrayAccessor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.xarray_accessor.DataArrayAccessor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">stems.xarray_accessor._STEMSAccessor</span></code></p>
+<p>XArray.DataArray accessor for STEMS project</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="stems.xarray_accessor.DatasetAccessor">
+<em class="property">class </em><code class="descclassname">stems.xarray_accessor.</code><code class="descname">DatasetAccessor</code><span class="sig-paren">(</span><em>xarray_obj</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/xarray_accessor.html#DatasetAccessor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.xarray_accessor.DatasetAccessor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">stems.xarray_accessor._STEMSAccessor</span></code></p>
+<p>XArray.Dataset accessor for STEMS project</p>
+</dd></dl>
+
 </div>
 
 

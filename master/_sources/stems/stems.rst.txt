@@ -23,6 +23,7 @@ Submodules
    stems.logging_
    stems.parallel
    stems.utils
+   stems.xarray_accessor
 
 Module contents
 ---------------

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.io.encoding module &mdash; stems 0+untagged.50.ga274142 documentation</title>
+  <title>stems.io.encoding module &mdash; stems 0+untagged.50.ga804029 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.ga274142
+                0+untagged.50.ga804029
               </div>
             
           
@@ -170,42 +170,37 @@
 <dt id="stems.io.encoding.encoding_chunksizes">
 <code class="descclassname">stems.io.encoding.</code><code class="descname">encoding_chunksizes</code><span class="sig-paren">(</span><em>xarr</em>, <em>chunks=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/encoding.html#encoding_chunksizes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.encoding.encoding_chunksizes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find/resolve chunksize for a DataArray</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>xarr</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.0)"><em>xarray.DataArray</em></a>) – DataArray to consider</li>
-<li><strong>chunks</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>] or </em><em>Mapping</em><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>]</em>) – Chunks per dimension</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xarr</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.0)"><em>xarray.DataArray</em></a>) – DataArray to consider</p></li>
+<li><p><strong>chunks</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>] or </em><em>Mapping</em><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>]</em>) – Chunks per dimension</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Chunksizes per dimension</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a>]</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Chunksizes per dimension</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a>]</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="stems.io.encoding.encoding_dtype">
 <code class="descclassname">stems.io.encoding.</code><code class="descname">encoding_dtype</code><span class="sig-paren">(</span><em>xarr</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/encoding.html#encoding_dtype"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.encoding.encoding_dtype" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get dtype encoding info</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>xarr</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.0)"><em>xarray.DataArray</em></a><em> or </em><em>np.ndarray</em>) – DataArray to consider</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Datatype information for encoding (e.g., <code class="docutils literal notranslate"><span class="pre">{'dtype':</span> <span class="pre">np.float32}</span></code>)</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a>[<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)">str</a>, np.dtype]</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>xarr</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.0)"><em>xarray.DataArray</em></a><em> or </em><em>np.ndarray</em>) – DataArray to consider</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Datatype information for encoding (e.g., <code class="docutils literal notranslate"><span class="pre">{'dtype':</span> <span class="pre">np.float32}</span></code>)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a>[<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)">str</a>, np.dtype]</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
@@ -215,42 +210,37 @@
 <p>Either returns the name of the DataArray, or the name that XArray will
 assign it when writing to disk
 (<code class="xref py py-data docutils literal notranslate"><span class="pre">xarray.backends.api.DATAARRAY_VARIABLE</span></code>).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>xarr</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.0)"><em>xarray.DataArray</em></a>) – Provide the name of this DataArray used for encoding</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Encoding variable name</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)">str</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>xarr</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.0)"><em>xarray.DataArray</em></a>) – Provide the name of this DataArray used for encoding</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Encoding variable name</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)">str</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="stems.io.encoding.guard_chunksizes">
 <code class="descclassname">stems.io.encoding.</code><code class="descname">guard_chunksizes</code><span class="sig-paren">(</span><em>xarr</em>, <em>chunksizes</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/encoding.html#guard_chunksizes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.encoding.guard_chunksizes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Guard chunksize to be &lt;= dimension sizes</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>xarr</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.0)"><em>xarray.DataArray</em></a>) – DataArray to consider</li>
-<li><strong>chunksizes</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>]</em>) – Chunks per dimension</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xarr</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.0)"><em>xarray.DataArray</em></a>) – DataArray to consider</p></li>
+<li><p><strong>chunksizes</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>]</em>) – Chunks per dimension</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Guarded chunksizes</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a>]</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Guarded chunksizes</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a>]</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
@@ -259,49 +249,41 @@ assign it when writing to disk
 <dd><p>Guard chunk sizes for str datatypes</p>
 <p>Chunks for <code class="docutils literal notranslate"><span class="pre">str</span></code> need to include string length dimension since
 python-netcdf represents, for example, 1d char array as 2d array</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>xarr</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.0)"><em>xarray.DataArray</em></a>) – DataArray to consider</li>
-<li><strong>chunksizes</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>]</em>) – Chunk sizes per dimension</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xarr</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.0)"><em>xarray.DataArray</em></a>) – DataArray to consider</p></li>
+<li><p><strong>chunksizes</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>]</em>) – Chunk sizes per dimension</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Guarded chunk sizes</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a>]</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Guarded chunk sizes</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a>]</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="stems.io.encoding.guard_dtype">
 <code class="descclassname">stems.io.encoding.</code><code class="descname">guard_dtype</code><span class="sig-paren">(</span><em>xarr</em>, <em>dtype_</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/encoding.html#guard_dtype"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.encoding.guard_dtype" title="Permalink to this definition">¶</a></dt>
 <dd><p>Guard dtype encoding for datetime datatypes</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>xarr</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.0)"><em>xarray.DataArray</em></a><em> or </em><em>np.ndarray</em>) – DataArray to consider</li>
-<li><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>np.dtype</em><em>]</em>) – Datatype information for encoding (e.g., <code class="docutils literal notranslate"><span class="pre">{'dtype':</span> <span class="pre">np.float32}</span></code>)</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xarr</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.0)"><em>xarray.DataArray</em></a><em> or </em><em>np.ndarray</em>) – DataArray to consider</p></li>
+<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>np.dtype</em><em>]</em>) – Datatype information for encoding (e.g., <code class="docutils literal notranslate"><span class="pre">{'dtype':</span> <span class="pre">np.float32}</span></code>)</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Datatype information for encoding (e.g., <code class="docutils literal notranslate"><span class="pre">{'dtype':</span> <span class="pre">np.float32}</span></code>),
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Datatype information for encoding (e.g., <code class="docutils literal notranslate"><span class="pre">{'dtype':</span> <span class="pre">np.float32}</span></code>),
 if valid. Otherwise returns empty dict</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a>[<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)">str</a>, np.dtype]</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a>[<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)">str</a>, np.dtype]</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
@@ -315,50 +297,45 @@ encoding items via <code class="docutils literal notranslate"><span class="pre">
 data, or overrides for each data variable (as a dict).</p>
 <p>For more information, see the NetCDF4 documentation for the
 <code class="docutils literal notranslate"><span class="pre">createVariable</span></code> [1].</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>data</strong> (<em>xr.DataArray</em><em> or </em><em>xr.Dataset</em>) – Define encoding for this data. If <code class="docutils literal notranslate"><span class="pre">xr.Dataset</span></code>, map function across
-all <code class="docutils literal notranslate"><span class="pre">xr.DataArray</span></code> in <code class="docutils literal notranslate"><span class="pre">data.data_vars</span></code></li>
-<li><strong>dtype</strong> (<em>np.dtype</em><em>, </em><em>optional</em>) – The data type used for the encoded data. Defaults to the input data
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>xr.DataArray</em><em> or </em><em>xr.Dataset</em>) – Define encoding for this data. If <code class="docutils literal notranslate"><span class="pre">xr.Dataset</span></code>, map function across
+all <code class="docutils literal notranslate"><span class="pre">xr.DataArray</span></code> in <code class="docutils literal notranslate"><span class="pre">data.data_vars</span></code></p></li>
+<li><p><strong>dtype</strong> (<em>np.dtype</em><em>, </em><em>optional</em>) – The data type used for the encoded data. Defaults to the input data
 type(s), but can be set to facilitate discretization based compression
-(typically alongside scale_factor and _FillValue)</li>
-<li><strong>chunks</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)"><em>None</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a><em>, </em><em>optional</em>) – Chunksizes used to encode NetCDF. If given as a <cite>tuple</cite>, chunks should
+(typically alongside scale_factor and _FillValue)</p></li>
+<li><p><strong>chunks</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)"><em>None</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a><em>, </em><em>optional</em>) – Chunksizes used to encode NetCDF. If given as a <cite>tuple</cite>, chunks should
 be given for each dimension. Chunks for dimensions not specified when
-given as a <cite>dict</cite> will default to 1.</li>
-<li><strong>zlib</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Use compression</li>
-<li><strong>complevel</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – Compression level</li>
-<li><strong>nodata</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, or </em><em>sequence</em><em>, </em><em>optional</em>) – NoDataValue(s). Specify one for each <code class="docutils literal notranslate"><span class="pre">DataArray</span></code> in <code class="docutils literal notranslate"><span class="pre">data</span></code>
-if a <span class="xref std std-ref">xr.Dataset</span>. Used for <code class="docutils literal notranslate"><span class="pre">_FillValue</span></code></li>
-<li><strong>encoding_kwds</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – Additional encoding data to pass</li>
+given as a <cite>dict</cite> will default to 1.</p></li>
+<li><p><strong>zlib</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Use compression</p></li>
+<li><p><strong>complevel</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – Compression level</p></li>
+<li><p><strong>nodata</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, or </em><em>sequence</em><em>, </em><em>optional</em>) – NoDataValue(s). Specify one for each <code class="docutils literal notranslate"><span class="pre">DataArray</span></code> in <code class="docutils literal notranslate"><span class="pre">data</span></code>
+if a <span class="xref std std-ref">xr.Dataset</span>. Used for <code class="docutils literal notranslate"><span class="pre">_FillValue</span></code></p></li>
+<li><p><strong>encoding_kwds</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – Additional encoding data to pass</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Dict mapping band name (e.g., variable name) to relevant encoding
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dict mapping band name (e.g., variable name) to relevant encoding
 information</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
+</dd>
+</dl>
 <div class="admonition seealso">
-<p class="first admonition-title">See also</p>
-<dl class="last docutils">
-<dt><code class="xref py py-func docutils literal notranslate"><span class="pre">xarray.Dataset.to_netcdf()</span></code></dt>
-<dd>Encoding information designed to be passed to <a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.Dataset.to_netcdf.html#xarray.Dataset.to_netcdf" title="(in xarray v0.12.0)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">xarray.Dataset.to_netcdf()</span></code></a>.</dd>
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><code class="xref py py-func docutils literal notranslate"><span class="pre">xarray.Dataset.to_netcdf()</span></code></dt><dd><p>Encoding information designed to be passed to <a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.Dataset.to_netcdf.html#xarray.Dataset.to_netcdf" title="(in xarray v0.12.0)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">xarray.Dataset.to_netcdf()</span></code></a>.</p>
+</dd>
 </dl>
 </div>
 <p class="rubric">References</p>
-<table class="docutils citation" frame="void" id="r4e84d83de4f0-1" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label">[1]</td><td><a class="reference external" href="http://unidata.github.io/netcdf4-python/#netCDF4.Dataset.createVariable">http://unidata.github.io/netcdf4-python/#netCDF4.Dataset.createVariable</a></td></tr>
-</tbody>
-</table>
+<dl class="citation">
+<dt class="label" id="r4e84d83de4f0-1"><span class="brackets">1</span></dt>
+<dd><p><a class="reference external" href="http://unidata.github.io/netcdf4-python/#netCDF4.Dataset.createVariable">http://unidata.github.io/netcdf4-python/#netCDF4.Dataset.createVariable</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
