@@ -12,7 +12,7 @@ def parse_paths(paths):
 
     Parameters
     ----------
-    paths : str or sequence
+    paths : str or Sequence
         Either a string glob in the form "path/to/my/files/*.nc" or an explicit
         list of files to open.
 

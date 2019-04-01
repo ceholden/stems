@@ -52,7 +52,7 @@ def netcdf_encoding(data,
         Compression level
     nodata : int, float, or sequence, optional
         NoDataValue(s). Specify one for each ``DataArray`` in ``data``
-        if a :ref:`xr.Dataset`. Used for ``_FillValue``
+        if a :py:class:`xarray.Dataset`. Used for ``_FillValue``
     encoding_kwds : dict
         Additional encoding data to pass
 
