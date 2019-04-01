@@ -1,0 +1,7 @@
+stems.gis.geom module
+=====================
+
+.. automodule:: stems.gis.geom
+    :members:
+    :undoc-members:
+    :show-inheritance:

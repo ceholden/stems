@@ -1,0 +1,7 @@
+stems.parallel module
+=====================
+
+.. automodule:: stems.parallel
+    :members:
+    :undoc-members:
+    :show-inheritance:

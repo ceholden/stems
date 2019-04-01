@@ -1,0 +1,384 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>stems.io.encoding module &mdash; stems 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> stems
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequenty Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../gis.html">Geographic Information Systems (GIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gis_grids.html">Tile Grid Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel.html">Parallel Computing Helpers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../xarray.html">XArray Integration</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">stems</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>stems.io.encoding module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/ceholden/stems/blob/master/docs/source/stems/stems.io.encoding.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-stems.io.encoding">
+<span id="stems-io-encoding-module"></span><h1>stems.io.encoding module<a class="headerlink" href="#module-stems.io.encoding" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="stems.io.encoding.encoding_chunksizes">
+<code class="descclassname">stems.io.encoding.</code><code class="descname">encoding_chunksizes</code><span class="sig-paren">(</span><em>xarr</em>, <em>chunks=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/encoding.html#encoding_chunksizes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.encoding.encoding_chunksizes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find/resolve chunksize for a DataArray</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xarr</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.0)"><em>xarray.DataArray</em></a>) – DataArray to consider</p></li>
+<li><p><strong>chunks</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>] or </em><em>Mapping</em><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>]</em>) – Chunks per dimension</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Chunksizes per dimension</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.io.encoding.encoding_dtype">
+<code class="descclassname">stems.io.encoding.</code><code class="descname">encoding_dtype</code><span class="sig-paren">(</span><em>xarr</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/encoding.html#encoding_dtype"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.encoding.encoding_dtype" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get dtype encoding info</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>xarr</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.0)"><em>xarray.DataArray</em></a><em> or </em><em>np.ndarray</em>) – DataArray to consider</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Datatype information for encoding (e.g., <code class="docutils literal notranslate"><span class="pre">{'dtype':</span> <span class="pre">np.float32}</span></code>)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a>[<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)">str</a>, np.dtype]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.io.encoding.encoding_name">
+<code class="descclassname">stems.io.encoding.</code><code class="descname">encoding_name</code><span class="sig-paren">(</span><em>xarr</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/encoding.html#encoding_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.encoding.encoding_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the name of the variable to provide encoding for</p>
+<p>Either returns the name of the DataArray, or the name that XArray will
+assign it when writing to disk
+(<code class="xref py py-data docutils literal notranslate"><span class="pre">xarray.backends.api.DATAARRAY_VARIABLE</span></code>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>xarr</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.0)"><em>xarray.DataArray</em></a>) – Provide the name of this DataArray used for encoding</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Encoding variable name</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.io.encoding.guard_chunksizes">
+<code class="descclassname">stems.io.encoding.</code><code class="descname">guard_chunksizes</code><span class="sig-paren">(</span><em>xarr</em>, <em>chunksizes</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/encoding.html#guard_chunksizes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.encoding.guard_chunksizes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Guard chunksize to be &lt;= dimension sizes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xarr</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.0)"><em>xarray.DataArray</em></a>) – DataArray to consider</p></li>
+<li><p><strong>chunksizes</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>]</em>) – Chunks per dimension</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Guarded chunksizes</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.io.encoding.guard_chunksizes_str">
+<code class="descclassname">stems.io.encoding.</code><code class="descname">guard_chunksizes_str</code><span class="sig-paren">(</span><em>xarr</em>, <em>chunksizes</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/encoding.html#guard_chunksizes_str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.encoding.guard_chunksizes_str" title="Permalink to this definition">¶</a></dt>
+<dd><p>Guard chunk sizes for str datatypes</p>
+<p>Chunks for <code class="docutils literal notranslate"><span class="pre">str</span></code> need to include string length dimension since
+python-netcdf represents, for example, 1d char array as 2d array</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xarr</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.0)"><em>xarray.DataArray</em></a>) – DataArray to consider</p></li>
+<li><p><strong>chunksizes</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>]</em>) – Chunk sizes per dimension</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Guarded chunk sizes</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.io.encoding.guard_dtype">
+<code class="descclassname">stems.io.encoding.</code><code class="descname">guard_dtype</code><span class="sig-paren">(</span><em>xarr</em>, <em>dtype_</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/encoding.html#guard_dtype"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.encoding.guard_dtype" title="Permalink to this definition">¶</a></dt>
+<dd><p>Guard dtype encoding for datetime datatypes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xarr</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.0)"><em>xarray.DataArray</em></a><em> or </em><em>np.ndarray</em>) – DataArray to consider</p></li>
+<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>np.dtype</em><em>]</em>) – Datatype information for encoding (e.g., <code class="docutils literal notranslate"><span class="pre">{'dtype':</span> <span class="pre">np.float32}</span></code>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Datatype information for encoding (e.g., <code class="docutils literal notranslate"><span class="pre">{'dtype':</span> <span class="pre">np.float32}</span></code>),
+if valid. Otherwise returns empty dict</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a>[<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)">str</a>, np.dtype]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.io.encoding.netcdf_encoding">
+<code class="descclassname">stems.io.encoding.</code><code class="descname">netcdf_encoding</code><span class="sig-paren">(</span><em>data</em>, <em>chunks=None</em>, <em>zlib=True</em>, <em>complevel=4</em>, <em>nodata=None</em>, <em>**encoding_kwds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/encoding.html#netcdf_encoding"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.encoding.netcdf_encoding" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return “good” NetCDF encoding information for some data</p>
+<p>The returned encoding is the default or “good” known standard for data
+used in <code class="docutils literal notranslate"><span class="pre">stems</span></code>. Each default determined in this function is given
+as a keyword argument to allow overriding, and you can also pass additional
+encoding items via <code class="docutils literal notranslate"><span class="pre">**encoding</span></code>. You may pass one override for all
+data, or overrides for each data variable (as a dict).</p>
+<p>For more information, see the NetCDF4 documentation for the
+<code class="docutils literal notranslate"><span class="pre">createVariable</span></code> [1].</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>xr.DataArray</em><em> or </em><em>xr.Dataset</em>) – Define encoding for this data. If <code class="docutils literal notranslate"><span class="pre">xr.Dataset</span></code>, map function across
+all <code class="docutils literal notranslate"><span class="pre">xr.DataArray</span></code> in <code class="docutils literal notranslate"><span class="pre">data.data_vars</span></code></p></li>
+<li><p><strong>dtype</strong> (<em>np.dtype</em><em>, </em><em>optional</em>) – The data type used for the encoded data. Defaults to the input data
+type(s), but can be set to facilitate discretization based compression
+(typically alongside scale_factor and _FillValue)</p></li>
+<li><p><strong>chunks</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)"><em>None</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a><em>, </em><em>optional</em>) – Chunksizes used to encode NetCDF. If given as a <cite>tuple</cite>, chunks should
+be given for each dimension. Chunks for dimensions not specified when
+given as a <cite>dict</cite> will default to 1.</p></li>
+<li><p><strong>zlib</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Use compression</p></li>
+<li><p><strong>complevel</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – Compression level</p></li>
+<li><p><strong>nodata</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, or </em><em>sequence</em><em>, </em><em>optional</em>) – NoDataValue(s). Specify one for each <code class="docutils literal notranslate"><span class="pre">DataArray</span></code> in <code class="docutils literal notranslate"><span class="pre">data</span></code>
+if a <a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v0.12.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a>. Used for <code class="docutils literal notranslate"><span class="pre">_FillValue</span></code></p></li>
+<li><p><strong>encoding_kwds</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – Additional encoding data to pass</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dict mapping band name (e.g., variable name) to relevant encoding
+information</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><code class="xref py py-func docutils literal notranslate"><span class="pre">xarray.Dataset.to_netcdf()</span></code></dt><dd><p>Encoding information designed to be passed to <a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.Dataset.to_netcdf.html#xarray.Dataset.to_netcdf" title="(in xarray v0.12.0)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">xarray.Dataset.to_netcdf()</span></code></a>.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="r4e84d83de4f0-1"><span class="brackets">1</span></dt>
+<dd><p><a class="reference external" href="http://unidata.github.io/netcdf4-python/#netCDF4.Dataset.createVariable">http://unidata.github.io/netcdf4-python/#netCDF4.Dataset.createVariable</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

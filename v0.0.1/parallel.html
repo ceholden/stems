@@ -1,0 +1,344 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Parallel Computing Helpers &mdash; stems 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="XArray Integration" href="xarray.html" />
+    <link rel="prev" title="Tile Grid Systems" href="gis_grids.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> stems
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequenty Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="gis.html">Geographic Information Systems (GIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gis_grids.html">Tile Grid Systems</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Parallel Computing Helpers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#distributed-cluster-setup">Distributed Cluster Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#command-line-interface-applications">Command Line Interface Applications</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#program-options">Program Options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#click-callbacks">Click Callbacks</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#block-mapping-of-functions">Block Mapping of Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="xarray.html">XArray Integration</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">stems</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Parallel Computing Helpers</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/ceholden/stems/blob/master/docs/source/parallel.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="parallel-computing-helpers">
+<span id="parallel"></span><h1>Parallel Computing Helpers<a class="headerlink" href="#parallel-computing-helpers" title="Permalink to this headline">¶</a></h1>
+<p>The stems project has tries to help facilitate running geospatial time series
+analysis in parallel using <a class="reference external" href="http://docs.dask.org/en/latest/">dask</a> and <a class="reference external" href="http://distributed.dask.org/en/latest/">dask.distributed</a>.</p>
+<div class="section" id="distributed-cluster-setup">
+<h2>Distributed Cluster Setup<a class="headerlink" href="#distributed-cluster-setup" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="stems/stems.executor.html#module-stems.executor" title="stems.executor"><code class="xref py py-mod docutils literal notranslate"><span class="pre">stems.executor</span></code></a> module contains a few functions that help create
+and shutdown <code class="xref py py-class docutils literal notranslate"><span class="pre">distributed.LocalCluster</span></code></p>
+<table class="longtable docutils align-center">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="stems/stems.executor.html#stems.executor.setup_executor" title="stems.executor.setup_executor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stems.executor.setup_executor</span></code></a>([address, …])</p></td>
+<td><p>Setup a Dask distributed cluter</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="stems/stems.executor.html#stems.executor.executor_info" title="stems.executor.executor_info"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stems.executor.executor_info</span></code></a>(client[, ip, …])</p></td>
+<td><p>Return a list of strings with info for a scheduler</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="command-line-interface-applications">
+<h2>Command Line Interface Applications<a class="headerlink" href="#command-line-interface-applications" title="Permalink to this headline">¶</a></h2>
+<p>When building command line interface (CLI) applications, you can use some of
+the <a class="reference external" href="https://click.palletsprojects.com/en/7.x/">Click</a>-based callbacks and program arguments or options.</p>
+<div class="section" id="program-options">
+<h3>Program Options<a class="headerlink" href="#program-options" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-center">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">stems.cli.options.opt_nprocs</span></code>(f)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">stems.cli.options.opt_nthreads</span></code>(f)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">stems.cli.options.opt_scheduler</span></code>(f)</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<p>These are decorators (see <code class="xref py py-func docutils literal notranslate"><span class="pre">click.option()</span></code>) that add Dask parallel
+processing capabilities to <a class="reference external" href="https://click.palletsprojects.com/en/7.x/">Click</a> based programs.</p>
+</div>
+<div class="section" id="click-callbacks">
+<h3>Click Callbacks<a class="headerlink" href="#click-callbacks" title="Permalink to this headline">¶</a></h3>
+<p>You might also want to use the following callback functions to develop your
+own <a class="reference external" href="https://click.palletsprojects.com/en/7.x/">Click</a> program arguments or options.</p>
+<table class="longtable docutils align-center">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="stems/stems.cli.options.html#stems.cli.options.cb_executor" title="stems.cli.options.cb_executor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stems.cli.options.cb_executor</span></code></a>(ctx, param, value)</p></td>
+<td><p>Callback for returning a Distributed client</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="stems/stems.cli.options.html#stems.cli.options.close_scheduler" title="stems.cli.options.close_scheduler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stems.cli.options.close_scheduler</span></code></a>()</p></td>
+<td><p>Close all clients/clusters on exit using <code class="docutils literal notranslate"><span class="pre">ctx.call_on_close</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="block-mapping-of-functions">
+<h2>Block Mapping of Functions<a class="headerlink" href="#block-mapping-of-functions" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="stems/stems.parallel.html#module-stems.parallel" title="stems.parallel"><code class="xref py py-mod docutils literal notranslate"><span class="pre">stems.parallel</span></code></a> module contains functions that help you run
+functions on chunks of data.</p>
+<p>The functions, <a class="reference internal" href="stems/stems.parallel.html#stems.parallel.iter_chunks" title="stems.parallel.iter_chunks"><code class="xref py py-func docutils literal notranslate"><span class="pre">stems.parallel.iter_chunks()</span></code></a> and
+<a class="reference internal" href="stems/stems.parallel.html#stems.parallel.iter_noncore_chunks" title="stems.parallel.iter_noncore_chunks"><code class="xref py py-func docutils literal notranslate"><span class="pre">stems.parallel.iter_noncore_chunks()</span></code></a> assist you in iterating across
+blocks of data by yielding array dimension slices.</p>
+<table class="longtable docutils align-center">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="stems/stems.parallel.html#stems.parallel.iter_chunks" title="stems.parallel.iter_chunks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stems.parallel.iter_chunks</span></code></a>(dim_sizes[, …])</p></td>
+<td><p>Return slices that help iterate over dimensions in chunks/blocks</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="stems/stems.parallel.html#stems.parallel.iter_noncore_chunks" title="stems.parallel.iter_noncore_chunks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stems.parallel.iter_noncore_chunks</span></code></a>(data, …)</p></td>
+<td><p>Yield data in chunks selected out from non-core dimensions</p></td>
+</tr>
+</tbody>
+</table>
+<p>You can nest these to run an inner function on each pixel within a block on a
+worker (e.g., <code class="docutils literal notranslate"><span class="pre">chunksize=1</span></code> for each dimension), and process many blocks in
+parallel using the slices (e.g., <code class="docutils literal notranslate"><span class="pre">chunksize=100</span></code> in x/y) you calculate using
+the same <a class="reference internal" href="stems/stems.parallel.html#stems.parallel.iter_chunks" title="stems.parallel.iter_chunks"><code class="xref py py-func docutils literal notranslate"><span class="pre">stems.parallel.iter_chunks()</span></code></a> function.</p>
+<p>Sometimes you want to run a function across some arbitrary dimensions and
+collect the results in a single list. One common example is running the CCDC
+algorithm on pixels from an image (<code class="docutils literal notranslate"><span class="pre">dims=('band',</span> <span class="pre">'time',</span> <span class="pre">'y',</span> <span class="pre">'x',</span> <span class="pre">)</span></code>) or
+from a list of samples (<code class="docutils literal notranslate"><span class="pre">dims=('band',</span> <span class="pre">'time',</span> <span class="pre">'sample_id',</span> <span class="pre">)</span></code>) and
+collecting all the segments estimated into a single dimension array
+(<code class="docutils literal notranslate"><span class="pre">dims=('segment_id',</span> <span class="pre">)</span></code>).</p>
+<p>The function <a class="reference internal" href="stems/stems.parallel.html#stems.parallel.map_collect_1d" title="stems.parallel.map_collect_1d"><code class="xref py py-func docutils literal notranslate"><span class="pre">stems.parallel.map_collect_1d()</span></code></a> is designed to help with
+this task:</p>
+<table class="longtable docutils align-center">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="stems/stems.parallel.html#stems.parallel.map_collect_1d" title="stems.parallel.map_collect_1d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stems.parallel.map_collect_1d</span></code></a>(core_dims[, …])</p></td>
+<td><p>Decorator that maps a function across pixels and concatenates the result</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="xarray.html" class="btn btn-neutral float-right" title="XArray Integration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="gis_grids.html" class="btn btn-neutral float-left" title="Tile Grid Systems" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
