@@ -48,7 +48,9 @@ extensions = [
     'sphinx.ext.napoleon',
     'sphinx.ext.todo',
     'sphinx.ext.viewcode',
-    'numpydoc'
+    'numpydoc',
+    'IPython.sphinxext.ipython_console_highlighting',
+    'IPython.sphinxext.ipython_directive'
 ]
 # https://github.com/numpy/numpydoc/issues/69
 numpydoc_show_class_members = False

@@ -38,6 +38,7 @@ dependencies:
   - sphinx
   - sphinx_rtd_theme
   - numpydoc
+  - ipython
   - pip:
     - coverage-badge
     - sphinxcontrib-bibtex
