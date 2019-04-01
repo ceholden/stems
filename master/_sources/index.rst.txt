@@ -25,6 +25,7 @@ to facilitate processing these data with dask_ and distributed_.
    gis
    gis_grids
    parallel
+   xarray
 
 
 .. toctree::
