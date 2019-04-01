@@ -150,13 +150,13 @@ def is_georeferenced(xarr, grid_mapping='crs', required_gdal=False):
             return False
         return True
 
-    # Check coordinates for grid_mapping
-    var_grid_mapping = xarr.coords.get(grid_mapping, None)
-
-    if var_grid_mapping is None:
+    # Retrieve grid_mapping
+    try:
+        var_grid_mapping = get_grid_mapping(xarr)
+    except KeyError as e:
         return False
     else:
-        # Check for required information
+        # Needs to have require information
         cf_ok = check(var_grid_mapping, cf_infos)
         gdal_ok = check(var_grid_mapping, gdal_infos)
 
@@ -170,6 +170,31 @@ def is_georeferenced(xarr, grid_mapping='crs', required_gdal=False):
 
 # =============================================================================
 # Projection
+def get_grid_mapping(xarr, grid_mapping='crs'):
+    """ Return grid mapping variable
+
+    Parameters
+    ----------
+    xarr : xarray.Dataset or xarray.DataArray
+        XArray data
+
+    Returns
+    -------
+    xarray.Variable
+        XArray grid mapping variable
+
+    Raises
+    ------
+    KeyError
+        Raised if grid mapping variable does not exist
+    """
+    var_gm = xarr.coords.get(grid_mapping, None)
+    if var_gm is None:
+        raise KeyError('No grid mapping variable found')
+    else:
+        return var_gm
+
+
 def create_grid_mapping(crs, transform, grid_mapping='crs'):
     """ Return an :py:class:`xarray.DataArray` of CF-compliant CRS info
 

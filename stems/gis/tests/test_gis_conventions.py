@@ -34,6 +34,10 @@ def test_is_georeferenced():
     ans = conventions.is_georeferenced(ds_)
     assert ans is True
 
+    gm_ds = conventions.get_grid_mapping(ds_)
+    gm_a = conventions.get_grid_mapping(a_)
+    xr.testing.assert_equal(gm_ds, gm_a)
+
 
 # ----------------------------------------------------------------------------
 # create_grid_mapping
