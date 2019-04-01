@@ -3,6 +3,7 @@
 from pathlib import Path
 
 import pytest
+import xarray as xr
 
 
 DIR_TESTS = Path(__file__).parent.absolute()
