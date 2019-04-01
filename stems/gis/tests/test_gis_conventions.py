@@ -4,8 +4,35 @@ from affine import Affine
 import numpy as np
 from rasterio.crs import CRS
 import pytest
+import xarray as xr
 
 from stems.gis import conventions
+
+
+# ----------------------------------------------------------------------------
+# georeference / is_georeferenced
+def test_is_georeferenced():
+    # Create ungeoreferenced data
+    a = xr.DataArray(np.ones((5, 5)), dims=('y', 'x', ),
+                     coords={'x': np.arange(5), 'y': np.arange(5)})
+    ds = xr.Dataset({'a': a})
+
+    ans = conventions.is_georeferenced(a)
+    assert ans is False
+    ans = conventions.is_georeferenced(ds)
+    assert ans is False
+
+    crs_ = CRS.from_epsg(32619)
+    transform_ = Affine(1, 0, 0, 0, -1., 5)
+
+    # Create georeferenced data
+    a_ = conventions.georeference(a, crs_, transform_)
+    ds_ = conventions.georeference(ds, crs_, transform_)
+
+    ans = conventions.is_georeferenced(a_)
+    assert ans is True
+    ans = conventions.is_georeferenced(ds_)
+    assert ans is True
 
 
 # ----------------------------------------------------------------------------
@@ -82,3 +109,4 @@ def test_create_coordinates_utm19n(y, x):
 
 # ============================================================================
 # Test integration with GDAL
+# TODO: write to NetCDF4 and try to retrieve info from GDAL

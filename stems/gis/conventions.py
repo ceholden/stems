@@ -6,6 +6,7 @@ coordinating naming, grid mapping variables, etc)
 from collections import OrderedDict
 import logging
 
+from affine import Affine
 import numpy as np
 from rasterio.crs import CRS
 from rasterio.coords import BoundingBox
@@ -57,6 +58,114 @@ COORD_DEFS = {
 CF_NC_ATTRS = OrderedDict((
     ('Conventions', 'CF-1.7'),
 ))
+
+
+# ============================================================================
+# Georeferencing
+def georeference(xarr, crs, transform, grid_mapping='crs', inplace=False):
+    """ Georeference XArray data with the CRS and Affine transform
+
+    Parameters
+    ----------
+    xarr : xarray.DataArray or xarray.Dataset
+        XArray data to georeference
+    crs : rasterio.crs.CRS
+        Rasterio CRS
+    transform : affine.Affine
+        Affine transform of the data
+    grid_mapping : str, optional
+        Name to use for grid mapping variable
+    inplace : bool, optional
+        If ``False``, returns a modified shallow copy of ``xarr``
+
+    Returns
+    -------
+    xarray.DataArray or xarray.Dataset
+        Georeferenced data (type depending on input)
+    """
+    assert isinstance(xarr, (xr.DataArray, xr.Dataset))
+    assert isinstance(crs, CRS)
+    assert isinstance(transform, Affine)
+    assert isinstance(grid_mapping, str)
+
+    # Copy as needed
+    xarr = xarr if inplace else xarr.copy()
+
+    # Create grid mapping
+    xarr.coords[grid_mapping] = create_grid_mapping(crs, transform,
+                                                    grid_mapping=grid_mapping)
+
+    # "Georeference" 2D data (variables)
+    dim_x, dim_y = projections.cf_xy_coord_names(crs)
+
+    def georef(x):
+        if dim_x in x.dims and dim_y in x.dims:
+            x.attrs['grid_mapping'] = grid_mapping
+        else:
+            logger.debug(f'Not georeferencing "{x.name}" because it lacks x/y '
+                         f'dimensions ("{dim_x}" and "{dim_y}")')
+        return x
+
+    if isinstance(xarr, xr.DataArray):
+        xarr = georef(xarr)
+    elif isinstance(xarr, xr.Dataset):
+        for var in xarr.data_vars:
+            xarr[var] = georef(xarr[var])
+    else:
+        raise TypeError(f'Cannot georeference type "{type(xarr)}"')
+
+    # Add additional CF related attributes
+    xarr.attrs.update(CF_NC_ATTRS)
+
+    return xarr
+
+
+def is_georeferenced(xarr, grid_mapping='crs', required_gdal=False):
+    """ Determine if XArray data is georeferenced
+
+    Parameters
+    ----------
+    xarr : xarray.DataArray or xarray.Dataset
+        XArray data to check for georeferencing
+    grid_mapping : str, optional
+        Name to use for grid mapping variable
+    require_gdal : bool, optional
+        Require presence of attributes GDAL uses to georeference
+        as backup ("spatial_ref" and "GeoTransform")
+
+    Returns
+    -------
+    bool
+        True if is georeferenced
+    """
+    cf_infos = ('grid_mapping_name', )
+    gdal_infos = ('spatial_ref', 'GeoTransform', )
+
+    def check(var_gm, infos):
+        ok = [i in var_gm.attrs for i in infos]
+        if not all(ok):
+            quote = lambda s: f'"{s}"'
+            logger.debug('Cannot find required grid mapping attributes '
+                         f'{", ".join([quote(i) for i in infos])}')
+            return False
+        return True
+
+    # Check coordinates for grid_mapping
+    var_grid_mapping = xarr.coords.get(grid_mapping, None)
+
+    if var_grid_mapping is None:
+        return False
+    else:
+        # Check for required information
+        cf_ok = check(var_grid_mapping, cf_infos)
+        gdal_ok = check(var_grid_mapping, gdal_infos)
+
+        if not cf_ok:
+            return False
+        if not gdal_ok and require_gdal:
+            return False
+
+        return True
 
 
 # =============================================================================
