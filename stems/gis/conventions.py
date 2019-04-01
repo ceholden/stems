@@ -215,10 +215,15 @@ def create_grid_mapping(crs, transform, grid_mapping='crs'):
     name = projections.cf_crs_name(crs)
 
     # This part is entirely unnecessary!
-    epsg_code = projections.epsg_code(crs) or 0
-    if epsg_code:
-        epsg_auth, epsg_code = epsg_code.split(':')
-    epsg_code = np.array(int(epsg_code), dtype=np.int32)
+    try:
+        epsg_code = projections.epsg_code(crs) or 0
+    except ValueError as ve:
+        logger.debug(f'Could not determine EPSG code for CRS ("{crs.wkt}")')
+        epsg_code = 0
+    else:
+        if epsg_code:
+            epsg_auth, epsg_code = epsg_code.split(':')
+        epsg_code = np.array(int(epsg_code), dtype=np.int32)
 
     da = xr.DataArray(epsg_code, name=grid_mapping)
     da.attrs['grid_mapping_name'] = name
