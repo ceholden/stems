@@ -98,21 +98,11 @@ def georeference(xarr, crs, transform, grid_mapping='crs', inplace=False):
     # "Georeference" 2D data (variables)
     dim_x, dim_y = projections.cf_xy_coord_names(crs)
 
-    def georef(x):
-        if dim_x in x.dims and dim_y in x.dims:
-            x.attrs['grid_mapping'] = grid_mapping
-        else:
-            logger.debug(f'Not georeferencing "{x.name}" because it lacks x/y '
-                         f'dimensions ("{dim_x}" and "{dim_y}")')
-        return x
-
     if isinstance(xarr, xr.DataArray):
-        xarr = georef(xarr)
+        xarr = _georef(xarr, dim_x, dim_y, grid_mapping)
     elif isinstance(xarr, xr.Dataset):
         for var in xarr.data_vars:
-            xarr[var] = georef(xarr[var])
-    else:
-        raise TypeError(f'Cannot georeference type "{type(xarr)}"')
+            xarr[var] = _georef(xarr[var], dim_x, dim_y, grid_mapping)
 
     # Add additional CF related attributes
     xarr.attrs.update(CF_NC_ATTRS)
@@ -138,17 +128,11 @@ def is_georeferenced(xarr, grid_mapping='crs', required_gdal=False):
     bool
         True if is georeferenced
     """
-    cf_infos = ('grid_mapping_name', )
-    gdal_infos = ('spatial_ref', 'GeoTransform', )
+    assert isinstance(xarr, (xr.DataArray, xr.Dataset))
 
-    def check(var_gm, infos):
-        ok = [i in var_gm.attrs for i in infos]
-        if not all(ok):
-            quote = lambda s: f'"{s}"'
-            logger.debug('Cannot find required grid mapping attributes '
-                         f'{", ".join([quote(i) for i in infos])}')
-            return False
-        return True
+    cf_attrs = ('grid_mapping_name', )
+    gdal_attrs = ('spatial_ref', 'GeoTransform', )
+    gridmap_attrs = ('grid_mapping', )
 
     # Retrieve grid_mapping
     try:
@@ -157,15 +141,46 @@ def is_georeferenced(xarr, grid_mapping='crs', required_gdal=False):
         return False
     else:
         # Needs to have require information
-        cf_ok = check(var_grid_mapping, cf_infos)
-        gdal_ok = check(var_grid_mapping, gdal_infos)
+        cf_ok = _check_georef(var_grid_mapping, cf_attrs)
+        gdal_ok = _check_georef(var_grid_mapping, gdal_attrs)
 
         if not cf_ok:
             return False
         if not gdal_ok and require_gdal:
             return False
 
+        if isinstance(xarr, xr.DataArray):
+            if not _check_georef(xarr, gridmap_attrs):
+                return False
+        else:
+            any_georef = False
+            for name, dv in xarr.data_vars.items():
+                if _check_georef(dv, gridmap_attrs):
+                    any_georef = True
+            if not any_georef:
+                return False
+
         return True
+
+
+def _georef(x, dim_x, dim_y, grid_mapping):
+    if dim_x in x.dims and dim_y in x.dims:
+        x.attrs['grid_mapping'] = grid_mapping
+    else:
+        logger.debug(f'Not georeferencing "{x.name}" because it lacks x/y '
+                     f'dimensions ("{dim_x}" and "{dim_y}")')
+    return x
+
+
+def _check_georef(xarr, attrs):
+    ok = [a in xarr.attrs for a in attrs]
+    if not all(ok):
+        quote = lambda s: f'"{s}"'
+        missing = ", ".join([quote(a) for ok_, a in zip(ok, attrs) if not ok_])
+        logger.debug('Cannot find required grid mapping attributes on '
+                     f'"{xarr.name}": {missing}')
+        return False
+    return True
 
 
 # =============================================================================
