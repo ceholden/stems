@@ -1,3 +1,4 @@
+==========
 Change Log
 ==========
 
@@ -9,3 +10,11 @@ For information on the style of this change log, see
 `keepachangelog.com <http://keepachangelog.com/>`__.
 
 
+UNRELEASED
+==========
+
+
+ALPHA 0.0.1
+===========
+
+Released 04/01/2019.
