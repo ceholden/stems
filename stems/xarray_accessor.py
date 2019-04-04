@@ -1,8 +1,10 @@
-""" Extend XArray with the ``.stems`` accessor
+""" Extend XArray with the ``.stems`` XArray accessor [1]_
 
-See Also
---------
-http://xarray.pydata.org/en/stable/internals.html#extending-xarray
+
+
+References
+----------
+.. [1] http://xarray.pydata.org/en/stable/internals.html#extending-xarray
 
 """
 import xarray as xr
