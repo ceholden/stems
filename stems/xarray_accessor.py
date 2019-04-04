@@ -7,9 +7,13 @@ References
 .. [1] http://xarray.pydata.org/en/stable/internals.html#extending-xarray
 
 """
+import logging
+
 import xarray as xr
 
 from .gis import convert, conventions, coords, projections
+
+logger = logging.getLogger(__name__)
 
 
 class _STEMSAccessor(object):
@@ -80,7 +84,15 @@ class _STEMSAccessor(object):
         """ affine.Affine: Affine transform
         """
         # TODO: assume unique -> yes if 2D, otherwise no
-        assume_unique = True
+        x, y = projections.cf_xy_coord_names(self.crs)
+
+        if 'x' in self._obj.dims and 'y' in self._obj.dims:
+            assume_unique = True
+        else:
+            logger.debug('Could not find y/x coordinates as dimensions. '
+                         'Assuming coordinates are NOT unique')
+            assume_unique = False
+
         xform = coords.coords_to_transform(self.coord_y, self.coord_x,
                                            assume_unique=assume_unique)
         return xform
