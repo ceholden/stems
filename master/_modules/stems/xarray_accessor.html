@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.xarray_accessor &mdash; stems 0.0.1 documentation</title>
+  <title>stems.xarray_accessor &mdash; stems 0.0.1+5.gdba6a33 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1
+                0.0.1+5.gdba6a33
               </div>
             
           
@@ -162,16 +162,22 @@
            <div itemprop="articleBody">
             
   <h1>Source code for stems.xarray_accessor</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot; Extend XArray with the ``.stems`` accessor</span>
+<span></span><span class="sd">&quot;&quot;&quot; Extend XArray with the ``.stems`` XArray accessor [1]_</span>
 
-<span class="sd">See Also</span>
-<span class="sd">--------</span>
-<span class="sd">http://xarray.pydata.org/en/stable/internals.html#extending-xarray</span>
+
+
+<span class="sd">References</span>
+<span class="sd">----------</span>
+<span class="sd">.. [1] http://xarray.pydata.org/en/stable/internals.html#extending-xarray</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
 <span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
 
 <span class="kn">from</span> <span class="nn">.gis</span> <span class="k">import</span> <span class="n">convert</span><span class="p">,</span> <span class="n">conventions</span><span class="p">,</span> <span class="n">coords</span><span class="p">,</span> <span class="n">projections</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
 <span class="k">class</span> <span class="nc">_STEMSAccessor</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -242,7 +248,15 @@
         <span class="sd">&quot;&quot;&quot; affine.Affine: Affine transform</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># TODO: assume unique -&gt; yes if 2D, otherwise no</span>
-        <span class="n">assume_unique</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">projections</span><span class="o">.</span><span class="n">cf_xy_coord_names</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s1">&#39;x&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="o">.</span><span class="n">dims</span> <span class="ow">and</span> <span class="s1">&#39;y&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="o">.</span><span class="n">dims</span><span class="p">:</span>
+            <span class="n">assume_unique</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Could not find y/x coordinates as dimensions. &#39;</span>
+                         <span class="s1">&#39;Assuming coordinates are NOT unique&#39;</span><span class="p">)</span>
+            <span class="n">assume_unique</span> <span class="o">=</span> <span class="kc">False</span>
+
         <span class="n">xform</span> <span class="o">=</span> <span class="n">coords</span><span class="o">.</span><span class="n">coords_to_transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coord_y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">coord_x</span><span class="p">,</span>
                                            <span class="n">assume_unique</span><span class="o">=</span><span class="n">assume_unique</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">xform</span>

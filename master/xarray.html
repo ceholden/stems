@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>XArray Integration &mdash; stems 0.0.1 documentation</title>
+  <title>XArray Integration &mdash; stems 0.0.1+5.gdba6a33 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.0.1
+                0.0.1+5.gdba6a33
               </div>
             
           
@@ -102,6 +102,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#georeferencing">Georeferencing</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
 </ul>
 </li>
 </ul>
@@ -275,8 +276,11 @@ create:</p>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="go"># Calculate (and drop the CRS to show example)</span>
 <span class="gp">In [10]: </span><span class="n">ratio</span> <span class="o">=</span> <span class="p">(</span><span class="n">test_ds</span><span class="p">[</span><span class="s1">&#39;nir&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">test_ds</span><span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;crs&#39;</span><span class="p">)</span>
 
-<span class="gp">In [11]: </span><span class="n">ratio</span>
-<span class="gh">Out[11]: </span><span class="go"></span>
+<span class="gp">In [11]: </span><span class="n">ratio</span><span class="o">.</span><span class="n">stems</span><span class="o">.</span><span class="n">is_georeferenced</span><span class="p">()</span>
+<span class="gh">Out[11]: </span><span class="go">False</span>
+
+<span class="gp">In [12]: </span><span class="n">ratio</span>
+<span class="go">               Out[12]: </span>
 <span class="go">&lt;xarray.DataArray (y: 7, x: 11, time: 100)&gt;</span>
 <span class="go">dask.array&lt;shape=(7, 11, 100), dtype=float64, chunksize=(3, 5, 25)&gt;</span>
 <span class="go">Coordinates:</span>
@@ -286,12 +290,15 @@ create:</p>
 </pre></div>
 </div>
 <p>Now we can use the <code class="docutils literal notranslate"><span class="pre">stems</span></code> accessor to georeference the data:</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [12]: </span><span class="n">ratio_</span> <span class="o">=</span> <span class="n">ratio</span><span class="o">.</span><span class="n">stems</span><span class="o">.</span><span class="n">georeference</span><span class="p">(</span><span class="n">test_ds</span><span class="o">.</span><span class="n">stems</span><span class="o">.</span><span class="n">crs</span><span class="p">,</span>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [13]: </span><span class="n">ratio_</span> <span class="o">=</span> <span class="n">ratio</span><span class="o">.</span><span class="n">stems</span><span class="o">.</span><span class="n">georeference</span><span class="p">(</span><span class="n">test_ds</span><span class="o">.</span><span class="n">stems</span><span class="o">.</span><span class="n">crs</span><span class="p">,</span>
 <span class="gp">   ....: </span>                                  <span class="n">test_ds</span><span class="o">.</span><span class="n">stems</span><span class="o">.</span><span class="n">transform</span><span class="p">)</span>
 <span class="gp">   ....: </span>
 
-<span class="gp">In [13]: </span><span class="n">ratio_</span>
-<span class="gh">Out[13]: </span><span class="go"></span>
+<span class="gp">In [14]: </span><span class="n">ratio_</span><span class="o">.</span><span class="n">stems</span><span class="o">.</span><span class="n">is_georeferenced</span><span class="p">()</span>
+<span class="gh">Out[14]: </span><span class="go">True</span>
+
+<span class="gp">In [15]: </span><span class="n">ratio_</span>
+<span class="go">              Out[15]: </span>
 <span class="go">&lt;xarray.DataArray (y: 7, x: 11, time: 100)&gt;</span>
 <span class="go">dask.array&lt;shape=(7, 11, 100), dtype=float64, chunksize=(3, 5, 25)&gt;</span>
 <span class="go">Coordinates:</span>
@@ -306,20 +313,23 @@ create:</p>
 </div>
 <p>For comparison, you could also directly use components from stems to do the
 same thing:</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [14]: </span><span class="kn">from</span> <span class="nn">stems.gis</span> <span class="kn">import</span> <span class="n">convert</span><span class="p">,</span> <span class="n">conventions</span><span class="p">,</span> <span class="n">coords</span>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [16]: </span><span class="kn">from</span> <span class="nn">stems.gis</span> <span class="kn">import</span> <span class="n">convert</span><span class="p">,</span> <span class="n">conventions</span><span class="p">,</span> <span class="n">coords</span>
 
 <span class="go"># Get the CRS/transform from source data &quot;test_ds&quot;</span>
-<span class="gp">In [15]: </span><span class="n">grid_mapping</span> <span class="o">=</span> <span class="n">conventions</span><span class="o">.</span><span class="n">get_grid_mapping</span><span class="p">(</span><span class="n">test_ds</span><span class="p">)</span>
+<span class="gp">In [17]: </span><span class="n">grid_mapping</span> <span class="o">=</span> <span class="n">conventions</span><span class="o">.</span><span class="n">get_grid_mapping</span><span class="p">(</span><span class="n">test_ds</span><span class="p">)</span>
 
-<span class="gp">In [16]: </span><span class="n">crs_</span> <span class="o">=</span> <span class="n">convert</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">grid_mapping</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;spatial_ref&#39;</span><span class="p">])</span>
+<span class="gp">In [18]: </span><span class="n">crs_</span> <span class="o">=</span> <span class="n">convert</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">grid_mapping</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;spatial_ref&#39;</span><span class="p">])</span>
 
-<span class="gp">In [17]: </span><span class="n">transform_</span> <span class="o">=</span> <span class="n">coords</span><span class="o">.</span><span class="n">coords_to_transform</span><span class="p">(</span><span class="n">ratio</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">],</span> <span class="n">ratio</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">])</span>
+<span class="gp">In [19]: </span><span class="n">transform_</span> <span class="o">=</span> <span class="n">coords</span><span class="o">.</span><span class="n">coords_to_transform</span><span class="p">(</span><span class="n">ratio</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">],</span> <span class="n">ratio</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">])</span>
 
 <span class="go"># Apply</span>
-<span class="gp">In [18]: </span><span class="n">ratio_</span> <span class="o">=</span> <span class="n">conventions</span><span class="o">.</span><span class="n">georeference</span><span class="p">(</span><span class="n">ratio</span><span class="p">,</span> <span class="n">crs_</span><span class="p">,</span> <span class="n">transform_</span><span class="p">)</span>
+<span class="gp">In [20]: </span><span class="n">ratio_</span> <span class="o">=</span> <span class="n">conventions</span><span class="o">.</span><span class="n">georeference</span><span class="p">(</span><span class="n">ratio</span><span class="p">,</span> <span class="n">crs_</span><span class="p">,</span> <span class="n">transform_</span><span class="p">)</span>
 
-<span class="gp">In [19]: </span><span class="n">ratio_</span>
-<span class="gh">Out[19]: </span><span class="go"></span>
+<span class="gp">In [21]: </span><span class="n">ratio_</span><span class="o">.</span><span class="n">stems</span><span class="o">.</span><span class="n">is_georeferenced</span><span class="p">()</span>
+<span class="gh">Out[21]: </span><span class="go">True</span>
+
+<span class="gp">In [22]: </span><span class="n">ratio_</span>
+<span class="go">              Out[22]: </span>
 <span class="go">&lt;xarray.DataArray (y: 7, x: 11, time: 100)&gt;</span>
 <span class="go">dask.array&lt;shape=(7, 11, 100), dtype=float64, chunksize=(3, 5, 25)&gt;</span>
 <span class="go">Coordinates:</span>
@@ -334,6 +344,9 @@ same thing:</p>
 </div>
 <p>As you can see, it’s a lot faster and more straightforward to use the accessors!</p>
 </div>
+</div>
+<div class="section" id="api">
+<h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 

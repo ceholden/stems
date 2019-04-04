@@ -80,6 +80,7 @@ create:
 
    # Calculate (and drop the CRS to show example)
    ratio = (test_ds['nir'] / test_ds['red']).drop('crs')
+   ratio.stems.is_georeferenced()
    ratio
    
 Now we can use the ``stems`` accessor to georeference the data:
@@ -89,7 +90,9 @@ Now we can use the ``stems`` accessor to georeference the data:
 
    ratio_ = ratio.stems.georeference(test_ds.stems.crs,
                                      test_ds.stems.transform)
+   ratio_.stems.is_georeferenced()
    ratio_
+
 
 
 For comparison, you could also directly use components from stems to do the
@@ -104,9 +107,19 @@ same thing:
    transform_ = coords.coords_to_transform(ratio['y'], ratio['x'])
    # Apply
    ratio_ = conventions.georeference(ratio, crs_, transform_)
+   ratio_.stems.is_georeferenced()
    ratio_
 
 As you can see, it's a lot faster and more straightforward to use the accessors!
+
+
+API
+===
+
+.. autosummary:
+
+   DataArrayAccessor
+   DatasetAccessor
 
 
 .. _extending xarray: http://xarray.pydata.org/en/stable/internals.html#extending-xarray

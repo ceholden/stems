@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.conventions &mdash; stems 0.0.1 documentation</title>
+  <title>stems.gis.conventions &mdash; stems 0.0.1+5.gdba6a33 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1
+                0.0.1+5.gdba6a33
               </div>
             
           
@@ -262,21 +262,11 @@
     <span class="c1"># &quot;Georeference&quot; 2D data (variables)</span>
     <span class="n">dim_x</span><span class="p">,</span> <span class="n">dim_y</span> <span class="o">=</span> <span class="n">projections</span><span class="o">.</span><span class="n">cf_xy_coord_names</span><span class="p">(</span><span class="n">crs</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">georef</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">dim_x</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">dims</span> <span class="ow">and</span> <span class="n">dim_y</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">dims</span><span class="p">:</span>
-            <span class="n">x</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;grid_mapping&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">grid_mapping</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Not georeferencing &quot;</span><span class="si">{x.name}</span><span class="s1">&quot; because it lacks x/y &#39;</span>
-                         <span class="n">f</span><span class="s1">&#39;dimensions (&quot;</span><span class="si">{dim_x}</span><span class="s1">&quot; and &quot;</span><span class="si">{dim_y}</span><span class="s1">&quot;)&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">x</span>
-
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">xarr</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">):</span>
-        <span class="n">xarr</span> <span class="o">=</span> <span class="n">georef</span><span class="p">(</span><span class="n">xarr</span><span class="p">)</span>
+        <span class="n">xarr</span> <span class="o">=</span> <span class="n">_georef</span><span class="p">(</span><span class="n">xarr</span><span class="p">,</span> <span class="n">dim_x</span><span class="p">,</span> <span class="n">dim_y</span><span class="p">,</span> <span class="n">grid_mapping</span><span class="p">)</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">xarr</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">xarr</span><span class="o">.</span><span class="n">data_vars</span><span class="p">:</span>
-            <span class="n">xarr</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">georef</span><span class="p">(</span><span class="n">xarr</span><span class="p">[</span><span class="n">var</span><span class="p">])</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Cannot georeference type &quot;{type(xarr)}&quot;&#39;</span><span class="p">)</span>
+            <span class="n">xarr</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">_georef</span><span class="p">(</span><span class="n">xarr</span><span class="p">[</span><span class="n">var</span><span class="p">],</span> <span class="n">dim_x</span><span class="p">,</span> <span class="n">dim_y</span><span class="p">,</span> <span class="n">grid_mapping</span><span class="p">)</span>
 
     <span class="c1"># Add additional CF related attributes</span>
     <span class="n">xarr</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">CF_NC_ATTRS</span><span class="p">)</span>
@@ -302,17 +292,11 @@
 <span class="sd">    bool</span>
 <span class="sd">        True if is georeferenced</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">cf_infos</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;grid_mapping_name&#39;</span><span class="p">,</span> <span class="p">)</span>
-    <span class="n">gdal_infos</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;spatial_ref&#39;</span><span class="p">,</span> <span class="s1">&#39;GeoTransform&#39;</span><span class="p">,</span> <span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">xarr</span><span class="p">,</span> <span class="p">(</span><span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">))</span>
 
-    <span class="k">def</span> <span class="nf">check</span><span class="p">(</span><span class="n">var_gm</span><span class="p">,</span> <span class="n">infos</span><span class="p">):</span>
-        <span class="n">ok</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="ow">in</span> <span class="n">var_gm</span><span class="o">.</span><span class="n">attrs</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">infos</span><span class="p">]</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="n">ok</span><span class="p">):</span>
-            <span class="n">quote</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">f</span><span class="s1">&#39;&quot;</span><span class="si">{s}</span><span class="s1">&quot;&#39;</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Cannot find required grid mapping attributes &#39;</span>
-                         <span class="n">f</span><span class="s1">&#39;{&quot;, &quot;.join([quote(i) for i in infos])}&#39;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">return</span> <span class="kc">True</span>
+    <span class="n">cf_attrs</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;grid_mapping_name&#39;</span><span class="p">,</span> <span class="p">)</span>
+    <span class="n">gdal_attrs</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;spatial_ref&#39;</span><span class="p">,</span> <span class="s1">&#39;GeoTransform&#39;</span><span class="p">,</span> <span class="p">)</span>
+    <span class="n">gridmap_attrs</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;grid_mapping&#39;</span><span class="p">,</span> <span class="p">)</span>
 
     <span class="c1"># Retrieve grid_mapping</span>
     <span class="k">try</span><span class="p">:</span>
@@ -321,15 +305,46 @@
         <span class="k">return</span> <span class="kc">False</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="c1"># Needs to have require information</span>
-        <span class="n">cf_ok</span> <span class="o">=</span> <span class="n">check</span><span class="p">(</span><span class="n">var_grid_mapping</span><span class="p">,</span> <span class="n">cf_infos</span><span class="p">)</span>
-        <span class="n">gdal_ok</span> <span class="o">=</span> <span class="n">check</span><span class="p">(</span><span class="n">var_grid_mapping</span><span class="p">,</span> <span class="n">gdal_infos</span><span class="p">)</span>
+        <span class="n">cf_ok</span> <span class="o">=</span> <span class="n">_check_georef</span><span class="p">(</span><span class="n">var_grid_mapping</span><span class="p">,</span> <span class="n">cf_attrs</span><span class="p">)</span>
+        <span class="n">gdal_ok</span> <span class="o">=</span> <span class="n">_check_georef</span><span class="p">(</span><span class="n">var_grid_mapping</span><span class="p">,</span> <span class="n">gdal_attrs</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">cf_ok</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">gdal_ok</span> <span class="ow">and</span> <span class="n">require_gdal</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
 
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">xarr</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">_check_georef</span><span class="p">(</span><span class="n">xarr</span><span class="p">,</span> <span class="n">gridmap_attrs</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">any_georef</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">dv</span> <span class="ow">in</span> <span class="n">xarr</span><span class="o">.</span><span class="n">data_vars</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">_check_georef</span><span class="p">(</span><span class="n">dv</span><span class="p">,</span> <span class="n">gridmap_attrs</span><span class="p">):</span>
+                    <span class="n">any_georef</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">any_georef</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
         <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<span class="k">def</span> <span class="nf">_georef</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dim_x</span><span class="p">,</span> <span class="n">dim_y</span><span class="p">,</span> <span class="n">grid_mapping</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">dim_x</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">dims</span> <span class="ow">and</span> <span class="n">dim_y</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">dims</span><span class="p">:</span>
+        <span class="n">x</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;grid_mapping&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">grid_mapping</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Not georeferencing &quot;</span><span class="si">{x.name}</span><span class="s1">&quot; because it lacks x/y &#39;</span>
+                     <span class="n">f</span><span class="s1">&#39;dimensions (&quot;</span><span class="si">{dim_x}</span><span class="s1">&quot; and &quot;</span><span class="si">{dim_y}</span><span class="s1">&quot;)&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span>
+
+
+<span class="k">def</span> <span class="nf">_check_georef</span><span class="p">(</span><span class="n">xarr</span><span class="p">,</span> <span class="n">attrs</span><span class="p">):</span>
+    <span class="n">ok</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span> <span class="ow">in</span> <span class="n">xarr</span><span class="o">.</span><span class="n">attrs</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="n">ok</span><span class="p">):</span>
+        <span class="n">quote</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">f</span><span class="s1">&#39;&quot;</span><span class="si">{s}</span><span class="s1">&quot;&#39;</span>
+        <span class="n">missing</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">quote</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">ok_</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ok</span><span class="p">,</span> <span class="n">attrs</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">ok_</span><span class="p">])</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Cannot find required grid mapping attributes on &#39;</span>
+                     <span class="n">f</span><span class="s1">&#39;&quot;</span><span class="si">{xarr.name}</span><span class="s1">&quot;: </span><span class="si">{missing}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="kc">True</span>
 
 
 <span class="c1"># =============================================================================</span>
