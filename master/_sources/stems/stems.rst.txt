@@ -22,6 +22,7 @@ Submodules
    stems.executor
    stems.logging_
    stems.parallel
+   stems.times
    stems.utils
    stems.xarray_accessor
 

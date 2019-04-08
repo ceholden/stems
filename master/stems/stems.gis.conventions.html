@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.conventions module &mdash; stems 0.0.1+5.gdba6a33 documentation</title>
+  <title>stems.gis.conventions module &mdash; stems 0.0.1+8.gc1360e2 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1+5.gdba6a33
+                0.0.1+8.gc1360e2
               </div>
             
           
@@ -201,7 +201,7 @@ coordinating naming, grid mapping variables, etc)</p>
 <dl class="function">
 <dt id="stems.gis.conventions.create_grid_mapping">
 <code class="descclassname">stems.gis.conventions.</code><code class="descname">create_grid_mapping</code><span class="sig-paren">(</span><em>crs</em>, <em>transform</em>, <em>grid_mapping='crs'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/conventions.html#create_grid_mapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.conventions.create_grid_mapping" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return an <a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a> of CF-compliant CRS info</p>
+<dd><p>Return an <a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a> of CF-compliant CRS info</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -214,21 +214,22 @@ coordinating naming, grid mapping variables, etc)</p>
 <dd class="field-even"><p>“crs” variable holding CRS information</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.0)">xarray.DataArray</a></p>
+<dd class="field-odd"><p><a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.1)">xarray.DataArray</a></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="stems.gis.conventions.georeference">
-<code class="descclassname">stems.gis.conventions.</code><code class="descname">georeference</code><span class="sig-paren">(</span><em>xarr</em>, <em>crs</em>, <em>transform</em>, <em>grid_mapping='crs'</em>, <em>inplace=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/conventions.html#georeference"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.conventions.georeference" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">stems.gis.conventions.</code><code class="descname">georeference</code><span class="sig-paren">(</span><em>xarr</em>, <em>crs</em>, <em>transform=None</em>, <em>grid_mapping='crs'</em>, <em>inplace=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/conventions.html#georeference"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.conventions.georeference" title="Permalink to this definition">¶</a></dt>
 <dd><p>Georeference XArray data with the CRS and Affine transform</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>xarr</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.0)"><em>xarray.DataArray</em></a><em> or </em><a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v0.12.0)"><em>xarray.Dataset</em></a>) – XArray data to georeference</p></li>
+<li><p><strong>xarr</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.1)"><em>xarray.DataArray</em></a><em> or </em><a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v0.12.1)"><em>xarray.Dataset</em></a>) – XArray data to georeference</p></li>
 <li><p><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.22)"><em>rasterio.crs.CRS</em></a>) – Rasterio CRS</p></li>
-<li><p><strong>transform</strong> (<em>affine.Affine</em>) – Affine transform of the data</p></li>
+<li><p><strong>transform</strong> (<em>affine.Affine</em><em>, </em><em>optional</em>) – Affine transform of the data. Will be calculated using
+<a class="reference internal" href="stems.gis.coords.html#stems.gis.coords.coords_to_transform" title="stems.gis.coords.coords_to_transform"><code class="xref py py-func docutils literal notranslate"><span class="pre">stems.gis.coords.coords_to_transform()</span></code></a> if not provided</p></li>
 <li><p><strong>grid_mapping</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) – Name to use for grid mapping variable</p></li>
 <li><p><strong>inplace</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">False</span></code>, returns a modified shallow copy of <code class="docutils literal notranslate"><span class="pre">xarr</span></code></p></li>
 </ul>
@@ -237,7 +238,7 @@ coordinating naming, grid mapping variables, etc)</p>
 <dd class="field-even"><p>Georeferenced data (type depending on input)</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.0)">xarray.DataArray</a> or <a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v0.12.0)">xarray.Dataset</a></p>
+<dd class="field-odd"><p><a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.1)">xarray.DataArray</a> or <a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v0.12.1)">xarray.Dataset</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -248,13 +249,13 @@ coordinating naming, grid mapping variables, etc)</p>
 <dd><p>Return grid mapping variable</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>xarr</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v0.12.0)"><em>xarray.Dataset</em></a><em> or </em><a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.0)"><em>xarray.DataArray</em></a>) – XArray data</p>
+<dd class="field-odd"><p><strong>xarr</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v0.12.1)"><em>xarray.Dataset</em></a><em> or </em><a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.1)"><em>xarray.DataArray</em></a>) – XArray data</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>XArray grid mapping variable</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.Variable.html#xarray.Variable" title="(in xarray v0.12.0)">xarray.Variable</a></p>
+<dd class="field-odd"><p><a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.Variable.html#xarray.Variable" title="(in xarray v0.12.1)">xarray.Variable</a></p>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.6/library/exceptions.html#KeyError" title="(in Python v3.6)"><strong>KeyError</strong></a> – Raised if grid mapping variable does not exist</p>
@@ -269,7 +270,7 @@ coordinating naming, grid mapping variables, etc)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>xarr</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.0)"><em>xarray.DataArray</em></a><em> or </em><a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v0.12.0)"><em>xarray.Dataset</em></a>) – XArray data to check for georeferencing</p></li>
+<li><p><strong>xarr</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.1)"><em>xarray.DataArray</em></a><em> or </em><a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v0.12.1)"><em>xarray.Dataset</em></a>) – XArray data to check for georeferencing</p></li>
 <li><p><strong>grid_mapping</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) – Name to use for grid mapping variable</p></li>
 <li><p><strong>require_gdal</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Require presence of attributes GDAL uses to georeference
 as backup (“spatial_ref” and “GeoTransform”)</p></li>

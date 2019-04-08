@@ -10,6 +10,7 @@ Submodules
    stems.io.encoding
    stems.io.utils
    stems.io.vrt
+   stems.io.xarray_
 
 Module contents
 ---------------

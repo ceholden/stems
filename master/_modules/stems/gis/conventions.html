@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.conventions &mdash; stems 0.0.1+5.gdba6a33 documentation</title>
+  <title>stems.gis.conventions &mdash; stems 0.0.1+8.gc1360e2 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1+5.gdba6a33
+                0.0.1+8.gc1360e2
               </div>
             
           
@@ -177,6 +177,7 @@
 <span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
 
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">projections</span><span class="p">,</span> <span class="n">utils</span>
+<span class="kn">from</span> <span class="nn">.coords</span> <span class="k">import</span> <span class="n">coords_to_transform</span>
 
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -226,7 +227,8 @@
 
 <span class="c1"># ============================================================================</span>
 <span class="c1"># Georeferencing</span>
-<div class="viewcode-block" id="georeference"><a class="viewcode-back" href="../../../stems/stems.gis.conventions.html#stems.gis.conventions.georeference">[docs]</a><span class="k">def</span> <span class="nf">georeference</span><span class="p">(</span><span class="n">xarr</span><span class="p">,</span> <span class="n">crs</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">grid_mapping</span><span class="o">=</span><span class="s1">&#39;crs&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="georeference"><a class="viewcode-back" href="../../../stems/stems.gis.conventions.html#stems.gis.conventions.georeference">[docs]</a><span class="k">def</span> <span class="nf">georeference</span><span class="p">(</span><span class="n">xarr</span><span class="p">,</span> <span class="n">crs</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">grid_mapping</span><span class="o">=</span><span class="s1">&#39;crs&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Georeference XArray data with the CRS and Affine transform</span>
 
 <span class="sd">    Parameters</span>
@@ -235,8 +237,9 @@
 <span class="sd">        XArray data to georeference</span>
 <span class="sd">    crs : rasterio.crs.CRS</span>
 <span class="sd">        Rasterio CRS</span>
-<span class="sd">    transform : affine.Affine</span>
-<span class="sd">        Affine transform of the data</span>
+<span class="sd">    transform : affine.Affine, optional</span>
+<span class="sd">        Affine transform of the data. Will be calculated using</span>
+<span class="sd">        :py:func:`stems.gis.coords.coords_to_transform` if not provided</span>
 <span class="sd">    grid_mapping : str, optional</span>
 <span class="sd">        Name to use for grid mapping variable</span>
 <span class="sd">    inplace : bool, optional</span>
@@ -249,18 +252,29 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">xarr</span><span class="p">,</span> <span class="p">(</span><span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">))</span>
     <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="n">CRS</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">Affine</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">transform</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">Affine</span><span class="p">)</span>
     <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">grid_mapping</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
 
     <span class="c1"># Copy as needed</span>
     <span class="n">xarr</span> <span class="o">=</span> <span class="n">xarr</span> <span class="k">if</span> <span class="n">inplace</span> <span class="k">else</span> <span class="n">xarr</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
+    <span class="c1"># &quot;Georeference&quot; 2D data (variables)</span>
+    <span class="n">dim_x</span><span class="p">,</span> <span class="n">dim_y</span> <span class="o">=</span> <span class="n">projections</span><span class="o">.</span><span class="n">cf_xy_coord_names</span><span class="p">(</span><span class="n">crs</span><span class="p">)</span>
+
+    <span class="c1"># Create y/x with attributes</span>
+    <span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">create_coordinates</span><span class="p">(</span><span class="n">xarr</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="n">dim_y</span><span class="p">],</span> <span class="n">xarr</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="n">dim_x</span><span class="p">],</span> <span class="n">crs</span><span class="p">)</span>
+    <span class="n">xarr</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="n">dim_y</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span>
+    <span class="n">xarr</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="n">dim_x</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span>
+
+    <span class="c1"># Calculate transform if needed</span>
+    <span class="k">if</span> <span class="n">transform</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># TODO(?): don&#39;t just hardcode these</span>
+        <span class="n">coords_to_transform_kwds</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;center&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;assume_unique&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+        <span class="n">transform</span> <span class="o">=</span> <span class="n">coords_to_transform</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="o">**</span><span class="n">coords_to_transform_kwds</span><span class="p">)</span>
+
     <span class="c1"># Create grid mapping</span>
     <span class="n">xarr</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="n">grid_mapping</span><span class="p">]</span> <span class="o">=</span> <span class="n">create_grid_mapping</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span>
                                                     <span class="n">grid_mapping</span><span class="o">=</span><span class="n">grid_mapping</span><span class="p">)</span>
-
-    <span class="c1"># &quot;Georeference&quot; 2D data (variables)</span>
-    <span class="n">dim_x</span><span class="p">,</span> <span class="n">dim_y</span> <span class="o">=</span> <span class="n">projections</span><span class="o">.</span><span class="n">cf_xy_coord_names</span><span class="p">(</span><span class="n">crs</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">xarr</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">):</span>
         <span class="n">xarr</span> <span class="o">=</span> <span class="n">_georef</span><span class="p">(</span><span class="n">xarr</span><span class="p">,</span> <span class="n">dim_x</span><span class="p">,</span> <span class="n">dim_y</span><span class="p">,</span> <span class="n">grid_mapping</span><span class="p">)</span>

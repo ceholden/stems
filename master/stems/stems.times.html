@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.tests.test_gis_conventions module &mdash; stems 0.0.1+8.gc1360e2 documentation</title>
+  <title>stems.times module &mdash; stems 0.0.1+8.gc1360e2 documentation</title>
   
 
   
@@ -144,14 +144,14 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>stems.gis.tests.test_gis_conventions module</li>
+      <li>stems.times module</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
             
-              <a href="https://github.com/ceholden/stems/blob/master/docs/source/stems/stems.gis.tests.test_gis_conventions.rst" class="fa fa-github"> Edit on GitHub</a>
+              <a href="https://github.com/ceholden/stems/blob/master/docs/source/stems/stems.times.rst" class="fa fa-github"> Edit on GitHub</a>
             
           
         
@@ -165,23 +165,53 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="module-stems.gis.tests.test_gis_conventions">
-<span id="stems-gis-tests-test-gis-conventions-module"></span><h1>stems.gis.tests.test_gis_conventions module<a class="headerlink" href="#module-stems.gis.tests.test_gis_conventions" title="Permalink to this headline">¶</a></h1>
-<p>Tests for <a class="reference internal" href="stems.gis.conventions.html#module-stems.gis.conventions" title="stems.gis.conventions"><code class="xref py py-mod docutils literal notranslate"><span class="pre">stems.gis.conventions</span></code></a></p>
+  <div class="section" id="module-stems.times">
+<span id="stems-times-module"></span><h1>stems.times module<a class="headerlink" href="#module-stems.times" title="Permalink to this headline">¶</a></h1>
+<p>Module for handling dates and times</p>
 <dl class="function">
-<dt id="stems.gis.tests.test_gis_conventions.test_create_coordinates_utm19n">
-<code class="descclassname">stems.gis.tests.test_gis_conventions.</code><code class="descname">test_create_coordinates_utm19n</code><span class="sig-paren">(</span><em>y</em>, <em>x</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/tests/test_gis_conventions.html#test_create_coordinates_utm19n"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.tests.test_gis_conventions.test_create_coordinates_utm19n" title="Permalink to this definition">¶</a></dt>
+<dt id="stems.times.datetime64_to_ordinal">
+<code class="descclassname">stems.times.</code><code class="descname">datetime64_to_ordinal</code><span class="sig-paren">(</span><em>x</em>, <em>name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/times.html#datetime64_to_ordinal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.times.datetime64_to_ordinal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert datetime to ordinal</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.times.datetime64_to_ordinal_pd">
+<code class="descclassname">stems.times.</code><code class="descname">datetime64_to_ordinal_pd</code><span class="sig-paren">(</span><em>x</em>, <em>name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/times.html#datetime64_to_ordinal_pd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.times.datetime64_to_ordinal_pd" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
-<dt id="stems.gis.tests.test_gis_conventions.test_create_grid_mapping_utm">
-<code class="descclassname">stems.gis.tests.test_gis_conventions.</code><code class="descname">test_create_grid_mapping_utm</code><span class="sig-paren">(</span><em>crs</em>, <em>attrs</em>, <em>name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/tests/test_gis_conventions.html#test_create_grid_mapping_utm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.tests.test_gis_conventions.test_create_grid_mapping_utm" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="stems.times.datetime64_to_strftime">
+<code class="descclassname">stems.times.</code><code class="descname">datetime64_to_strftime</code><span class="sig-paren">(</span><em>time</em>, <em>strf='%Y%m%d'</em>, <em>cast=&lt;class 'numpy.int32'&gt;</em>, <em>fill=-9999</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/times.html#datetime64_to_strftime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.times.datetime64_to_strftime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert time data to some string format (e.g., 20000101)
+:param time: Array of time data
+:type time: array-like
+:param strf: String format to be used with <code class="docutils literal notranslate"><span class="pre">strftime</span></code>
+:type strf: str, optional
+:param cast: Function to cast the string format to a number
+:type cast: callable
+:param fill: Fill value to use when <code class="docutils literal notranslate"><span class="pre">time</span></code> is NaN or NaT
+:type fill: int or float</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Ordinal date formatted into a date string numeric representation</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>array-like</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="function">
-<dt id="stems.gis.tests.test_gis_conventions.test_is_georeferenced">
-<code class="descclassname">stems.gis.tests.test_gis_conventions.</code><code class="descname">test_is_georeferenced</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/tests/test_gis_conventions.html#test_is_georeferenced"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.tests.test_gis_conventions.test_is_georeferenced" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="stems.times.datetime_to_pydatetime">
+<code class="descclassname">stems.times.</code><code class="descname">datetime_to_pydatetime</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/times.html#datetime_to_pydatetime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.times.datetime_to_pydatetime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert datetime64 to Python datetime.datetime</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.times.ordinal_to_datetime64">
+<code class="descclassname">stems.times.</code><code class="descname">ordinal_to_datetime64</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/times.html#ordinal_to_datetime64"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.times.ordinal_to_datetime64" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert ordinal to datetime64, handling NaN/NaT</p>
+</dd></dl>
 
 </div>
 
