@@ -13,6 +13,7 @@ from rasterio.coords import BoundingBox
 import xarray as xr
 
 from . import projections, utils
+from .coords import coords_to_transform
 
 
 logger = logging.getLogger(__name__)
@@ -62,7 +63,8 @@ CF_NC_ATTRS = OrderedDict((
 
 # ============================================================================
 # Georeferencing
-def georeference(xarr, crs, transform, grid_mapping='crs', inplace=False):
+def georeference(xarr, crs, transform=None,
+                 grid_mapping='crs', inplace=False):
     """ Georeference XArray data with the CRS and Affine transform
 
     Parameters
@@ -71,8 +73,9 @@ def georeference(xarr, crs, transform, grid_mapping='crs', inplace=False):
         XArray data to georeference
     crs : rasterio.crs.CRS
         Rasterio CRS
-    transform : affine.Affine
-        Affine transform of the data
+    transform : affine.Affine, optional
+        Affine transform of the data. Will be calculated using
+        :py:func:`stems.gis.coords.coords_to_transform` if not provided
     grid_mapping : str, optional
         Name to use for grid mapping variable
     inplace : bool, optional
@@ -85,18 +88,29 @@ def georeference(xarr, crs, transform, grid_mapping='crs', inplace=False):
     """
     assert isinstance(xarr, (xr.DataArray, xr.Dataset))
     assert isinstance(crs, CRS)
-    assert isinstance(transform, Affine)
+    assert transform is None or isinstance(transform, Affine)
     assert isinstance(grid_mapping, str)
 
     # Copy as needed
     xarr = xarr if inplace else xarr.copy()
 
+    # "Georeference" 2D data (variables)
+    dim_x, dim_y = projections.cf_xy_coord_names(crs)
+
+    # Create y/x with attributes
+    y, x = create_coordinates(xarr.coords[dim_y], xarr.coords[dim_x], crs)
+    xarr.coords[dim_y] = y
+    xarr.coords[dim_x] = x
+
+    # Calculate transform if needed
+    if transform is None:
+        # TODO(?): don't just hardcode these
+        coords_to_transform_kwds = {'center': True, 'assume_unique': False}
+        transform = coords_to_transform(y, x, **coords_to_transform_kwds)
+
     # Create grid mapping
     xarr.coords[grid_mapping] = create_grid_mapping(crs, transform,
                                                     grid_mapping=grid_mapping)
-
-    # "Georeference" 2D data (variables)
-    dim_x, dim_y = projections.cf_xy_coord_names(crs)
 
     if isinstance(xarr, xr.DataArray):
         xarr = _georef(xarr, dim_x, dim_y, grid_mapping)
