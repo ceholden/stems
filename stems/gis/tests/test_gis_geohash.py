@@ -25,7 +25,7 @@ def test_geohash_encode(yx, crs, hash_):
     for z in range(z_max, 0, -1):
         ans = geohash.geohash_encode(yx[0], yx[1],
                                      crs=crs, precision=z)
-        assert ans[0].item() == hash_[:z]
+        assert ans.item() == hash_[:z]
 
 
 @EXAMPLES
@@ -40,15 +40,19 @@ def test_geohash_decode(yx, crs, hash_):
     else:
         err = 5
 
-    assert abs(ys[0] - yx[0]) < err
-    assert abs(xs[0] - yx[1]) < err
+    assert abs(ys - yx[0]) < err
+    assert abs(xs - yx[1]) < err
 
 
-@pytest.mark.parametrize('precision', [8, 10, 12])
-def test_geohash_dask(precision):
-    lat = da.arange(40, 41, 0.05)
-    lon = da.arange(-72, -71, 0.05)
+param_precision = pytest.mark.parametrize('precision', [8, 10, 12])
+param_lat = pytest.mark.parametrize('lat', [da.arange(40, 41, 0.05)])
+param_lon = pytest.mark.parametrize('lon', [da.arange(-72, -71, 0.05)])
 
+
+@param_precision
+@param_lat
+@param_lon
+def test_geohash_dask(precision, lat, lon):
     # Test running as dask
     gh = geohash.geohash_encode(lat, lon, precision=precision)
     assert isinstance(gh, da.Array)
@@ -67,10 +71,11 @@ def test_geohash_dask(precision):
                                    decimal=precision // 3)
 
 
-@pytest.mark.parametrize('precision', [8, 10, 12])
-def test_geohash_xarray(precision):
-    lat = xr.DataArray(da.arange(40, 41, 0.05))
-    lon = xr.DataArray(da.arange(-72, -71, 0.05))
+@param_precision
+@param_lat
+@param_lon
+def test_geohash_xarray(precision, lat, lon):
+    lat, lon = xr.DataArray(lat), xr.DataArray(lon)
 
     # Test running as dask
     gh = geohash.geohash_encode(lat, lon, precision=precision)
@@ -88,3 +93,8 @@ def test_geohash_xarray(precision):
                                    decimal=precision // 3)
     np.testing.assert_almost_equal(np.array(lon), np.array(lon_),
                                    decimal=precision // 3)
+
+    # Should work as scalar
+    gh = geohash.geohash_encode(lat[0], lon[0], precision=precision)
+    assert isinstance(gh, xr.DataArray)
+    np.testing.assert_equal(gh.values, gh_[0])
