@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.parallel module &mdash; stems 0.0.1+9.geebd5d9 documentation</title>
+  <title>stems.parallel module &mdash; stems 0.0.1+11.geae302c documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1+9.geebd5d9
+                0.0.1+11.geae302c
               </div>
             
           
@@ -213,7 +213,7 @@ will be the only dimensions on the data returned</p></li>
 
 <dl class="function">
 <dt id="stems.parallel.map_collect_1d">
-<code class="descclassname">stems.parallel.</code><code class="descname">map_collect_1d</code><span class="sig-paren">(</span><em>core_dims</em>, <em>arg_idx=0</em>, <em>concat_func=None</em>, <em>concat_axis=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/parallel.html#map_collect_1d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.parallel.map_collect_1d" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">stems.parallel.</code><code class="descname">map_collect_1d</code><span class="sig-paren">(</span><em>core_dims</em>, <em>arg_idx=0</em>, <em>concat_axis=0</em>, <em>concat_func=&lt;built-in function concatenate&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/parallel.html#map_collect_1d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.parallel.map_collect_1d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decorator that maps a function across pixels and concatenates the result</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -222,8 +222,8 @@ will be the only dimensions on the data returned</p></li>
 if applying a time series model over all x/y in a DataArray,
 the <code class="docutils literal notranslate"><span class="pre">core_dim</span></code> could be ‘time’.</p></li>
 <li><p><strong>arg_idx</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>]</em><em>, </em><em>optional</em>) – Index(es) of <code class="docutils literal notranslate"><span class="pre">*args</span></code> to pick as the data to iterate over.</p></li>
-<li><p><strong>concat_func</strong> (<em>callable</em><em>, </em><em>optional</em>) – Function used to concatenate the data. Should take the <code class="docutils literal notranslate"><span class="pre">axis</span></code> keyword</p></li>
 <li><p><strong>concat_axis</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – Axis along which the arrays will be joined (passed to <code class="docutils literal notranslate"><span class="pre">concat_func</span></code>)</p></li>
+<li><p><strong>concat_func</strong> (<em>callable</em><em>, </em><em>optional</em>) – Function used to concatenate the data. Should take the <code class="docutils literal notranslate"><span class="pre">axis</span></code> keyword</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -233,23 +233,6 @@ the <code class="docutils literal notranslate"><span class="pre">core_dim</span>
 <dd class="field-odd"><p>callable</p>
 </dd>
 </dl>
-<p class="rubric">Examples</p>
-<p>The decorated function can get information about where it is in the array
-by accepting a special <code class="docutils literal notranslate"><span class="pre">block_info</span></code> keyword argument. This <code class="docutils literal notranslate"><span class="pre">block_info</span></code>
-is similar in concept to what can be passed using
-<code class="xref py py-func docutils literal notranslate"><span class="pre">dask.array.map_blocks()</span></code>, but with extra coordinate information.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">block_info</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="gp">... </span>    <span class="k">pass</span>
-</pre></div>
-</div>
-<p>this <code class="docutils literal notranslate"><span class="pre">block_info</span></code> will be a dict with keys for the argument index or
-keyword and the values the following information:</p>
-<ul class="simple">
-<li><p>shape</p></li>
-<li><p>num-chunks</p></li>
-<li><p>array-location</p></li>
-<li><p>coord-location</p></li>
-</ul>
 </dd></dl>
 
 </div>

@@ -8,7 +8,7 @@
     
     
     <meta http-equiv="X-UA-Compatible" content="IE=emulateIE7" />
-    <title>Coverage for stems/times.py: 48%</title>
+    <title>Coverage for stems/times.py: 59%</title>
     <link rel="stylesheet" href="style.css" type="text/css">
     
     <script type="text/javascript" src="jquery.min.js"></script>
@@ -24,15 +24,15 @@
 <div id="header">
     <div class="content">
         <h1>Coverage for <b>stems/times.py</b> :
-            <span class="pc_cov">48%</span>
+            <span class="pc_cov">59%</span>
         </h1>
 
         <img id="keyboard_icon" src="keybd_closed.png" alt="Show keyboard shortcuts" />
 
         <h2 class="stats">
             87 statements &nbsp;
-            <span class="run hide_run shortkey_r button_toggle_run">42 run</span>
-            <span class="mis shortkey_m button_toggle_mis">45 missing</span>
+            <span class="run hide_run shortkey_r button_toggle_run">51 run</span>
+            <span class="mis shortkey_m button_toggle_mis">36 missing</span>
             <span class="exc shortkey_x button_toggle_exc">0 excluded</span>
 
             
@@ -233,23 +233,23 @@
 <p id="n164" class="stm run hide_run"><a href="#n164">164</a></p>
 <p id="n165" class="pln"><a href="#n165">165</a></p>
 <p id="n166" class="pln"><a href="#n166">166</a></p>
-<p id="n167" class="stm mis"><a href="#n167">167</a></p>
-<p id="n168" class="stm mis"><a href="#n168">168</a></p>
+<p id="n167" class="stm run hide_run"><a href="#n167">167</a></p>
+<p id="n168" class="stm run hide_run"><a href="#n168">168</a></p>
 <p id="n169" class="pln"><a href="#n169">169</a></p>
 <p id="n170" class="pln"><a href="#n170">170</a></p>
-<p id="n171" class="stm mis"><a href="#n171">171</a></p>
-<p id="n172" class="stm mis"><a href="#n172">172</a></p>
+<p id="n171" class="stm run hide_run"><a href="#n171">171</a></p>
+<p id="n172" class="stm run hide_run"><a href="#n172">172</a></p>
 <p id="n173" class="pln"><a href="#n173">173</a></p>
 <p id="n174" class="pln"><a href="#n174">174</a></p>
-<p id="n175" class="stm mis"><a href="#n175">175</a></p>
+<p id="n175" class="stm run hide_run"><a href="#n175">175</a></p>
 <p id="n176" class="pln"><a href="#n176">176</a></p>
-<p id="n177" class="stm mis"><a href="#n177">177</a></p>
+<p id="n177" class="stm run hide_run"><a href="#n177">177</a></p>
 <p id="n178" class="pln"><a href="#n178">178</a></p>
 <p id="n179" class="pln"><a href="#n179">179</a></p>
 <p id="n180" class="stm run hide_run"><a href="#n180">180</a></p>
 <p id="n181" class="stm run hide_run"><a href="#n181">181</a></p>
 <p id="n182" class="pln"><a href="#n182">182</a></p>
-<p id="n183" class="stm mis"><a href="#n183">183</a></p>
+<p id="n183" class="stm run hide_run"><a href="#n183">183</a></p>
 <p id="n184" class="pln"><a href="#n184">184</a></p>
 <p id="n185" class="pln"><a href="#n185">185</a></p>
 <p id="n186" class="pln"><a href="#n186">186</a></p>
@@ -257,8 +257,8 @@
 <p id="n188" class="stm run hide_run"><a href="#n188">188</a></p>
 <p id="n189" class="stm run hide_run"><a href="#n189">189</a></p>
 <p id="n190" class="pln"><a href="#n190">190</a></p>
-<p id="n191" class="stm mis"><a href="#n191">191</a></p>
-<p id="n192" class="stm mis"><a href="#n192">192</a></p>
+<p id="n191" class="stm run hide_run"><a href="#n191">191</a></p>
+<p id="n192" class="stm run hide_run"><a href="#n192">192</a></p>
 <p id="n193" class="pln"><a href="#n193">193</a></p>
 
             </td>
@@ -340,20 +340,20 @@
 <p id="t75" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t76" class="pln"><span class="com"># -----------------------------------------------------------------------------</span><span class="strut">&nbsp;</span></p>
 <p id="t77" class="stm run hide_run"><span class="op">@</span><span class="nam">singledispatch</span><span class="strut">&nbsp;</span></p>
-<p id="t78" class="pln"><span class="key">def</span> <span class="nam">datetime_to_pydatetime</span><span class="op">(</span><span class="nam">x</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t78" class="pln"><span class="key">def</span> <span class="nam">datetime64_to_pydatetime</span><span class="op">(</span><span class="nam">x</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t79" class="pln">    <span class="str">""" Convert datetime64 to Python datetime.datetime</span><span class="strut">&nbsp;</span></p>
 <p id="t80" class="pln"><span class="str">    """</span><span class="strut">&nbsp;</span></p>
 <p id="t81" class="stm mis">    <span class="key">raise</span> <span class="nam">TypeError</span><span class="op">(</span><span class="str">f'Not supported for type "{type(x)}"'</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t82" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t83" class="pln"><span class="strut">&nbsp;</span></p>
-<p id="t84" class="stm run hide_run"><span class="op">@</span><span class="nam">register_multi_singledispatch</span><span class="op">(</span><span class="nam">datetime_to_pydatetime</span><span class="op">,</span> <span class="nam">_ARRAYS</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t85" class="pln"><span class="key">def</span> <span class="nam">_datetime_to_pydatetime_array</span><span class="op">(</span><span class="nam">x</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t84" class="stm run hide_run"><span class="op">@</span><span class="nam">register_multi_singledispatch</span><span class="op">(</span><span class="nam">datetime64_to_pydatetime</span><span class="op">,</span> <span class="nam">_ARRAYS</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t85" class="pln"><span class="key">def</span> <span class="nam">_datetime64_to_pydatetime_array</span><span class="op">(</span><span class="nam">x</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t86" class="stm mis">    <span class="key">return</span> <span class="nam">x</span><span class="op">.</span><span class="nam">astype</span><span class="op">(</span><span class="str">'M8[ms]'</span><span class="op">)</span><span class="op">.</span><span class="nam">astype</span><span class="op">(</span><span class="str">'O'</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t87" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t88" class="pln"><span class="strut">&nbsp;</span></p>
-<p id="t89" class="stm run hide_run"><span class="op">@</span><span class="nam">register_multi_singledispatch</span><span class="op">(</span><span class="nam">datetime_to_pydatetime</span><span class="op">,</span> <span class="nam">_XARRAYS</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t90" class="pln"><span class="key">def</span> <span class="nam">_datetime_to_pydatetime_xarray</span><span class="op">(</span><span class="nam">x</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t91" class="stm mis">    <span class="nam">x_</span> <span class="op">=</span> <span class="nam">_datetime_to_pydatetime_array</span><span class="op">(</span><span class="nam">x</span><span class="op">.</span><span class="nam">data</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t89" class="stm run hide_run"><span class="op">@</span><span class="nam">register_multi_singledispatch</span><span class="op">(</span><span class="nam">datetime64_to_pydatetime</span><span class="op">,</span> <span class="nam">_XARRAYS</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t90" class="pln"><span class="key">def</span> <span class="nam">_datetime64_to_pydatetime_xarray</span><span class="op">(</span><span class="nam">x</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t91" class="stm mis">    <span class="nam">x_</span> <span class="op">=</span> <span class="nam">_datetime64_to_pydatetime_array</span><span class="op">(</span><span class="nam">x</span><span class="op">.</span><span class="nam">data</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t92" class="stm mis">    <span class="key">return</span> <span class="nam">xr</span><span class="op">.</span><span class="nam">DataArray</span><span class="op">(</span><span class="nam">x_</span><span class="op">,</span> <span class="nam">dims</span><span class="op">=</span><span class="nam">x</span><span class="op">.</span><span class="nam">dims</span><span class="op">,</span> <span class="nam">coords</span><span class="op">=</span><span class="nam">x</span><span class="op">.</span><span class="nam">coords</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
 <p id="t93" class="pln">                        <span class="nam">attrs</span><span class="op">=</span><span class="nam">x</span><span class="op">.</span><span class="nam">attrs</span><span class="op">,</span> <span class="nam">name</span><span class="op">=</span><span class="nam">x</span><span class="op">.</span><span class="nam">name</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t94" class="pln"><span class="strut">&nbsp;</span></p>
@@ -376,7 +376,7 @@
 <p id="t111" class="pln"><span class="key">def</span> <span class="nam">_datetime64_to_ordinal_np</span><span class="op">(</span><span class="nam">x</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t112" class="pln">    <span class="com"># Convert to pydatetime first if datetime</span><span class="strut">&nbsp;</span></p>
 <p id="t113" class="stm mis">    <span class="key">if</span> <span class="nam">np</span><span class="op">.</span><span class="nam">issubdtype</span><span class="op">(</span><span class="nam">x</span><span class="op">.</span><span class="nam">dtype</span><span class="op">,</span> <span class="nam">np</span><span class="op">.</span><span class="nam">datetime64</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t114" class="stm mis">        <span class="nam">x</span> <span class="op">=</span> <span class="nam">datetime_to_pydatetime</span><span class="op">(</span><span class="nam">x</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t114" class="stm mis">        <span class="nam">x</span> <span class="op">=</span> <span class="nam">datetime64_to_pydatetime</span><span class="op">(</span><span class="nam">x</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t115" class="stm mis">    <span class="key">if</span> <span class="nam">x</span><span class="op">.</span><span class="nam">ndim</span> <span class="op">==</span> <span class="num">0</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t116" class="stm mis">        <span class="key">return</span> <span class="nam">np</span><span class="op">.</span><span class="nam">array</span><span class="op">(</span><span class="nam">x</span><span class="op">.</span><span class="nam">item</span><span class="op">(</span><span class="op">)</span><span class="op">.</span><span class="nam">toordinal</span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t117" class="pln">    <span class="key">else</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
@@ -429,23 +429,23 @@
 <p id="t164" class="stm run hide_run"><span class="key">def</span> <span class="nam">_datetime64_to_strftime_np</span><span class="op">(</span><span class="nam">time</span><span class="op">,</span> <span class="nam">strf</span><span class="op">=</span><span class="str">'%Y%m%d'</span><span class="op">,</span> <span class="nam">cast</span><span class="op">=</span><span class="nam">np</span><span class="op">.</span><span class="nam">int32</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
 <p id="t165" class="pln">                               <span class="nam">fill</span><span class="op">=</span><span class="op">-</span><span class="num">9999</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t166" class="pln">    <span class="com"># to_datetime needs 1D, so reshape after func</span><span class="strut">&nbsp;</span></p>
-<p id="t167" class="stm mis">    <span class="nam">time_</span> <span class="op">=</span> <span class="nam">pd</span><span class="op">.</span><span class="nam">to_datetime</span><span class="op">(</span><span class="nam">time</span><span class="op">.</span><span class="nam">ravel</span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t168" class="stm mis">    <span class="nam">strf_time_</span> <span class="op">=</span> <span class="nam">np</span><span class="op">.</span><span class="nam">asarray</span><span class="op">(</span><span class="nam">time_</span><span class="op">.</span><span class="nam">strftime</span><span class="op">(</span><span class="nam">strf</span><span class="op">)</span><span class="op">)</span><span class="op">.</span><span class="nam">reshape</span><span class="op">(</span><span class="nam">time</span><span class="op">.</span><span class="nam">shape</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t167" class="stm run hide_run">    <span class="nam">time_</span> <span class="op">=</span> <span class="nam">pd</span><span class="op">.</span><span class="nam">to_datetime</span><span class="op">(</span><span class="nam">time</span><span class="op">.</span><span class="nam">ravel</span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t168" class="stm run hide_run">    <span class="nam">strf_time_</span> <span class="op">=</span> <span class="nam">np</span><span class="op">.</span><span class="nam">asarray</span><span class="op">(</span><span class="nam">time_</span><span class="op">.</span><span class="nam">strftime</span><span class="op">(</span><span class="nam">strf</span><span class="op">)</span><span class="op">)</span><span class="op">.</span><span class="nam">reshape</span><span class="op">(</span><span class="nam">time</span><span class="op">.</span><span class="nam">shape</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t169" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t170" class="pln">    <span class="com"># NaN or NaT in `time_` is now 'NaT' in strf_time_, so we need to fill it</span><span class="strut">&nbsp;</span></p>
-<p id="t171" class="stm mis">    <span class="nam">na</span> <span class="op">=</span> <span class="nam">pd</span><span class="op">.</span><span class="nam">isna</span><span class="op">(</span><span class="nam">time_</span><span class="op">)</span><span class="op">.</span><span class="nam">reshape</span><span class="op">(</span><span class="nam">time</span><span class="op">.</span><span class="nam">shape</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t172" class="stm mis">    <span class="nam">strf_time_</span><span class="op">[</span><span class="nam">na</span><span class="op">]</span> <span class="op">=</span> <span class="nam">fill</span><span class="strut">&nbsp;</span></p>
+<p id="t171" class="stm run hide_run">    <span class="nam">na</span> <span class="op">=</span> <span class="nam">pd</span><span class="op">.</span><span class="nam">isna</span><span class="op">(</span><span class="nam">time_</span><span class="op">)</span><span class="op">.</span><span class="nam">reshape</span><span class="op">(</span><span class="nam">time</span><span class="op">.</span><span class="nam">shape</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t172" class="stm run hide_run">    <span class="nam">strf_time_</span><span class="op">[</span><span class="nam">na</span><span class="op">]</span> <span class="op">=</span> <span class="nam">fill</span><span class="strut">&nbsp;</span></p>
 <p id="t173" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t174" class="pln">    <span class="com"># Now it's safe to cast to numeric</span><span class="strut">&nbsp;</span></p>
-<p id="t175" class="stm mis">    <span class="nam">strf_time_</span> <span class="op">=</span> <span class="nam">cast</span><span class="op">(</span><span class="nam">strf_time_</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t175" class="stm run hide_run">    <span class="nam">strf_time_</span> <span class="op">=</span> <span class="nam">cast</span><span class="op">(</span><span class="nam">strf_time_</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t176" class="pln"><span class="strut">&nbsp;</span></p>
-<p id="t177" class="stm mis">    <span class="key">return</span> <span class="nam">strf_time_</span><span class="strut">&nbsp;</span></p>
+<p id="t177" class="stm run hide_run">    <span class="key">return</span> <span class="nam">strf_time_</span><span class="strut">&nbsp;</span></p>
 <p id="t178" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t179" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t180" class="stm run hide_run"><span class="op">@</span><span class="nam">datetime64_to_strftime</span><span class="op">.</span><span class="nam">register</span><span class="op">(</span><span class="nam">da</span><span class="op">.</span><span class="nam">Array</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t181" class="stm run hide_run"><span class="key">def</span> <span class="nam">_datetime64_to_strftime_da</span><span class="op">(</span><span class="nam">time</span><span class="op">,</span> <span class="nam">strf</span><span class="op">=</span><span class="str">'%Y%m%d'</span><span class="op">,</span> <span class="nam">cast</span><span class="op">=</span><span class="nam">np</span><span class="op">.</span><span class="nam">int32</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
 <p id="t182" class="pln">                               <span class="nam">fill</span><span class="op">=</span><span class="op">-</span><span class="num">9999</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t183" class="stm mis">    <span class="key">return</span> <span class="nam">da</span><span class="op">.</span><span class="nam">map_blocks</span><span class="op">(</span><span class="nam">_datetime64_to_strftime_np</span><span class="op">,</span> <span class="nam">time</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
+<p id="t183" class="stm run hide_run">    <span class="key">return</span> <span class="nam">da</span><span class="op">.</span><span class="nam">map_blocks</span><span class="op">(</span><span class="nam">_datetime64_to_strftime_np</span><span class="op">,</span> <span class="nam">time</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
 <p id="t184" class="pln">                         <span class="nam">dtype</span><span class="op">=</span><span class="nam">cast</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
 <p id="t185" class="pln">                         <span class="nam">strf</span><span class="op">=</span><span class="nam">strf</span><span class="op">,</span> <span class="nam">cast</span><span class="op">=</span><span class="nam">cast</span><span class="op">,</span> <span class="nam">fill</span><span class="op">=</span><span class="nam">fill</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t186" class="pln"><span class="strut">&nbsp;</span></p>
@@ -453,8 +453,8 @@
 <p id="t188" class="stm run hide_run"><span class="op">@</span><span class="nam">datetime64_to_strftime</span><span class="op">.</span><span class="nam">register</span><span class="op">(</span><span class="nam">xr</span><span class="op">.</span><span class="nam">DataArray</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t189" class="stm run hide_run"><span class="key">def</span> <span class="nam">_datetime64_to_strftime_xarray</span><span class="op">(</span><span class="nam">time</span><span class="op">,</span> <span class="nam">strf</span><span class="op">=</span><span class="str">'%Y%m%d'</span><span class="op">,</span> <span class="nam">cast</span><span class="op">=</span><span class="nam">np</span><span class="op">.</span><span class="nam">int32</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
 <p id="t190" class="pln">                                   <span class="nam">fill</span><span class="op">=</span><span class="op">-</span><span class="num">9999</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t191" class="stm mis">    <span class="nam">time_</span> <span class="op">=</span> <span class="nam">datetime64_to_strftime</span><span class="op">(</span><span class="nam">time</span><span class="op">.</span><span class="nam">data</span><span class="op">,</span> <span class="nam">strf</span><span class="op">=</span><span class="nam">strf</span><span class="op">,</span> <span class="nam">cast</span><span class="op">=</span><span class="nam">cast</span><span class="op">,</span> <span class="nam">fill</span><span class="op">=</span><span class="nam">fill</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t192" class="stm mis">    <span class="key">return</span> <span class="nam">xr</span><span class="op">.</span><span class="nam">DataArray</span><span class="op">(</span><span class="nam">time_</span><span class="op">,</span> <span class="nam">dims</span><span class="op">=</span><span class="nam">time</span><span class="op">.</span><span class="nam">dims</span><span class="op">,</span> <span class="nam">coords</span><span class="op">=</span><span class="nam">time</span><span class="op">.</span><span class="nam">coords</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
+<p id="t191" class="stm run hide_run">    <span class="nam">time_</span> <span class="op">=</span> <span class="nam">datetime64_to_strftime</span><span class="op">(</span><span class="nam">time</span><span class="op">.</span><span class="nam">data</span><span class="op">,</span> <span class="nam">strf</span><span class="op">=</span><span class="nam">strf</span><span class="op">,</span> <span class="nam">cast</span><span class="op">=</span><span class="nam">cast</span><span class="op">,</span> <span class="nam">fill</span><span class="op">=</span><span class="nam">fill</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t192" class="stm run hide_run">    <span class="key">return</span> <span class="nam">xr</span><span class="op">.</span><span class="nam">DataArray</span><span class="op">(</span><span class="nam">time_</span><span class="op">,</span> <span class="nam">dims</span><span class="op">=</span><span class="nam">time</span><span class="op">.</span><span class="nam">dims</span><span class="op">,</span> <span class="nam">coords</span><span class="op">=</span><span class="nam">time</span><span class="op">.</span><span class="nam">coords</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
 <p id="t193" class="pln">                        <span class="nam">name</span><span class="op">=</span><span class="nam">time</span><span class="op">.</span><span class="nam">name</span><span class="op">,</span> <span class="nam">attrs</span><span class="op">=</span><span class="nam">time</span><span class="op">.</span><span class="nam">attrs</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 
             </td>
@@ -466,7 +466,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.3</a>,
-            created at 2019-04-08 15:42
+            created at 2019-04-10 21:26
         </p>
     </div>
 </div>

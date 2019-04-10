@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.times &mdash; stems 0.0.1+9.geebd5d9 documentation</title>
+  <title>stems.times &mdash; stems 0.0.1+11.geae302c documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1+9.geebd5d9
+                0.0.1+11.geae302c
               </div>
             
           
@@ -238,21 +238,21 @@
 
 
 <span class="c1"># -----------------------------------------------------------------------------</span>
-<div class="viewcode-block" id="datetime_to_pydatetime"><a class="viewcode-back" href="../../stems/stems.times.html#stems.times.datetime_to_pydatetime">[docs]</a><span class="nd">@singledispatch</span>
-<span class="k">def</span> <span class="nf">datetime_to_pydatetime</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<div class="viewcode-block" id="datetime64_to_pydatetime"><a class="viewcode-back" href="../../stems/stems.times.html#stems.times.datetime64_to_pydatetime">[docs]</a><span class="nd">@singledispatch</span>
+<span class="k">def</span> <span class="nf">datetime64_to_pydatetime</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Convert datetime64 to Python datetime.datetime</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Not supported for type &quot;{type(x)}&quot;&#39;</span><span class="p">)</span></div>
 
 
-<span class="nd">@register_multi_singledispatch</span><span class="p">(</span><span class="n">datetime_to_pydatetime</span><span class="p">,</span> <span class="n">_ARRAYS</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">_datetime_to_pydatetime_array</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="nd">@register_multi_singledispatch</span><span class="p">(</span><span class="n">datetime64_to_pydatetime</span><span class="p">,</span> <span class="n">_ARRAYS</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_datetime64_to_pydatetime_array</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;M8[ms]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;O&#39;</span><span class="p">)</span>
 
 
-<span class="nd">@register_multi_singledispatch</span><span class="p">(</span><span class="n">datetime_to_pydatetime</span><span class="p">,</span> <span class="n">_XARRAYS</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">_datetime_to_pydatetime_xarray</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="n">x_</span> <span class="o">=</span> <span class="n">_datetime_to_pydatetime_array</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+<span class="nd">@register_multi_singledispatch</span><span class="p">(</span><span class="n">datetime64_to_pydatetime</span><span class="p">,</span> <span class="n">_XARRAYS</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_datetime64_to_pydatetime_xarray</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">x_</span> <span class="o">=</span> <span class="n">_datetime64_to_pydatetime_array</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">x_</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">dims</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">coords</span><span class="p">,</span>
                         <span class="n">attrs</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">attrs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 
@@ -275,7 +275,7 @@
 <span class="k">def</span> <span class="nf">_datetime64_to_ordinal_np</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="c1"># Convert to pydatetime first if datetime</span>
     <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">):</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">datetime_to_pydatetime</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">datetime64_to_pydatetime</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="o">.</span><span class="n">toordinal</span><span class="p">())</span>
     <span class="k">else</span><span class="p">:</span>
