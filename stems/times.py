@@ -75,20 +75,20 @@ def _ordinal_to_datetime64_xarr(x):
 
 # -----------------------------------------------------------------------------
 @singledispatch
-def datetime_to_pydatetime(x):
+def datetime64_to_pydatetime(x):
     """ Convert datetime64 to Python datetime.datetime
     """
     raise TypeError(f'Not supported for type "{type(x)}"')
 
 
-@register_multi_singledispatch(datetime_to_pydatetime, _ARRAYS)
-def _datetime_to_pydatetime_array(x):
+@register_multi_singledispatch(datetime64_to_pydatetime, _ARRAYS)
+def _datetime64_to_pydatetime_array(x):
     return x.astype('M8[ms]').astype('O')
 
 
-@register_multi_singledispatch(datetime_to_pydatetime, _XARRAYS)
-def _datetime_to_pydatetime_xarray(x):
-    x_ = _datetime_to_pydatetime_array(x.data)
+@register_multi_singledispatch(datetime64_to_pydatetime, _XARRAYS)
+def _datetime64_to_pydatetime_xarray(x):
+    x_ = _datetime64_to_pydatetime_array(x.data)
     return xr.DataArray(x_, dims=x.dims, coords=x.coords,
                         attrs=x.attrs, name=x.name)
 
@@ -111,7 +111,7 @@ def _datetime64_to_ordinal_list(x):
 def _datetime64_to_ordinal_np(x):
     # Convert to pydatetime first if datetime
     if np.issubdtype(x.dtype, np.datetime64):
-        x = datetime_to_pydatetime(x)
+        x = datetime64_to_pydatetime(x)
     if x.ndim == 0:
         return np.array(x.item().toordinal())
     else:
