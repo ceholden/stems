@@ -8,6 +8,7 @@ Submodules
 
    stems.io.chunk
    stems.io.encoding
+   stems.io.rasterio_
    stems.io.utils
    stems.io.vrt
    stems.io.xarray_
