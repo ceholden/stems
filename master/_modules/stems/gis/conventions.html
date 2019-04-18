@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.conventions &mdash; stems 0.0.1+12.g9962058 documentation</title>
+  <title>stems.gis.conventions &mdash; stems 0.0.1+15.gbeab386 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1+12.g9962058
+                0.0.1+15.gbeab386
               </div>
             
           
@@ -465,17 +465,27 @@
 <span class="sd">    ----------</span>
 <span class="sd">    .. [1] http://cfconventions.org/cf-conventions/v1.6.0/cf-conventions.html#coordinate-types</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">y</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="n">x</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="c1"># Determine name according to projection</span>
     <span class="n">x_var</span><span class="p">,</span> <span class="n">y_var</span> <span class="o">=</span> <span class="n">projections</span><span class="o">.</span><span class="n">cf_xy_coord_names</span><span class="p">(</span><span class="n">crs</span><span class="p">)</span>
+
+    <span class="c1"># Get copies of attributes</span>
     <span class="n">y_attrs</span> <span class="o">=</span> <span class="n">COORD_DEFS</span><span class="p">[</span><span class="n">y_var</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="n">x_attrs</span> <span class="o">=</span> <span class="n">COORD_DEFS</span><span class="p">[</span><span class="n">x_var</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
+    <span class="c1"># If projected we add a few extra definitions</span>
     <span class="k">if</span> <span class="n">crs</span><span class="o">.</span><span class="n">is_projected</span><span class="p">:</span>
         <span class="n">crs_osr</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">crs2osr</span><span class="p">(</span><span class="n">crs</span><span class="p">)</span>
         <span class="n">units</span> <span class="o">=</span> <span class="n">crs_osr</span><span class="o">.</span><span class="n">GetLinearUnitsName</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
         <span class="n">y_attrs</span><span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">],</span> <span class="n">x_attrs</span><span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">units</span><span class="p">,</span> <span class="n">units</span>
 
-    <span class="n">y</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Variable</span><span class="p">((</span><span class="n">y_var</span><span class="p">,</span> <span class="p">),</span> <span class="n">y</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="n">y_attrs</span><span class="p">)</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Variable</span><span class="p">((</span><span class="n">x_var</span><span class="p">,</span> <span class="p">),</span> <span class="n">x</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="n">x_attrs</span><span class="p">)</span>
+    <span class="c1"># Check for dimension name -- keep existing if possible</span>
+    <span class="n">dim_y</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="s1">&#39;dims&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">y_var</span><span class="p">,</span> <span class="p">)</span>
+    <span class="n">dim_x</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s1">&#39;dims&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">x_var</span><span class="p">,</span> <span class="p">)</span>
+
+    <span class="n">y</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">dim_y</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="n">y_attrs</span><span class="p">,</span> <span class="n">fastpath</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">dim_x</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="n">x_attrs</span><span class="p">,</span> <span class="n">fastpath</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span></div>
 

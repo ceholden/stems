@@ -313,7 +313,7 @@
 <p id="t86" class="stm mis">        <span class="nam">client</span> <span class="op">=</span> <span class="nam">setup_executor</span><span class="op">(</span><span class="nam">address</span><span class="op">=</span><span class="nam">value</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t87" class="stm mis">    <span class="key">elif</span> <span class="nam">nprocs</span> <span class="key">or</span> <span class="nam">nthreads</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t88" class="stm mis">        <span class="nam">client</span> <span class="op">=</span> <span class="nam">setup_executor</span><span class="op">(</span><span class="nam">n_workers</span><span class="op">=</span><span class="nam">nprocs</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
-<p id="t89" class="pln">                                <span class="nam">threads_per_worker</span><span class="op">=</span><span class="nam">nthreads</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t89" class="pln">                                <span class="nam">threads_per_worker</span><span class="op">=</span><span class="nam">nthreads</span> <span class="key">or</span> <span class="num">1</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t90" class="pln">    <span class="key">else</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t91" class="stm mis">        <span class="nam">client</span> <span class="op">=</span> <span class="key">None</span><span class="strut">&nbsp;</span></p>
 <p id="t92" class="pln"><span class="strut">&nbsp;</span></p>
@@ -390,7 +390,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.3</a>,
-            created at 2019-04-18 03:08
+            created at 2019-04-18 16:53
         </p>
     </div>
 </div>
