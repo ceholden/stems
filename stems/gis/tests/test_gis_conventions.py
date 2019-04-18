@@ -90,8 +90,8 @@ def test_create_grid_mapping_utm(crs, attrs, name):
 # ----------------------------------------------------------------------------
 # xarray_coords
 yx = pytest.mark.parametrize(('y', 'x', ), [
-    (np.arange(0, 10), np.arange(-10, -20)),
-    (np.arange(50, 65), np.arange(-10, -20))
+    (np.arange(0, 10), np.arange(-10, -20, -1)),
+    (np.arange(50, 65), np.arange(-10, -20, -1))
 ])
 
 
@@ -101,9 +101,9 @@ def test_create_coordinates_utm19n(y, x):
     y_, x_ = conventions.create_coordinates(y, x, crs)
 
     assert np.array_equal(x_.data, x)
-    assert x_.data is x
+    assert np.shares_memory(x_.data, x)
     assert np.array_equal(y_.data, y)
-    assert y_.data is y
+    assert np.shares_memory(y_.data, y)
 
     for s, v in [('y', y_, ), ('x', x_, )]:
         assert v.attrs['standard_name'] == f'projection_{s}_coordinate'

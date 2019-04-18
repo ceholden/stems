@@ -301,27 +301,47 @@ def create_coordinates(y, x, crs):
     ----------
     .. [1] http://cfconventions.org/cf-conventions/v1.6.0/cf-conventions.html#coordinate-types
     """
+    # Components of DataArray
     assert y.ndim == 1
     assert x.ndim == 1
-    # Determine name according to projection
-    x_var, y_var = projections.cf_xy_coord_names(crs)
 
-    # Get copies of attributes
-    y_attrs = COORD_DEFS[y_var].copy()
-    x_attrs = COORD_DEFS[x_var].copy()
+    # 1. Extract data
+    data_y = getattr(y, 'data', y)
+    data_x = getattr(x, 'data', x)
+
+    # 2. Names
+    # Determine name according to projection
+    var_x, var_y = projections.cf_xy_coord_names(crs)
+
+    # 3. Dimension name -- keep existing if possible
+    dim_y = getattr(y, 'dims', (var_y, ))[0]
+    dim_x = getattr(x, 'dims', (var_x, ))[0]
+
+    # 4. Coords are either same coordinate or whatever was on y/x
+    if dim_y == var_y:
+        coords_y = {dim_y: data_y}
+    else:
+        coords_y = {dim_y: y.coords[dim_y]}
+    if dim_x == var_x:
+        coords_x = {dim_x: data_x}
+    else:
+        coords_x = {dim_x: x.coords[dim_x]}
+
+    # 6. Get copies of attributes
+    attrs_y = COORD_DEFS[var_y].copy()
+    attrs_x = COORD_DEFS[var_x].copy()
 
     # If projected we add a few extra definitions
     if crs.is_projected:
         crs_osr = utils.crs2osr(crs)
         units = crs_osr.GetLinearUnitsName().lower()
-        y_attrs['units'], x_attrs['units'] = units, units
+        attrs_y['units'], attrs_x['units'] = units, units
 
-    # Check for dimension name -- keep existing if possible
-    dim_y = getattr(y, 'dims', None) or (y_var, )
-    dim_x = getattr(x, 'dims', None) or (x_var, )
-
-    y = xr.Variable(dim_y, y, attrs=y_attrs, fastpath=True)
-    x = xr.Variable(dim_x, x, attrs=x_attrs, fastpath=True)
+    # Lastly, create DataArrays
+    y = xr.DataArray(data_y, coords=coords_y, dims=(dim_y, ),
+                     name=var_y, attrs=attrs_y)
+    x = xr.DataArray(data_x, coords=coords_x, dims=(dim_x, ),
+                     name=var_x, attrs=attrs_x)
 
     return y, x
 
