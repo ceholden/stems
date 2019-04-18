@@ -86,7 +86,7 @@ def cb_executor(ctx, param, value):
         client = setup_executor(address=value)
     elif nprocs or nthreads:
         client = setup_executor(n_workers=nprocs,
-                                threads_per_worker=nthreads)
+                                threads_per_worker=nthreads or 1)
     else:
         client = None
 
