@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.io package &mdash; stems 0.0.1+11.geae302c documentation</title>
+  <title>stems.io package &mdash; stems 0.0.1+12.g9962058 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1+11.geae302c
+                0.0.1+12.g9962058
               </div>
             
           
@@ -181,6 +181,344 @@
 </div>
 <div class="section" id="module-stems.io">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-stems.io" title="Permalink to this headline">¶</a></h2>
+<p>Input/output helpers</p>
+<dl class="function">
+<dt id="stems.io.open_dataset">
+<code class="descclassname">stems.io.</code><code class="descname">open_dataset</code><span class="sig-paren">(</span><em>paths</em>, <em>chunks='auto'</em>, <em>concat_dim=None</em>, <em>crs=None</em>, <em>**kwds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/xarray_.html#open_dataset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.open_dataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open an xarray dataset (somewhat) intelligently</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>paths</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>]</em>) – Either a string glob in the form “path/to/my/files/<a href="#id1"><span class="problematic" id="id2">*</span></a>.nc” or an explicit
+list of files to open.</p></li>
+<li><p><strong>chunks</strong> (<em>'auto'</em><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – Number of chunks or the chunk size for each dimension. If ‘auto’,
+reads chunks from first file in <code class="docutils literal notranslate"><span class="pre">paths</span></code> and uses
+<code class="xref py py-func docutils literal notranslate"><span class="pre">plants.io.chunking_.best_chunksizes()</span></code> to guess an appropriate
+chunksize  based on the most frequently used chunksize per dimension.
+Otherwise, pass <cite>chunks</cite> onto <code class="xref py py-func docutils literal notranslate"><span class="pre">xr.open_mfdataset()</span></code>.</p></li>
+<li><p><strong>concat_dim</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)"><em>None</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>DataArray</em><em> or </em><em>Index</em><em>, </em><em>optional</em>) – Dimension to concatenate files along. This argument is passed on to
+<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.auto_combine.html#xarray.auto_combine" title="(in xarray v0.12.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">xarray.auto_combine()</span></code></a> along with the dataset objects. You only
+need to provide this argument if the dimension along which you want to
+concatenate is not a dimension in the original datasets, e.g., if you
+want to stack a collection of 2D arrays along a third dimension.
+By default, xarray attempts to infer this argument by examining
+component files. Set <code class="docutils literal notranslate"><span class="pre">concat_dim=None</span></code> explicitly to disable
+concatenation.</p></li>
+<li><p><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.22)"><em>rasterio.crs.CRS</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, or </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) – Coordinate reference system to assign, if not already georeferenced.
+If type is not <code class="docutils literal notranslate"><span class="pre">CRS</span></code>, will be converted using
+<code class="xref py py-func docutils literal notranslate"><span class="pre">plants.gis.convert.to_crs()</span></code>.</p></li>
+<li><p><strong>kwds</strong> (<em>optional</em>) – Options passed to <a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.open_mfdataset.html#xarray.open_mfdataset" title="(in xarray v0.12.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">xarray.open_mfdataset()</span></code></a></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Multi-file dataset</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v0.12.1)">xarray.Dataset</a></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.6/library/exceptions.html#IOError" title="(in Python v3.6)"><strong>IOError</strong></a> – Raise if <code class="docutils literal notranslate"><span class="pre">paths</span></code> does not parse into any filenames (e.g., a bad glob)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.io.xarray_map">
+<code class="descclassname">stems.io.</code><code class="descname">xarray_map</code><span class="sig-paren">(</span><em>y</em>, <em>x</em>, <em>count</em>, <em>dtype</em>, <em>crs=None</em>, <em>nodata=-9999</em>, <em>dim_band='band'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/xarray_.html#xarray_map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.xarray_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>A raster map with <code class="docutils literal notranslate"><span class="pre">count</span></code> bands
+:param y: Y coordinates
+:type y: array-like
+:param x: X coordinates
+:type x: array-like
+:param count: Number of bands
+:type count: int
+:param dtype: Data type
+:type dtype: np.dtype
+:param crs: Optionally, give the raster a CRS
+:type crs: CRS, optional
+:param nodata: No Data Value to initialize data with
+:type nodata: float or int</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>3D (band, y, x,) “map” to write data into</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>xr.DataArray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="stems.io.VRTDataset">
+<em class="property">class </em><code class="descclassname">stems.io.</code><code class="descname">VRTDataset</code><span class="sig-paren">(</span><em>separate=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/vrt.html#VRTDataset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.VRTDataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Create a VRT from a band in one or more datasets</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>separate</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Put input bands in separate, stacked bands in the output</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="stems.io.VRTDataset.add_band">
+<code class="descname">add_band</code><span class="sig-paren">(</span><em>path</em>, <em>src_bidx=1</em>, <em>vrt_bidx=None</em>, <em>**band_kwds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/vrt.html#VRTDataset.add_band"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.VRTDataset.add_band" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a band to VRT dataset</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – List of paths to open as datasets</p></li>
+<li><p><strong>src_bidx</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – Band indices of <cite>datasets</cite> to include. Defaults to <code class="docutils literal notranslate"><span class="pre">1</span></code></p></li>
+<li><p><strong>vrt_bidx</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)"><em>None</em></a>) – Destination band in VRT for new band. Only used if
+<code class="docutils literal notranslate"><span class="pre">self.separate</span></code> is True</p></li>
+<li><p><strong>band_kwds</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – Additional keyword arguments passed onto <a class="reference internal" href="#stems.io.VRTSourceBand" title="stems.io.VRTSourceBand"><code class="xref py py-class docutils literal notranslate"><span class="pre">VRTSourceBand</span></code></a></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>vrt_bidx</strong> – VRT band index</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.6/library/exceptions.html#ValueError" title="(in Python v3.6)"><strong>ValueError</strong></a> – Raised if vrt_bidx is invalid</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="stems.io.VRTDataset.bands">
+<code class="descname">bands</code><a class="headerlink" href="#stems.io.VRTDataset.bands" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bands organized by output VRT band</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a>, <a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)">list</a>[<a class="reference internal" href="#stems.io.VRTSourceBand" title="stems.io.VRTSourceBand">VRTSourceBand</a>]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="stems.io.VRTDataset.bounds">
+<code class="descname">bounds</code><a class="headerlink" href="#stems.io.VRTDataset.bounds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bounding box of VRTDataset</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>BoundingBox</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="stems.io.VRTDataset.count">
+<code class="descname">count</code><a class="headerlink" href="#stems.io.VRTDataset.count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of output bands in VRT</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="stems.io.VRTDataset.crs">
+<code class="descname">crs</code><a class="headerlink" href="#stems.io.VRTDataset.crs" title="Permalink to this definition">¶</a></dt>
+<dd><p>VRTDataset coordinate reference system</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>CRS</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="stems.io.VRTDataset.from_bands">
+<em class="property">classmethod </em><code class="descname">from_bands</code><span class="sig-paren">(</span><em>paths</em>, <em>separate=True</em>, <em>bidx=1</em>, <em>**kwds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/vrt.html#VRTDataset.from_bands"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.VRTDataset.from_bands" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>paths</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>]</em>) – List of paths to open as datasets</p></li>
+<li><p><strong>separate</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Put input bands in separate, stacked bands in the output</p></li>
+<li><p><strong>bidx</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>]</em><em>, </em><em>optional</em>) – Band indices of <cite>datasets</cite> to include. If <code class="docutils literal notranslate"><span class="pre">int</span></code>, all
+<code class="docutils literal notranslate"><span class="pre">paths</span></code> will use this band <code class="docutils literal notranslate"><span class="pre">bidx</span></code>. Otherwise, pass a
+list of band indices for each path in <code class="docutils literal notranslate"><span class="pre">paths</span></code>. Defaults
+to <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p></li>
+<li><p><strong>kwds</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – Keywords to pass to <code class="docutils literal notranslate"><span class="pre">VRTSourceBand()</span></code> for each band. Pass
+a list or tuple as a value to specify different values
+for each band.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>VRTDataset initialized from input paths</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#stems.io.VRTDataset" title="stems.io.VRTDataset">VRTDataset</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="stems.io.VRTDataset.height">
+<code class="descname">height</code><a class="headerlink" href="#stems.io.VRTDataset.height" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of rows</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="stems.io.VRTDataset.shape">
+<code class="descname">shape</code><a class="headerlink" href="#stems.io.VRTDataset.shape" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of rows and columns</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a>, <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="stems.io.VRTDataset.transform">
+<code class="descname">transform</code><a class="headerlink" href="#stems.io.VRTDataset.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Affine transform for VRTDataset</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Affine</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="stems.io.VRTDataset.width">
+<code class="descname">width</code><a class="headerlink" href="#stems.io.VRTDataset.width" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of columns</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="stems.io.VRTDataset.write">
+<code class="descname">write</code><span class="sig-paren">(</span><em>path=None</em>, <em>relative=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/vrt.html#VRTDataset.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.VRTDataset.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save VRT XML data to a filename</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) – Save VRT to this filename. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, returns
+the XML text</p></li>
+<li><p><strong>relative</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Reference VRT sources relative to the VRT</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Filename</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="stems.io.VRTSourceBand">
+<em class="property">class </em><code class="descclassname">stems.io.</code><code class="descname">VRTSourceBand</code><span class="sig-paren">(</span><em>path</em>, <em>src_bidx</em>, <em>description=None</em>, <em>nodata=None</em>, <em>keep_open=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/vrt.html#VRTSourceBand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.VRTSourceBand" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A VRT band originating from some other file</p>
+<p>Note that all properties on this object return information used
+for VRT XML generation, but not XML elements (e.g., returns the
+SubElement name and this new element’s text value).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Filename of dataset containing band</p></li>
+<li><p><strong>src_bidx</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Source band index (begins on 1)</p></li>
+<li><p><strong>description</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) – Override band description</p></li>
+<li><p><strong>nodata</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – Override NoDataValue</p></li>
+<li><p><strong>keep_open</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Keep dataset open</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="attribute">
+<dt id="stems.io.VRTSourceBand.blockxsize">
+<code class="descname">blockxsize</code><a class="headerlink" href="#stems.io.VRTSourceBand.blockxsize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="stems.io.VRTSourceBand.blockysize">
+<code class="descname">blockysize</code><a class="headerlink" href="#stems.io.VRTSourceBand.blockysize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="stems.io.VRTSourceBand.bounds">
+<code class="descname">bounds</code><a class="headerlink" href="#stems.io.VRTSourceBand.bounds" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="stems.io.VRTSourceBand.close">
+<code class="descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/vrt.html#VRTSourceBand.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.VRTSourceBand.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close dataset reference, if open</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="stems.io.VRTSourceBand.colorinterp">
+<code class="descname">colorinterp</code><a class="headerlink" href="#stems.io.VRTSourceBand.colorinterp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="stems.io.VRTSourceBand.crs">
+<code class="descname">crs</code><a class="headerlink" href="#stems.io.VRTSourceBand.crs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="stems.io.VRTSourceBand.description">
+<code class="descname">description</code><a class="headerlink" href="#stems.io.VRTSourceBand.description" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="stems.io.VRTSourceBand.dtype">
+<code class="descname">dtype</code><a class="headerlink" href="#stems.io.VRTSourceBand.dtype" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="stems.io.VRTSourceBand.height">
+<code class="descname">height</code><a class="headerlink" href="#stems.io.VRTSourceBand.height" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="stems.io.VRTSourceBand.nodata">
+<code class="descname">nodata</code><a class="headerlink" href="#stems.io.VRTSourceBand.nodata" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="stems.io.VRTSourceBand.open">
+<code class="descname">open</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/vrt.html#VRTSourceBand.open"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.VRTSourceBand.open" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="stems.io.VRTSourceBand.shape">
+<code class="descname">shape</code><a class="headerlink" href="#stems.io.VRTSourceBand.shape" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="stems.io.VRTSourceBand.start">
+<code class="descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/vrt.html#VRTSourceBand.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.VRTSourceBand.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open dataset, if closed</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="stems.io.VRTSourceBand.transform">
+<code class="descname">transform</code><a class="headerlink" href="#stems.io.VRTSourceBand.transform" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="stems.io.VRTSourceBand.width">
+<code class="descname">width</code><a class="headerlink" href="#stems.io.VRTSourceBand.width" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
 </div>
 
