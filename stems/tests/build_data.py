@@ -118,7 +118,10 @@ def create_test_dataset(compute=False, data_vars=BANDS_BGRN,
                         transform=Affine(30., 0., 100., 0., -30., 200)):
     """ Create a test xarray.Dataset
     """
-    from stems.gis import conventions, coords
+    from stems.gis import conventions, coords, projections
+
+    # y/x dim names
+    dim_x, dim_y = projections.cf_xy_coord_names(crs)
 
     # Create coordinates
     y, x = coords.transform_to_coords(transform, width=nx, height=ny)
@@ -129,16 +132,14 @@ def create_test_dataset(compute=False, data_vars=BANDS_BGRN,
     grid_mapping = conventions.create_grid_mapping(crs, transform, 'crs')
 
     # Create data
-    data = {
-        dv: xr.DataArray(
-            np.random.randint(0, 10, (ny, nx, ntime)).astype(dtype),
-            dims=('y', 'x', 'time', ),
-            coords={'y': y_, 'x': x_, 'time': time,
-                    'crs': grid_mapping},
-            name=dv
-        ).chunk({'y': chunk_y, 'x': chunk_x, 'time': chunk_time})
-        for dv in data_vars
-    }
+    data = {}
+    dims=(dim_y, dim_x, 'time', )
+    coords = {dim_y: y_, dim_x: x_, 'time': time, 'crs': grid_mapping}
+    chunks = {dim_y: chunk_y, dim_x: chunk_x, 'time': chunk_time}
+    for dv in data_vars:
+        dat = np.random.randint(0, 10, (ny, nx, ntime)).astype(dtype)
+        xarr = xr.DataArray(dat, dims=dims, coords=coords, name=dv)
+        data[dv] = xarr.chunk(chunks)
     # Create XArray
     xarr = xr.Dataset(data)
     return xarr
