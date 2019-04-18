@@ -310,8 +310,8 @@ def create_coordinates(y, x, crs):
         units = crs_osr.GetLinearUnitsName().lower()
         y_attrs['units'], x_attrs['units'] = units, units
 
-    y = xr.Variable((y_var, ), y, attrs=y_attrs)
-    x = xr.Variable((x_var, ), x, attrs=x_attrs)
+    y = xr.Variable((y_var, ), y, attrs=y_attrs, fastpath=True)
+    x = xr.Variable((x_var, ), x, attrs=x_attrs, fastpath=True)
 
     return y, x
 
