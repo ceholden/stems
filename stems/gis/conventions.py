@@ -301,17 +301,27 @@ def create_coordinates(y, x, crs):
     ----------
     .. [1] http://cfconventions.org/cf-conventions/v1.6.0/cf-conventions.html#coordinate-types
     """
+    assert y.ndim == 1
+    assert x.ndim == 1
+    # Determine name according to projection
     x_var, y_var = projections.cf_xy_coord_names(crs)
+
+    # Get copies of attributes
     y_attrs = COORD_DEFS[y_var].copy()
     x_attrs = COORD_DEFS[x_var].copy()
 
+    # If projected we add a few extra definitions
     if crs.is_projected:
         crs_osr = utils.crs2osr(crs)
         units = crs_osr.GetLinearUnitsName().lower()
         y_attrs['units'], x_attrs['units'] = units, units
 
-    y = xr.Variable((y_var, ), y, attrs=y_attrs, fastpath=True)
-    x = xr.Variable((x_var, ), x, attrs=x_attrs, fastpath=True)
+    # Check for dimension name -- keep existing if possible
+    dim_y = getattr(y, 'dims', None) or (y_var, )
+    dim_x = getattr(x, 'dims', None) or (x_var, )
+
+    y = xr.Variable(dim_y, y, attrs=y_attrs, fastpath=True)
+    x = xr.Variable(dim_x, x, attrs=x_attrs, fastpath=True)
 
     return y, x
 
