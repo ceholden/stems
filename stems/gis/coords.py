@@ -235,15 +235,21 @@ def _inspect_coords(y, x, center=True, assume_unique=True):
 def _check_spacing(coord):
     """ Check for equal spacing (see GDAL NetCDF driver)
     """
-    n = len(coord)
-    beg = coord[1] - coord[0]
-    mid = coord[n // 2 + 1] - coord[n // 2]
-    end = coord[n - 1] - coord[n - 2]
-
     def cmp(a, b, tol=2e-3):
         return abs(a - b) < tol
 
-    if cmp(beg, mid) and cmp(mid, end) and cmp(beg, end):
+    n = len(coord)
+    if n == 1:
         return True
     else:
-        return False
+        beg = coord[1] - coord[0]
+        end = coord[n - 1] - coord[n - 2]
+        if n > 2:
+            mid = coord[n // 2 + 1] - coord[n // 2]
+        else:
+            mid = end
+
+        if cmp(beg, mid) and cmp(mid, end) and cmp(beg, end):
+            return True
+        else:
+            return False
