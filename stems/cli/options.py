@@ -109,17 +109,59 @@ def close_scheduler():
         logger.debug('No client to close')
 
 
+def _param_name_job_id_total(param):
+    if isinstance(param, click.Option):
+        return '"--job_id"', '"--job_total"'
+    else:
+        return '"job_id"'.upper(), '"job_total"'.upper()
+
+
+def _cb_job_id(ctx, param, value):
+    s_job_id, s_job_total = _param_name_job_id_total(param)
+    if value is None:
+        return 1
+    elif value <= 0:
+        raise click.BadParameter(f'{s_job_id} must be at least 1 (>=1)')
+    else:
+        total = ctx.params.get('job_total', 1)
+        if value > total:
+            raise click.BadParameter(f'{s_job_id} is larger than {s_job_total} '
+                                     f'({value} > {total})')
+        else:
+            return value
+
+
+def _cb_job_total(ctx, param, value):
+    s_job_id, s_job_total = _param_name_job_id_total(param)
+    if value <= 0:
+        raise click.BadParameter(f'{s_job_total} must be at least 1')
+    else:
+        return value
+
+
 # ============================================================================
 # ARGS
 arg_config_file = click.argument('config', nargs=1, type=_TYPE_FILE)
-arg_job_id = click.argument('job_id', nargs=1, type=click.INT)
-arg_job_total = click.argument('job_total', nargs=1, type=click.INT)
+
+arg_job_id = click.argument('job_id', nargs=1, callback=_cb_job_id,
+                            type=click.INT)
+arg_job_total = click.argument('job_total', nargs=1, callback=_cb_job_total,
+                               type=click.INT)
 
 
 # ============================================================================
 # OPTIONS
-opt_verbose = click.option('--verbose', '-v', count=True, help='Be verbose')
 
+# Job ID / Total as options
+opt_job_id = click.option('--job_id', type=click.INT, callback=_cb_job_id,
+                          help='Job ID (out of ``--job_total`` workers)')
+opt_job_total = click.option('--job_total', type=click.INT, is_eager=True,
+                             callback=_cb_job_total,
+                             default=1, show_default=True,
+                             help='Total number of jobs running this script')
+
+
+opt_verbose = click.option('--verbose', '-v', count=True, help='Be verbose')
 opt_quiet = click.option('--quiet', '-q', count=True, help='Be quiet')
 
 opt_bounds = click.option(
