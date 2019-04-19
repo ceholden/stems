@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.cli.options &mdash; stems 0.0.1+20.gbf17da0 documentation</title>
+  <title>stems.cli.options &mdash; stems 0.0.1+20.g33430fe documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1+20.gbf17da0
+                0.0.1+20.g33430fe
               </div>
             
           
@@ -283,7 +283,7 @@
 <span class="k">def</span> <span class="nf">_cb_job_id</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
     <span class="n">s_job_id</span><span class="p">,</span> <span class="n">s_job_total</span> <span class="o">=</span> <span class="n">_param_name_job_id_total</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">value</span>
+        <span class="k">return</span> <span class="mi">1</span>
     <span class="k">elif</span> <span class="n">value</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">click</span><span class="o">.</span><span class="n">BadParameter</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{s_job_id}</span><span class="s1"> must be at least 1 (&gt;=1)&#39;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>

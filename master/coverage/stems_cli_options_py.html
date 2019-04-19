@@ -388,7 +388,7 @@
 <p id="t119" class="stm mis"><span class="key">def</span> <span class="nam">_cb_job_id</span><span class="op">(</span><span class="nam">ctx</span><span class="op">,</span> <span class="nam">param</span><span class="op">,</span> <span class="nam">value</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t120" class="stm mis">    <span class="nam">s_job_id</span><span class="op">,</span> <span class="nam">s_job_total</span> <span class="op">=</span> <span class="nam">_param_name_job_id_total</span><span class="op">(</span><span class="nam">param</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t121" class="stm mis">    <span class="key">if</span> <span class="nam">value</span> <span class="key">is</span> <span class="key">None</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t122" class="stm mis">        <span class="key">return</span> <span class="nam">value</span><span class="strut">&nbsp;</span></p>
+<p id="t122" class="stm mis">        <span class="key">return</span> <span class="num">1</span><span class="strut">&nbsp;</span></p>
 <p id="t123" class="stm mis">    <span class="key">elif</span> <span class="nam">value</span> <span class="op">&lt;=</span> <span class="num">0</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t124" class="stm mis">        <span class="key">raise</span> <span class="nam">click</span><span class="op">.</span><span class="nam">BadParameter</span><span class="op">(</span><span class="str">f'{s_job_id} must be at least 1 (>=1)'</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t125" class="pln">    <span class="key">else</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
@@ -474,7 +474,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.3</a>,
-            created at 2019-04-19 15:15
+            created at 2019-04-19 17:02
         </p>
     </div>
 </div>
