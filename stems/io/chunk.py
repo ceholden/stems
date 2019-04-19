@@ -22,6 +22,8 @@ from pathlib import Path
 
 import xarray as xr
 
+from ..utils import register_multi_singledispatch
+
 logger = logging.getLogger(__name__)
 
 
@@ -287,7 +289,8 @@ def chunks_to_chunksizes(data, dims=None):
     raise TypeError(f'Unknown type for input ``data`` "{type(data)}"')
 
 
-@chunks_to_chunksizes.register(dict)
+_DICTS = (dict, xr.core.utils.FrozenOrderedDict)
+@register_multi_singledispatch(chunks_to_chunksizes, _DICTS)
 def _chunks_to_chunksizes_dict(data, dims=None):
     dims_ = dims or data.keys()
     return tuple(data[d] if isinstance(data[d], int) else data[d][0]
