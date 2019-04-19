@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.io.chunk &mdash; stems 0.0.1+18.g435f641 documentation</title>
+  <title>stems.io.chunk &mdash; stems 0.0.1+20.gbf17da0 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1+18.g435f641
+                0.0.1+20.gbf17da0
               </div>
             
           
@@ -185,6 +185,8 @@
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="k">import</span> <span class="n">Path</span>
 
 <span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+
+<span class="kn">from</span> <span class="nn">..utils</span> <span class="k">import</span> <span class="n">register_multi_singledispatch</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -451,7 +453,8 @@
     <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Unknown type for input ``data`` &quot;{type(data)}&quot;&#39;</span><span class="p">)</span></div>
 
 
-<span class="nd">@chunks_to_chunksizes</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="nb">dict</span><span class="p">)</span>
+<span class="n">_DICTS</span> <span class="o">=</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">FrozenOrderedDict</span><span class="p">)</span>
+<span class="nd">@register_multi_singledispatch</span><span class="p">(</span><span class="n">chunks_to_chunksizes</span><span class="p">,</span> <span class="n">_DICTS</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">_chunks_to_chunksizes_dict</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="n">dims_</span> <span class="o">=</span> <span class="n">dims</span> <span class="ow">or</span> <span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
     <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">d</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">d</span><span class="p">],</span> <span class="nb">int</span><span class="p">)</span> <span class="k">else</span> <span class="n">data</span><span class="p">[</span><span class="n">d</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
