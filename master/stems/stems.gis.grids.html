@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.grids module &mdash; stems 0.0.1+21.gf51cc1a documentation</title>
+  <title>stems.gis.grids module &mdash; stems 0.0.1+23.g3b7bfdb documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1+21.gf51cc1a
+                0.0.1+23.g3b7bfdb
               </div>
             
           
@@ -250,7 +250,7 @@ grid index and pixel row/column within the tile is known.</p>
 
 <dl class="method">
 <dt id="stems.gis.grids.Tile.coords">
-<code class="descname">coords</code><span class="sig-paren">(</span><em>center=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/grids.html#Tile.coords"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.grids.Tile.coords" title="Permalink to this definition">¶</a></dt>
+<code class="descname">coords</code><span class="sig-paren">(</span><em>self</em>, <em>center=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/grids.html#Tile.coords"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.grids.Tile.coords" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return y/x pixel coordinates</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -268,7 +268,7 @@ grid index and pixel row/column within the tile is known.</p>
 
 <dl class="method">
 <dt id="stems.gis.grids.Tile.geojson">
-<code class="descname">geojson</code><span class="sig-paren">(</span><em>crs='epsg:4326'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/grids.html#Tile.geojson"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.grids.Tile.geojson" title="Permalink to this definition">¶</a></dt>
+<code class="descname">geojson</code><span class="sig-paren">(</span><em>self</em>, <em>crs='epsg:4326'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/grids.html#Tile.geojson"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.grids.Tile.geojson" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return this Tile’s geometry as GeoJSON</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -423,7 +423,7 @@ to limit access to Tiles beyond domain.</p>
 
 <dl class="method">
 <dt id="stems.gis.grids.TileGrid.bounds_to_tiles">
-<code class="descname">bounds_to_tiles</code><span class="sig-paren">(</span><em>bounds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/grids.html#TileGrid.bounds_to_tiles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.grids.TileGrid.bounds_to_tiles" title="Permalink to this definition">¶</a></dt>
+<code class="descname">bounds_to_tiles</code><span class="sig-paren">(</span><em>self</em>, <em>bounds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/grids.html#TileGrid.bounds_to_tiles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.grids.TileGrid.bounds_to_tiles" title="Permalink to this definition">¶</a></dt>
 <dd><p>Yield Tile objects for this grid within a given bounds</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -465,7 +465,7 @@ to limit access to Tiles beyond domain.</p>
 
 <dl class="method">
 <dt id="stems.gis.grids.TileGrid.geojson">
-<code class="descname">geojson</code><span class="sig-paren">(</span><em>crs='epsg:4326'</em>, <em>rows=None</em>, <em>cols=None</em>, <em>rfc7946=False</em>, <em>skip_invalid=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/grids.html#TileGrid.geojson"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.grids.TileGrid.geojson" title="Permalink to this definition">¶</a></dt>
+<code class="descname">geojson</code><span class="sig-paren">(</span><em>self</em>, <em>crs='epsg:4326'</em>, <em>rows=None</em>, <em>cols=None</em>, <em>rfc7946=False</em>, <em>skip_invalid=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/grids.html#TileGrid.geojson"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.grids.TileGrid.geojson" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns this grid of tiles as GeoJSON</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -517,7 +517,7 @@ only include valid tile geometries.</p></li>
 
 <dl class="method">
 <dt id="stems.gis.grids.TileGrid.point_to_tile">
-<code class="descname">point_to_tile</code><span class="sig-paren">(</span><em>point</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/grids.html#TileGrid.point_to_tile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.grids.TileGrid.point_to_tile" title="Permalink to this definition">¶</a></dt>
+<code class="descname">point_to_tile</code><span class="sig-paren">(</span><em>self</em>, <em>point</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/grids.html#TileGrid.point_to_tile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.grids.TileGrid.point_to_tile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a Tile containing a given point (x, y)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -535,7 +535,7 @@ TileGrid.</p>
 
 <dl class="method">
 <dt id="stems.gis.grids.TileGrid.roi_to_tiles">
-<code class="descname">roi_to_tiles</code><span class="sig-paren">(</span><em>roi</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/grids.html#TileGrid.roi_to_tiles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.grids.TileGrid.roi_to_tiles" title="Permalink to this definition">¶</a></dt>
+<code class="descname">roi_to_tiles</code><span class="sig-paren">(</span><em>self</em>, <em>roi</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/grids.html#TileGrid.roi_to_tiles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.grids.TileGrid.roi_to_tiles" title="Permalink to this definition">¶</a></dt>
 <dd><p>Yield tiles within a Region of Interest (ROI) <code class="docutils literal notranslate"><span class="pre">shapely</span></code> geometry</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -560,7 +560,7 @@ TileGrid.</p>
 
 <dl class="method">
 <dt id="stems.gis.grids.TileGrid.to_dict">
-<code class="descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/grids.html#TileGrid.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.grids.TileGrid.to_dict" title="Permalink to this definition">¶</a></dt>
+<code class="descname">to_dict</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/grids.html#TileGrid.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.grids.TileGrid.to_dict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return this TileGrid as a dictionary (e.g., to serialize)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>

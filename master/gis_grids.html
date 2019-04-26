@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Tile Grid Systems &mdash; stems 0.0.1+21.gf51cc1a documentation</title>
+  <title>Tile Grid Systems &mdash; stems 0.0.1+23.g3b7bfdb documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.0.1+21.gf51cc1a
+                0.0.1+23.g3b7bfdb
               </div>
             
           
@@ -252,13 +252,13 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.TileGrid.point_to_tile" title="stems.gis.grids.TileGrid.point_to_tile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TileGrid.point_to_tile</span></code></a>(point)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.TileGrid.point_to_tile" title="stems.gis.grids.TileGrid.point_to_tile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TileGrid.point_to_tile</span></code></a>(self, point)</p></td>
 <td><p>Return a Tile containing a given point (x, y)</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.TileGrid.bounds_to_tiles" title="stems.gis.grids.TileGrid.bounds_to_tiles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TileGrid.bounds_to_tiles</span></code></a>(bounds)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.TileGrid.bounds_to_tiles" title="stems.gis.grids.TileGrid.bounds_to_tiles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TileGrid.bounds_to_tiles</span></code></a>(self, bounds)</p></td>
 <td><p>Yield Tile objects for this grid within a given bounds</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.TileGrid.roi_to_tiles" title="stems.gis.grids.TileGrid.roi_to_tiles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TileGrid.roi_to_tiles</span></code></a>(roi)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.TileGrid.roi_to_tiles" title="stems.gis.grids.TileGrid.roi_to_tiles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TileGrid.roi_to_tiles</span></code></a>(self, roi)</p></td>
 <td><p>Yield tiles within a Region of Interest (ROI) <code class="docutils literal notranslate"><span class="pre">shapely</span></code> geometry</p></td>
 </tr>
 </tbody>
@@ -272,13 +272,13 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.TileGrid.to_dict" title="stems.gis.grids.TileGrid.to_dict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TileGrid.to_dict</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.TileGrid.to_dict" title="stems.gis.grids.TileGrid.to_dict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TileGrid.to_dict</span></code></a>(self)</p></td>
 <td><p>Return this TileGrid as a dictionary (e.g., to serialize)</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.TileGrid.from_dict" title="stems.gis.grids.TileGrid.from_dict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TileGrid.from_dict</span></code></a>(d)</p></td>
 <td><p>Return a <code class="docutils literal notranslate"><span class="pre">TileGrid</span></code> from a dictionary</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.TileGrid.geojson" title="stems.gis.grids.TileGrid.geojson"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TileGrid.geojson</span></code></a>([crs, rows, cols, rfc7946, …])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.TileGrid.geojson" title="stems.gis.grids.TileGrid.geojson"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TileGrid.geojson</span></code></a>(self[, crs, rows, cols, …])</p></td>
 <td><p>Returns this grid of tiles as GeoJSON</p></td>
 </tr>
 </tbody>
@@ -294,13 +294,13 @@ indexing the row and column (or vertical, horizontal) as you would a <code class
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">TileGrid.__getitem__</span></code>(index)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">TileGrid.__getitem__</span></code>(self, index)</p></td>
 <td><p>Return a Tile for the grid row/column specified by index</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">TileGrid.__len__</span></code>()</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">TileGrid.__len__</span></code>(self)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">TileGrid.__iter__</span></code>()</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">TileGrid.__iter__</span></code>(self)</p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -361,10 +361,10 @@ indexing the row and column (or vertical, horizontal) as you would a <code class
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.Tile.coords" title="stems.gis.grids.Tile.coords"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.coords</span></code></a>([center])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.Tile.coords" title="stems.gis.grids.Tile.coords"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.coords</span></code></a>(self[, center])</p></td>
 <td><p>Return y/x pixel coordinates</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.Tile.geojson" title="stems.gis.grids.Tile.geojson"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.geojson</span></code></a>([crs])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.Tile.geojson" title="stems.gis.grids.Tile.geojson"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.geojson</span></code></a>(self[, crs])</p></td>
 <td><p>Return this Tile’s geometry as GeoJSON</p></td>
 </tr>
 </tbody>

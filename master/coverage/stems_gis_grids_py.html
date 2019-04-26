@@ -1123,7 +1123,7 @@
 <p id="t515" class="stm run hide_run">        <span class="nam">filename</span> <span class="op">=</span> <span class="nam">Path</span><span class="op">(</span><span class="nam">__file__</span><span class="op">)</span><span class="op">.</span><span class="nam">parent</span><span class="op">.</span><span class="nam">joinpath</span><span class="op">(</span><span class="str">'tilegrids.yml'</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t516" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t517" class="stm run hide_run">    <span class="key">with</span> <span class="nam">open</span><span class="op">(</span><span class="nam">str</span><span class="op">(</span><span class="nam">filename</span><span class="op">)</span><span class="op">,</span> <span class="str">'r'</span><span class="op">)</span> <span class="key">as</span> <span class="nam">f</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t518" class="stm run hide_run">        <span class="nam">specs</span> <span class="op">=</span> <span class="nam">yaml</span><span class="op">.</span><span class="nam">load</span><span class="op">(</span><span class="nam">f</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t518" class="stm run hide_run">        <span class="nam">specs</span> <span class="op">=</span> <span class="nam">yaml</span><span class="op">.</span><span class="nam">safe_load</span><span class="op">(</span><span class="nam">f</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t519" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t520" class="stm run hide_run">    <span class="nam">tilegrids</span> <span class="op">=</span> <span class="op">{</span><span class="op">}</span><span class="strut">&nbsp;</span></p>
 <p id="t521" class="stm run hide_run">    <span class="key">for</span> <span class="nam">name</span> <span class="key">in</span> <span class="nam">specs</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
@@ -1152,7 +1152,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.3</a>,
-            created at 2019-04-19 17:09
+            created at 2019-04-26 18:22
         </p>
     </div>
 </div>
