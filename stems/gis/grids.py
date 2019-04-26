@@ -515,7 +515,7 @@ def load_grids(filename=None):
         filename = Path(__file__).parent.joinpath('tilegrids.yml')
 
     with open(str(filename), 'r') as f:
-        specs = yaml.load(f)
+        specs = yaml.safe_load(f)
 
     tilegrids = {}
     for name in specs:
