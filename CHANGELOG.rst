@@ -13,6 +13,10 @@ For information on the style of this change log, see
 UNRELEASED
 ==========
 
+ALPHA 0.0.1-20190506
+====================
+
+Development version released 05/06/2019.
 
 ALPHA 0.0.1
 ===========
