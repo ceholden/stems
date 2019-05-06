@@ -17,7 +17,6 @@ The core dependencies are:
 - xarray
 - toolz
 - affine
-- cartopy
 - fiona
 - gdal
 - rasterio (>=1.0.14)
