@@ -1,0 +1,307 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>stems.gis.tests.test_gis_convert &mdash; stems 0.0.1-20190506 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> stems
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1-20190506
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../faq.html">Frequenty Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../gis.html">Geographic Information Systems (GIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../gis_grids.html">Tile Grid Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../parallel.html">Parallel Computing Helpers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../xarray.html">XArray Integration</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">stems</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>stems.gis.tests.test_gis_convert</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for stems.gis.tests.test_gis_convert</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; Tests for :py:mod:`stems.gis.convert`</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">affine</span> <span class="k">import</span> <span class="n">Affine</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pytest</span>
+<span class="kn">import</span> <span class="nn">rasterio</span>
+<span class="kn">from</span> <span class="nn">rasterio.coords</span> <span class="k">import</span> <span class="n">BoundingBox</span>
+<span class="kn">from</span> <span class="nn">rasterio.crs</span> <span class="k">import</span> <span class="n">CRS</span>
+<span class="kn">import</span> <span class="nn">shapely.geometry</span>
+
+<span class="kn">from</span> <span class="nn">stems.gis</span> <span class="k">import</span> <span class="n">convert</span>
+
+
+<span class="c1"># ============================================================================</span>
+<span class="c1"># to_crs</span>
+<span class="n">EPSG_CODES</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4326</span><span class="p">,</span> <span class="mi">5070</span><span class="p">,</span> <span class="mi">32619</span><span class="p">]</span>
+<div class="viewcode-block" id="ex_crs"><a class="viewcode-back" href="../../../../stems/stems.gis.tests.test_gis_convert.html#stems.gis.tests.test_gis_convert.ex_crs">[docs]</a><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">EPSG_CODES</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">ex_crs</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">param</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="test_to_crs_int"><a class="viewcode-back" href="../../../../stems/stems.gis.tests.test_gis_convert.html#stems.gis.tests.test_gis_convert.test_to_crs_int">[docs]</a><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s1">&#39;code&#39;</span><span class="p">,</span> <span class="n">EPSG_CODES</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_to_crs_int</span><span class="p">(</span><span class="n">code</span><span class="p">):</span>
+    <span class="k">assert</span> <span class="n">convert</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">code</span><span class="p">)</span> <span class="o">==</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="n">code</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="test_to_crs_str"><a class="viewcode-back" href="../../../../stems/stems.gis.tests.test_gis_convert.html#stems.gis.tests.test_gis_convert.test_to_crs_str">[docs]</a><span class="k">def</span> <span class="nf">test_to_crs_str</span><span class="p">(</span><span class="n">ex_crs</span><span class="p">):</span>
+    <span class="c1"># proj4</span>
+    <span class="k">assert</span> <span class="n">convert</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">ex_crs</span><span class="o">.</span><span class="n">to_string</span><span class="p">())</span> <span class="o">==</span> <span class="n">ex_crs</span>
+    <span class="c1"># wkt</span>
+    <span class="k">assert</span> <span class="n">convert</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">ex_crs</span><span class="o">.</span><span class="n">wkt</span><span class="p">)</span> <span class="o">==</span> <span class="n">ex_crs</span></div>
+
+
+<div class="viewcode-block" id="test_to_crs_str_error"><a class="viewcode-back" href="../../../../stems/stems.gis.tests.test_gis_convert.html#stems.gis.tests.test_gis_convert.test_to_crs_str_error">[docs]</a><span class="k">def</span> <span class="nf">test_to_crs_str_error</span><span class="p">():</span>
+    <span class="n">bad</span> <span class="o">=</span> <span class="s1">&#39;+proj=wrong&#39;</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;Could not interpret CRS.*WKT or Proj4&#39;</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="n">rasterio</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">CRSError</span><span class="p">,</span> <span class="n">match</span><span class="o">=</span><span class="n">msg</span><span class="p">):</span>
+        <span class="n">convert</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">convert</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">bad</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="test_to_crs_dict"><a class="viewcode-back" href="../../../../stems/stems.gis.tests.test_gis_convert.html#stems.gis.tests.test_gis_convert.test_to_crs_dict">[docs]</a><span class="k">def</span> <span class="nf">test_to_crs_dict</span><span class="p">():</span>
+    <span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">convert</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">crs</span><span class="p">))</span> <span class="o">==</span> <span class="n">crs</span></div>
+
+
+<div class="viewcode-block" id="test_to_crs_OSR"><a class="viewcode-back" href="../../../../stems/stems.gis.tests.test_gis_convert.html#stems.gis.tests.test_gis_convert.test_to_crs_OSR">[docs]</a><span class="k">def</span> <span class="nf">test_to_crs_OSR</span><span class="p">(</span><span class="n">ex_crs</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">stems.gis</span> <span class="k">import</span> <span class="n">utils</span>
+    <span class="n">osr_crs</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">crs2osr</span><span class="p">(</span><span class="n">ex_crs</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">convert</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">osr_crs</span><span class="p">)</span> <span class="o">==</span> <span class="n">ex_crs</span></div>
+
+
+<div class="viewcode-block" id="test_to_crs_CRS"><a class="viewcode-back" href="../../../../stems/stems.gis.tests.test_gis_convert.html#stems.gis.tests.test_gis_convert.test_to_crs_CRS">[docs]</a><span class="k">def</span> <span class="nf">test_to_crs_CRS</span><span class="p">():</span>
+    <span class="c1"># should just return same object</span>
+    <span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">convert</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">crs</span><span class="p">)</span> <span class="ow">is</span> <span class="n">crs</span></div>
+
+
+<span class="c1"># ============================================================================</span>
+<span class="c1"># to_transform</span>
+<div class="viewcode-block" id="test_to_transform_Affine"><a class="viewcode-back" href="../../../../stems/stems.gis.tests.test_gis_convert.html#stems.gis.tests.test_gis_convert.test_to_transform_Affine">[docs]</a><span class="k">def</span> <span class="nf">test_to_transform_Affine</span><span class="p">():</span>
+    <span class="c1"># should just return same object</span>
+    <span class="n">transform</span> <span class="o">=</span> <span class="n">Affine</span><span class="p">(</span><span class="mf">30.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">2102235.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">30.0</span><span class="p">,</span> <span class="mf">1939455.0</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">convert</span><span class="o">.</span><span class="n">to_transform</span><span class="p">(</span><span class="n">transform</span><span class="p">)</span> <span class="ow">is</span> <span class="n">transform</span></div>
+
+
+<div class="viewcode-block" id="test_to_transform_iter"><a class="viewcode-back" href="../../../../stems/stems.gis.tests.test_gis_convert.html#stems.gis.tests.test_gis_convert.test_to_transform_iter">[docs]</a><span class="k">def</span> <span class="nf">test_to_transform_iter</span><span class="p">():</span>
+    <span class="n">transform</span> <span class="o">=</span> <span class="n">Affine</span><span class="p">(</span><span class="mf">30.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">2102235.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">30.0</span><span class="p">,</span> <span class="mf">1939455.0</span><span class="p">)</span>
+    <span class="c1"># test as a list / tuple / np.ndarray</span>
+    <span class="k">assert</span> <span class="n">convert</span><span class="o">.</span><span class="n">to_transform</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">transform</span><span class="p">))</span> <span class="o">==</span> <span class="n">transform</span>
+    <span class="k">assert</span> <span class="n">convert</span><span class="o">.</span><span class="n">to_transform</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">transform</span><span class="p">))</span> <span class="o">==</span> <span class="n">transform</span>
+    <span class="k">assert</span> <span class="n">convert</span><span class="o">.</span><span class="n">to_transform</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">transform</span><span class="p">))</span> <span class="o">==</span> <span class="n">transform</span>
+    <span class="c1"># with &quot;from_gdal&quot;</span>
+    <span class="n">geotransform</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">to_gdal</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="n">convert</span><span class="o">.</span><span class="n">to_transform</span><span class="p">(</span><span class="n">geotransform</span><span class="p">,</span> <span class="n">from_gdal</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">==</span> <span class="n">transform</span></div>
+
+
+<span class="c1"># ============================================================================</span>
+<span class="c1"># to_bounds</span>
+<div class="viewcode-block" id="test_to_bounds_bounds"><a class="viewcode-back" href="../../../../stems/stems.gis.tests.test_gis_convert.html#stems.gis.tests.test_gis_convert.test_to_bounds_bounds">[docs]</a><span class="k">def</span> <span class="nf">test_to_bounds_bounds</span><span class="p">():</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">BoundingBox</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="n">b_</span> <span class="o">=</span> <span class="n">convert</span><span class="o">.</span><span class="n">to_bounds</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+    <span class="c1"># equal and same object</span>
+    <span class="k">assert</span> <span class="n">b</span> <span class="o">==</span> <span class="n">b_</span> <span class="ow">and</span> <span class="n">b</span> <span class="ow">is</span> <span class="n">b_</span></div>
+
+
+<div class="viewcode-block" id="test_to_bounds_list"><a class="viewcode-back" href="../../../../stems/stems.gis.tests.test_gis_convert.html#stems.gis.tests.test_gis_convert.test_to_bounds_list">[docs]</a><span class="k">def</span> <span class="nf">test_to_bounds_list</span><span class="p">():</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+    <span class="n">bounds</span> <span class="o">=</span> <span class="n">convert</span><span class="o">.</span><span class="n">to_bounds</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bounds</span><span class="p">,</span> <span class="n">BoundingBox</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">list</span><span class="p">(</span><span class="n">bounds</span><span class="p">)</span> <span class="o">==</span> <span class="n">b</span></div>
+
+
+<div class="viewcode-block" id="test_to_bounds_geom"><a class="viewcode-back" href="../../../../stems/stems.gis.tests.test_gis_convert.html#stems.gis.tests.test_gis_convert.test_to_bounds_geom">[docs]</a><span class="k">def</span> <span class="nf">test_to_bounds_geom</span><span class="p">():</span>
+    <span class="n">box</span> <span class="o">=</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="n">bounds</span> <span class="o">=</span> <span class="n">convert</span><span class="o">.</span><span class="n">to_bounds</span><span class="p">(</span><span class="n">box</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bounds</span><span class="p">,</span> <span class="n">BoundingBox</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">bounds</span> <span class="o">==</span> <span class="n">BoundingBox</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span></div>
+
+
+<span class="c1"># ============================================================================</span>
+<span class="c1"># to_bbox</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

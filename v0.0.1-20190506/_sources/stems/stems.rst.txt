@@ -1,0 +1,35 @@
+stems package
+=============
+
+Subpackages
+-----------
+
+.. toctree::
+
+    stems.cli
+    stems.datasets
+    stems.gis
+    stems.io
+    stems.sensors
+
+Submodules
+----------
+
+.. toctree::
+
+   stems.compat
+   stems.errors
+   stems.executor
+   stems.logging_
+   stems.parallel
+   stems.times
+   stems.utils
+   stems.xarray_accessor
+
+Module contents
+---------------
+
+.. automodule:: stems
+    :members:
+    :undoc-members:
+    :show-inheritance:

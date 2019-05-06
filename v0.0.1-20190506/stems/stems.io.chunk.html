@@ -1,0 +1,389 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>stems.io.chunk module &mdash; stems 0.0.1-20190506 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> stems
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1-20190506
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequenty Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../gis.html">Geographic Information Systems (GIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gis_grids.html">Tile Grid Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel.html">Parallel Computing Helpers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../xarray.html">XArray Integration</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">stems</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>stems.io.chunk module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/ceholden/stems/blob/master/docs/source/stems/stems.io.chunk.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-stems.io.chunk">
+<span id="stems-io-chunk-module"></span><h1>stems.io.chunk module<a class="headerlink" href="#module-stems.io.chunk" title="Permalink to this headline">¶</a></h1>
+<p>Handle chunks/chunksize related logic</p>
+<p>Chunks vs chunksizes:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;Chunks&quot;</span> <span class="n">refers</span> <span class="n">to</span> <span class="n">a</span> <span class="n">collection</span> <span class="n">of</span> <span class="n">chunk</span> <span class="n">sizes</span> <span class="n">organized</span> <span class="n">by</span> <span class="n">dimension</span>
+</pre></div>
+</div>
+<blockquote>
+<div><ul class="simple">
+<li><p>e.g., <code class="docutils literal notranslate"><span class="pre">{'time':</span> <span class="pre">(3,</span> <span class="pre">3,</span> <span class="pre">3,</span> <span class="pre">1,</span> <span class="pre">)}</span></code></p></li>
+<li><p>For <a class="reference external" href="http://docs.dask.org/en/latest/array-api.html#dask.array.Array" title="(in Dask v1.2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dask.array.Array</span></code></a> and <a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>,
+<code class="docutils literal notranslate"><span class="pre">.chunks</span></code> is a tuple</p></li>
+<li><p><a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v0.12.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a> <code class="docutils literal notranslate"><span class="pre">.chunks</span></code> is a mapping</p></li>
+</ul>
+</div></blockquote>
+<p>“Chunksizes” refers to a scalar size (an integer) organized by dimension</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>e.g., <code class="docutils literal notranslate"><span class="pre">{'time':</span> <span class="pre">3}</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">chunksizes</span></code> is used in encoding for NetCDF4 xarray backend</p></li>
+</ul>
+</div></blockquote>
+<dl class="function">
+<dt id="stems.io.chunk.auto_determine_chunks">
+<code class="descclassname">stems.io.chunk.</code><code class="descname">auto_determine_chunks</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/chunk.html#auto_determine_chunks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.chunk.auto_determine_chunks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Try to guess the best chunksizes for a filename</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – File to read</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Best guess for chunksizes to use for each dimension</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.io.chunk.best_chunksizes">
+<code class="descclassname">stems.io.chunk.</code><code class="descname">best_chunksizes</code><span class="sig-paren">(</span><em>chunks</em>, <em>tiebreaker=&lt;built-in function max&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/chunk.html#best_chunksizes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.chunk.best_chunksizes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decide which chunksize to use for each dimension from variables</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>chunks</strong> (<em>Mapping</em><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>Mapping</em><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>]</em><em>]</em>) – Mapping of variable names to variable chunksizes</p></li>
+<li><p><strong>tiebreaker</strong> (<em>callable</em><em>, </em><em>optional</em>) – Controls what chunksize should be used for a dimension in the event
+of a tie. For example, if 3 variables had a chunksize of 250 and
+another 3 had a chunksize of 500, the guess is determined by
+<code class="docutils literal notranslate"><span class="pre">callable([250,</span> <span class="pre">500])</span></code>. By default, prefer the larger chunksize
+(i.e., <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#max" title="(in Python v3.6)"><code class="xref py py-func docutils literal notranslate"><span class="pre">max()</span></code></a>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Chunksize per dimension</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">chunks</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">... </span><span class="s1">&#39;blu&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">},</span>
+<span class="gp">... </span><span class="s1">&#39;grn&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">},</span>
+<span class="gp">... </span><span class="s1">&#39;red&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">},</span>
+<span class="gp">... </span><span class="s1">&#39;ordinal&#39;</span><span class="p">:</span> <span class="kc">None</span>
+<span class="go">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">best_chunksizes</span><span class="p">(</span><span class="n">chunks</span><span class="p">)</span>
+<span class="go">{&#39;x&#39;: 5, &#39;y&#39;: 5}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.io.chunk.chunks_to_chunksizes">
+<code class="descclassname">stems.io.chunk.</code><code class="descname">chunks_to_chunksizes</code><span class="sig-paren">(</span><em>data</em>, <em>dims=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/chunk.html#chunks_to_chunksizes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.chunk.chunks_to_chunksizes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert an object to chunksizes (i.e., used in encoding)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.1)"><em>xarray.DataArray</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a><em>, or </em><a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v0.12.1)"><em>xarray.Dataset</em></a>) – Input data containing chunk information</p></li>
+<li><p><strong>dims</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>]</em><em>, </em><em>optional</em>) – Optionally, provide the order in which dimension chunksizes
+should be returned. Useful when asking for chunksizes from
+not-necessarily-ordered data (dicts and Datasets)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Chunk sizes for each dimension. Returns an empty tuple if there
+are no chunks.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.io.chunk.get_chunksizes">
+<code class="descclassname">stems.io.chunk.</code><code class="descname">get_chunksizes</code><span class="sig-paren">(</span><em>xarr</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/chunk.html#get_chunksizes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.chunk.get_chunksizes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the chunk sizes used for each dimension in <cite>xarr</cite></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>xarr</strong> (<em>xr.DataArray</em><em> or </em><em>xr.Dataset</em>) – Chunked data</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dimensions (keys) and chunk sizes (values)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.6/library/exceptions.html#TypeError" title="(in Python v3.6)"><strong>TypeError</strong></a> – Raised if input is not a Dataset or DataArray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.io.chunk.read_chunks">
+<code class="descclassname">stems.io.chunk.</code><code class="descname">read_chunks</code><span class="sig-paren">(</span><em>filename</em>, <em>variables=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/chunk.html#read_chunks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.chunk.read_chunks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return chunks associated with each variable if possible</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Read chunks from this file</p></li>
+<li><p><strong>variables</strong> (<em>Sequence</em>) – Subset of variables to retrieve <code class="docutils literal notranslate"><span class="pre">chunking</span></code> for</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Mapping of variable names to chunks. Chunks are stored
+mapping dimension name to chunksize (e.g., <code class="docutils literal notranslate"><span class="pre">{'x':</span> <span class="pre">250}</span></code>)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Mapping[<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)">str</a>, Mapping[<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)">str</a>, <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a>]]</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.6/library/exceptions.html#ValueError" title="(in Python v3.6)"><strong>ValueError</strong></a> – Raised if no chunks can be determined (unknown file format, etc.)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.io.chunk.read_chunks_netcdf4">
+<code class="descclassname">stems.io.chunk.</code><code class="descname">read_chunks_netcdf4</code><span class="sig-paren">(</span><em>filename</em>, <em>variables=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/chunk.html#read_chunks_netcdf4"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.chunk.read_chunks_netcdf4" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return chunks associated with each variable</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Filename of NetCDF file</p></li>
+<li><p><strong>variables</strong> (<em>Sequence</em>) – Subset of variables to retrieve <cite>chunking</cite> for</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Mapping of variable names to chunks. Chunks are stored
+mapping dimension name to chunksize (e.g., <code class="docutils literal notranslate"><span class="pre">{'x':</span> <span class="pre">250}</span></code>)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Mapping[<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)">str</a>, Mapping[<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)">str</a>, <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a>]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.io.chunk.read_chunks_rasterio">
+<code class="descclassname">stems.io.chunk.</code><code class="descname">read_chunks_rasterio</code><span class="sig-paren">(</span><em>riods</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/chunk.html#read_chunks_rasterio"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.chunk.read_chunks_rasterio" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns chunks for rasterio dataset formatted for xarray</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>riods</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/pathlib.html#pathlib.Path" title="(in Python v3.6)"><em>pathlib.Path</em></a><em>, or </em><em>rasterio.DatasetReader</em>) – Rasterio dataset or path to dataset</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Chunks as expected by xarray (e.g., <code class="docutils literal notranslate"><span class="pre">{'x':</span> <span class="pre">50,</span> <span class="pre">'y':</span> <span class="pre">50}</span></code>)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

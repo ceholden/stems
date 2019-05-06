@@ -1,0 +1,7 @@
+stems.gis.conventions module
+============================
+
+.. automodule:: stems.gis.conventions
+    :members:
+    :undoc-members:
+    :show-inheritance:

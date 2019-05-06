@@ -1,0 +1,7 @@
+stems.gis.geohash module
+========================
+
+.. automodule:: stems.gis.geohash
+    :members:
+    :undoc-members:
+    :show-inheritance:
