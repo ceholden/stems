@@ -48,7 +48,7 @@ PACKAGE_DATA = {
 PYTHON_REQUIRES = '>=3.6'
 INSTALL_REQUIRES = [
     'dask', 'distributed', 'numpy', 'pandas', 'toolz', 'xarray',
-    'affine', 'cartopy', 'fiona', 'gdal', 'rasterio>=1.0.14', 'shapely',
+    'affine', 'fiona', 'gdal', 'rasterio>=1.0.14', 'shapely',
     'pyyaml',
 ]
 INSTALL_REQUIRES.extend(['click>=6.0', 'click-plugins', 'cligj>=0.5'])
