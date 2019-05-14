@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.io.vrt &mdash; stems 0.0.1-20190506+1.g55cedad documentation</title>
+  <title>stems.io.vrt &mdash; stems 0.0.1-20190506+2.ge594cd2 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190506+1.g55cedad
+                0.0.1-20190506+2.ge594cd2
               </div>
             
           
@@ -310,7 +310,8 @@
 
         <span class="k">return</span> <span class="n">vrt</span></div>
 
-<div class="viewcode-block" id="VRTDataset.add_band"><a class="viewcode-back" href="../../../stems/stems.io.vrt.html#stems.io.VRTDataset.add_band">[docs]</a>    <span class="k">def</span> <span class="nf">add_band</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">src_bidx</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">vrt_bidx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">band_kwds</span><span class="p">):</span>
+<div class="viewcode-block" id="VRTDataset.add_band"><a class="viewcode-back" href="../../../stems/stems.io.vrt.html#stems.io.VRTDataset.add_band">[docs]</a>    <span class="k">def</span> <span class="nf">add_band</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">src_bidx</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">vrt_bidx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">validate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                 <span class="o">**</span><span class="n">band_kwds</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Add a band to VRT dataset</span>
 
 <span class="sd">        Parameters</span>
@@ -322,6 +323,8 @@
 <span class="sd">        vrt_bidx : int or None</span>
 <span class="sd">            Destination band in VRT for new band. Only used if</span>
 <span class="sd">            ``self.separate`` is True</span>
+<span class="sd">        validate : bool, optional</span>
+<span class="sd">            Validate band forms to expected attributes before adding</span>
 <span class="sd">        band_kwds : dict</span>
 <span class="sd">            Additional keyword arguments passed onto :py:class:`VRTSourceBand`</span>
 
@@ -350,7 +353,7 @@
         <span class="n">vrtband</span> <span class="o">=</span> <span class="n">VRTSourceBand</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">src_bidx</span><span class="p">,</span> <span class="o">**</span><span class="n">band_kwds</span><span class="p">)</span>
 
         <span class="c1"># Validate if not 1st band</span>
-        <span class="k">if</span> <span class="n">n_band</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">n_band</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">validate</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_validate</span><span class="p">(</span><span class="n">vrtband</span><span class="p">)</span>
 
         <span class="c1"># Append</span>
@@ -390,6 +393,13 @@
             <span class="k">return</span> <span class="n">path</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">xmlstr</span></div>
+
+<div class="viewcode-block" id="VRTDataset.close"><a class="viewcode-back" href="../../../stems/stems.io.vrt.html#stems.io.VRTDataset.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Close any opened VRTSourceBand(s)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">bidx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bands</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bands</span><span class="p">[</span><span class="n">bidx</span><span class="p">]:</span>
+                <span class="n">band</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
     <span class="k">def</span> <span class="nf">_bands_to_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># () -&gt; [(vrt_bidx, VRTSourceBand), ...]</span>

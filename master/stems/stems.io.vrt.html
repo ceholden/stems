@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.io.vrt module &mdash; stems 0.0.1-20190506+1.g55cedad documentation</title>
+  <title>stems.io.vrt module &mdash; stems 0.0.1-20190506+2.ge594cd2 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190506+1.g55cedad
+                0.0.1-20190506+2.ge594cd2
               </div>
             
           
@@ -180,7 +180,7 @@
 </dl>
 <dl class="method">
 <dt id="stems.io.vrt.VRTDataset.add_band">
-<code class="descname">add_band</code><span class="sig-paren">(</span><em>self</em>, <em>path</em>, <em>src_bidx=1</em>, <em>vrt_bidx=None</em>, <em>**band_kwds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/vrt.html#VRTDataset.add_band"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.vrt.VRTDataset.add_band" title="Permalink to this definition">¶</a></dt>
+<code class="descname">add_band</code><span class="sig-paren">(</span><em>self</em>, <em>path</em>, <em>src_bidx=1</em>, <em>vrt_bidx=None</em>, <em>validate=True</em>, <em>**band_kwds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/vrt.html#VRTDataset.add_band"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.vrt.VRTDataset.add_band" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add a band to VRT dataset</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -189,6 +189,7 @@
 <li><p><strong>src_bidx</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – Band indices of <cite>datasets</cite> to include. Defaults to <code class="docutils literal notranslate"><span class="pre">1</span></code></p></li>
 <li><p><strong>vrt_bidx</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)"><em>None</em></a>) – Destination band in VRT for new band. Only used if
 <code class="docutils literal notranslate"><span class="pre">self.separate</span></code> is True</p></li>
+<li><p><strong>validate</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Validate band forms to expected attributes before adding</p></li>
 <li><p><strong>band_kwds</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – Additional keyword arguments passed onto <a class="reference internal" href="#stems.io.vrt.VRTSourceBand" title="stems.io.vrt.VRTSourceBand"><code class="xref py py-class docutils literal notranslate"><span class="pre">VRTSourceBand</span></code></a></p></li>
 </ul>
 </dd>
@@ -224,6 +225,12 @@
 <dd class="field-odd"><p>BoundingBox</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="stems.io.vrt.VRTDataset.close">
+<code class="descname">close</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/vrt.html#VRTDataset.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.vrt.VRTDataset.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close any opened VRTSourceBand(s)</p>
 </dd></dl>
 
 <dl class="attribute">
