@@ -146,7 +146,8 @@ class VRTDataset(object):
 
         return vrt
 
-    def add_band(self, path, src_bidx=1, vrt_bidx=None, **band_kwds):
+    def add_band(self, path, src_bidx=1, vrt_bidx=None, validate=True,
+                 **band_kwds):
         """ Add a band to VRT dataset
 
         Parameters
@@ -158,6 +159,8 @@ class VRTDataset(object):
         vrt_bidx : int or None
             Destination band in VRT for new band. Only used if
             ``self.separate`` is True
+        validate : bool, optional
+            Validate band forms to expected attributes before adding
         band_kwds : dict
             Additional keyword arguments passed onto :py:class:`VRTSourceBand`
 
@@ -186,7 +189,7 @@ class VRTDataset(object):
         vrtband = VRTSourceBand(path, src_bidx, **band_kwds)
 
         # Validate if not 1st band
-        if n_band > 0:
+        if n_band > 0 and validate:
             self._validate(vrtband)
 
         # Append
@@ -226,6 +229,13 @@ class VRTDataset(object):
             return path
         else:
             return xmlstr
+
+    def close(self):
+        """ Close any opened VRTSourceBand(s)
+        """
+        for bidx in self.bands:
+            for band in self.bands[bidx]:
+                band.close()
 
     def _bands_to_list(self):
         # () -> [(vrt_bidx, VRTSourceBand), ...]
