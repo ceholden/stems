@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.io.encoding &mdash; stems 0.0.1-20190506+2.ge594cd2 documentation</title>
+  <title>stems.io.encoding &mdash; stems 0.0.1-20190506+3.g3382987 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190506+2.ge594cd2
+                0.0.1-20190506+3.g3382987
               </div>
             
           
@@ -395,6 +395,8 @@
         <span class="k">if</span> <span class="n">csize</span> <span class="o">&gt;</span> <span class="n">size</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Chunk size for dim </span><span class="si">{dim}</span><span class="s1"> is larger than dim &#39;</span>
                            <span class="n">f</span><span class="s1">&#39;size (</span><span class="si">{size}</span><span class="s1">). Resetting (</span><span class="si">{csize}</span><span class="s1">-&gt;</span><span class="si">{size}</span><span class="s1">)&#39;</span><span class="p">)</span>
+            <span class="n">chunksizes_</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">csize</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>  <span class="c1"># shortcut for length, but doesn&#39;t work in encoding</span>
             <span class="n">chunksizes_</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">chunksizes_</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">csize</span><span class="p">)</span>

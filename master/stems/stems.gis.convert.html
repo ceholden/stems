@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.convert module &mdash; stems 0.0.1-20190506+2.ge594cd2 documentation</title>
+  <title>stems.gis.convert module &mdash; stems 0.0.1-20190506+3.g3382987 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190506+2.ge594cd2
+                0.0.1-20190506+3.g3382987
               </div>
             
           
@@ -174,7 +174,7 @@ representations:</p>
 <ul class="simple">
 <li><dl class="simple">
 <dt>Coordinate Reference System</dt><dd><ul>
-<li><p><a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">rasterio.crs.CRS</span></code></a></p></li>
+<li><p><a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.23)"><code class="xref py py-class docutils literal notranslate"><span class="pre">rasterio.crs.CRS</span></code></a></p></li>
 </ul>
 </dd>
 </dl>
@@ -188,7 +188,7 @@ representations:</p>
 </li>
 <li><dl class="simple">
 <dt>Bounding Box</dt><dd><ul>
-<li><p><a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.coords.html#rasterio.coords.BoundingBox" title="(in rasterio v1.0.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">rasterio.coords.BoundingBox</span></code></a></p></li>
+<li><p><a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.coords.html#rasterio.coords.BoundingBox" title="(in rasterio v1.0.23)"><code class="xref py py-class docutils literal notranslate"><span class="pre">rasterio.coords.BoundingBox</span></code></a></p></li>
 </ul>
 </dd>
 </dl>
@@ -222,7 +222,7 @@ we can use to calculate one from</p>
 <dl class="function">
 <dt id="stems.gis.convert.to_bounds">
 <code class="descclassname">stems.gis.convert.</code><code class="descname">to_bounds</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/convert.html#to_bounds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.convert.to_bounds" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert input to a <a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.coords.html#rasterio.coords.BoundingBox" title="(in rasterio v1.0.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">rasterio.coords.BoundingBox</span></code></a></p>
+<dd><p>Convert input to a <a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.coords.html#rasterio.coords.BoundingBox" title="(in rasterio v1.0.23)"><code class="xref py py-class docutils literal notranslate"><span class="pre">rasterio.coords.BoundingBox</span></code></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>value</strong> (<em>iterable</em><em>, or </em><a class="reference external" href="https://shapely.readthedocs.io/en/latest/manual.html#Polygon" title="(in Shapely v1.7a1)"><em>Polygon</em></a>) – Input containing some geographic information</p>
@@ -240,7 +240,7 @@ we can use to calculate one from</p>
 <dl class="function">
 <dt id="stems.gis.convert.to_crs">
 <code class="descclassname">stems.gis.convert.</code><code class="descname">to_crs</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/convert.html#to_crs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.convert.to_crs" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert a CRS representation to a <a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">rasterio.crs.CRS</span></code></a></p>
+<dd><p>Convert a CRS representation to a <a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.23)"><code class="xref py py-class docutils literal notranslate"><span class="pre">rasterio.crs.CRS</span></code></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a><em>, or </em><em>osr.SpatialReference</em>) – Coordinate reference system as WKT, Proj.4 string, EPSG code,
@@ -250,7 +250,7 @@ rasterio-compatible proj4 attributes in a dict, or OSR definition</p>
 <dd class="field-even"><p>CRS</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.22)">rasterio.crs.CRS</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.23)">rasterio.crs.CRS</a></p>
 </dd>
 </dl>
 </dd></dl>

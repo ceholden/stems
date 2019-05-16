@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.conventions module &mdash; stems 0.0.1-20190506+2.ge594cd2 documentation</title>
+  <title>stems.gis.conventions module &mdash; stems 0.0.1-20190506+3.g3382987 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190506+2.ge594cd2
+                0.0.1-20190506+3.g3382987
               </div>
             
           
@@ -179,7 +179,7 @@ coordinating naming, grid mapping variables, etc)</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>y</strong> (<em>np.ndarray</em>) – Y coordinate</p></li>
 <li><p><strong>x</strong> (<em>np.ndarray</em>) – X coordinate</p></li>
-<li><p><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.22)"><em>rasterio.crs.CRS</em></a>) – Coordinate reference system of <code class="docutils literal notranslate"><span class="pre">y</span></code> and <code class="docutils literal notranslate"><span class="pre">x</span></code></p></li>
+<li><p><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.23)"><em>rasterio.crs.CRS</em></a>) – Coordinate reference system of <code class="docutils literal notranslate"><span class="pre">y</span></code> and <code class="docutils literal notranslate"><span class="pre">x</span></code></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -205,7 +205,7 @@ coordinating naming, grid mapping variables, etc)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.22)"><em>rasterio.crs.CRS</em></a>) – Coordinate reference system information</p></li>
+<li><p><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.23)"><em>rasterio.crs.CRS</em></a>) – Coordinate reference system information</p></li>
 <li><p><strong>transform</strong> (<em>affine.Affine</em>) – Affine transform</p></li>
 <li><p><strong>grid_mapping</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) – Name of grid mapping variable. Defaults to ‘crs’</p></li>
 </ul>
@@ -227,7 +227,7 @@ coordinating naming, grid mapping variables, etc)</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>xarr</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.1)"><em>xarray.DataArray</em></a><em> or </em><a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v0.12.1)"><em>xarray.Dataset</em></a>) – XArray data to georeference</p></li>
-<li><p><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.22)"><em>rasterio.crs.CRS</em></a>) – Rasterio CRS</p></li>
+<li><p><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.23)"><em>rasterio.crs.CRS</em></a>) – Rasterio CRS</p></li>
 <li><p><strong>transform</strong> (<em>affine.Affine</em><em>, </em><em>optional</em>) – Affine transform of the data. Will be calculated using
 <a class="reference internal" href="stems.gis.coords.html#stems.gis.coords.coords_to_transform" title="stems.gis.coords.coords_to_transform"><code class="xref py py-func docutils literal notranslate"><span class="pre">stems.gis.coords.coords_to_transform()</span></code></a> if not provided</p></li>
 <li><p><strong>grid_mapping</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) – Name to use for grid mapping variable</p></li>
