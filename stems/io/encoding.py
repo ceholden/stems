@@ -232,6 +232,8 @@ def guard_chunksizes(xarr, chunksizes):
             logger.warning(f'Chunk size for dim {dim} is larger than dim '
                            f'size ({size}). Resetting ({csize}->{size})')
             chunksizes_.append(size)
+        elif csize == -1:  # shortcut for length, but doesn't work in encoding
+            chunksizes_.append(size)
         else:
             chunksizes_.append(csize)
 
