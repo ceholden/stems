@@ -45,7 +45,8 @@ def netcdf_encoding(data,
     chunks : None, tuple or dict, optional
         Chunksizes used to encode NetCDF. If given as a `tuple`, chunks should
         be given for each dimension. Chunks for dimensions not specified when
-        given as a `dict` will default to 1.
+        given as a `dict` will default to 1. Passing ``False`` will not
+        use chunks.
     zlib : bool, optional
         Use compression
     complevel : int, optional
@@ -92,12 +93,13 @@ def _netcdf_encoding_dataarray(data,
     encoding[name].update(dtype_)
 
     # chunksizes: Determine and guard/fixup
-    chunks = encoding_chunksizes(data, chunks=chunks)
-    chunks = guard_chunksizes_str(data, guard_chunksizes(data, chunks))
-    assert isinstance(chunks, tuple)
-    assert all(isinstance(i, int) for i in chunks)
-    if chunks:
-        encoding[name]['chunksizes'] = tuple(chunks)
+    if chunks is not False:
+        chunks = encoding_chunksizes(data, chunks=chunks)
+        chunks = guard_chunksizes_str(data, guard_chunksizes(data, chunks))
+        assert isinstance(chunks, tuple)
+        assert all(isinstance(i, int) for i in chunks)
+        if chunks:
+            encoding[name]['chunksizes'] = tuple(chunks)
 
     # _FillValue
     if nodata is not None:
