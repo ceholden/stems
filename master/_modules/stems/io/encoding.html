@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.io.encoding &mdash; stems 0.0.1-20190506+3.g3382987 documentation</title>
+  <title>stems.io.encoding &mdash; stems 0.0.1-20190506+5.g990c1fc documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190506+3.g3382987
+                0.0.1-20190506+5.g990c1fc
               </div>
             
           
@@ -209,7 +209,8 @@
 <span class="sd">    chunks : None, tuple or dict, optional</span>
 <span class="sd">        Chunksizes used to encode NetCDF. If given as a `tuple`, chunks should</span>
 <span class="sd">        be given for each dimension. Chunks for dimensions not specified when</span>
-<span class="sd">        given as a `dict` will default to 1.</span>
+<span class="sd">        given as a `dict` will default to 1. Passing ``False`` will not</span>
+<span class="sd">        use chunks.</span>
 <span class="sd">    zlib : bool, optional</span>
 <span class="sd">        Use compression</span>
 <span class="sd">    complevel : int, optional</span>
@@ -256,12 +257,13 @@
     <span class="n">encoding</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">dtype_</span><span class="p">)</span>
 
     <span class="c1"># chunksizes: Determine and guard/fixup</span>
-    <span class="n">chunks</span> <span class="o">=</span> <span class="n">encoding_chunksizes</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">chunks</span><span class="o">=</span><span class="n">chunks</span><span class="p">)</span>
-    <span class="n">chunks</span> <span class="o">=</span> <span class="n">guard_chunksizes_str</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">guard_chunksizes</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">chunks</span><span class="p">))</span>
-    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">chunks</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">chunks</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">chunks</span><span class="p">:</span>
-        <span class="n">encoding</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;chunksizes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">chunks</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">chunks</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="n">chunks</span> <span class="o">=</span> <span class="n">encoding_chunksizes</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">chunks</span><span class="o">=</span><span class="n">chunks</span><span class="p">)</span>
+        <span class="n">chunks</span> <span class="o">=</span> <span class="n">guard_chunksizes_str</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">guard_chunksizes</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">chunks</span><span class="p">))</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">chunks</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">chunks</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">chunks</span><span class="p">:</span>
+            <span class="n">encoding</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;chunksizes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">chunks</span><span class="p">)</span>
 
     <span class="c1"># _FillValue</span>
     <span class="k">if</span> <span class="n">nodata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
