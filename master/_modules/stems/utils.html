@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.utils &mdash; stems 0.0.1-20190506+5.g990c1fc documentation</title>
+  <title>stems.utils &mdash; stems 0.0.1-20190506+7.g9951f96 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190506+5.g990c1fc
+                0.0.1-20190506+7.g9951f96
               </div>
             
           
@@ -552,8 +552,7 @@
 
 
 <div class="viewcode-block" id="renamed_upon_completion"><a class="viewcode-back" href="../../stems/stems.utils.html#stems.utils.renamed_upon_completion">[docs]</a><span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
-<span class="k">def</span> <span class="nf">renamed_upon_completion</span><span class="p">(</span><span class="n">destination</span><span class="p">,</span> <span class="n">tmpdir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                            <span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;.tmp&#39;</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">renamed_upon_completion</span><span class="p">(</span><span class="n">destination</span><span class="p">,</span> <span class="n">tmpdir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Help save/write to file and move upon completion</span>
 
 <span class="sd">    Parameters</span>
@@ -567,7 +566,8 @@
 <span class="sd">    prefix : str, optional</span>
 <span class="sd">        Characters to prefix the temporary file with</span>
 <span class="sd">    suffix : str, optional</span>
-<span class="sd">        Characters to add at the end of the temporary filename</span>
+<span class="sd">        Characters to add at the end of the temporary filename. By default</span>
+<span class="sd">        appends &quot;.tmp.&quot; and the process ID</span>
 
 <span class="sd">    Yields</span>
 <span class="sd">    ------</span>
@@ -582,6 +582,9 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="n">tmpdir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">)</span>
         <span class="k">assert</span> <span class="n">tmpdir</span><span class="o">.</span><span class="n">is_dir</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">suffix</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">suffix</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;.tmp.{os.getpid()}&#39;</span>
 
     <span class="n">tmpfile</span> <span class="o">=</span> <span class="n">tmpdir</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{prefix}{destination.name}{suffix}</span><span class="s1">&#39;</span><span class="p">)</span>
 

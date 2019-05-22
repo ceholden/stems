@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.cli.options &mdash; stems 0.0.1-20190506+5.g990c1fc documentation</title>
+  <title>stems.cli.options &mdash; stems 0.0.1-20190506+7.g9951f96 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190506+5.g990c1fc
+                0.0.1-20190506+7.g9951f96
               </div>
             
           
@@ -253,6 +253,9 @@
                                 <span class="n">threads_per_worker</span><span class="o">=</span><span class="n">nthreads</span> <span class="ow">or</span> <span class="mi">1</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">client</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">client</span><span class="p">:</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">call_on_close</span><span class="p">(</span><span class="n">close_scheduler</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">client</span></div>
 

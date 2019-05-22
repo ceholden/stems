@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.utils module &mdash; stems 0.0.1-20190506+5.g990c1fc documentation</title>
+  <title>stems.utils module &mdash; stems 0.0.1-20190506+7.g9951f96 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190506+5.g990c1fc
+                0.0.1-20190506+7.g9951f96
               </div>
             
           
@@ -379,7 +379,7 @@ other sequences like str or Mapping.</p>
 
 <dl class="function">
 <dt id="stems.utils.renamed_upon_completion">
-<code class="descclassname">stems.utils.</code><code class="descname">renamed_upon_completion</code><span class="sig-paren">(</span><em>destination</em>, <em>tmpdir=None</em>, <em>prefix=''</em>, <em>suffix='.tmp'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/utils.html#renamed_upon_completion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.utils.renamed_upon_completion" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">stems.utils.</code><code class="descname">renamed_upon_completion</code><span class="sig-paren">(</span><em>destination</em>, <em>tmpdir=None</em>, <em>prefix=''</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/utils.html#renamed_upon_completion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.utils.renamed_upon_completion" title="Permalink to this definition">¶</a></dt>
 <dd><p>Help save/write to file and move upon completion</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -389,7 +389,8 @@ other sequences like str or Mapping.</p>
 in the same directory as <code class="docutils literal notranslate"><span class="pre">destination</span></code>, but you may specify
 another location using <code class="docutils literal notranslate"><span class="pre">tmpdir</span></code>.</p></li>
 <li><p><strong>prefix</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) – Characters to prefix the temporary file with</p></li>
-<li><p><strong>suffix</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) – Characters to add at the end of the temporary filename</p></li>
+<li><p><strong>suffix</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) – Characters to add at the end of the temporary filename. By default
+appends “.tmp.” and the process ID</p></li>
 </ul>
 </dd>
 <dt class="field-even">Yields</dt>
