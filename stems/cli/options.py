@@ -90,6 +90,9 @@ def cb_executor(ctx, param, value):
     else:
         client = None
 
+    if client:
+        ctx.call_on_close(close_scheduler)
+
     return client
 
 
