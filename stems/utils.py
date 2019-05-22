@@ -388,8 +388,7 @@ def relative_to(one, two):
 
 
 @contextlib.contextmanager
-def renamed_upon_completion(destination, tmpdir=None,
-                            prefix='', suffix='.tmp'):
+def renamed_upon_completion(destination, tmpdir=None, prefix='', suffix=None):
     """ Help save/write to file and move upon completion
 
     Parameters
@@ -403,7 +402,8 @@ def renamed_upon_completion(destination, tmpdir=None,
     prefix : str, optional
         Characters to prefix the temporary file with
     suffix : str, optional
-        Characters to add at the end of the temporary filename
+        Characters to add at the end of the temporary filename. By default
+        appends ".tmp." and the process ID
 
     Yields
     ------
@@ -418,6 +418,9 @@ def renamed_upon_completion(destination, tmpdir=None,
     else:
         tmpdir = Path(tmpdir)
         assert tmpdir.is_dir()
+
+    if suffix is None:
+        suffix = f'.tmp.{os.getpid()}'
 
     tmpfile = tmpdir.joinpath(f'{prefix}{destination.name}{suffix}')
 
