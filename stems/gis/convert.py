@@ -71,6 +71,11 @@ def _to_transform_iter(value, from_gdal=False):
         return Affine(*value[:6])
 
 
+@to_transform.register(str)
+def _to_transform_str(value, from_gdal=False, sep=','):
+    return _to_transform_iter([float(v) for v in value.split(sep)])
+
+
 # ============================================================================
 # CRS
 # TODO: Dispatch function for Cartopy
@@ -198,4 +203,4 @@ def _to_bbox_bounds(value):
 # ============================================================================
 # UTILITIES
 def _CANT_CONVERT(obj):
-    return TypeError("Don't know how to convert this type: {type(obj)}")
+    return TypeError(f"Don't know how to convert this type: {type(obj)}")

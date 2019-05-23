@@ -74,6 +74,12 @@ def test_to_transform_iter():
     assert convert.to_transform(geotransform, from_gdal=True) == transform
 
 
+def test_to_transform_str():
+    transform = Affine(30.0, 0.0, -2102235.0, 0.0, -30.0, 1939455.0)
+    str_ = ','.join(map(str, transform[:6]))
+    assert convert.to_transform(str_) == transform
+
+
 # ============================================================================
 # to_bounds
 def test_to_bounds_bounds():
