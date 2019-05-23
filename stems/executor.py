@@ -5,14 +5,37 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-# TODO: these defaults can come from stems.config
+def setup_backend(scheduler, nprocs=None, nthreads=None):
+    """ Setup Dask to use a particular scheduler backend
+    """
+    import dask
+    if scheduler == 'threads':
+        if nthreads:
+            from multiprocessing.pool import ThreadPool
+            pool = ThreadPool(int(nthreads))
+        else:
+            pool = None
+        logger.debug(f'Using `threads` backend (n={nthreads or "auto"})')
+        dask.config.set(scheduler='threads', pool=pool)
+    elif scheduler == 'processes':
+        if nprocs:
+            from multiprocessing import Pool
+            pool = Pool(int(nprocs))
+        else:
+            pool = None
+        logger.debug(f'Using `processes` backend (n={nprocs or "auto"})')
+        dask.config.set(scheduler='processes', pool=pool)
+    else:
+        dask.config.set(scheduler=scheduler)
+
+
 def setup_executor(address=None, n_workers=None, threads_per_worker=1, **kwds):
-    """ Setup a Dask distributed cluter
+    """ Setup a Dask distributed cluster scheduler client
 
     Parameters
     ----------
     address : str, optional
-        This can be the address of a ``Scheduler`` server like a string
+        This can be the address of a ``Scheduler`` server, like a string
         ``'127.0.0.1:8786'``. If ``None``, sets up a ``LocalCluster``
     n_workers : int, optional
         Number of workers. Only used if setting up a ``LocalCluster``

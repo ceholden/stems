@@ -77,18 +77,21 @@ def cb_executor(ctx, param, value):
     """ Callback for returning a Distributed client
     """
     # TODO: can we find if there's no subcommand, and just skip?
-    from stems.executor import setup_executor
+    from stems.executor import setup_backend, setup_executor
     nprocs = ctx.params.get('nprocs', None)
     nthreads = ctx.params.get('nthreads', None)
 
-    # Parse address
-    if value:
-        client = setup_executor(address=value)
-    elif nprocs or nthreads:
-        client = setup_executor(n_workers=nprocs,
-                                threads_per_worker=nthreads or 1)
+    # Handle requests for threads/processes
+    client = None
+    if value in ('threads', 'processes', ):
+        setup_backend(value, nprocs=nprocs, nthreads=nthreads)
     else:
-        client = None
+        # Parse address
+        if value:
+            client = setup_executor(address=value)
+        elif nprocs or nthreads:
+            client = setup_executor(n_workers=nprocs,
+                                    threads_per_worker=nthreads or 1)
 
     if client:
         ctx.call_on_close(close_scheduler)
@@ -196,5 +199,7 @@ opt_nthreads = click.option(
 opt_scheduler = click.option(
     '--scheduler', default=None, show_default=True,
     callback=cb_executor,
-    help='Scheduler address. Otherwise spins up `LocalCluster`'
+    help=('Scheduler address or backend ("threads" or "processes"). Creates a '
+          '`LocalCluster` if `nprocs` or `nthreads` are specified but no '
+          'address is given.')
 )
