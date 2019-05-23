@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.convert &mdash; stems 0.0.1-20190506+7.g9951f96 documentation</title>
+  <title>stems.gis.convert &mdash; stems 0.0.1-20190506+8.g26aadae documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190506+7.g9951f96
+                0.0.1-20190506+8.g26aadae
               </div>
             
           
@@ -235,6 +235,11 @@
         <span class="k">return</span> <span class="n">Affine</span><span class="p">(</span><span class="o">*</span><span class="n">value</span><span class="p">[:</span><span class="mi">6</span><span class="p">])</span>
 
 
+<span class="nd">@to_transform</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_to_transform_str</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">from_gdal</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">_to_transform_iter</span><span class="p">([</span><span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sep</span><span class="p">)])</span>
+
+
 <span class="c1"># ============================================================================</span>
 <span class="c1"># CRS</span>
 <span class="c1"># TODO: Dispatch function for Cartopy</span>
@@ -362,7 +367,7 @@
 <span class="c1"># ============================================================================</span>
 <span class="c1"># UTILITIES</span>
 <span class="k">def</span> <span class="nf">_CANT_CONVERT</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
-    <span class="k">return</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Don&#39;t know how to convert this type: {type(obj)}&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Don&#39;t know how to convert this type: {type(obj)}&quot;</span><span class="p">)</span>
 </pre></div>
 
            </div>

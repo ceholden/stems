@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.tests.test_gis_convert &mdash; stems 0.0.1-20190506+7.g9951f96 documentation</title>
+  <title>stems.gis.tests.test_gis_convert &mdash; stems 0.0.1-20190506+8.g26aadae documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190506+7.g9951f96
+                0.0.1-20190506+8.g26aadae
               </div>
             
           
@@ -236,6 +236,12 @@
     <span class="c1"># with &quot;from_gdal&quot;</span>
     <span class="n">geotransform</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">to_gdal</span><span class="p">()</span>
     <span class="k">assert</span> <span class="n">convert</span><span class="o">.</span><span class="n">to_transform</span><span class="p">(</span><span class="n">geotransform</span><span class="p">,</span> <span class="n">from_gdal</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">==</span> <span class="n">transform</span></div>
+
+
+<div class="viewcode-block" id="test_to_transform_str"><a class="viewcode-back" href="../../../../stems/stems.gis.tests.test_gis_convert.html#stems.gis.tests.test_gis_convert.test_to_transform_str">[docs]</a><span class="k">def</span> <span class="nf">test_to_transform_str</span><span class="p">():</span>
+    <span class="n">transform</span> <span class="o">=</span> <span class="n">Affine</span><span class="p">(</span><span class="mf">30.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">2102235.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">30.0</span><span class="p">,</span> <span class="mf">1939455.0</span><span class="p">)</span>
+    <span class="n">str_</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">transform</span><span class="p">[:</span><span class="mi">6</span><span class="p">]))</span>
+    <span class="k">assert</span> <span class="n">convert</span><span class="o">.</span><span class="n">to_transform</span><span class="p">(</span><span class="n">str_</span><span class="p">)</span> <span class="o">==</span> <span class="n">transform</span></div>
 
 
 <span class="c1"># ============================================================================</span>
