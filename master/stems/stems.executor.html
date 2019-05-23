@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.executor module &mdash; stems 0.0.1-20190506+8.g26aadae documentation</title>
+  <title>stems.executor module &mdash; stems 0.0.1-20190506+9.g666c3c7 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190506+8.g26aadae
+                0.0.1-20190506+9.g666c3c7
               </div>
             
           
@@ -191,13 +191,19 @@
 </dd></dl>
 
 <dl class="function">
+<dt id="stems.executor.setup_backend">
+<code class="descclassname">stems.executor.</code><code class="descname">setup_backend</code><span class="sig-paren">(</span><em>scheduler</em>, <em>nprocs=None</em>, <em>nthreads=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/executor.html#setup_backend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.executor.setup_backend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Setup Dask to use a particular scheduler backend</p>
+</dd></dl>
+
+<dl class="function">
 <dt id="stems.executor.setup_executor">
 <code class="descclassname">stems.executor.</code><code class="descname">setup_executor</code><span class="sig-paren">(</span><em>address=None</em>, <em>n_workers=None</em>, <em>threads_per_worker=1</em>, <em>**kwds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/executor.html#setup_executor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.executor.setup_executor" title="Permalink to this definition">¶</a></dt>
-<dd><p>Setup a Dask distributed cluter</p>
+<dd><p>Setup a Dask distributed cluster scheduler client</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>address</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) – This can be the address of a <code class="docutils literal notranslate"><span class="pre">Scheduler</span></code> server like a string
+<li><p><strong>address</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) – This can be the address of a <code class="docutils literal notranslate"><span class="pre">Scheduler</span></code> server, like a string
 <code class="docutils literal notranslate"><span class="pre">'127.0.0.1:8786'</span></code>. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, sets up a <code class="docutils literal notranslate"><span class="pre">LocalCluster</span></code></p></li>
 <li><p><strong>n_workers</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – Number of workers. Only used if setting up a <code class="docutils literal notranslate"><span class="pre">LocalCluster</span></code></p></li>
 <li><p><strong>threads_per_worker</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – Number of threads per worker</p></li>

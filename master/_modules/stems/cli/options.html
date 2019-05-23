@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.cli.options &mdash; stems 0.0.1-20190506+8.g26aadae documentation</title>
+  <title>stems.cli.options &mdash; stems 0.0.1-20190506+9.g666c3c7 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190506+8.g26aadae
+                0.0.1-20190506+9.g666c3c7
               </div>
             
           
@@ -241,18 +241,21 @@
     <span class="sd">&quot;&quot;&quot; Callback for returning a Distributed client</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># TODO: can we find if there&#39;s no subcommand, and just skip?</span>
-    <span class="kn">from</span> <span class="nn">stems.executor</span> <span class="k">import</span> <span class="n">setup_executor</span>
+    <span class="kn">from</span> <span class="nn">stems.executor</span> <span class="k">import</span> <span class="n">setup_backend</span><span class="p">,</span> <span class="n">setup_executor</span>
     <span class="n">nprocs</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;nprocs&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
     <span class="n">nthreads</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;nthreads&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
-    <span class="c1"># Parse address</span>
-    <span class="k">if</span> <span class="n">value</span><span class="p">:</span>
-        <span class="n">client</span> <span class="o">=</span> <span class="n">setup_executor</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">nprocs</span> <span class="ow">or</span> <span class="n">nthreads</span><span class="p">:</span>
-        <span class="n">client</span> <span class="o">=</span> <span class="n">setup_executor</span><span class="p">(</span><span class="n">n_workers</span><span class="o">=</span><span class="n">nprocs</span><span class="p">,</span>
-                                <span class="n">threads_per_worker</span><span class="o">=</span><span class="n">nthreads</span> <span class="ow">or</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="c1"># Handle requests for threads/processes</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">value</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;threads&#39;</span><span class="p">,</span> <span class="s1">&#39;processes&#39;</span><span class="p">,</span> <span class="p">):</span>
+        <span class="n">setup_backend</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">nprocs</span><span class="o">=</span><span class="n">nprocs</span><span class="p">,</span> <span class="n">nthreads</span><span class="o">=</span><span class="n">nthreads</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">client</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># Parse address</span>
+        <span class="k">if</span> <span class="n">value</span><span class="p">:</span>
+            <span class="n">client</span> <span class="o">=</span> <span class="n">setup_executor</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">nprocs</span> <span class="ow">or</span> <span class="n">nthreads</span><span class="p">:</span>
+            <span class="n">client</span> <span class="o">=</span> <span class="n">setup_executor</span><span class="p">(</span><span class="n">n_workers</span><span class="o">=</span><span class="n">nprocs</span><span class="p">,</span>
+                                    <span class="n">threads_per_worker</span><span class="o">=</span><span class="n">nthreads</span> <span class="ow">or</span> <span class="mi">1</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">client</span><span class="p">:</span>
         <span class="n">ctx</span><span class="o">.</span><span class="n">call_on_close</span><span class="p">(</span><span class="n">close_scheduler</span><span class="p">)</span>
@@ -360,7 +363,9 @@
 <span class="n">opt_scheduler</span> <span class="o">=</span> <span class="n">click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span>
     <span class="s1">&#39;--scheduler&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">show_default</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">callback</span><span class="o">=</span><span class="n">cb_executor</span><span class="p">,</span>
-    <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Scheduler address. Otherwise spins up `LocalCluster`&#39;</span>
+    <span class="n">help</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;Scheduler address or backend (&quot;threads&quot; or &quot;processes&quot;). Creates a &#39;</span>
+          <span class="s1">&#39;`LocalCluster` if `nprocs` or `nthreads` are specified but no &#39;</span>
+          <span class="s1">&#39;address is given.&#39;</span><span class="p">)</span>
 <span class="p">)</span>
 </pre></div>
 

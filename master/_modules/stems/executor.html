@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.executor &mdash; stems 0.0.1-20190506+8.g26aadae documentation</title>
+  <title>stems.executor &mdash; stems 0.0.1-20190506+9.g666c3c7 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190506+8.g26aadae
+                0.0.1-20190506+9.g666c3c7
               </div>
             
           
@@ -169,14 +169,37 @@
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<span class="c1"># TODO: these defaults can come from stems.config</span>
+<div class="viewcode-block" id="setup_backend"><a class="viewcode-back" href="../../stems/stems.executor.html#stems.executor.setup_backend">[docs]</a><span class="k">def</span> <span class="nf">setup_backend</span><span class="p">(</span><span class="n">scheduler</span><span class="p">,</span> <span class="n">nprocs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nthreads</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Setup Dask to use a particular scheduler backend</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">dask</span>
+    <span class="k">if</span> <span class="n">scheduler</span> <span class="o">==</span> <span class="s1">&#39;threads&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">nthreads</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">multiprocessing.pool</span> <span class="k">import</span> <span class="n">ThreadPool</span>
+            <span class="n">pool</span> <span class="o">=</span> <span class="n">ThreadPool</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">nthreads</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pool</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Using `threads` backend (n={nthreads or &quot;auto&quot;})&#39;</span><span class="p">)</span>
+        <span class="n">dask</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">scheduler</span><span class="o">=</span><span class="s1">&#39;threads&#39;</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="n">pool</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">scheduler</span> <span class="o">==</span> <span class="s1">&#39;processes&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">nprocs</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="k">import</span> <span class="n">Pool</span>
+            <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">nprocs</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pool</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Using `processes` backend (n={nprocs or &quot;auto&quot;})&#39;</span><span class="p">)</span>
+        <span class="n">dask</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">scheduler</span><span class="o">=</span><span class="s1">&#39;processes&#39;</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="n">pool</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">dask</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">scheduler</span><span class="o">=</span><span class="n">scheduler</span><span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="setup_executor"><a class="viewcode-back" href="../../stems/stems.executor.html#stems.executor.setup_executor">[docs]</a><span class="k">def</span> <span class="nf">setup_executor</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_workers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">threads_per_worker</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Setup a Dask distributed cluter</span>
+    <span class="sd">&quot;&quot;&quot; Setup a Dask distributed cluster scheduler client</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    address : str, optional</span>
-<span class="sd">        This can be the address of a ``Scheduler`` server like a string</span>
+<span class="sd">        This can be the address of a ``Scheduler`` server, like a string</span>
 <span class="sd">        ``&#39;127.0.0.1:8786&#39;``. If ``None``, sets up a ``LocalCluster``</span>
 <span class="sd">    n_workers : int, optional</span>
 <span class="sd">        Number of workers. Only used if setting up a ``LocalCluster``</span>
