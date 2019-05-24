@@ -5,6 +5,7 @@ import re
 
 import affine
 from rasterio.coords import BoundingBox
+from rasterio.crs import CRS
 from shapely.geometry import Polygon
 import pytest
 
@@ -92,6 +93,19 @@ def test_tilegrid_to_from_dict():
         g1 = getattr(grid, k)
         g2 = getattr(grid_, k)
         assert g1 == g2
+
+
+def test_tile_to_from_dict():
+    tile = grids.Tile(
+        (0, 0),
+        CRS.from_epsg(4326),
+        [-180, 80, -170, 90],
+        (0.00025, 0.00025),
+        (40000, 40000)
+    )
+    d = tile.to_dict()
+    tile_ = grids.Tile.from_dict(d)
+    assert tile == tile_
 
 
 def test_tilegrid_roi_multiple(example_kwds_GEOG):

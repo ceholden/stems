@@ -19,6 +19,7 @@ import warnings
 
 from affine import Affine
 from rasterio.coords import BoundingBox
+from rasterio.crs import CRS
 import shapely.geometry
 
 from .coords import transform_to_coords
@@ -395,6 +396,41 @@ class Tile(object):
         self.bounds = bounds
         self.res = res
         self.size = size
+
+    def __eq__(self, other):
+        for attr in ('index', 'crs', 'bounds', 'res', 'size', ):
+            if getattr(self, attr) != getattr(other, attr, object()):
+                return False
+        return True
+
+    def to_dict(self):
+        """ Return a ``dict`` representing this Tile
+
+        Returns
+        -------
+        dict
+            This Tile as a dict (CRS will be a WKT for portability)
+        """
+        return {
+            'index': self.index,
+            'crs': self.crs.wkt,
+            'bounds': self.bounds,
+            'res': self.res,
+            'size': self.size
+        }
+
+    @classmethod
+    def from_dict(cls, d):
+        """ Create a Tile from a dict
+
+        Parameters
+        ----------
+        d : dict
+            Tile info, including "index", "crs" (a WKT), "bounds", "res",
+            and "size"
+        """
+        return cls(d['index'], convert.to_crs(d['crs']),
+                   d['bounds'], d['res'], d['size'])
 
     @property
     def vertical(self):
