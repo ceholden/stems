@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.grids module &mdash; stems 0.0.1-20190506+9.g666c3c7 documentation</title>
+  <title>stems.gis.grids module &mdash; stems 0.0.1-20190506+10.g576bc11 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190506+9.g666c3c7
+                0.0.1-20190506+10.g576bc11
               </div>
             
           
@@ -266,6 +266,18 @@ grid index and pixel row/column within the tile is known.</p>
 </dl>
 </dd></dl>
 
+<dl class="classmethod">
+<dt id="stems.gis.grids.Tile.from_dict">
+<em class="property">classmethod </em><code class="descname">from_dict</code><span class="sig-paren">(</span><em>d</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/grids.html#Tile.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.grids.Tile.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a Tile from a dict</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>d</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – Tile info, including “index”, “crs” (a WKT), “bounds”, “res”,
+and “size”</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="method">
 <dt id="stems.gis.grids.Tile.geojson">
 <code class="descname">geojson</code><span class="sig-paren">(</span><em>self</em>, <em>crs='epsg:4326'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/grids.html#Tile.geojson"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.grids.Tile.geojson" title="Permalink to this definition">¶</a></dt>
@@ -309,6 +321,20 @@ geometries in Tile’s CRS</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="stems.gis.grids.Tile.to_dict">
+<code class="descname">to_dict</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/grids.html#Tile.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.grids.Tile.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a <code class="docutils literal notranslate"><span class="pre">dict</span></code> representing this Tile</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>This Tile as a dict (CRS will be a WKT for portability)</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
 </dd>
 </dl>
 </dd></dl>
