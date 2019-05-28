@@ -54,7 +54,6 @@ def setup_logger(name='stems',
         log.handlers = [handler]
     else:
         log.addHandler(handler)
-    log.addHandler(handler)
     log.setLevel(level)
 
     return log
