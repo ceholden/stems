@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.logging_ module &mdash; stems 0.0.1-20190506+12.g8bdd300 documentation</title>
+  <title>stems.logging_ module &mdash; stems 0.0.1-20190506+13.g5890157 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190506+12.g8bdd300
+                0.0.1-20190506+13.g5890157
               </div>
             
           
@@ -173,12 +173,12 @@ The ‘stems’ logger is setup for library use with a NullHandler in
 <code class="docutils literal notranslate"><span class="pre">stems/__init__.py</span></code>.</p>
 <dl class="function">
 <dt id="stems.logging_.setup_logger">
-<code class="descclassname">stems.logging_.</code><code class="descname">setup_logger</code><span class="sig-paren">(</span><em>name='stems'</em>, <em>fmt='%(asctime)s %(levelname)s %(lineno)s %(module)s.%(funcName)s %(message)s'</em>, <em>datefmt='%H:%M:%S'</em>, <em>level=20</em>, <em>handler=None</em>, <em>replace_handler=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/logging_.html#setup_logger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.logging_.setup_logger" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">stems.logging_.</code><code class="descname">setup_logger</code><span class="sig-paren">(</span><em>logger='stems'</em>, <em>fmt='%(asctime)s %(levelname)s %(lineno)s %(module)s.%(funcName)s %(message)s'</em>, <em>datefmt='%H:%M:%S'</em>, <em>level=20</em>, <em>handler=None</em>, <em>replace_handler=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/logging_.html#setup_logger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.logging_.setup_logger" title="Permalink to this definition">¶</a></dt>
 <dd><p>Setup and return a logger with formatter and handler</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) – Name of logger. Defaults to ‘stems’ package module level</p></li>
+<li><p><strong>logger</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/logging.html#logging.Logger" title="(in Python v3.6)"><em>logging.Logger</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) – Logger, or name of logger to use</p></li>
 <li><p><strong>fmt</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) – Format string for <code class="docutils literal notranslate"><span class="pre">logging.Formatter</span></code></p></li>
 <li><p><strong>datefmt</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) – Date format string for <code class="docutils literal notranslate"><span class="pre">logging.Formatter</span></code></p></li>
 <li><p><strong>level</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) – Level for logging passed to <code class="docutils literal notranslate"><span class="pre">logging.Logger.setLevel</span></code></p></li>
