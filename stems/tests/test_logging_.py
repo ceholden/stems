@@ -17,12 +17,19 @@ def test_setup_logger_1():
 
 
 def test_setup_logger_2():
+    # test initializing with existing logger
+    log = logging.getLogger('stems')
+    log_ = logging_.setup_logger(log, replace_handler=True)
+    assert log == log_
+
+
+def test_setup_logger_3():
     # Add a handler
     log_ = logging.getLogger('asdf')
     handler_ = logging.StreamHandler()
     log_.addHandler(handler_)
 
     # Should still exist
-    log = logging_.setup_logger(name='asdf', replace_handler=False)
+    log = logging_.setup_logger('asdf', replace_handler=False)
     assert handler_ in log.handlers
     assert len(log.handlers) == 2

@@ -16,7 +16,7 @@ DEFAULT_LOG_FORMAT = ' '.join(
 DEFAULT_LOG_DATE_FORMAT = '%H:%M:%S'
 
 
-def setup_logger(name='stems',
+def setup_logger(logger='stems',
                  fmt=DEFAULT_LOG_FORMAT,
                  datefmt=DEFAULT_LOG_DATE_FORMAT,
                  level=logging.INFO,
@@ -26,8 +26,8 @@ def setup_logger(name='stems',
 
     Parameters
     ----------
-    name : str, optional
-        Name of logger. Defaults to 'stems' package module level
+    logger : logging.Logger or str, optional
+        Logger, or name of logger to use
     fmt : str, optional
         Format string for ``logging.Formatter``
     datefmt : str, optional
@@ -49,11 +49,13 @@ def setup_logger(name='stems',
     handler = handler or logging.StreamHandler()
     handler.setFormatter(formatter)
 
-    log = logging.getLogger(name)
-    if replace_handler:
-        log.handlers = [handler]
-    else:
-        log.addHandler(handler)
-    log.setLevel(level)
+    if not isinstance(logger, logging.Logger):
+        logger = logging.getLogger(logger)
 
-    return log
+    if replace_handler:
+        logger.handlers = [handler]
+    else:
+        logger.addHandler(handler)
+    logger.setLevel(level)
+
+    return logger
