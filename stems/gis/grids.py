@@ -393,7 +393,7 @@ class Tile(object):
     def __init__(self, index, crs, bounds, res, size):
         self.index = index
         self.crs = crs
-        self.bounds = bounds
+        self.bounds = BoundingBox(*bounds)
         self.res = res
         self.size = size
 
@@ -429,8 +429,11 @@ class Tile(object):
             Tile info, including "index", "crs" (a WKT), "bounds", "res",
             and "size"
         """
-        return cls(d['index'], convert.to_crs(d['crs']),
-                   d['bounds'], d['res'], d['size'])
+        return cls(tuple(d['index']),
+                   convert.to_crs(d['crs']),
+                   d['bounds'],
+                   tuple(d['res']),
+                   tuple(d['size']))
 
     @property
     def vertical(self):
