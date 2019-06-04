@@ -1,0 +1,22 @@
+stems.io package
+================
+
+Submodules
+----------
+
+.. toctree::
+
+   stems.io.chunk
+   stems.io.encoding
+   stems.io.rasterio_
+   stems.io.utils
+   stems.io.vrt
+   stems.io.xarray_
+
+Module contents
+---------------
+
+.. automodule:: stems.io
+   :members:
+   :undoc-members:
+   :show-inheritance:

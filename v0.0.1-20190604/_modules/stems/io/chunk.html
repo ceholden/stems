@@ -1,0 +1,522 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>stems.io.chunk &mdash; stems 0.0.1-20190604 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> stems
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1-20190604
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq.html">Frequenty Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../gis.html">Geographic Information Systems (GIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../gis_grids.html">Tile Grid Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../parallel.html">Parallel Computing Helpers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../xarray.html">XArray Integration</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">stems</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>stems.io.chunk</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for stems.io.chunk</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; Handle chunks/chunksize related logic</span>
+
+<span class="sd">Chunks vs chunksizes::</span>
+
+<span class="sd">&quot;Chunks&quot; refers to a collection of chunk sizes organized by dimension</span>
+
+<span class="sd">    * e.g., ``{&#39;time&#39;: (3, 3, 3, 1, )}``</span>
+<span class="sd">    * For :py:class:`dask.array.Array` and :py:class:`xarray.DataArray`,</span>
+<span class="sd">      ``.chunks`` is a tuple</span>
+<span class="sd">    * :py:class:`xarray.Dataset` ``.chunks`` is a mapping</span>
+
+<span class="sd">&quot;Chunksizes&quot; refers to a scalar size (an integer) organized by dimension</span>
+
+<span class="sd">    * e.g., ``{&#39;time&#39;: 3}``</span>
+<span class="sd">    * ``chunksizes`` is used in encoding for NetCDF4 xarray backend</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">Counter</span><span class="p">,</span> <span class="n">OrderedDict</span><span class="p">,</span> <span class="n">defaultdict</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">singledispatch</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="k">import</span> <span class="n">Path</span>
+
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+
+<span class="kn">from</span> <span class="nn">..utils</span> <span class="k">import</span> <span class="n">register_multi_singledispatch</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<span class="c1"># ----------------------------------------------------------------------------</span>
+<span class="c1"># Read chunks from files</span>
+<div class="viewcode-block" id="read_chunks"><a class="viewcode-back" href="../../../stems/stems.io.chunk.html#stems.io.chunk.read_chunks">[docs]</a><span class="k">def</span> <span class="nf">read_chunks</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">variables</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return chunks associated with each variable if possible</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    filename : str</span>
+<span class="sd">        Read chunks from this file</span>
+<span class="sd">    variables : Sequence</span>
+<span class="sd">        Subset of variables to retrieve ``chunking`` for</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Mapping[str, Mapping[str, int]]</span>
+<span class="sd">        Mapping of variable names to chunks. Chunks are stored</span>
+<span class="sd">        mapping dimension name to chunksize (e.g., ``{&#39;x&#39;: 250}``)</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        Raised if no chunks can be determined (unknown file format, etc.)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">read_funcs</span> <span class="o">=</span> <span class="p">(</span><span class="n">read_chunks_netcdf4</span><span class="p">,</span> <span class="p">)</span>
+    <span class="k">for</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">read_funcs</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">var_chunks</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">variables</span><span class="o">=</span><span class="n">variables</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Could not determine chunks for &quot;</span><span class="si">{filename}</span><span class="s1">&quot; &#39;</span>
+                         <span class="n">f</span><span class="s1">&#39;using &quot;</span><span class="si">{func.__name__}</span><span class="s1">&quot;&#39;</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">var_chunks</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Could not determine chunks for &quot;</span><span class="si">{filename}</span><span class="s1">&quot;&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="read_chunks_netcdf4"><a class="viewcode-back" href="../../../stems/stems.io.chunk.html#stems.io.chunk.read_chunks_netcdf4">[docs]</a><span class="k">def</span> <span class="nf">read_chunks_netcdf4</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">variables</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return chunks associated with each variable</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    filename : str</span>
+<span class="sd">        Filename of NetCDF file</span>
+<span class="sd">    variables : Sequence</span>
+<span class="sd">        Subset of variables to retrieve `chunking` for</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Mapping[str, Mapping[str, int]]</span>
+<span class="sd">        Mapping of variable names to chunks. Chunks are stored</span>
+<span class="sd">        mapping dimension name to chunksize (e.g., ``{&#39;x&#39;: 250}``)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Keep this import inside incase user doesn&#39;t have library</span>
+    <span class="c1"># (e.g., with a minimal install of xarray)</span>
+    <span class="kn">from</span> <span class="nn">netCDF4</span> <span class="k">import</span> <span class="n">Dataset</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Opening &quot;</span><span class="si">{filename}</span><span class="s1">&quot; as a `netCDF4.Dataset` to read &#39;</span>
+                 <span class="s1">&#39;saved chunksizes&#39;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">Dataset</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">nc</span><span class="p">:</span>
+        <span class="c1"># Store info on each chunk: what vars use, and how many</span>
+        <span class="n">chunks</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="n">variables</span> <span class="o">=</span> <span class="n">variables</span> <span class="ow">or</span> <span class="n">nc</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">:</span>
+            <span class="n">var</span> <span class="o">=</span> <span class="n">nc</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+            <span class="n">dims</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">dimensions</span>
+            <span class="n">chunking</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">chunking</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">chunking</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="n">chunking</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">((</span>
+                    <span class="p">(</span><span class="n">_dim</span><span class="p">,</span> <span class="n">_chunk</span><span class="p">)</span> <span class="k">for</span> <span class="n">_dim</span><span class="p">,</span> <span class="n">_chunk</span> <span class="ow">in</span>
+                    <span class="nb">zip</span><span class="p">(</span><span class="n">dims</span><span class="p">,</span> <span class="n">chunking</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">_dim</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;string&#39;</span><span class="p">)</span>
+                <span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">chunking</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">chunks</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">chunking</span>
+
+    <span class="k">return</span> <span class="n">chunks</span></div>
+
+
+<div class="viewcode-block" id="read_chunks_rasterio"><a class="viewcode-back" href="../../../stems/stems.io.chunk.html#stems.io.chunk.read_chunks_rasterio">[docs]</a><span class="k">def</span> <span class="nf">read_chunks_rasterio</span><span class="p">(</span><span class="n">riods</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Returns chunks for rasterio dataset formatted for xarray</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    riods : str, pathlib.Path, or rasterio.DatasetReader</span>
+<span class="sd">        Rasterio dataset or path to dataset</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        Chunks as expected by xarray (e.g., ``{&#39;x&#39;: 50, &#39;y&#39;: 50}``)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">riods</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">,</span> <span class="p">)):</span>
+        <span class="c1"># Keep this import inside incase user doesn&#39;t have library</span>
+        <span class="c1"># (e.g., with a minimal install of xarray)</span>
+        <span class="kn">import</span> <span class="nn">rasterio</span>
+        <span class="c1"># Open it for ourselves</span>
+        <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">riods</span><span class="p">),</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">riods</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">read_chunks_rasterio</span><span class="p">(</span><span class="n">riods</span><span class="p">)</span>
+
+    <span class="n">chunks</span> <span class="o">=</span> <span class="n">riods</span><span class="o">.</span><span class="n">block_shapes</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">chunks</span><span class="p">))</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Block shapes inconsistent across bands. &#39;</span>
+                      <span class="s1">&#39;Using block shapes from first band&#39;</span><span class="p">)</span>
+    <span class="n">chunks</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">chunks</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="o">=</span><span class="n">chunks</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">chunks</span></div>
+
+
+<span class="c1"># ----------------------------------------------------------------------------</span>
+<span class="c1"># Chunk heuristics</span>
+<div class="viewcode-block" id="best_chunksizes"><a class="viewcode-back" href="../../../stems/stems.io.chunk.html#stems.io.chunk.best_chunksizes">[docs]</a><span class="k">def</span> <span class="nf">best_chunksizes</span><span class="p">(</span><span class="n">chunks</span><span class="p">,</span> <span class="n">tiebreaker</span><span class="o">=</span><span class="nb">max</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Decide which chunksize to use for each dimension from variables</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    chunks : Mapping[str, Mapping[str, int]]</span>
+<span class="sd">        Mapping of variable names to variable chunksizes</span>
+<span class="sd">    tiebreaker : callable, optional</span>
+<span class="sd">        Controls what chunksize should be used for a dimension in the event</span>
+<span class="sd">        of a tie. For example, if 3 variables had a chunksize of 250 and</span>
+<span class="sd">        another 3 had a chunksize of 500, the guess is determined by</span>
+<span class="sd">        ``callable([250, 500])``. By default, prefer the larger chunksize</span>
+<span class="sd">        (i.e., :py:func:`max`)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        Chunksize per dimension</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &gt;&gt;&gt; chunks = {</span>
+<span class="sd">    ... &#39;blu&#39;: {&#39;x&#39;: 5, &#39;y&#39;: 5},</span>
+<span class="sd">    ... &#39;grn&#39;: {&#39;x&#39;: 5, &#39;y&#39;: 10},</span>
+<span class="sd">    ... &#39;red&#39;: {&#39;x&#39;: 5, &#39;y&#39;: 5},</span>
+<span class="sd">    ... &#39;ordinal&#39;: None</span>
+<span class="sd">    }</span>
+<span class="sd">    &gt;&gt;&gt; best_chunksizes(chunks)</span>
+<span class="sd">    {&#39;x&#39;: 5, &#39;y&#39;: 5}</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Collect all chunksizes as {dim: [chunksizes, ...]}</span>
+    <span class="n">dim_chunks</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">var</span><span class="p">,</span> <span class="n">var_chunks</span> <span class="ow">in</span> <span class="n">chunks</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">var_chunks</span><span class="p">:</span>
+            <span class="c1"># Guard if chunks/chunksizes</span>
+            <span class="n">dims</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">var_chunks</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+            <span class="n">chunksizes</span> <span class="o">=</span> <span class="n">chunks_to_chunksizes</span><span class="p">(</span><span class="n">var_chunks</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">dim</span><span class="p">,</span> <span class="n">chunksize</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">dims</span><span class="p">,</span> <span class="n">chunksizes</span><span class="p">):</span>
+                <span class="n">dim_chunks</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chunksize</span><span class="p">)</span>
+
+    <span class="n">guess</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">dim</span><span class="p">,</span> <span class="n">chunksizes</span> <span class="ow">in</span> <span class="n">dim_chunks</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="c1"># Use most frequently used chunksize</span>
+        <span class="n">counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">chunksizes</span><span class="p">)</span>
+        <span class="n">max_n</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">counter</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="n">max_val</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">counter</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="o">==</span> <span class="n">max_n</span><span class="p">)</span>
+
+        <span class="c1"># If multiple, prefer biggest value (by default)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">max_val</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Multiple common chunksizes found. Breaking tie using&#39;</span>
+                         <span class="n">f</span><span class="s1">&#39;`</span><span class="si">{tiebreaker}</span><span class="s1">`&#39;</span><span class="p">)</span>
+            <span class="n">pick</span> <span class="o">=</span> <span class="n">tiebreaker</span><span class="p">(</span><span class="n">max_val</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pick</span> <span class="o">=</span> <span class="n">max_val</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Guessing value &quot;</span><span class="si">{pick}</span><span class="s1">&quot; for dim &quot;</span><span class="si">{dim}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
+        <span class="n">guess</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span> <span class="o">=</span> <span class="n">pick</span>
+
+    <span class="k">return</span> <span class="n">guess</span></div>
+
+
+<div class="viewcode-block" id="auto_determine_chunks"><a class="viewcode-back" href="../../../stems/stems.io.chunk.html#stems.io.chunk.auto_determine_chunks">[docs]</a><span class="k">def</span> <span class="nf">auto_determine_chunks</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Try to guess the best chunksizes for a filename</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    filename : str</span>
+<span class="sd">        File to read</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        Best guess for chunksizes to use for each dimension</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">var_chunks</span> <span class="o">=</span> <span class="n">read_chunks</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;&quot;auto&quot; chunk determination failed&#39;</span><span class="p">)</span>
+        <span class="n">chunks</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">chunks</span> <span class="o">=</span> <span class="n">best_chunksizes</span><span class="p">(</span><span class="n">var_chunks</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">chunks</span></div>
+
+
+<span class="c1"># ----------------------------------------------------------------------------</span>
+<span class="c1"># Chunk format handling</span>
+<div class="viewcode-block" id="get_chunksizes"><a class="viewcode-back" href="../../../stems/stems.io.chunk.html#stems.io.chunk.get_chunksizes">[docs]</a><span class="nd">@singledispatch</span>
+<span class="k">def</span> <span class="nf">get_chunksizes</span><span class="p">(</span><span class="n">xarr</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return the chunk sizes used for each dimension in `xarr`</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xarr : xr.DataArray or xr.Dataset</span>
+<span class="sd">        Chunked data</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        Dimensions (keys) and chunk sizes (values)</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    TypeError</span>
+<span class="sd">        Raised if input is not a Dataset or DataArray</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Input `xarr` must be an xarray Dataset or DataArray, &#39;</span>
+                    <span class="n">f</span><span class="s1">&#39;not &quot;{type(xarr)}&quot;&#39;</span><span class="p">)</span></div>
+
+
+<span class="nd">@get_chunksizes</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_get_chunksizes_dataarray</span><span class="p">(</span><span class="n">xarr</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">xarr</span><span class="o">.</span><span class="n">chunks</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{}</span>
+    <span class="k">return</span> <span class="n">OrderedDict</span><span class="p">((</span>
+        <span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">xarr</span><span class="o">.</span><span class="n">chunks</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">dim</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">xarr</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span>
+    <span class="p">))</span>
+
+
+<span class="nd">@get_chunksizes</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_get_chunksizes_dataset</span><span class="p">(</span><span class="n">xarr</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">xarr</span><span class="o">.</span><span class="n">chunks</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{}</span>
+    <span class="k">return</span> <span class="n">OrderedDict</span><span class="p">((</span>
+        <span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">chunks</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">dim</span><span class="p">,</span> <span class="n">chunks</span> <span class="ow">in</span> <span class="n">xarr</span><span class="o">.</span><span class="n">chunks</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+    <span class="p">))</span>
+
+
+<div class="viewcode-block" id="chunks_to_chunksizes"><a class="viewcode-back" href="../../../stems/stems.io.chunk.html#stems.io.chunk.chunks_to_chunksizes">[docs]</a><span class="nd">@singledispatch</span>
+<span class="k">def</span> <span class="nf">chunks_to_chunksizes</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Convert an object to chunksizes (i.e., used in encoding)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : xarray.DataArray, dict, or xarray.Dataset</span>
+<span class="sd">        Input data containing chunk information</span>
+<span class="sd">    dims : Sequence[str], optional</span>
+<span class="sd">        Optionally, provide the order in which dimension chunksizes</span>
+<span class="sd">        should be returned. Useful when asking for chunksizes from</span>
+<span class="sd">        not-necessarily-ordered data (dicts and Datasets)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tuple</span>
+<span class="sd">        Chunk sizes for each dimension. Returns an empty tuple if there</span>
+<span class="sd">        are no chunks.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Unknown type for input ``data`` &quot;{type(data)}&quot;&#39;</span><span class="p">)</span></div>
+
+
+<span class="n">_DICTS</span> <span class="o">=</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">FrozenOrderedDict</span><span class="p">)</span>
+<span class="nd">@register_multi_singledispatch</span><span class="p">(</span><span class="n">chunks_to_chunksizes</span><span class="p">,</span> <span class="n">_DICTS</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_chunks_to_chunksizes_dict</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">dims_</span> <span class="o">=</span> <span class="n">dims</span> <span class="ow">or</span> <span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">d</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">d</span><span class="p">],</span> <span class="nb">int</span><span class="p">)</span> <span class="k">else</span> <span class="n">data</span><span class="p">[</span><span class="n">d</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                 <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dims_</span><span class="p">)</span>
+
+
+<span class="nd">@chunks_to_chunksizes</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_chunks_to_chunksizes_dataset</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="o">.</span><span class="n">chunks</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">()</span>
+    <span class="k">return</span> <span class="n">_chunks_to_chunksizes_dict</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">chunks</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="n">dims</span><span class="p">)</span>
+
+
+<span class="nd">@chunks_to_chunksizes</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_chunks_to_chunksizes_dataarray</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="o">.</span><span class="n">chunks</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">()</span>
+    <span class="k">if</span> <span class="n">dims</span><span class="p">:</span>
+        <span class="n">dim_idx</span> <span class="o">=</span> <span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">dims</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dims</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">dim_idx</span> <span class="o">=</span> <span class="n">dims</span> <span class="ow">or</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">chunks</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">chunks</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">dim_idx</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

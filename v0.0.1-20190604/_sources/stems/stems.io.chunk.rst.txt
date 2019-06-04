@@ -1,0 +1,7 @@
+stems.io.chunk module
+=====================
+
+.. automodule:: stems.io.chunk
+   :members:
+   :undoc-members:
+   :show-inheritance:

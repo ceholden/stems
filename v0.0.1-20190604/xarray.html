@@ -1,0 +1,402 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>XArray Integration &mdash; stems 0.0.1-20190604 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Developer Notes" href="dev.html" />
+    <link rel="prev" title="Parallel Computing Helpers" href="parallel.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> stems
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1-20190604
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequenty Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="gis.html">Geographic Information Systems (GIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gis_grids.html">Tile Grid Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parallel.html">Parallel Computing Helpers</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">XArray Integration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#initialize-the-accessor">Initialize The Accessor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#examples">Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#attributes">Attributes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#georeferencing">Georeferencing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">stems</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>XArray Integration</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/ceholden/stems/blob/master/docs/source/xarray.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="xarray-integration">
+<span id="xarray"></span><h1>XArray Integration<a class="headerlink" href="#xarray-integration" title="Permalink to this headline">¶</a></h1>
+<p>The stems project tries to help better integrate XArray and NetCDF4 data
+with GDAL/rasterio, especially with respect to handling geospatial attributes
+and data. While you may import various functions from this module to use
+within your own code, there is also a convenient way of accessing many of these
+integrations that uses <a class="reference internal" href="#xarray">xarray</a> “accessors”.</p>
+<p>For more information on XArray accessors, please refer to their documentation on
+<a class="reference external" href="http://xarray.pydata.org/en/stable/internals.html#extending-xarray">extending xarray</a>.</p>
+<div class="section" id="initialize-the-accessor">
+<h2>Initialize The Accessor<a class="headerlink" href="#initialize-the-accessor" title="Permalink to this headline">¶</a></h2>
+<p>In order to use the <code class="docutils literal notranslate"><span class="pre">.stems</span></code> xarray accessor, you need to import the module
+from stems:</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [1]: </span><span class="kn">import</span> <span class="nn">stems.xarray_accessor</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Permalink to this headline">¶</a></h3>
+<p>In the following example, we use some functions from our test suite that
+generate example data:</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [2]: </span><span class="kn">from</span> <span class="nn">stems.tests.build_data</span> <span class="kn">import</span> <span class="n">create_test_dataset</span>
+
+<span class="gp">In [3]: </span><span class="n">test_ds</span> <span class="o">=</span> <span class="n">create_test_dataset</span><span class="p">()</span>
+
+<span class="gp">In [4]: </span><span class="n">test_ds</span>
+<span class="gh">Out[4]: </span><span class="go"></span>
+<span class="go">&lt;xarray.Dataset&gt;</span>
+<span class="go">Dimensions:  (time: 100, x: 11, y: 7)</span>
+<span class="go">Coordinates:</span>
+<span class="go">  * y        (y) float64 185.0 155.0 125.0 95.0 65.0 35.0 5.0</span>
+<span class="go">  * x        (x) float64 115.0 145.0 175.0 205.0 ... 325.0 355.0 385.0 415.0</span>
+<span class="go">  * time     (time) datetime64[ns] 2000-01-01 ... 2010-01-01</span>
+<span class="go">    crs      int32 32619</span>
+<span class="go">Data variables:</span>
+<span class="go">    blu      (y, x, time) int16 dask.array&lt;shape=(7, 11, 100), chunksize=(3, 5, 25)&gt;</span>
+<span class="go">    grn      (y, x, time) int16 dask.array&lt;shape=(7, 11, 100), chunksize=(3, 5, 25)&gt;</span>
+<span class="go">    red      (y, x, time) int16 dask.array&lt;shape=(7, 11, 100), chunksize=(3, 5, 25)&gt;</span>
+<span class="go">    nir      (y, x, time) int16 dask.array&lt;shape=(7, 11, 100), chunksize=(3, 5, 25)&gt;</span>
+</pre></div>
+</div>
+<p>We can inspect the “crs” coordinate, which are Climate Forecast (CF) formatted
+<a class="reference external" href="http://cfconventions.org/Data/cf-conventions/cf-conventions-1.7/build/apf.html">Grid Mapping</a> variables. These conventions govern how various projection and
+ellipsoid parameters should be represented. The conventions are different than
+what the Open Geospatial Consortium (OSGEO/GDAL/etc) use, but can be
+converted.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [5]: </span><span class="n">test_ds</span><span class="p">[</span><span class="s1">&#39;crs&#39;</span><span class="p">]</span>
+<span class="gh">Out[5]: </span><span class="go"></span>
+<span class="go">&lt;xarray.DataArray &#39;crs&#39; ()&gt;</span>
+<span class="go">array(32619, dtype=int32)</span>
+<span class="go">Coordinates:</span>
+<span class="go">    crs      int32 32619</span>
+<span class="go">Attributes:</span>
+<span class="go">    grid_mapping_name:                 transverse_mercator</span>
+<span class="go">    projected_coordinate_system_name:  WGS 84 / UTM zone 19N</span>
+<span class="go">    horizontal_datum_name:             WGS_1984</span>
+<span class="go">    reference_ellipsoid_name:          WGS 84</span>
+<span class="go">    prime_meridian_name:               Greenwich</span>
+<span class="go">    latitude_of_projection_origin:     0.0</span>
+<span class="go">    longitude_of_central_meridian:     -69.0</span>
+<span class="go">    scale_factor_at_central_meridian:  0.9996</span>
+<span class="go">    false_easting:                     500000.0</span>
+<span class="go">    false_northing:                    0.0</span>
+<span class="go">    semi_major_axis:                   6378137.0</span>
+<span class="go">    semi_minor_axis:                   6356752.314245179</span>
+<span class="go">    inverse_flattening:                298.257223563</span>
+<span class="go">    spatial_ref:                       PROJCS[&quot;WGS 84 / UTM zone 19N&quot;,GEOGCS[...</span>
+<span class="go">    GeoTransform:                      [100.  30.   0. 200.   0. -30.]</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">stems</span></code> XArray accessor makes accessing geospatial metadata much easier:</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [6]: </span><span class="k">print</span><span class="p">(</span><span class="s1">&#39;CRS:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">test_ds</span><span class="o">.</span><span class="n">stems</span><span class="o">.</span><span class="n">crs</span><span class="p">)</span>
+<span class="go">CRS:</span>
+<span class="go"> EPSG:32619</span>
+
+<span class="gp">In [7]: </span><span class="k">print</span><span class="p">(</span><span class="s1">&#39;Affine transform:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">test_ds</span><span class="o">.</span><span class="n">stems</span><span class="o">.</span><span class="n">transform</span><span class="p">)</span>
+<span class="go">                 Affine transform:</span>
+<span class="go"> | 30.00, 0.00, 100.00|</span>
+<span class="go">| 0.00,-30.00, 200.00|</span>
+<span class="go">| 0.00, 0.00, 1.00|</span>
+
+<span class="gp">In [8]: </span><span class="k">print</span><span class="p">(</span><span class="s1">&#39;Bounds:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">test_ds</span><span class="o">.</span><span class="n">stems</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+<span class="go">                                                                                                      Bounds:</span>
+<span class="go"> BoundingBox(left=100.0, bottom=-10.0, right=430.0, top=200.0)</span>
+
+<span class="gp">In [9]: </span><span class="k">print</span><span class="p">(</span><span class="s1">&#39;Bounding box:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">test_ds</span><span class="o">.</span><span class="n">stems</span><span class="o">.</span><span class="n">bbox</span><span class="p">)</span>
+<span class="go">                                                                                                                                                                             Bounding box:</span>
+<span class="go"> POLYGON ((430 -10, 430 200, 100 200, 100 -10, 430 -10))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="georeferencing">
+<h3>Georeferencing<a class="headerlink" href="#georeferencing" title="Permalink to this headline">¶</a></h3>
+<p>We can also assign georeferencing information for new data that we might
+create:</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="go"># Calculate (and drop the CRS to show example)</span>
+<span class="gp">In [10]: </span><span class="n">ratio</span> <span class="o">=</span> <span class="p">(</span><span class="n">test_ds</span><span class="p">[</span><span class="s1">&#39;nir&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">test_ds</span><span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;crs&#39;</span><span class="p">)</span>
+
+<span class="gp">In [11]: </span><span class="n">ratio</span><span class="o">.</span><span class="n">stems</span><span class="o">.</span><span class="n">is_georeferenced</span><span class="p">()</span>
+<span class="gh">Out[11]: </span><span class="go">False</span>
+
+<span class="gp">In [12]: </span><span class="n">ratio</span>
+<span class="go">               Out[12]: </span>
+<span class="go">&lt;xarray.DataArray (y: 7, x: 11, time: 100)&gt;</span>
+<span class="go">dask.array&lt;shape=(7, 11, 100), dtype=float64, chunksize=(3, 5, 25)&gt;</span>
+<span class="go">Coordinates:</span>
+<span class="go">  * y        (y) float64 185.0 155.0 125.0 95.0 65.0 35.0 5.0</span>
+<span class="go">  * x        (x) float64 115.0 145.0 175.0 205.0 ... 325.0 355.0 385.0 415.0</span>
+<span class="go">  * time     (time) datetime64[ns] 2000-01-01 ... 2010-01-01</span>
+</pre></div>
+</div>
+<p>Now we can use the <code class="docutils literal notranslate"><span class="pre">stems</span></code> accessor to georeference the data:</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [13]: </span><span class="n">ratio_</span> <span class="o">=</span> <span class="n">ratio</span><span class="o">.</span><span class="n">stems</span><span class="o">.</span><span class="n">georeference</span><span class="p">(</span><span class="n">test_ds</span><span class="o">.</span><span class="n">stems</span><span class="o">.</span><span class="n">crs</span><span class="p">,</span>
+<span class="gp">   ....: </span>                                  <span class="n">test_ds</span><span class="o">.</span><span class="n">stems</span><span class="o">.</span><span class="n">transform</span><span class="p">)</span>
+<span class="gp">   ....: </span>
+
+<span class="gp">In [14]: </span><span class="n">ratio_</span><span class="o">.</span><span class="n">stems</span><span class="o">.</span><span class="n">is_georeferenced</span><span class="p">()</span>
+<span class="gh">Out[14]: </span><span class="go">True</span>
+
+<span class="gp">In [15]: </span><span class="n">ratio_</span>
+<span class="go">              Out[15]: </span>
+<span class="go">&lt;xarray.DataArray (y: 7, x: 11, time: 100)&gt;</span>
+<span class="go">dask.array&lt;shape=(7, 11, 100), dtype=float64, chunksize=(3, 5, 25)&gt;</span>
+<span class="go">Coordinates:</span>
+<span class="go">  * y        (y) float64 185.0 155.0 125.0 95.0 65.0 35.0 5.0</span>
+<span class="go">  * x        (x) float64 115.0 145.0 175.0 205.0 ... 325.0 355.0 385.0 415.0</span>
+<span class="go">  * time     (time) datetime64[ns] 2000-01-01 ... 2010-01-01</span>
+<span class="go">    crs      int32 32619</span>
+<span class="go">Attributes:</span>
+<span class="go">    grid_mapping:  crs</span>
+<span class="go">    Conventions:   CF-1.7</span>
+</pre></div>
+</div>
+<p>For comparison, you could also directly use components from stems to do the
+same thing:</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [16]: </span><span class="kn">from</span> <span class="nn">stems.gis</span> <span class="kn">import</span> <span class="n">convert</span><span class="p">,</span> <span class="n">conventions</span><span class="p">,</span> <span class="n">coords</span>
+
+<span class="go"># Get the CRS/transform from source data &quot;test_ds&quot;</span>
+<span class="gp">In [17]: </span><span class="n">grid_mapping</span> <span class="o">=</span> <span class="n">conventions</span><span class="o">.</span><span class="n">get_grid_mapping</span><span class="p">(</span><span class="n">test_ds</span><span class="p">)</span>
+
+<span class="gp">In [18]: </span><span class="n">crs_</span> <span class="o">=</span> <span class="n">convert</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">grid_mapping</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;spatial_ref&#39;</span><span class="p">])</span>
+
+<span class="gp">In [19]: </span><span class="n">transform_</span> <span class="o">=</span> <span class="n">coords</span><span class="o">.</span><span class="n">coords_to_transform</span><span class="p">(</span><span class="n">ratio</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">],</span> <span class="n">ratio</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">])</span>
+
+<span class="go"># Apply</span>
+<span class="gp">In [20]: </span><span class="n">ratio_</span> <span class="o">=</span> <span class="n">conventions</span><span class="o">.</span><span class="n">georeference</span><span class="p">(</span><span class="n">ratio</span><span class="p">,</span> <span class="n">crs_</span><span class="p">,</span> <span class="n">transform_</span><span class="p">)</span>
+
+<span class="gp">In [21]: </span><span class="n">ratio_</span><span class="o">.</span><span class="n">stems</span><span class="o">.</span><span class="n">is_georeferenced</span><span class="p">()</span>
+<span class="gh">Out[21]: </span><span class="go">True</span>
+
+<span class="gp">In [22]: </span><span class="n">ratio_</span>
+<span class="go">              Out[22]: </span>
+<span class="go">&lt;xarray.DataArray (y: 7, x: 11, time: 100)&gt;</span>
+<span class="go">dask.array&lt;shape=(7, 11, 100), dtype=float64, chunksize=(3, 5, 25)&gt;</span>
+<span class="go">Coordinates:</span>
+<span class="go">  * y        (y) float64 185.0 155.0 125.0 95.0 65.0 35.0 5.0</span>
+<span class="go">  * x        (x) float64 115.0 145.0 175.0 205.0 ... 325.0 355.0 385.0 415.0</span>
+<span class="go">  * time     (time) datetime64[ns] 2000-01-01 ... 2010-01-01</span>
+<span class="go">    crs      int32 32619</span>
+<span class="go">Attributes:</span>
+<span class="go">    grid_mapping:  crs</span>
+<span class="go">    Conventions:   CF-1.7</span>
+</pre></div>
+</div>
+<p>As you can see, it’s a lot faster and more straightforward to use the accessors!</p>
+</div>
+</div>
+<div class="section" id="api">
+<h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="dev.html" class="btn btn-neutral float-right" title="Developer Notes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="parallel.html" class="btn btn-neutral float-left" title="Parallel Computing Helpers" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

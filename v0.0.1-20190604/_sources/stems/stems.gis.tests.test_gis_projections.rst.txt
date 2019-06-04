@@ -1,0 +1,7 @@
+stems.gis.tests.test\_gis\_projections module
+=============================================
+
+.. automodule:: stems.gis.tests.test_gis_projections
+   :members:
+   :undoc-members:
+   :show-inheritance:
