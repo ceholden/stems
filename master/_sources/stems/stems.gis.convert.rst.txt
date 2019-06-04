@@ -2,6 +2,6 @@ stems.gis.convert module
 ========================
 
 .. automodule:: stems.gis.convert
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

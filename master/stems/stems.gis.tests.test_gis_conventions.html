@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.tests.test_gis_conventions module &mdash; stems 0.0.1-20190506+13.g5890157 documentation</title>
+  <title>stems.gis.tests.test_gis_conventions module &mdash; stems 0.0.1-20190604 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190506+13.g5890157
+                0.0.1-20190604
               </div>
             
           
@@ -168,19 +168,34 @@
   <div class="section" id="module-stems.gis.tests.test_gis_conventions">
 <span id="stems-gis-tests-test-gis-conventions-module"></span><h1>stems.gis.tests.test_gis_conventions module<a class="headerlink" href="#module-stems.gis.tests.test_gis_conventions" title="Permalink to this headline">¶</a></h1>
 <p>Tests for <a class="reference internal" href="stems.gis.conventions.html#module-stems.gis.conventions" title="stems.gis.conventions"><code class="xref py py-mod docutils literal notranslate"><span class="pre">stems.gis.conventions</span></code></a></p>
+<dl class="data">
+<dt id="stems.gis.tests.test_gis_conventions.conus_usgs">
+<code class="sig-prename descclassname">stems.gis.tests.test_gis_conventions.</code><code class="sig-name descname">conus_usgs</code><em class="property"> = {'attrs': {'false_easting': 0.0, 'grid_mapping_name': 'albers_conic_equal_area', 'inverse_flattening': 298.257222101, 'projected_coordinate_system_name': 'NAD83 / Conus Albers', 'reference_ellipsoid_name': 'GRS 1980'}, 'crs': CRS.from_epsg(5070)}</em><a class="headerlink" href="#stems.gis.tests.test_gis_conventions.conus_usgs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="function">
 <dt id="stems.gis.tests.test_gis_conventions.test_create_coordinates_utm19n">
-<code class="descclassname">stems.gis.tests.test_gis_conventions.</code><code class="descname">test_create_coordinates_utm19n</code><span class="sig-paren">(</span><em>y</em>, <em>x</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/tests/test_gis_conventions.html#test_create_coordinates_utm19n"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.tests.test_gis_conventions.test_create_coordinates_utm19n" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.gis.tests.test_gis_conventions.</code><code class="sig-name descname">test_create_coordinates_utm19n</code><span class="sig-paren">(</span><em class="sig-param">y</em>, <em class="sig-param">x</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/tests/test_gis_conventions.html#test_create_coordinates_utm19n"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.tests.test_gis_conventions.test_create_coordinates_utm19n" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="stems.gis.tests.test_gis_conventions.test_create_grid_mapping_utm">
-<code class="descclassname">stems.gis.tests.test_gis_conventions.</code><code class="descname">test_create_grid_mapping_utm</code><span class="sig-paren">(</span><em>crs</em>, <em>attrs</em>, <em>name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/tests/test_gis_conventions.html#test_create_grid_mapping_utm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.tests.test_gis_conventions.test_create_grid_mapping_utm" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.gis.tests.test_gis_conventions.</code><code class="sig-name descname">test_create_grid_mapping_utm</code><span class="sig-paren">(</span><em class="sig-param">crs</em>, <em class="sig-param">attrs</em>, <em class="sig-param">name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/tests/test_gis_conventions.html#test_create_grid_mapping_utm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.tests.test_gis_conventions.test_create_grid_mapping_utm" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="stems.gis.tests.test_gis_conventions.test_is_georeferenced">
-<code class="descclassname">stems.gis.tests.test_gis_conventions.</code><code class="descname">test_is_georeferenced</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/tests/test_gis_conventions.html#test_is_georeferenced"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.tests.test_gis_conventions.test_is_georeferenced" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.gis.tests.test_gis_conventions.</code><code class="sig-name descname">test_is_georeferenced</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/tests/test_gis_conventions.html#test_is_georeferenced"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.tests.test_gis_conventions.test_is_georeferenced" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="stems.gis.tests.test_gis_conventions.utm19n">
+<code class="sig-prename descclassname">stems.gis.tests.test_gis_conventions.</code><code class="sig-name descname">utm19n</code><em class="property"> = {'attrs': {'false_easting': 500000, 'grid_mapping_name': 'transverse_mercator', 'inverse_flattening': 298.257223563, 'projected_coordinate_system_name': 'WGS 84 / UTM zone 19N', 'reference_ellipsoid_name': 'WGS 84'}, 'crs': CRS.from_epsg(32619)}</em><a class="headerlink" href="#stems.gis.tests.test_gis_conventions.utm19n" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="stems.gis.tests.test_gis_conventions.yx">
+<code class="sig-prename descclassname">stems.gis.tests.test_gis_conventions.</code><code class="sig-name descname">yx</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><em class="property"> = MarkDecorator(mark=Mark(name='parametrize', args=(('y', 'x'), [(array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]), array([-10, -11, -12, -13, -14, -15, -16, -17, -18, -19])), (array([50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64]), array([-10, -11, -12, -13, -14, -15, -16, -17, -18, -19]))]), kwargs={}))</em><a class="headerlink" href="#stems.gis.tests.test_gis_conventions.yx" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>

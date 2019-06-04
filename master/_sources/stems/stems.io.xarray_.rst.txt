@@ -2,6 +2,6 @@ stems.io.xarray\_ module
 ========================
 
 .. automodule:: stems.io.xarray_
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

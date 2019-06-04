@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.projections module &mdash; stems 0.0.1-20190506+13.g5890157 documentation</title>
+  <title>stems.gis.projections module &mdash; stems 0.0.1-20190604 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190506+13.g5890157
+                0.0.1-20190604
               </div>
             
           
@@ -176,8 +176,13 @@
 </ul>
 </div>
 <dl class="data">
+<dt id="stems.gis.projections.CF_CRS_NAMES">
+<code class="sig-prename descclassname">stems.gis.projections.</code><code class="sig-name descname">CF_CRS_NAMES</code><em class="property"> = (('horizontal_datum_name', 'GEOGCS|DATUM'), ('reference_ellipsoid_name', 'GEOGCS|DATUM|SPHEROID'), ('towgs84', 'GEOGCS|DATUM|TOWGS84'), ('prime_meridian_name', 'GEOGCS|PRIMEM'))</em><a class="headerlink" href="#stems.gis.projections.CF_CRS_NAMES" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
 <dt id="stems.gis.projections.CF_ELLIPSOID_DEFS">
-<code class="descclassname">stems.gis.projections.</code><code class="descname">CF_ELLIPSOID_DEFS</code><em class="property"> = (('semi_major_axis', 'GetSemiMajor'), ('semi_minor_axis', 'GetSemiMinor'), ('inverse_flattening', 'GetInvFlattening'))</em><a class="headerlink" href="#stems.gis.projections.CF_ELLIPSOID_DEFS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.gis.projections.</code><code class="sig-name descname">CF_ELLIPSOID_DEFS</code><em class="property"> = (('semi_major_axis', 'GetSemiMajor'), ('semi_minor_axis', 'GetSemiMinor'), ('inverse_flattening', 'GetInvFlattening'))</em><a class="headerlink" href="#stems.gis.projections.CF_ELLIPSOID_DEFS" title="Permalink to this definition">¶</a></dt>
 <dd><p>mapping from CF ellipsoid parameter to SpatialReference method calls</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -188,7 +193,7 @@
 
 <dl class="data">
 <dt id="stems.gis.projections.CF_PROJECTION_DEFS">
-<code class="descclassname">stems.gis.projections.</code><code class="descname">CF_PROJECTION_DEFS</code><em class="property"> = {'albers_conic_equal_area': (('latitude_of_projection_origin', 'latitude_of_center'), ('longitude_of_central_meridian', 'longitude_of_center'), ('standard_parallel', ('standard_parallel_1', 'standard_parallel_2')), ('false_easting', 'false_easting'), ('false_northing', 'false_northing')), 'lambert_azimuthal_equal_area': (('longitude_of_projection_origin', 'longitude_of_center'), ('latitude_of_projection_origin', 'latitude_of_center'), ('false_easting', 'false_easting'), ('false_northing', 'false_northing')), 'latitude_longitude': (), 'sinusoidal': (('longitude_of_central_meridian', 'central_meridian'), ('false_northing', 'false_northing'), ('false_easting', 'false_easting')), 'transverse_mercator': (('latitude_of_projection_origin', 'latitude_of_origin'), ('longitude_of_central_meridian', 'central_meridian'), ('scale_factor_at_central_meridian', 'scale_factor'), ('false_easting', 'false_easting'), ('false_northing', 'false_northing')), 'universal_transverse_mercator': ('utm_zone_number', 'utm_zone_number')}</em><a class="headerlink" href="#stems.gis.projections.CF_PROJECTION_DEFS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.gis.projections.</code><code class="sig-name descname">CF_PROJECTION_DEFS</code><em class="property"> = {'albers_conic_equal_area': (('latitude_of_projection_origin', 'latitude_of_center'), ('longitude_of_central_meridian', 'longitude_of_center'), ('standard_parallel', ('standard_parallel_1', 'standard_parallel_2')), ('false_easting', 'false_easting'), ('false_northing', 'false_northing')), 'lambert_azimuthal_equal_area': (('longitude_of_projection_origin', 'longitude_of_center'), ('latitude_of_projection_origin', 'latitude_of_center'), ('false_easting', 'false_easting'), ('false_northing', 'false_northing')), 'latitude_longitude': (), 'sinusoidal': (('longitude_of_central_meridian', 'central_meridian'), ('false_northing', 'false_northing'), ('false_easting', 'false_easting')), 'transverse_mercator': (('latitude_of_projection_origin', 'latitude_of_origin'), ('longitude_of_central_meridian', 'central_meridian'), ('scale_factor_at_central_meridian', 'scale_factor'), ('false_easting', 'false_easting'), ('false_northing', 'false_northing')), 'universal_transverse_mercator': ('utm_zone_number', 'utm_zone_number')}</em><a class="headerlink" href="#stems.gis.projections.CF_PROJECTION_DEFS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Mapping between CF &lt;-&gt; OGC WKT projection parameters for projections</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -199,7 +204,7 @@
 
 <dl class="data">
 <dt id="stems.gis.projections.CF_PROJECTION_NAMES">
-<code class="descclassname">stems.gis.projections.</code><code class="descname">CF_PROJECTION_NAMES</code><em class="property"> = {'Albers_Conic_Equal_Area': 'albers_conic_equal_area', 'Azimuthal_Equidistant': 'azimuthal_equidistant', 'Lambert_Azimuthal_Equal_Area': 'lambert_azimuthal_equal_area', 'Sinusoidal': 'sinusoidal', 'Transverse_Mercator': 'transverse_mercator'}</em><a class="headerlink" href="#stems.gis.projections.CF_PROJECTION_NAMES" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.gis.projections.</code><code class="sig-name descname">CF_PROJECTION_NAMES</code><em class="property"> = {'Albers_Conic_Equal_Area': 'albers_conic_equal_area', 'Azimuthal_Equidistant': 'azimuthal_equidistant', 'Lambert_Azimuthal_Equal_Area': 'lambert_azimuthal_equal_area', 'Sinusoidal': 'sinusoidal', 'Transverse_Mercator': 'transverse_mercator'}</em><a class="headerlink" href="#stems.gis.projections.CF_PROJECTION_NAMES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Mapping between OGC WKT &lt;-&gt; CF projection names</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -210,7 +215,7 @@
 
 <dl class="function">
 <dt id="stems.gis.projections.cf_crs_attrs">
-<code class="descclassname">stems.gis.projections.</code><code class="descname">cf_crs_attrs</code><span class="sig-paren">(</span><em>crs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/projections.html#cf_crs_attrs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.projections.cf_crs_attrs" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.gis.projections.</code><code class="sig-name descname">cf_crs_attrs</code><span class="sig-paren">(</span><em class="sig-param">crs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/projections.html#cf_crs_attrs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.projections.cf_crs_attrs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return CF-compliant CRS info to prevent “unknown” CRS/Ellipse/Geoid</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -246,7 +251,7 @@
 
 <dl class="function">
 <dt id="stems.gis.projections.cf_crs_name">
-<code class="descclassname">stems.gis.projections.</code><code class="descname">cf_crs_name</code><span class="sig-paren">(</span><em>crs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/projections.html#cf_crs_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.projections.cf_crs_name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.gis.projections.</code><code class="sig-name descname">cf_crs_name</code><span class="sig-paren">(</span><em class="sig-param">crs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/projections.html#cf_crs_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.projections.cf_crs_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return CF name of a CRS projection</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -270,7 +275,7 @@
 
 <dl class="function">
 <dt id="stems.gis.projections.cf_ellps_params">
-<code class="descclassname">stems.gis.projections.</code><code class="descname">cf_ellps_params</code><span class="sig-paren">(</span><em>crs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/projections.html#cf_ellps_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.projections.cf_ellps_params" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.gis.projections.</code><code class="sig-name descname">cf_ellps_params</code><span class="sig-paren">(</span><em class="sig-param">crs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/projections.html#cf_ellps_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.projections.cf_ellps_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return ellipsoid parameters for a CRS</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -298,7 +303,7 @@
 
 <dl class="function">
 <dt id="stems.gis.projections.cf_proj_params">
-<code class="descclassname">stems.gis.projections.</code><code class="descname">cf_proj_params</code><span class="sig-paren">(</span><em>crs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/projections.html#cf_proj_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.projections.cf_proj_params" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.gis.projections.</code><code class="sig-name descname">cf_proj_params</code><span class="sig-paren">(</span><em class="sig-param">crs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/projections.html#cf_proj_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.projections.cf_proj_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return projection parameters for a CRS</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -329,7 +334,7 @@
 
 <dl class="function">
 <dt id="stems.gis.projections.cf_xy_coord_names">
-<code class="descclassname">stems.gis.projections.</code><code class="descname">cf_xy_coord_names</code><span class="sig-paren">(</span><em>crs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/projections.html#cf_xy_coord_names"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.projections.cf_xy_coord_names" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.gis.projections.</code><code class="sig-name descname">cf_xy_coord_names</code><span class="sig-paren">(</span><em class="sig-param">crs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/projections.html#cf_xy_coord_names"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.projections.cf_xy_coord_names" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns appropriate names for coordinates given CRS</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -354,7 +359,7 @@
 
 <dl class="function">
 <dt id="stems.gis.projections.crs_longname">
-<code class="descclassname">stems.gis.projections.</code><code class="descname">crs_longname</code><span class="sig-paren">(</span><em>crs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/projections.html#crs_longname"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.projections.crs_longname" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.gis.projections.</code><code class="sig-name descname">crs_longname</code><span class="sig-paren">(</span><em class="sig-param">crs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/projections.html#crs_longname"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.projections.crs_longname" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return name of a CRS / ellipsoid pair</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -378,7 +383,7 @@
 
 <dl class="function">
 <dt id="stems.gis.projections.epsg_code">
-<code class="descclassname">stems.gis.projections.</code><code class="descname">epsg_code</code><span class="sig-paren">(</span><em>crs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/projections.html#epsg_code"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.projections.epsg_code" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.gis.projections.</code><code class="sig-name descname">epsg_code</code><span class="sig-paren">(</span><em class="sig-param">crs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/projections.html#epsg_code"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.projections.epsg_code" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return EPSG code for a CRS</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -395,6 +400,11 @@
 </dd>
 </dl>
 </dd></dl>
+
+<dl class="data">
+<dt id="stems.gis.projections.logger">
+<code class="sig-prename descclassname">stems.gis.projections.</code><code class="sig-name descname">logger</code><em class="property"> = &lt;Logger stems.gis.projections (WARNING)&gt;</em><a class="headerlink" href="#stems.gis.projections.logger" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </div>
 

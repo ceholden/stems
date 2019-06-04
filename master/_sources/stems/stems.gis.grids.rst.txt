@@ -2,6 +2,6 @@ stems.gis.grids module
 ======================
 
 .. automodule:: stems.gis.grids
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -2,6 +2,6 @@ stems.datasets.simulate module
 ==============================
 
 .. automodule:: stems.datasets.simulate
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

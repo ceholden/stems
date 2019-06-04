@@ -2,6 +2,6 @@ stems.times module
 ==================
 
 .. automodule:: stems.times
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

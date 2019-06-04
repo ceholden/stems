@@ -2,6 +2,6 @@ stems.gis.tests.test\_gis\_utils module
 =======================================
 
 .. automodule:: stems.gis.tests.test_gis_utils
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -6,7 +6,7 @@ Subpackages
 
 .. toctree::
 
-    stems.datasets.tests
+   stems.datasets.tests
 
 Submodules
 ----------
@@ -19,6 +19,6 @@ Module contents
 ---------------
 
 .. automodule:: stems.datasets
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

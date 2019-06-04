@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.logging_ module &mdash; stems 0.0.1-20190506+13.g5890157 documentation</title>
+  <title>stems.logging_ module &mdash; stems 0.0.1-20190604 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190506+13.g5890157
+                0.0.1-20190604
               </div>
             
           
@@ -171,9 +171,19 @@
 <p>Designed for applications or interactive use – not importing in library code.
 The ‘stems’ logger is setup for library use with a NullHandler in
 <code class="docutils literal notranslate"><span class="pre">stems/__init__.py</span></code>.</p>
+<dl class="data">
+<dt id="stems.logging_.DEFAULT_LOG_DATE_FORMAT">
+<code class="sig-prename descclassname">stems.logging_.</code><code class="sig-name descname">DEFAULT_LOG_DATE_FORMAT</code><em class="property"> = '%H:%M:%S'</em><a class="headerlink" href="#stems.logging_.DEFAULT_LOG_DATE_FORMAT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="stems.logging_.DEFAULT_LOG_FORMAT">
+<code class="sig-prename descclassname">stems.logging_.</code><code class="sig-name descname">DEFAULT_LOG_FORMAT</code><em class="property"> = '%(asctime)s %(levelname)s %(lineno)s %(module)s.%(funcName)s %(message)s'</em><a class="headerlink" href="#stems.logging_.DEFAULT_LOG_FORMAT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="function">
 <dt id="stems.logging_.setup_logger">
-<code class="descclassname">stems.logging_.</code><code class="descname">setup_logger</code><span class="sig-paren">(</span><em>logger='stems'</em>, <em>fmt='%(asctime)s %(levelname)s %(lineno)s %(module)s.%(funcName)s %(message)s'</em>, <em>datefmt='%H:%M:%S'</em>, <em>level=20</em>, <em>handler=None</em>, <em>replace_handler=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/logging_.html#setup_logger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.logging_.setup_logger" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.logging_.</code><code class="sig-name descname">setup_logger</code><span class="sig-paren">(</span><em class="sig-param">logger='stems'</em>, <em class="sig-param">fmt='%(asctime)s %(levelname)s %(lineno)s %(module)s.%(funcName)s %(message)s'</em>, <em class="sig-param">datefmt='%H:%M:%S'</em>, <em class="sig-param">level=20</em>, <em class="sig-param">handler=None</em>, <em class="sig-param">replace_handler=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/logging_.html#setup_logger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.logging_.setup_logger" title="Permalink to this definition">¶</a></dt>
 <dd><p>Setup and return a logger with formatter and handler</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

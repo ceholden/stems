@@ -2,6 +2,6 @@ stems.gis.tests.test\_gis\_coords module
 ========================================
 
 .. automodule:: stems.gis.tests.test_gis_coords
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.convert module &mdash; stems 0.0.1-20190506+13.g5890157 documentation</title>
+  <title>stems.gis.convert module &mdash; stems 0.0.1-20190604 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190506+13.g5890157
+                0.0.1-20190604
               </div>
             
           
@@ -201,9 +201,24 @@ representations:</p>
 </dl>
 </li>
 </ul>
+<dl class="data">
+<dt id="stems.gis.convert.GEOM_TYPE">
+<code class="sig-prename descclassname">stems.gis.convert.</code><code class="sig-name descname">GEOM_TYPE</code><em class="property"> = {&lt;class 'shapely.geometry.multipolygon.MultiPolygonAdapter'&gt;, &lt;class 'shapely.geometry.collection.GeometryCollection'&gt;, &lt;class 'shapely.geometry.multilinestring.MultiLineStringAdapter'&gt;, &lt;class 'shapely.geometry.multipolygon.MultiPolygon'&gt;, &lt;class 'shapely.geometry.base.BaseMultipartGeometry'&gt;, &lt;class 'shapely.geometry.multilinestring.MultiLineString'&gt;, &lt;class 'shapely.geometry.linestring.LineStringAdapter'&gt;, &lt;class 'shapely.geometry.polygon.PolygonAdapter'&gt;, &lt;class 'shapely.geometry.multipoint.MultiPointAdapter'&gt;, &lt;class 'shapely.geometry.point.PointAdapter'&gt;, &lt;class 'shapely.geometry.polygon.LinearRingAdapter'&gt;, &lt;class 'shapely.geometry.multipoint.MultiPoint'&gt;, &lt;class 'shapely.geometry.base.EmptyGeometry'&gt;, &lt;class 'shapely.geometry.point.Point'&gt;, &lt;class 'shapely.geometry.linestring.LineString'&gt;, &lt;class 'shapely.geometry.polygon.LinearRing'&gt;, &lt;class 'shapely.geometry.polygon.Polygon'&gt;}</em><a class="headerlink" href="#stems.gis.convert.GEOM_TYPE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="stems.gis.convert.LIST_TYPE">
+<code class="sig-prename descclassname">stems.gis.convert.</code><code class="sig-name descname">LIST_TYPE</code><em class="property"> = (&lt;class 'tuple'&gt;, &lt;class 'list'&gt;, &lt;class 'numpy.ndarray'&gt;)</em><a class="headerlink" href="#stems.gis.convert.LIST_TYPE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="stems.gis.convert.logger">
+<code class="sig-prename descclassname">stems.gis.convert.</code><code class="sig-name descname">logger</code><em class="property"> = &lt;RootLogger root (WARNING)&gt;</em><a class="headerlink" href="#stems.gis.convert.logger" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="function">
 <dt id="stems.gis.convert.to_bbox">
-<code class="descclassname">stems.gis.convert.</code><code class="descname">to_bbox</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/convert.html#to_bbox"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.convert.to_bbox" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.gis.convert.</code><code class="sig-name descname">to_bbox</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/convert.html#to_bbox"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.convert.to_bbox" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert input a bounding box <code class="xref py py-class docutils literal notranslate"><span class="pre">shapely.geometry.Polygon</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -221,7 +236,7 @@ we can use to calculate one from</p>
 
 <dl class="function">
 <dt id="stems.gis.convert.to_bounds">
-<code class="descclassname">stems.gis.convert.</code><code class="descname">to_bounds</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/convert.html#to_bounds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.convert.to_bounds" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.gis.convert.</code><code class="sig-name descname">to_bounds</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/convert.html#to_bounds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.convert.to_bounds" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert input to a <a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.coords.html#rasterio.coords.BoundingBox" title="(in rasterio v1.0.23)"><code class="xref py py-class docutils literal notranslate"><span class="pre">rasterio.coords.BoundingBox</span></code></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -239,7 +254,7 @@ we can use to calculate one from</p>
 
 <dl class="function">
 <dt id="stems.gis.convert.to_crs">
-<code class="descclassname">stems.gis.convert.</code><code class="descname">to_crs</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/convert.html#to_crs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.convert.to_crs" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.gis.convert.</code><code class="sig-name descname">to_crs</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/convert.html#to_crs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.convert.to_crs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert a CRS representation to a <a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.23)"><code class="xref py py-class docutils literal notranslate"><span class="pre">rasterio.crs.CRS</span></code></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -257,7 +272,7 @@ rasterio-compatible proj4 attributes in a dict, or OSR definition</p>
 
 <dl class="function">
 <dt id="stems.gis.convert.to_transform">
-<code class="descclassname">stems.gis.convert.</code><code class="descname">to_transform</code><span class="sig-paren">(</span><em>value</em>, <em>from_gdal=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/convert.html#to_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.convert.to_transform" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.gis.convert.</code><code class="sig-name descname">to_transform</code><span class="sig-paren">(</span><em class="sig-param">value</em>, <em class="sig-param">from_gdal=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/convert.html#to_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.convert.to_transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert input into an <code class="xref py py-class docutils literal notranslate"><span class="pre">affine.Affine</span></code> transform</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

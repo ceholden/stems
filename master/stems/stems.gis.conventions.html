@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.conventions module &mdash; stems 0.0.1-20190506+13.g5890157 documentation</title>
+  <title>stems.gis.conventions module &mdash; stems 0.0.1-20190604 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190506+13.g5890157
+                0.0.1-20190604
               </div>
             
           
@@ -170,9 +170,19 @@
 <p>CF conventions for referencing xarray/NetCDF data</p>
 <p>Includes functions useful for managing CF conventions (variable and
 coordinating naming, grid mapping variables, etc)</p>
+<dl class="data">
+<dt id="stems.gis.conventions.CF_NC_ATTRS">
+<code class="sig-prename descclassname">stems.gis.conventions.</code><code class="sig-name descname">CF_NC_ATTRS</code><em class="property"> = {'Conventions': 'CF-1.7'}</em><a class="headerlink" href="#stems.gis.conventions.CF_NC_ATTRS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="stems.gis.conventions.COORD_DEFS">
+<code class="sig-prename descclassname">stems.gis.conventions.</code><code class="sig-name descname">COORD_DEFS</code><em class="property"> = {'latitude': {'long_name': 'latitude', 'standard_name': 'latitude', 'units': 'degrees_north'}, 'longitude': {'long_name': 'longitude', 'standard_name': 'longitude', 'units': 'degrees_east'}, 'time': {'axis': 'T', 'calendar': 'standard', 'long_name': 'Time, unix time-stamp', 'standard_name': 'time'}, 'x': {'long_name': 'x coordinate of projection', 'standard_name': 'projection_x_coordinate'}, 'y': {'long_name': 'y coordinate of projection', 'standard_name': 'projection_y_coordinate'}}</em><a class="headerlink" href="#stems.gis.conventions.COORD_DEFS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="function">
 <dt id="stems.gis.conventions.create_coordinates">
-<code class="descclassname">stems.gis.conventions.</code><code class="descname">create_coordinates</code><span class="sig-paren">(</span><em>y</em>, <em>x</em>, <em>crs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/conventions.html#create_coordinates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.conventions.create_coordinates" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.gis.conventions.</code><code class="sig-name descname">create_coordinates</code><span class="sig-paren">(</span><em class="sig-param">y</em>, <em class="sig-param">x</em>, <em class="sig-param">crs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/conventions.html#create_coordinates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.conventions.create_coordinates" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return <code class="docutils literal notranslate"><span class="pre">y</span></code> and <code class="docutils literal notranslate"><span class="pre">x</span></code> as coordinates variables given the <code class="docutils literal notranslate"><span class="pre">crs</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -200,7 +210,7 @@ coordinating naming, grid mapping variables, etc)</p>
 
 <dl class="function">
 <dt id="stems.gis.conventions.create_grid_mapping">
-<code class="descclassname">stems.gis.conventions.</code><code class="descname">create_grid_mapping</code><span class="sig-paren">(</span><em>crs</em>, <em>transform</em>, <em>grid_mapping='crs'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/conventions.html#create_grid_mapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.conventions.create_grid_mapping" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.gis.conventions.</code><code class="sig-name descname">create_grid_mapping</code><span class="sig-paren">(</span><em class="sig-param">crs</em>, <em class="sig-param">transform</em>, <em class="sig-param">grid_mapping='crs'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/conventions.html#create_grid_mapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.conventions.create_grid_mapping" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return an <a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a> of CF-compliant CRS info</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -221,7 +231,7 @@ coordinating naming, grid mapping variables, etc)</p>
 
 <dl class="function">
 <dt id="stems.gis.conventions.georeference">
-<code class="descclassname">stems.gis.conventions.</code><code class="descname">georeference</code><span class="sig-paren">(</span><em>xarr</em>, <em>crs</em>, <em>transform=None</em>, <em>grid_mapping='crs'</em>, <em>inplace=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/conventions.html#georeference"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.conventions.georeference" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.gis.conventions.</code><code class="sig-name descname">georeference</code><span class="sig-paren">(</span><em class="sig-param">xarr</em>, <em class="sig-param">crs</em>, <em class="sig-param">transform=None</em>, <em class="sig-param">grid_mapping='crs'</em>, <em class="sig-param">inplace=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/conventions.html#georeference"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.conventions.georeference" title="Permalink to this definition">¶</a></dt>
 <dd><p>Georeference XArray data with the CRS and Affine transform</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -245,7 +255,7 @@ coordinating naming, grid mapping variables, etc)</p>
 
 <dl class="function">
 <dt id="stems.gis.conventions.get_grid_mapping">
-<code class="descclassname">stems.gis.conventions.</code><code class="descname">get_grid_mapping</code><span class="sig-paren">(</span><em>xarr</em>, <em>grid_mapping='crs'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/conventions.html#get_grid_mapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.conventions.get_grid_mapping" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.gis.conventions.</code><code class="sig-name descname">get_grid_mapping</code><span class="sig-paren">(</span><em class="sig-param">xarr</em>, <em class="sig-param">grid_mapping='crs'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/conventions.html#get_grid_mapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.conventions.get_grid_mapping" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return grid mapping variable</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -265,7 +275,7 @@ coordinating naming, grid mapping variables, etc)</p>
 
 <dl class="function">
 <dt id="stems.gis.conventions.is_georeferenced">
-<code class="descclassname">stems.gis.conventions.</code><code class="descname">is_georeferenced</code><span class="sig-paren">(</span><em>xarr</em>, <em>grid_mapping='crs'</em>, <em>required_gdal=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/conventions.html#is_georeferenced"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.conventions.is_georeferenced" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.gis.conventions.</code><code class="sig-name descname">is_georeferenced</code><span class="sig-paren">(</span><em class="sig-param">xarr</em>, <em class="sig-param">grid_mapping='crs'</em>, <em class="sig-param">required_gdal=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/conventions.html#is_georeferenced"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.conventions.is_georeferenced" title="Permalink to this definition">¶</a></dt>
 <dd><p>Determine if XArray data is georeferenced</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -284,6 +294,11 @@ as backup (“spatial_ref” and “GeoTransform”)</p></li>
 </dd>
 </dl>
 </dd></dl>
+
+<dl class="data">
+<dt id="stems.gis.conventions.logger">
+<code class="sig-prename descclassname">stems.gis.conventions.</code><code class="sig-name descname">logger</code><em class="property"> = &lt;Logger stems.gis.conventions (WARNING)&gt;</em><a class="headerlink" href="#stems.gis.conventions.logger" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </div>
 

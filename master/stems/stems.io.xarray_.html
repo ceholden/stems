@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.io.xarray_ module &mdash; stems 0.0.1-20190506+13.g5890157 documentation</title>
+  <title>stems.io.xarray_ module &mdash; stems 0.0.1-20190604 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190506+13.g5890157
+                0.0.1-20190604
               </div>
             
           
@@ -168,9 +168,14 @@
   <div class="section" id="module-stems.io.xarray_">
 <span id="stems-io-xarray-module"></span><h1>stems.io.xarray_ module<a class="headerlink" href="#module-stems.io.xarray_" title="Permalink to this headline">¶</a></h1>
 <p>xarray IO standards and helpers</p>
+<dl class="data">
+<dt id="stems.io.xarray_.logger">
+<code class="sig-prename descclassname">stems.io.xarray_.</code><code class="sig-name descname">logger</code><em class="property"> = &lt;Logger stems.io.xarray_ (WARNING)&gt;</em><a class="headerlink" href="#stems.io.xarray_.logger" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="function">
 <dt id="stems.io.xarray_.open_dataset">
-<code class="descclassname">stems.io.xarray_.</code><code class="descname">open_dataset</code><span class="sig-paren">(</span><em>paths</em>, <em>chunks='auto'</em>, <em>concat_dim=None</em>, <em>crs=None</em>, <em>**kwds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/xarray_.html#open_dataset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.xarray_.open_dataset" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.io.xarray_.</code><code class="sig-name descname">open_dataset</code><span class="sig-paren">(</span><em class="sig-param">paths</em>, <em class="sig-param">chunks='auto'</em>, <em class="sig-param">concat_dim=None</em>, <em class="sig-param">crs=None</em>, <em class="sig-param">**kwds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/xarray_.html#open_dataset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.xarray_.open_dataset" title="Permalink to this definition">¶</a></dt>
 <dd><p>Open an xarray dataset (somewhat) intelligently</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -210,7 +215,7 @@ If type is not <code class="docutils literal notranslate"><span class="pre">CRS<
 
 <dl class="function">
 <dt id="stems.io.xarray_.xarray_map">
-<code class="descclassname">stems.io.xarray_.</code><code class="descname">xarray_map</code><span class="sig-paren">(</span><em>y</em>, <em>x</em>, <em>count</em>, <em>dtype</em>, <em>crs=None</em>, <em>nodata=-9999</em>, <em>dim_band='band'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/xarray_.html#xarray_map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.xarray_.xarray_map" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.io.xarray_.</code><code class="sig-name descname">xarray_map</code><span class="sig-paren">(</span><em class="sig-param">y</em>, <em class="sig-param">x</em>, <em class="sig-param">count</em>, <em class="sig-param">dtype</em>, <em class="sig-param">crs=None</em>, <em class="sig-param">nodata=-9999</em>, <em class="sig-param">dim_band='band'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/xarray_.html#xarray_map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.xarray_.xarray_map" title="Permalink to this definition">¶</a></dt>
 <dd><p>A raster map with <code class="docutils literal notranslate"><span class="pre">count</span></code> bands
 :param y: Y coordinates
 :type y: array-like

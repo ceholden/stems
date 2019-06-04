@@ -2,6 +2,6 @@ stems.io.vrt module
 ===================
 
 .. automodule:: stems.io.vrt
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

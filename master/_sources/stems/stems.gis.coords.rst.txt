@@ -2,6 +2,6 @@ stems.gis.coords module
 =======================
 
 .. automodule:: stems.gis.coords
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

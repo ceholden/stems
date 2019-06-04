@@ -2,6 +2,6 @@ stems.io.rasterio\_ module
 ==========================
 
 .. automodule:: stems.io.rasterio_
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

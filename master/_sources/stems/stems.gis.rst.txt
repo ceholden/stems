@@ -6,7 +6,7 @@ Subpackages
 
 .. toctree::
 
-    stems.gis.tests
+   stems.gis.tests
 
 Submodules
 ----------
@@ -26,6 +26,6 @@ Module contents
 ---------------
 
 .. automodule:: stems.gis
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

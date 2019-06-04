@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.times module &mdash; stems 0.0.1-20190506+13.g5890157 documentation</title>
+  <title>stems.times module &mdash; stems 0.0.1-20190604 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190506+13.g5890157
+                0.0.1-20190604
               </div>
             
           
@@ -170,24 +170,24 @@
 <p>Module for handling dates and times</p>
 <dl class="function">
 <dt id="stems.times.datetime64_to_ordinal">
-<code class="descclassname">stems.times.</code><code class="descname">datetime64_to_ordinal</code><span class="sig-paren">(</span><em>x</em>, <em>name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/times.html#datetime64_to_ordinal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.times.datetime64_to_ordinal" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.times.</code><code class="sig-name descname">datetime64_to_ordinal</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/times.html#datetime64_to_ordinal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.times.datetime64_to_ordinal" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert datetime to ordinal</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="stems.times.datetime64_to_ordinal_pd">
-<code class="descclassname">stems.times.</code><code class="descname">datetime64_to_ordinal_pd</code><span class="sig-paren">(</span><em>x</em>, <em>name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/times.html#datetime64_to_ordinal_pd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.times.datetime64_to_ordinal_pd" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.times.</code><code class="sig-name descname">datetime64_to_ordinal_pd</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/times.html#datetime64_to_ordinal_pd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.times.datetime64_to_ordinal_pd" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="stems.times.datetime64_to_pydatetime">
-<code class="descclassname">stems.times.</code><code class="descname">datetime64_to_pydatetime</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/times.html#datetime64_to_pydatetime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.times.datetime64_to_pydatetime" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.times.</code><code class="sig-name descname">datetime64_to_pydatetime</code><span class="sig-paren">(</span><em class="sig-param">x</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/times.html#datetime64_to_pydatetime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.times.datetime64_to_pydatetime" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert datetime64 to Python datetime.datetime</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="stems.times.datetime64_to_strftime">
-<code class="descclassname">stems.times.</code><code class="descname">datetime64_to_strftime</code><span class="sig-paren">(</span><em>time</em>, <em>strf='%Y%m%d'</em>, <em>cast=&lt;class 'numpy.int32'&gt;</em>, <em>fill=-9999</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/times.html#datetime64_to_strftime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.times.datetime64_to_strftime" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.times.</code><code class="sig-name descname">datetime64_to_strftime</code><span class="sig-paren">(</span><em class="sig-param">time</em>, <em class="sig-param">strf='%Y%m%d'</em>, <em class="sig-param">cast=&lt;class 'numpy.int32'&gt;</em>, <em class="sig-param">fill=-9999</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/times.html#datetime64_to_strftime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.times.datetime64_to_strftime" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert time data to some string format (e.g., 20000101)
 :param time: Array of time data
 :type time: array-like
@@ -207,9 +207,14 @@
 </dl>
 </dd></dl>
 
+<dl class="data">
+<dt id="stems.times.logger">
+<code class="sig-prename descclassname">stems.times.</code><code class="sig-name descname">logger</code><em class="property"> = &lt;Logger stems.times (WARNING)&gt;</em><a class="headerlink" href="#stems.times.logger" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="function">
 <dt id="stems.times.ordinal_to_datetime64">
-<code class="descclassname">stems.times.</code><code class="descname">ordinal_to_datetime64</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/times.html#ordinal_to_datetime64"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.times.ordinal_to_datetime64" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.times.</code><code class="sig-name descname">ordinal_to_datetime64</code><span class="sig-paren">(</span><em class="sig-param">x</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/times.html#ordinal_to_datetime64"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.times.ordinal_to_datetime64" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert ordinal to datetime64, handling NaN/NaT</p>
 </dd></dl>
 

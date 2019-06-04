@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.utils module &mdash; stems 0.0.1-20190506+13.g5890157 documentation</title>
+  <title>stems.gis.utils module &mdash; stems 0.0.1-20190604 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190506+13.g5890157
+                0.0.1-20190604
               </div>
             
           
@@ -170,7 +170,7 @@
 <p>Assorted GIS utilities</p>
 <dl class="function">
 <dt id="stems.gis.utils.crs2osr">
-<code class="descclassname">stems.gis.utils.</code><code class="descname">crs2osr</code><span class="sig-paren">(</span><em>crs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/utils.html#crs2osr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.utils.crs2osr" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.gis.utils.</code><code class="sig-name descname">crs2osr</code><span class="sig-paren">(</span><em class="sig-param">crs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/utils.html#crs2osr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.utils.crs2osr" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return <cite>osgeo.osr.SpatialReference</cite> of a <cite>rasterio.crs.CRS</cite></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -187,7 +187,7 @@
 
 <dl class="function">
 <dt id="stems.gis.utils.osr_same_crs">
-<code class="descclassname">stems.gis.utils.</code><code class="descname">osr_same_crs</code><span class="sig-paren">(</span><em>*crs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/utils.html#osr_same_crs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.utils.osr_same_crs" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.gis.utils.</code><code class="sig-name descname">osr_same_crs</code><span class="sig-paren">(</span><em class="sig-param">*crs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/utils.html#osr_same_crs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.utils.osr_same_crs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Use OSR to compare for CRS equality</p>
 <p>Converts Rasterio <code class="docutils literal notranslate"><span class="pre">CRS</span></code> to <code class="docutils literal notranslate"><span class="pre">OSRSpatialReference</span></code>
 and compares using OSR because comparing CRS from
@@ -207,7 +207,7 @@ WKT with CRS from EPSG/Proj4 can be buggy.</p>
 
 <dl class="function">
 <dt id="stems.gis.utils.same_crs">
-<code class="descclassname">stems.gis.utils.</code><code class="descname">same_crs</code><span class="sig-paren">(</span><em>*crs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/utils.html#same_crs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.utils.same_crs" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.gis.utils.</code><code class="sig-name descname">same_crs</code><span class="sig-paren">(</span><em class="sig-param">*crs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/utils.html#same_crs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.utils.same_crs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check if multiple CRS are the same</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

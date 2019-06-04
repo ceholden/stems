@@ -2,6 +2,6 @@ stems.xarray\_accessor module
 =============================
 
 .. automodule:: stems.xarray_accessor
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

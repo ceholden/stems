@@ -2,6 +2,6 @@ stems.cli.options module
 ========================
 
 .. automodule:: stems.cli.options
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

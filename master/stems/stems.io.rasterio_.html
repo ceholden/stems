@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.io.rasterio_ module &mdash; stems 0.0.1-20190506+13.g5890157 documentation</title>
+  <title>stems.io.rasterio_ module &mdash; stems 0.0.1-20190604 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190506+13.g5890157
+                0.0.1-20190604
               </div>
             
           
@@ -170,19 +170,24 @@
 <p>Rasterio IO helpers</p>
 <dl class="data">
 <dt id="stems.io.rasterio_.DEFAULT_RASTERIO_DRIVER">
-<code class="descclassname">stems.io.rasterio_.</code><code class="descname">DEFAULT_RASTERIO_DRIVER</code><em class="property"> = 'GTiff'</em><a class="headerlink" href="#stems.io.rasterio_.DEFAULT_RASTERIO_DRIVER" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.io.rasterio_.</code><code class="sig-name descname">DEFAULT_RASTERIO_DRIVER</code><em class="property"> = 'GTiff'</em><a class="headerlink" href="#stems.io.rasterio_.DEFAULT_RASTERIO_DRIVER" title="Permalink to this definition">¶</a></dt>
 <dd><p>Default Rasterio driver format</p>
 </dd></dl>
 
 <dl class="data">
 <dt id="stems.io.rasterio_.RASTERIO_ATTR_WHITELIST">
-<code class="descclassname">stems.io.rasterio_.</code><code class="descname">RASTERIO_ATTR_WHITELIST</code><em class="property"> = ('nodatavals',)</em><a class="headerlink" href="#stems.io.rasterio_.RASTERIO_ATTR_WHITELIST" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.io.rasterio_.</code><code class="sig-name descname">RASTERIO_ATTR_WHITELIST</code><em class="property"> = ('nodatavals',)</em><a class="headerlink" href="#stems.io.rasterio_.RASTERIO_ATTR_WHITELIST" title="Permalink to this definition">¶</a></dt>
 <dd><p>Attributes to keep from output of <code class="docutils literal notranslate"><span class="pre">xarray.open_rasterio</span></code></p>
 </dd></dl>
 
+<dl class="data">
+<dt id="stems.io.rasterio_.logger">
+<code class="sig-prename descclassname">stems.io.rasterio_.</code><code class="sig-name descname">logger</code><em class="property"> = &lt;Logger stems.io.rasterio_ (WARNING)&gt;</em><a class="headerlink" href="#stems.io.rasterio_.logger" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="function">
 <dt id="stems.io.rasterio_.xarray_to_rasterio">
-<code class="descclassname">stems.io.rasterio_.</code><code class="descname">xarray_to_rasterio</code><span class="sig-paren">(</span><em>xarr</em>, <em>path</em>, <em>driver='GTiff'</em>, <em>crs=None</em>, <em>transform=None</em>, <em>nodata=None</em>, <em>**meta</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/rasterio_.html#xarray_to_rasterio"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.rasterio_.xarray_to_rasterio" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.io.rasterio_.</code><code class="sig-name descname">xarray_to_rasterio</code><span class="sig-paren">(</span><em class="sig-param">xarr</em>, <em class="sig-param">path</em>, <em class="sig-param">driver='GTiff'</em>, <em class="sig-param">crs=None</em>, <em class="sig-param">transform=None</em>, <em class="sig-param">nodata=None</em>, <em class="sig-param">**meta</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/rasterio_.html#xarray_to_rasterio"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.rasterio_.xarray_to_rasterio" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save a DataArray to a rasterio/GDAL dataset
 :param xarr: 2D or 3D DataArray to save. Shape is assumed to be</p>
 <blockquote>

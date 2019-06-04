@@ -2,6 +2,6 @@ stems.gis.tests.data module
 ===========================
 
 .. automodule:: stems.gis.tests.data
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

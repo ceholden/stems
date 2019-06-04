@@ -12,6 +12,6 @@ Module contents
 ---------------
 
 .. automodule:: stems.datasets.tests
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

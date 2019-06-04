@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.tests.test_gis_coords module &mdash; stems 0.0.1-20190506+13.g5890157 documentation</title>
+  <title>stems.gis.tests.test_gis_coords module &mdash; stems 0.0.1-20190604 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190506+13.g5890157
+                0.0.1-20190604
               </div>
             
           
@@ -168,49 +168,84 @@
   <div class="section" id="module-stems.gis.tests.test_gis_coords">
 <span id="stems-gis-tests-test-gis-coords-module"></span><h1>stems.gis.tests.test_gis_coords module<a class="headerlink" href="#module-stems.gis.tests.test_gis_coords" title="Permalink to this headline">¶</a></h1>
 <p>Tests for <a class="reference internal" href="stems.gis.coords.html#module-stems.gis.coords" title="stems.gis.coords"><code class="xref py py-mod docutils literal notranslate"><span class="pre">stems.gis.coords</span></code></a></p>
+<dl class="data">
+<dt id="stems.gis.tests.test_gis_coords.SHAPES">
+<code class="sig-prename descclassname">stems.gis.tests.test_gis_coords.</code><code class="sig-name descname">SHAPES</code><em class="property"> = [(500, 500), (360, 180)]</em><a class="headerlink" href="#stems.gis.tests.test_gis_coords.SHAPES" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="stems.gis.tests.test_gis_coords.SHAPE_1">
+<code class="sig-prename descclassname">stems.gis.tests.test_gis_coords.</code><code class="sig-name descname">SHAPE_1</code><em class="property"> = (500, 500)</em><a class="headerlink" href="#stems.gis.tests.test_gis_coords.SHAPE_1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="stems.gis.tests.test_gis_coords.SHAPE_2">
+<code class="sig-prename descclassname">stems.gis.tests.test_gis_coords.</code><code class="sig-name descname">SHAPE_2</code><em class="property"> = (360, 180)</em><a class="headerlink" href="#stems.gis.tests.test_gis_coords.SHAPE_2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="stems.gis.tests.test_gis_coords.TRANSFORMS">
+<code class="sig-prename descclassname">stems.gis.tests.test_gis_coords.</code><code class="sig-name descname">TRANSFORMS</code><em class="property"> = [Affine(30.0, 0.0, 365385.0,        0.0, -30.0, 2916915.0), Affine(0.5, 0.0, -180.0,        0.0, -0.5, 90.0)]</em><a class="headerlink" href="#stems.gis.tests.test_gis_coords.TRANSFORMS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="stems.gis.tests.test_gis_coords.TRANSFORM_1">
+<code class="sig-prename descclassname">stems.gis.tests.test_gis_coords.</code><code class="sig-name descname">TRANSFORM_1</code><em class="property"> = Affine(30.0, 0.0, 365385.0,        0.0, -30.0, 2916915.0)</em><a class="headerlink" href="#stems.gis.tests.test_gis_coords.TRANSFORM_1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="stems.gis.tests.test_gis_coords.TRANSFORM_2">
+<code class="sig-prename descclassname">stems.gis.tests.test_gis_coords.</code><code class="sig-name descname">TRANSFORM_2</code><em class="property"> = Affine(0.5, 0.0, -180.0,        0.0, -0.5, 90.0)</em><a class="headerlink" href="#stems.gis.tests.test_gis_coords.TRANSFORM_2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="stems.gis.tests.test_gis_coords.param_centered">
+<code class="sig-prename descclassname">stems.gis.tests.test_gis_coords.</code><code class="sig-name descname">param_centered</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><em class="property"> = MarkDecorator(mark=Mark(name='parametrize', args=('center', [True, False]), kwargs={}))</em><a class="headerlink" href="#stems.gis.tests.test_gis_coords.param_centered" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="function">
 <dt id="stems.gis.tests.test_gis_coords.test_coord_transform_integration">
-<code class="descclassname">stems.gis.tests.test_gis_coords.</code><code class="descname">test_coord_transform_integration</code><span class="sig-paren">(</span><em>transform</em>, <em>shape</em>, <em>center</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/tests/test_gis_coords.html#test_coord_transform_integration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.tests.test_gis_coords.test_coord_transform_integration" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.gis.tests.test_gis_coords.</code><code class="sig-name descname">test_coord_transform_integration</code><span class="sig-paren">(</span><em class="sig-param">transform</em>, <em class="sig-param">shape</em>, <em class="sig-param">center</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/tests/test_gis_coords.html#test_coord_transform_integration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.tests.test_gis_coords.test_coord_transform_integration" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="stems.gis.tests.test_gis_coords.test_coords_to_bounds">
-<code class="descclassname">stems.gis.tests.test_gis_coords.</code><code class="descname">test_coords_to_bounds</code><span class="sig-paren">(</span><em>dy</em>, <em>dx</em>, <em>center</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/tests/test_gis_coords.html#test_coords_to_bounds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.tests.test_gis_coords.test_coords_to_bounds" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.gis.tests.test_gis_coords.</code><code class="sig-name descname">test_coords_to_bounds</code><span class="sig-paren">(</span><em class="sig-param">dy</em>, <em class="sig-param">dx</em>, <em class="sig-param">center</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/tests/test_gis_coords.html#test_coords_to_bounds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.tests.test_gis_coords.test_coords_to_bounds" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="stems.gis.tests.test_gis_coords.test_coords_to_transform">
-<code class="descclassname">stems.gis.tests.test_gis_coords.</code><code class="descname">test_coords_to_transform</code><span class="sig-paren">(</span><em>dy</em>, <em>dx</em>, <em>ul_y</em>, <em>ul_x</em>, <em>center</em>, <em>assume_unique</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/tests/test_gis_coords.html#test_coords_to_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.tests.test_gis_coords.test_coords_to_transform" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.gis.tests.test_gis_coords.</code><code class="sig-name descname">test_coords_to_transform</code><span class="sig-paren">(</span><em class="sig-param">dy</em>, <em class="sig-param">dx</em>, <em class="sig-param">ul_y</em>, <em class="sig-param">ul_x</em>, <em class="sig-param">center</em>, <em class="sig-param">assume_unique</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/tests/test_gis_coords.html#test_coords_to_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.tests.test_gis_coords.test_coords_to_transform" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="stems.gis.tests.test_gis_coords.test_coords_to_transform_noneven">
-<code class="descclassname">stems.gis.tests.test_gis_coords.</code><code class="descname">test_coords_to_transform_noneven</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/tests/test_gis_coords.html#test_coords_to_transform_noneven"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.tests.test_gis_coords.test_coords_to_transform_noneven" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.gis.tests.test_gis_coords.</code><code class="sig-name descname">test_coords_to_transform_noneven</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/tests/test_gis_coords.html#test_coords_to_transform_noneven"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.tests.test_gis_coords.test_coords_to_transform_noneven" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="stems.gis.tests.test_gis_coords.test_transform_to_bounds">
-<code class="descclassname">stems.gis.tests.test_gis_coords.</code><code class="descname">test_transform_to_bounds</code><span class="sig-paren">(</span><em>transform</em>, <em>shape</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/tests/test_gis_coords.html#test_transform_to_bounds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.tests.test_gis_coords.test_transform_to_bounds" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.gis.tests.test_gis_coords.</code><code class="sig-name descname">test_transform_to_bounds</code><span class="sig-paren">(</span><em class="sig-param">transform</em>, <em class="sig-param">shape</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/tests/test_gis_coords.html#test_transform_to_bounds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.tests.test_gis_coords.test_transform_to_bounds" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="stems.gis.tests.test_gis_coords.test_transform_to_coords_bbox">
-<code class="descclassname">stems.gis.tests.test_gis_coords.</code><code class="descname">test_transform_to_coords_bbox</code><span class="sig-paren">(</span><em>transform</em>, <em>off_y</em>, <em>off_x</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/tests/test_gis_coords.html#test_transform_to_coords_bbox"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.tests.test_gis_coords.test_transform_to_coords_bbox" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.gis.tests.test_gis_coords.</code><code class="sig-name descname">test_transform_to_coords_bbox</code><span class="sig-paren">(</span><em class="sig-param">transform</em>, <em class="sig-param">off_y</em>, <em class="sig-param">off_x</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/tests/test_gis_coords.html#test_transform_to_coords_bbox"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.tests.test_gis_coords.test_transform_to_coords_bbox" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="stems.gis.tests.test_gis_coords.test_transform_to_coords_error">
-<code class="descclassname">stems.gis.tests.test_gis_coords.</code><code class="descname">test_transform_to_coords_error</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/tests/test_gis_coords.html#test_transform_to_coords_error"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.tests.test_gis_coords.test_transform_to_coords_error" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.gis.tests.test_gis_coords.</code><code class="sig-name descname">test_transform_to_coords_error</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/tests/test_gis_coords.html#test_transform_to_coords_error"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.tests.test_gis_coords.test_transform_to_coords_error" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="stems.gis.tests.test_gis_coords.test_transform_to_coords_shape">
-<code class="descclassname">stems.gis.tests.test_gis_coords.</code><code class="descname">test_transform_to_coords_shape</code><span class="sig-paren">(</span><em>transform</em>, <em>shape</em>, <em>center</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/tests/test_gis_coords.html#test_transform_to_coords_shape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.tests.test_gis_coords.test_transform_to_coords_shape" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.gis.tests.test_gis_coords.</code><code class="sig-name descname">test_transform_to_coords_shape</code><span class="sig-paren">(</span><em class="sig-param">transform</em>, <em class="sig-param">shape</em>, <em class="sig-param">center</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/tests/test_gis_coords.html#test_transform_to_coords_shape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.tests.test_gis_coords.test_transform_to_coords_shape" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="stems.gis.tests.test_gis_coords.test_transform_to_res">
-<code class="descclassname">stems.gis.tests.test_gis_coords.</code><code class="descname">test_transform_to_res</code><span class="sig-paren">(</span><em>transform</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/tests/test_gis_coords.html#test_transform_to_res"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.tests.test_gis_coords.test_transform_to_res" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.gis.tests.test_gis_coords.</code><code class="sig-name descname">test_transform_to_res</code><span class="sig-paren">(</span><em class="sig-param">transform</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/tests/test_gis_coords.html#test_transform_to_res"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.tests.test_gis_coords.test_transform_to_res" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>

@@ -2,6 +2,6 @@ stems.logging\_ module
 ======================
 
 .. automodule:: stems.logging_
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

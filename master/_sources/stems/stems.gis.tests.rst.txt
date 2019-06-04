@@ -21,6 +21,6 @@ Module contents
 ---------------
 
 .. automodule:: stems.gis.tests
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

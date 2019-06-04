@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Tile Grid Systems &mdash; stems 0.0.1-20190506+13.g5890157 documentation</title>
+  <title>Tile Grid Systems &mdash; stems 0.0.1-20190604 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.0.1-20190506+13.g5890157
+                0.0.1-20190604
               </div>
             
           
@@ -185,7 +185,7 @@
 <span id="gis-grids"></span><h1>Tile Grid Systems<a class="headerlink" href="#tile-grid-systems" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="tilegrid">
 <h2>TileGrid<a class="headerlink" href="#tilegrid" title="Permalink to this headline">¶</a></h2>
-<table class="longtable docutils align-center">
+<table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
@@ -201,7 +201,7 @@
 </table>
 <div class="section" id="attributes">
 <h3>Attributes<a class="headerlink" href="#attributes" title="Permalink to this headline">¶</a></h3>
-<table class="longtable docutils align-center">
+<table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
@@ -226,19 +226,19 @@
 <td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.TileGrid.rows" title="stems.gis.grids.TileGrid.rows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TileGrid.rows</span></code></a></p></td>
-<td><p>the vertical/row numbers for all tiles</p></td>
+<td><p>list[int]: the vertical/row numbers for all tiles</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.TileGrid.cols" title="stems.gis.grids.TileGrid.cols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TileGrid.cols</span></code></a></p></td>
-<td><p>the horizontal/column numbers for all tiles</p></td>
+<td><p>list[int]: the horizontal/column numbers for all tiles</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.TileGrid.nrow" title="stems.gis.grids.TileGrid.nrow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TileGrid.nrow</span></code></a></p></td>
-<td><p>the number of rows in the TileGrid</p></td>
+<td><p>int: the number of rows in the TileGrid</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.TileGrid.ncol" title="stems.gis.grids.TileGrid.ncol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TileGrid.ncol</span></code></a></p></td>
-<td><p>the number of columns in the TileGrid</p></td>
+<td><p>int: the number of columns in the TileGrid</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.TileGrid.transform" title="stems.gis.grids.TileGrid.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TileGrid.transform</span></code></a></p></td>
-<td><p>the affine transform for this TileGrid</p></td>
+<td><p>affine.Affine : the affine transform for this TileGrid</p></td>
 </tr>
 </tbody>
 </table>
@@ -246,7 +246,7 @@
 <div class="section" id="geometry-tools">
 <h3>Geometry Tools<a class="headerlink" href="#geometry-tools" title="Permalink to this headline">¶</a></h3>
 <p>Methods for finding <a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.Tile" title="stems.gis.grids.Tile"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tile</span></code></a>s that intersect with your geospatial data.</p>
-<table class="longtable docutils align-center">
+<table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
@@ -266,7 +266,7 @@
 </div>
 <div class="section" id="export">
 <h3>Export<a class="headerlink" href="#export" title="Permalink to this headline">¶</a></h3>
-<table class="longtable docutils align-center">
+<table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
@@ -288,7 +288,7 @@
 <h3>Dictionary Interface<a class="headerlink" href="#dictionary-interface" title="Permalink to this headline">¶</a></h3>
 <p>You can grab <a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.Tile" title="stems.gis.grids.Tile"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tile</span></code></a> from the <a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.TileGrid" title="stems.gis.grids.TileGrid"><code class="xref py py-class docutils literal notranslate"><span class="pre">TileGrid</span></code></a> by
 indexing the row and column (or vertical, horizontal) as you would a <code class="docutils literal notranslate"><span class="pre">dict</span></code>.</p>
-<table class="longtable docutils align-center">
+<table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
@@ -311,7 +311,7 @@ indexing the row and column (or vertical, horizontal) as you would a <code class
 <h2>Tile<a class="headerlink" href="#tile" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id1">
 <h3>Attributes<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
-<table class="longtable docutils align-center">
+<table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
@@ -333,29 +333,29 @@ indexing the row and column (or vertical, horizontal) as you would a <code class
 <td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.Tile.bbox" title="stems.gis.grids.Tile.bbox"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.bbox</span></code></a></p></td>
-<td><p>This tile’s bounding box geometry</p></td>
+<td><p>shapely.geometry.Polygon: This tile’s bounding box geometry</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.Tile.vertical" title="stems.gis.grids.Tile.vertical"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.vertical</span></code></a></p></td>
-<td><p>The horizontal index of this tile in its tile specification</p></td>
+<td><p>int: The horizontal index of this tile in its tile specification</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.Tile.horizontal" title="stems.gis.grids.Tile.horizontal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.horizontal</span></code></a></p></td>
-<td><p>The horizontal index of this tile in its tile specification</p></td>
+<td><p>int: The horizontal index of this tile in its tile specification</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.Tile.width" title="stems.gis.grids.Tile.width"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.width</span></code></a></p></td>
-<td><p>The number of columns in this Tile</p></td>
+<td><p>int : The number of columns in this Tile</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.Tile.height" title="stems.gis.grids.Tile.height"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.height</span></code></a></p></td>
-<td><p>The number of columns in this Tile</p></td>
+<td><p>int : The number of columns in this Tile</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="stems/stems.gis.grids.html#stems.gis.grids.Tile.transform" title="stems.gis.grids.Tile.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tile.transform</span></code></a></p></td>
-<td><p>The <code class="docutils literal notranslate"><span class="pre">Affine</span></code> transform for the tile</p></td>
+<td><p>affine.Affine: The <code class="docutils literal notranslate"><span class="pre">Affine</span></code> transform for the tile</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="section" id="methods">
 <h3>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h3>
-<table class="longtable docutils align-center">
+<table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />

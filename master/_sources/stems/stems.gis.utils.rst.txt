@@ -2,6 +2,6 @@ stems.gis.utils module
 ======================
 
 .. automodule:: stems.gis.utils
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

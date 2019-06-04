@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.io.chunk module &mdash; stems 0.0.1-20190506+13.g5890157 documentation</title>
+  <title>stems.io.chunk module &mdash; stems 0.0.1-20190604 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190506+13.g5890157
+                0.0.1-20190604
               </div>
             
           
@@ -189,7 +189,7 @@
 </div></blockquote>
 <dl class="function">
 <dt id="stems.io.chunk.auto_determine_chunks">
-<code class="descclassname">stems.io.chunk.</code><code class="descname">auto_determine_chunks</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/chunk.html#auto_determine_chunks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.chunk.auto_determine_chunks" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.io.chunk.</code><code class="sig-name descname">auto_determine_chunks</code><span class="sig-paren">(</span><em class="sig-param">filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/chunk.html#auto_determine_chunks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.chunk.auto_determine_chunks" title="Permalink to this definition">¶</a></dt>
 <dd><p>Try to guess the best chunksizes for a filename</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -206,7 +206,7 @@
 
 <dl class="function">
 <dt id="stems.io.chunk.best_chunksizes">
-<code class="descclassname">stems.io.chunk.</code><code class="descname">best_chunksizes</code><span class="sig-paren">(</span><em>chunks</em>, <em>tiebreaker=&lt;built-in function max&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/chunk.html#best_chunksizes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.chunk.best_chunksizes" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.io.chunk.</code><code class="sig-name descname">best_chunksizes</code><span class="sig-paren">(</span><em class="sig-param">chunks</em>, <em class="sig-param">tiebreaker=&lt;built-in function max&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/chunk.html#best_chunksizes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.chunk.best_chunksizes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decide which chunksize to use for each dimension from variables</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -241,7 +241,7 @@ another 3 had a chunksize of 500, the guess is determined by
 
 <dl class="function">
 <dt id="stems.io.chunk.chunks_to_chunksizes">
-<code class="descclassname">stems.io.chunk.</code><code class="descname">chunks_to_chunksizes</code><span class="sig-paren">(</span><em>data</em>, <em>dims=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/chunk.html#chunks_to_chunksizes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.chunk.chunks_to_chunksizes" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.io.chunk.</code><code class="sig-name descname">chunks_to_chunksizes</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">dims=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/chunk.html#chunks_to_chunksizes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.chunk.chunks_to_chunksizes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert an object to chunksizes (i.e., used in encoding)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -264,7 +264,7 @@ are no chunks.</p>
 
 <dl class="function">
 <dt id="stems.io.chunk.get_chunksizes">
-<code class="descclassname">stems.io.chunk.</code><code class="descname">get_chunksizes</code><span class="sig-paren">(</span><em>xarr</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/chunk.html#get_chunksizes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.chunk.get_chunksizes" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.io.chunk.</code><code class="sig-name descname">get_chunksizes</code><span class="sig-paren">(</span><em class="sig-param">xarr</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/chunk.html#get_chunksizes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.chunk.get_chunksizes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the chunk sizes used for each dimension in <cite>xarr</cite></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -282,9 +282,14 @@ are no chunks.</p>
 </dl>
 </dd></dl>
 
+<dl class="data">
+<dt id="stems.io.chunk.logger">
+<code class="sig-prename descclassname">stems.io.chunk.</code><code class="sig-name descname">logger</code><em class="property"> = &lt;Logger stems.io.chunk (WARNING)&gt;</em><a class="headerlink" href="#stems.io.chunk.logger" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="function">
 <dt id="stems.io.chunk.read_chunks">
-<code class="descclassname">stems.io.chunk.</code><code class="descname">read_chunks</code><span class="sig-paren">(</span><em>filename</em>, <em>variables=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/chunk.html#read_chunks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.chunk.read_chunks" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.io.chunk.</code><code class="sig-name descname">read_chunks</code><span class="sig-paren">(</span><em class="sig-param">filename</em>, <em class="sig-param">variables=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/chunk.html#read_chunks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.chunk.read_chunks" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return chunks associated with each variable if possible</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -308,7 +313,7 @@ mapping dimension name to chunksize (e.g., <code class="docutils literal notrans
 
 <dl class="function">
 <dt id="stems.io.chunk.read_chunks_netcdf4">
-<code class="descclassname">stems.io.chunk.</code><code class="descname">read_chunks_netcdf4</code><span class="sig-paren">(</span><em>filename</em>, <em>variables=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/chunk.html#read_chunks_netcdf4"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.chunk.read_chunks_netcdf4" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.io.chunk.</code><code class="sig-name descname">read_chunks_netcdf4</code><span class="sig-paren">(</span><em class="sig-param">filename</em>, <em class="sig-param">variables=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/chunk.html#read_chunks_netcdf4"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.chunk.read_chunks_netcdf4" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return chunks associated with each variable</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -329,7 +334,7 @@ mapping dimension name to chunksize (e.g., <code class="docutils literal notrans
 
 <dl class="function">
 <dt id="stems.io.chunk.read_chunks_rasterio">
-<code class="descclassname">stems.io.chunk.</code><code class="descname">read_chunks_rasterio</code><span class="sig-paren">(</span><em>riods</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/chunk.html#read_chunks_rasterio"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.chunk.read_chunks_rasterio" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.io.chunk.</code><code class="sig-name descname">read_chunks_rasterio</code><span class="sig-paren">(</span><em class="sig-param">riods</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/chunk.html#read_chunks_rasterio"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.chunk.read_chunks_rasterio" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns chunks for rasterio dataset formatted for xarray</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

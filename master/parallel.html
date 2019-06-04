@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Parallel Computing Helpers &mdash; stems 0.0.1-20190506+13.g5890157 documentation</title>
+  <title>Parallel Computing Helpers &mdash; stems 0.0.1-20190604 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.0.1-20190506+13.g5890157
+                0.0.1-20190604
               </div>
             
           
@@ -184,7 +184,7 @@ analysis in parallel using <a class="reference external" href="http://docs.dask.
 <h2>Distributed Cluster Setup<a class="headerlink" href="#distributed-cluster-setup" title="Permalink to this headline">¶</a></h2>
 <p>The <a class="reference internal" href="stems/stems.executor.html#module-stems.executor" title="stems.executor"><code class="xref py py-mod docutils literal notranslate"><span class="pre">stems.executor</span></code></a> module contains a few functions that help create
 and shutdown <code class="xref py py-class docutils literal notranslate"><span class="pre">distributed.LocalCluster</span></code></p>
-<table class="longtable docutils align-center">
+<table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
@@ -205,19 +205,19 @@ and shutdown <code class="xref py py-class docutils literal notranslate"><span c
 the <a class="reference external" href="https://click.palletsprojects.com/en/7.x/">Click</a>-based callbacks and program arguments or options.</p>
 <div class="section" id="program-options">
 <h3>Program Options<a class="headerlink" href="#program-options" title="Permalink to this headline">¶</a></h3>
-<table class="longtable docutils align-center">
+<table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">stems.cli.options.opt_nprocs</span></code>(f)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="stems/stems.cli.options.html#stems.cli.options.opt_nprocs" title="stems.cli.options.opt_nprocs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stems.cli.options.opt_nprocs</span></code></a>(f)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">stems.cli.options.opt_nthreads</span></code>(f)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="stems/stems.cli.options.html#stems.cli.options.opt_nthreads" title="stems.cli.options.opt_nthreads"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stems.cli.options.opt_nthreads</span></code></a>(f)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">stems.cli.options.opt_scheduler</span></code>(f)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="stems/stems.cli.options.html#stems.cli.options.opt_scheduler" title="stems.cli.options.opt_scheduler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stems.cli.options.opt_scheduler</span></code></a>(f)</p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -229,7 +229,7 @@ processing capabilities to <a class="reference external" href="https://click.pal
 <h3>Click Callbacks<a class="headerlink" href="#click-callbacks" title="Permalink to this headline">¶</a></h3>
 <p>You might also want to use the following callback functions to develop your
 own <a class="reference external" href="https://click.palletsprojects.com/en/7.x/">Click</a> program arguments or options.</p>
-<table class="longtable docutils align-center">
+<table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
@@ -252,7 +252,7 @@ functions on chunks of data.</p>
 <p>The functions, <a class="reference internal" href="stems/stems.parallel.html#stems.parallel.iter_chunks" title="stems.parallel.iter_chunks"><code class="xref py py-func docutils literal notranslate"><span class="pre">stems.parallel.iter_chunks()</span></code></a> and
 <a class="reference internal" href="stems/stems.parallel.html#stems.parallel.iter_noncore_chunks" title="stems.parallel.iter_noncore_chunks"><code class="xref py py-func docutils literal notranslate"><span class="pre">stems.parallel.iter_noncore_chunks()</span></code></a> assist you in iterating across
 blocks of data by yielding array dimension slices.</p>
-<table class="longtable docutils align-center">
+<table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
@@ -278,7 +278,7 @@ collecting all the segments estimated into a single dimension array
 (<code class="docutils literal notranslate"><span class="pre">dims=('segment_id',</span> <span class="pre">)</span></code>).</p>
 <p>The function <a class="reference internal" href="stems/stems.parallel.html#stems.parallel.map_collect_1d" title="stems.parallel.map_collect_1d"><code class="xref py py-func docutils literal notranslate"><span class="pre">stems.parallel.map_collect_1d()</span></code></a> is designed to help with
 this task:</p>
-<table class="longtable docutils align-center">
+<table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />

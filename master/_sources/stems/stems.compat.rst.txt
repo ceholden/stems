@@ -2,6 +2,6 @@ stems.compat module
 ===================
 
 .. automodule:: stems.compat
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

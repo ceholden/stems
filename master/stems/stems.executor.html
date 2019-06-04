@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.executor module &mdash; stems 0.0.1-20190506+13.g5890157 documentation</title>
+  <title>stems.executor module &mdash; stems 0.0.1-20190604 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190506+13.g5890157
+                0.0.1-20190604
               </div>
             
           
@@ -170,7 +170,7 @@
 <p>Dask/Distributed related helpers</p>
 <dl class="function">
 <dt id="stems.executor.executor_info">
-<code class="descclassname">stems.executor.</code><code class="descname">executor_info</code><span class="sig-paren">(</span><em>client</em>, <em>ip=True</em>, <em>bokeh=True</em>, <em>stats=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/executor.html#executor_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.executor.executor_info" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.executor.</code><code class="sig-name descname">executor_info</code><span class="sig-paren">(</span><em class="sig-param">client</em>, <em class="sig-param">ip=True</em>, <em class="sig-param">bokeh=True</em>, <em class="sig-param">stats=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/executor.html#executor_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.executor.executor_info" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a list of strings with info for a scheduler</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -190,15 +190,20 @@
 </dl>
 </dd></dl>
 
+<dl class="data">
+<dt id="stems.executor.logger">
+<code class="sig-prename descclassname">stems.executor.</code><code class="sig-name descname">logger</code><em class="property"> = &lt;Logger stems.executor (WARNING)&gt;</em><a class="headerlink" href="#stems.executor.logger" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="function">
 <dt id="stems.executor.setup_backend">
-<code class="descclassname">stems.executor.</code><code class="descname">setup_backend</code><span class="sig-paren">(</span><em>scheduler</em>, <em>nprocs=None</em>, <em>nthreads=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/executor.html#setup_backend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.executor.setup_backend" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.executor.</code><code class="sig-name descname">setup_backend</code><span class="sig-paren">(</span><em class="sig-param">scheduler</em>, <em class="sig-param">nprocs=None</em>, <em class="sig-param">nthreads=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/executor.html#setup_backend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.executor.setup_backend" title="Permalink to this definition">¶</a></dt>
 <dd><p>Setup Dask to use a particular scheduler backend</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="stems.executor.setup_executor">
-<code class="descclassname">stems.executor.</code><code class="descname">setup_executor</code><span class="sig-paren">(</span><em>address=None</em>, <em>n_workers=None</em>, <em>threads_per_worker=1</em>, <em>**kwds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/executor.html#setup_executor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.executor.setup_executor" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.executor.</code><code class="sig-name descname">setup_executor</code><span class="sig-paren">(</span><em class="sig-param">address=None</em>, <em class="sig-param">n_workers=None</em>, <em class="sig-param">threads_per_worker=1</em>, <em class="sig-param">**kwds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/executor.html#setup_executor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.executor.setup_executor" title="Permalink to this definition">¶</a></dt>
 <dd><p>Setup a Dask distributed cluster scheduler client</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

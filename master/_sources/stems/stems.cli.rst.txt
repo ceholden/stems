@@ -13,6 +13,6 @@ Module contents
 ---------------
 
 .. automodule:: stems.cli
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

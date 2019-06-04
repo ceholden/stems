@@ -6,11 +6,11 @@ Subpackages
 
 .. toctree::
 
-    stems.cli
-    stems.datasets
-    stems.gis
-    stems.io
-    stems.sensors
+   stems.cli
+   stems.datasets
+   stems.gis
+   stems.io
+   stems.sensors
 
 Submodules
 ----------
@@ -30,6 +30,6 @@ Module contents
 ---------------
 
 .. automodule:: stems
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

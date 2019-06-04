@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.parallel module &mdash; stems 0.0.1-20190506+13.g5890157 documentation</title>
+  <title>stems.parallel module &mdash; stems 0.0.1-20190604 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190506+13.g5890157
+                0.0.1-20190604
               </div>
             
           
@@ -173,7 +173,7 @@
 [2] <a class="reference external" href="http://numba.pydata.org/numba-doc/dev/user/vectorize.html">http://numba.pydata.org/numba-doc/dev/user/vectorize.html</a></p>
 <dl class="function">
 <dt id="stems.parallel.iter_chunks">
-<code class="descclassname">stems.parallel.</code><code class="descname">iter_chunks</code><span class="sig-paren">(</span><em>dim_sizes</em>, <em>chunk_sizes=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/parallel.html#iter_chunks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.parallel.iter_chunks" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.parallel.</code><code class="sig-name descname">iter_chunks</code><span class="sig-paren">(</span><em class="sig-param">dim_sizes</em>, <em class="sig-param">chunk_sizes=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/parallel.html#iter_chunks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.parallel.iter_chunks" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return slices that help iterate over dimensions in chunks/blocks</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -193,7 +193,7 @@ pixel)</p></li>
 
 <dl class="function">
 <dt id="stems.parallel.iter_noncore_chunks">
-<code class="descclassname">stems.parallel.</code><code class="descname">iter_noncore_chunks</code><span class="sig-paren">(</span><em>data</em>, <em>core_dims</em>, <em>chunk_sizes=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/parallel.html#iter_noncore_chunks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.parallel.iter_noncore_chunks" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.parallel.</code><code class="sig-name descname">iter_noncore_chunks</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">core_dims</em>, <em class="sig-param">chunk_sizes=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/parallel.html#iter_noncore_chunks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.parallel.iter_noncore_chunks" title="Permalink to this definition">¶</a></dt>
 <dd><p>Yield data in chunks selected out from non-core dimensions</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -211,9 +211,14 @@ will be the only dimensions on the data returned</p></li>
 </dl>
 </dd></dl>
 
+<dl class="data">
+<dt id="stems.parallel.logger">
+<code class="sig-prename descclassname">stems.parallel.</code><code class="sig-name descname">logger</code><em class="property"> = &lt;Logger stems.parallel (WARNING)&gt;</em><a class="headerlink" href="#stems.parallel.logger" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="function">
 <dt id="stems.parallel.map_collect_1d">
-<code class="descclassname">stems.parallel.</code><code class="descname">map_collect_1d</code><span class="sig-paren">(</span><em>core_dims</em>, <em>arg_idx=0</em>, <em>concat_axis=0</em>, <em>concat_func=&lt;built-in function concatenate&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/parallel.html#map_collect_1d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.parallel.map_collect_1d" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.parallel.</code><code class="sig-name descname">map_collect_1d</code><span class="sig-paren">(</span><em class="sig-param">core_dims</em>, <em class="sig-param">arg_idx=0</em>, <em class="sig-param">concat_axis=0</em>, <em class="sig-param">concat_func=&lt;built-in function concatenate&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/parallel.html#map_collect_1d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.parallel.map_collect_1d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decorator that maps a function across pixels and concatenates the result</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

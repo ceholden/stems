@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.io.encoding module &mdash; stems 0.0.1-20190506+13.g5890157 documentation</title>
+  <title>stems.io.encoding module &mdash; stems 0.0.1-20190604 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190506+13.g5890157
+                0.0.1-20190604
               </div>
             
           
@@ -169,7 +169,7 @@
 <span id="stems-io-encoding-module"></span><h1>stems.io.encoding module<a class="headerlink" href="#module-stems.io.encoding" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="stems.io.encoding.encoding_chunksizes">
-<code class="descclassname">stems.io.encoding.</code><code class="descname">encoding_chunksizes</code><span class="sig-paren">(</span><em>xarr</em>, <em>chunks=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/encoding.html#encoding_chunksizes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.encoding.encoding_chunksizes" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.io.encoding.</code><code class="sig-name descname">encoding_chunksizes</code><span class="sig-paren">(</span><em class="sig-param">xarr</em>, <em class="sig-param">chunks=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/encoding.html#encoding_chunksizes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.encoding.encoding_chunksizes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find/resolve chunksize for a DataArray</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -189,7 +189,7 @@
 
 <dl class="function">
 <dt id="stems.io.encoding.encoding_dtype">
-<code class="descclassname">stems.io.encoding.</code><code class="descname">encoding_dtype</code><span class="sig-paren">(</span><em>xarr</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/encoding.html#encoding_dtype"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.encoding.encoding_dtype" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.io.encoding.</code><code class="sig-name descname">encoding_dtype</code><span class="sig-paren">(</span><em class="sig-param">xarr</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/encoding.html#encoding_dtype"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.encoding.encoding_dtype" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get dtype encoding info</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -206,7 +206,7 @@
 
 <dl class="function">
 <dt id="stems.io.encoding.encoding_name">
-<code class="descclassname">stems.io.encoding.</code><code class="descname">encoding_name</code><span class="sig-paren">(</span><em>xarr</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/encoding.html#encoding_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.encoding.encoding_name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.io.encoding.</code><code class="sig-name descname">encoding_name</code><span class="sig-paren">(</span><em class="sig-param">xarr</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/encoding.html#encoding_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.encoding.encoding_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the name of the variable to provide encoding for</p>
 <p>Either returns the name of the DataArray, or the name that XArray will
 assign it when writing to disk
@@ -226,7 +226,7 @@ assign it when writing to disk
 
 <dl class="function">
 <dt id="stems.io.encoding.guard_chunksizes">
-<code class="descclassname">stems.io.encoding.</code><code class="descname">guard_chunksizes</code><span class="sig-paren">(</span><em>xarr</em>, <em>chunksizes</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/encoding.html#guard_chunksizes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.encoding.guard_chunksizes" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.io.encoding.</code><code class="sig-name descname">guard_chunksizes</code><span class="sig-paren">(</span><em class="sig-param">xarr</em>, <em class="sig-param">chunksizes</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/encoding.html#guard_chunksizes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.encoding.guard_chunksizes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Guard chunksize to be &lt;= dimension sizes</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -246,7 +246,7 @@ assign it when writing to disk
 
 <dl class="function">
 <dt id="stems.io.encoding.guard_chunksizes_str">
-<code class="descclassname">stems.io.encoding.</code><code class="descname">guard_chunksizes_str</code><span class="sig-paren">(</span><em>xarr</em>, <em>chunksizes</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/encoding.html#guard_chunksizes_str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.encoding.guard_chunksizes_str" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.io.encoding.</code><code class="sig-name descname">guard_chunksizes_str</code><span class="sig-paren">(</span><em class="sig-param">xarr</em>, <em class="sig-param">chunksizes</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/encoding.html#guard_chunksizes_str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.encoding.guard_chunksizes_str" title="Permalink to this definition">¶</a></dt>
 <dd><p>Guard chunk sizes for str datatypes</p>
 <p>Chunks for <code class="docutils literal notranslate"><span class="pre">str</span></code> need to include string length dimension since
 python-netcdf represents, for example, 1d char array as 2d array</p>
@@ -268,7 +268,7 @@ python-netcdf represents, for example, 1d char array as 2d array</p>
 
 <dl class="function">
 <dt id="stems.io.encoding.guard_dtype">
-<code class="descclassname">stems.io.encoding.</code><code class="descname">guard_dtype</code><span class="sig-paren">(</span><em>xarr</em>, <em>dtype_</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/encoding.html#guard_dtype"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.encoding.guard_dtype" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.io.encoding.</code><code class="sig-name descname">guard_dtype</code><span class="sig-paren">(</span><em class="sig-param">xarr</em>, <em class="sig-param">dtype_</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/encoding.html#guard_dtype"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.encoding.guard_dtype" title="Permalink to this definition">¶</a></dt>
 <dd><p>Guard dtype encoding for datetime datatypes</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -287,9 +287,14 @@ if valid. Otherwise returns empty dict</p>
 </dl>
 </dd></dl>
 
+<dl class="data">
+<dt id="stems.io.encoding.logger">
+<code class="sig-prename descclassname">stems.io.encoding.</code><code class="sig-name descname">logger</code><em class="property"> = &lt;Logger stems.io.encoding (WARNING)&gt;</em><a class="headerlink" href="#stems.io.encoding.logger" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="function">
 <dt id="stems.io.encoding.netcdf_encoding">
-<code class="descclassname">stems.io.encoding.</code><code class="descname">netcdf_encoding</code><span class="sig-paren">(</span><em>data</em>, <em>chunks=None</em>, <em>zlib=True</em>, <em>complevel=4</em>, <em>nodata=None</em>, <em>**encoding_kwds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/encoding.html#netcdf_encoding"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.encoding.netcdf_encoding" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.io.encoding.</code><code class="sig-name descname">netcdf_encoding</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">chunks=None</em>, <em class="sig-param">zlib=True</em>, <em class="sig-param">complevel=4</em>, <em class="sig-param">nodata=None</em>, <em class="sig-param">**encoding_kwds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/encoding.html#netcdf_encoding"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.encoding.netcdf_encoding" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return “good” NetCDF encoding information for some data</p>
 <p>The returned encoding is the default or “good” known standard for data
 used in <code class="docutils literal notranslate"><span class="pre">stems</span></code>. Each default determined in this function is given
