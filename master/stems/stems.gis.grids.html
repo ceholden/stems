@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.grids module &mdash; stems 0.0.1-20190506+14.g6c32c56 documentation</title>
+  <title>stems.gis.grids module &mdash; stems 0.0.1-20190604+1.g0fd2090 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190506+14.g6c32c56
+                0.0.1-20190604+1.g0fd2090
               </div>
             
           
@@ -199,7 +199,7 @@ grid index and pixel row/column within the tile is known.</p>
 <dd><p>The tile coordinate reference system</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.23)">rasterio.crs.CRS</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.24)">rasterio.crs.CRS</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -240,7 +240,12 @@ grid index and pixel row/column within the tile is known.</p>
 <dl class="method">
 <dt id="stems.gis.grids.Tile.bbox">
 <em class="property">property </em><code class="sig-name descname">bbox</code><a class="headerlink" href="#stems.gis.grids.Tile.bbox" title="Permalink to this definition">¶</a></dt>
-<dd><p>shapely.geometry.Polygon: This tile’s bounding box geometry</p>
+<dd><p>This tile’s bounding box geometry</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>shapely.geometry.Polygon</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
@@ -279,7 +284,7 @@ and “size”</p>
 <dd><p>Return this Tile’s geometry as GeoJSON</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.23)"><em>rasterio.crs.CRS</em></a>) – Coordinate reference system of output. Defaults to EPSG:4326 per
+<dd class="field-odd"><p><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.24)"><em>rasterio.crs.CRS</em></a>) – Coordinate reference system of output. Defaults to EPSG:4326 per
 GeoJSON standard (RFC7946). If <code class="docutils literal notranslate"><span class="pre">None</span></code>, will return
 geometries in Tile’s CRS</p>
 </dd>
@@ -301,13 +306,23 @@ geometries in Tile’s CRS</p>
 <dl class="method">
 <dt id="stems.gis.grids.Tile.height">
 <em class="property">property </em><code class="sig-name descname">height</code><a class="headerlink" href="#stems.gis.grids.Tile.height" title="Permalink to this definition">¶</a></dt>
-<dd><p>int : The number of columns in this Tile</p>
+<dd><p>The number of columns in this Tile</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="stems.gis.grids.Tile.horizontal">
 <em class="property">property </em><code class="sig-name descname">horizontal</code><a class="headerlink" href="#stems.gis.grids.Tile.horizontal" title="Permalink to this definition">¶</a></dt>
-<dd><p>int: The horizontal index of this tile in its tile specification</p>
+<dd><p>The horizontal index of this tile in its tile specification</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
@@ -327,19 +342,34 @@ geometries in Tile’s CRS</p>
 <dl class="method">
 <dt id="stems.gis.grids.Tile.transform">
 <em class="property">property </em><code class="sig-name descname">transform</code><a class="headerlink" href="#stems.gis.grids.Tile.transform" title="Permalink to this definition">¶</a></dt>
-<dd><p>affine.Affine: The <code class="docutils literal notranslate"><span class="pre">Affine</span></code> transform for the tile</p>
+<dd><p>The <code class="docutils literal notranslate"><span class="pre">Affine</span></code> transform for the tile</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>affine.Affine</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="stems.gis.grids.Tile.vertical">
 <em class="property">property </em><code class="sig-name descname">vertical</code><a class="headerlink" href="#stems.gis.grids.Tile.vertical" title="Permalink to this definition">¶</a></dt>
-<dd><p>int: The horizontal index of this tile in its tile specification</p>
+<dd><p>The horizontal index of this tile in its tile specification</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="stems.gis.grids.Tile.width">
 <em class="property">property </em><code class="sig-name descname">width</code><a class="headerlink" href="#stems.gis.grids.Tile.width" title="Permalink to this definition">¶</a></dt>
-<dd><p>int : The number of columns in this Tile</p>
+<dd><p>The number of columns in this Tile</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -366,7 +396,7 @@ geometries in Tile’s CRS</p>
 <dd><p>Coordinate system information</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.23)">rasterio.crs.CRS</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.24)">rasterio.crs.CRS</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -434,7 +464,12 @@ to limit access to Tiles beyond domain.</p>
 <dl class="method">
 <dt id="stems.gis.grids.TileGrid.cols">
 <em class="property">property </em><code class="sig-name descname">cols</code><a class="headerlink" href="#stems.gis.grids.TileGrid.cols" title="Permalink to this definition">¶</a></dt>
-<dd><p>list[int]: the horizontal/column numbers for all tiles</p>
+<dd><p>the horizontal/column numbers for all tiles</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)">list</a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a>]</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
@@ -461,7 +496,7 @@ to limit access to Tiles beyond domain.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.23)"><em>rasterio.crs.CRS</em></a>) – Coordinate reference system of output. Defaults to EPSG:4326 per
+<li><p><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.24)"><em>rasterio.crs.CRS</em></a>) – Coordinate reference system of output. Defaults to EPSG:4326 per
 GeoJSON standard (RFC7946). If <code class="docutils literal notranslate"><span class="pre">None</span></code>, will return
 geometries in TileGrid’s CRS</p></li>
 <li><p><strong>rows</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>]</em><em>, </em><em>optional</em>) – If this TileGrid was not given <code class="docutils literal notranslate"><span class="pre">limits</span></code> or if you want a subset
@@ -487,13 +522,23 @@ only include valid tile geometries.</p></li>
 <dl class="method">
 <dt id="stems.gis.grids.TileGrid.ncol">
 <em class="property">property </em><code class="sig-name descname">ncol</code><a class="headerlink" href="#stems.gis.grids.TileGrid.ncol" title="Permalink to this definition">¶</a></dt>
-<dd><p>int: the number of columns in the TileGrid</p>
+<dd><p>the number of columns in the TileGrid</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="stems.gis.grids.TileGrid.nrow">
 <em class="property">property </em><code class="sig-name descname">nrow</code><a class="headerlink" href="#stems.gis.grids.TileGrid.nrow" title="Permalink to this definition">¶</a></dt>
-<dd><p>int: the number of rows in the TileGrid</p>
+<dd><p>the number of rows in the TileGrid</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
@@ -531,7 +576,12 @@ TileGrid.</p>
 <dl class="method">
 <dt id="stems.gis.grids.TileGrid.rows">
 <em class="property">property </em><code class="sig-name descname">rows</code><a class="headerlink" href="#stems.gis.grids.TileGrid.rows" title="Permalink to this definition">¶</a></dt>
-<dd><p>list[int]: the vertical/row numbers for all tiles</p>
+<dd><p>the vertical/row numbers for all tiles</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)">list</a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a>]</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
@@ -551,7 +601,12 @@ TileGrid.</p>
 <dl class="method">
 <dt id="stems.gis.grids.TileGrid.transform">
 <em class="property">property </em><code class="sig-name descname">transform</code><a class="headerlink" href="#stems.gis.grids.TileGrid.transform" title="Permalink to this definition">¶</a></dt>
-<dd><p>affine.Affine : the affine transform for this TileGrid</p>
+<dd><p>the affine transform for this TileGrid</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>affine.Affine</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -574,11 +629,6 @@ default, returns tile specifications included with this package</p>
 </dd>
 </dl>
 </dd></dl>
-
-<dl class="data">
-<dt id="stems.gis.grids.logger">
-<code class="sig-prename descclassname">stems.gis.grids.</code><code class="sig-name descname">logger</code><em class="property"> = &lt;Logger stems.gis.grids (WARNING)&gt;</em><a class="headerlink" href="#stems.gis.grids.logger" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 </div>
 

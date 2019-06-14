@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.io.vrt module &mdash; stems 0.0.1-20190506+14.g6c32c56 documentation</title>
+  <title>stems.io.vrt module &mdash; stems 0.0.1-20190604+1.g0fd2090 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190506+14.g6c32c56
+                0.0.1-20190604+1.g0fd2090
               </div>
             
           
@@ -208,13 +208,23 @@
 <dl class="method">
 <dt id="stems.io.vrt.VRTDataset.bands">
 <em class="property">property </em><code class="sig-name descname">bands</code><a class="headerlink" href="#stems.io.vrt.VRTDataset.bands" title="Permalink to this definition">¶</a></dt>
-<dd><p>dict[int, list[VRTSourceBand]]: Bands organized by output VRT band</p>
+<dd><p>Bands organized by output VRT band</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a>, <a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)">list</a>[<a class="reference internal" href="stems.io.html#stems.io.VRTSourceBand" title="stems.io.VRTSourceBand">VRTSourceBand</a>]]</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="stems.io.vrt.VRTDataset.bounds">
 <em class="property">property </em><code class="sig-name descname">bounds</code><a class="headerlink" href="#stems.io.vrt.VRTDataset.bounds" title="Permalink to this definition">¶</a></dt>
-<dd><p>BoundingBox: Bounding box of VRTDataset</p>
+<dd><p>Bounding box of VRTDataset</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>BoundingBox</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
@@ -226,13 +236,23 @@
 <dl class="method">
 <dt id="stems.io.vrt.VRTDataset.count">
 <em class="property">property </em><code class="sig-name descname">count</code><a class="headerlink" href="#stems.io.vrt.VRTDataset.count" title="Permalink to this definition">¶</a></dt>
-<dd><p>int: Number of output bands in VRT</p>
+<dd><p>Number of output bands in VRT</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="stems.io.vrt.VRTDataset.crs">
 <em class="property">property </em><code class="sig-name descname">crs</code><a class="headerlink" href="#stems.io.vrt.VRTDataset.crs" title="Permalink to this definition">¶</a></dt>
-<dd><p>CRS: VRTDataset coordinate reference system</p>
+<dd><p>VRTDataset coordinate reference system</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>CRS</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
@@ -264,25 +284,45 @@ for each band.</p></li>
 <dl class="method">
 <dt id="stems.io.vrt.VRTDataset.height">
 <em class="property">property </em><code class="sig-name descname">height</code><a class="headerlink" href="#stems.io.vrt.VRTDataset.height" title="Permalink to this definition">¶</a></dt>
-<dd><p>int: Number of rows</p>
+<dd><p>Number of rows</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="stems.io.vrt.VRTDataset.shape">
 <em class="property">property </em><code class="sig-name descname">shape</code><a class="headerlink" href="#stems.io.vrt.VRTDataset.shape" title="Permalink to this definition">¶</a></dt>
-<dd><p>tuple[int, int]: Number of rows and columns</p>
+<dd><p>Number of rows and columns</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a>, <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a>]</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="stems.io.vrt.VRTDataset.transform">
 <em class="property">property </em><code class="sig-name descname">transform</code><a class="headerlink" href="#stems.io.vrt.VRTDataset.transform" title="Permalink to this definition">¶</a></dt>
-<dd><p>Affine: Affine transform for VRTDataset</p>
+<dd><p>Affine transform for VRTDataset</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Affine</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="stems.io.vrt.VRTDataset.width">
 <em class="property">property </em><code class="sig-name descname">width</code><a class="headerlink" href="#stems.io.vrt.VRTDataset.width" title="Permalink to this definition">¶</a></dt>
-<dd><p>int: Number of columns</p>
+<dd><p>Number of columns</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
@@ -405,11 +445,6 @@ SubElement name and this new element’s text value).</p>
 <dd></dd></dl>
 
 </dd></dl>
-
-<dl class="data">
-<dt id="stems.io.vrt.logger">
-<code class="sig-prename descclassname">stems.io.vrt.</code><code class="sig-name descname">logger</code><em class="property"> = &lt;Logger stems.io.vrt (WARNING)&gt;</em><a class="headerlink" href="#stems.io.vrt.logger" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 </div>
 

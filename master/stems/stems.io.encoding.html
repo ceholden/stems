@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.io.encoding module &mdash; stems 0.0.1-20190506+14.g6c32c56 documentation</title>
+  <title>stems.io.encoding module &mdash; stems 0.0.1-20190604+1.g0fd2090 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190506+14.g6c32c56
+                0.0.1-20190604+1.g0fd2090
               </div>
             
           
@@ -274,7 +274,7 @@ python-netcdf represents, for example, 1d char array as 2d array</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>xarr</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.1)"><em>xarray.DataArray</em></a><em> or </em><em>np.ndarray</em>) – DataArray to consider</p></li>
-<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>np.dtype</em><em>]</em>) – Datatype information for encoding (e.g., <code class="docutils literal notranslate"><span class="pre">{'dtype':</span> <span class="pre">np.float32}</span></code>)</p></li>
+<li><p><strong>dtype_</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>np.dtype</em><em>]</em>) – Datatype information for encoding (e.g., <code class="docutils literal notranslate"><span class="pre">{'dtype':</span> <span class="pre">np.float32}</span></code>)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -286,11 +286,6 @@ if valid. Otherwise returns empty dict</p>
 </dd>
 </dl>
 </dd></dl>
-
-<dl class="data">
-<dt id="stems.io.encoding.logger">
-<code class="sig-prename descclassname">stems.io.encoding.</code><code class="sig-name descname">logger</code><em class="property"> = &lt;Logger stems.io.encoding (WARNING)&gt;</em><a class="headerlink" href="#stems.io.encoding.logger" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 <dl class="function">
 <dt id="stems.io.encoding.netcdf_encoding">

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.io.rasterio_ module &mdash; stems 0.0.1-20190506+14.g6c32c56 documentation</title>
+  <title>stems.io.rasterio_ module &mdash; stems 0.0.1-20190604+1.g0fd2090 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190506+14.g6c32c56
+                0.0.1-20190604+1.g0fd2090
               </div>
             
           
@@ -180,11 +180,6 @@
 <dd><p>Attributes to keep from output of <code class="docutils literal notranslate"><span class="pre">xarray.open_rasterio</span></code></p>
 </dd></dl>
 
-<dl class="data">
-<dt id="stems.io.rasterio_.logger">
-<code class="sig-prename descclassname">stems.io.rasterio_.</code><code class="sig-name descname">logger</code><em class="property"> = &lt;Logger stems.io.rasterio_ (WARNING)&gt;</em><a class="headerlink" href="#stems.io.rasterio_.logger" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 <dl class="function">
 <dt id="stems.io.rasterio_.xarray_to_rasterio">
 <code class="sig-prename descclassname">stems.io.rasterio_.</code><code class="sig-name descname">xarray_to_rasterio</code><span class="sig-paren">(</span><em class="sig-param">xarr</em>, <em class="sig-param">path</em>, <em class="sig-param">driver='GTiff'</em>, <em class="sig-param">crs=None</em>, <em class="sig-param">transform=None</em>, <em class="sig-param">nodata=None</em>, <em class="sig-param">**meta</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/io/rasterio_.html#xarray_to_rasterio"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.io.rasterio_.xarray_to_rasterio" title="Permalink to this definition">¶</a></dt>
@@ -199,12 +194,12 @@
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><em>Path</em>) – Save DataArray to this file path</p></li>
 <li><p><strong>driver</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) – Rasterio dataset driver</p></li>
-<li><p><strong>crs</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a><em>, or </em><a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.23)"><em>rasterio.crs.CRS</em></a><em>, </em><em>optional</em>) – Optionally, provide CRS information about <code class="docutils literal notranslate"><span class="pre">xarr</span></code>. Will
+<li><p><strong>crs</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a><em>, or </em><a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.24)"><em>rasterio.crs.CRS</em></a><em>, </em><em>optional</em>) – Optionally, provide CRS information about <code class="docutils literal notranslate"><span class="pre">xarr</span></code>. Will
 try to read from <code class="docutils literal notranslate"><span class="pre">xarr</span></code> if not provided</p></li>
 <li><p><strong>transform</strong> (<em>affine.Affine</em><em>, </em><em>optional</em>) – Optionally, provide affine transform information about <code class="docutils literal notranslate"><span class="pre">xarr</span></code>. Will
 try to read from <code class="docutils literal notranslate"><span class="pre">xarr</span></code> if not provided</p></li>
 <li><p><strong>nodata</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em>) – No data value to set</p></li>
-<li><p><strong>**meta</strong> – Additional keyword arguments to <a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.html#rasterio.open" title="(in rasterio v1.0.23)"><code class="xref py py-func docutils literal notranslate"><span class="pre">rasterio.open()</span></code></a>. Useful for
+<li><p><strong>**meta</strong> – Additional keyword arguments to <a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.html#rasterio.open" title="(in rasterio v1.0.24)"><code class="xref py py-func docutils literal notranslate"><span class="pre">rasterio.open()</span></code></a>. Useful for
 specifying block sizes, color interpretation, and other metadata.</p></li>
 </ul>
 </dd>

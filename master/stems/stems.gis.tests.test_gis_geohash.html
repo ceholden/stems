@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.tests.test_gis_geohash module &mdash; stems 0.0.1-20190506+14.g6c32c56 documentation</title>
+  <title>stems.gis.tests.test_gis_geohash module &mdash; stems 0.0.1-20190604+1.g0fd2090 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190506+14.g6c32c56
+                0.0.1-20190604+1.g0fd2090
               </div>
             
           
@@ -168,36 +168,6 @@
   <div class="section" id="module-stems.gis.tests.test_gis_geohash">
 <span id="stems-gis-tests-test-gis-geohash-module"></span><h1>stems.gis.tests.test_gis_geohash module<a class="headerlink" href="#module-stems.gis.tests.test_gis_geohash" title="Permalink to this headline">¶</a></h1>
 <p>Tests for <a class="reference internal" href="stems.gis.geohash.html#module-stems.gis.geohash" title="stems.gis.geohash"><code class="xref py py-mod docutils literal notranslate"><span class="pre">stems.gis.geohash</span></code></a></p>
-<dl class="data">
-<dt id="stems.gis.tests.test_gis_geohash.CRS_4326">
-<code class="sig-prename descclassname">stems.gis.tests.test_gis_geohash.</code><code class="sig-name descname">CRS_4326</code><em class="property"> = CRS.from_epsg(4326)</em><a class="headerlink" href="#stems.gis.tests.test_gis_geohash.CRS_4326" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="data">
-<dt id="stems.gis.tests.test_gis_geohash.EXAMPLES">
-<code class="sig-prename descclassname">stems.gis.tests.test_gis_geohash.</code><code class="sig-name descname">EXAMPLES</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><em class="property"> = MarkDecorator(mark=Mark(name='parametrize', args=(('yx', 'crs', 'hash_'), [((42.37453, -71.03193), None, 'drt3pdh1s'), ((4693360.95, 332707.5), CRS.from_epsg(32619), 'drt3pdh1s'), ((-3.733313, -73.249991), CRS.from_epsg(4326), '6r7fv0kgz')]), kwargs={}))</em><a class="headerlink" href="#stems.gis.tests.test_gis_geohash.EXAMPLES" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="data">
-<dt id="stems.gis.tests.test_gis_geohash.needs_geohash">
-<code class="sig-prename descclassname">stems.gis.tests.test_gis_geohash.</code><code class="sig-name descname">needs_geohash</code><em class="property"> = &lt;module 'geohash' from '/home/travis/miniconda/envs/test_env/lib/python3.6/site-packages/geohash.py'&gt;</em><a class="headerlink" href="#stems.gis.tests.test_gis_geohash.needs_geohash" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="data">
-<dt id="stems.gis.tests.test_gis_geohash.param_lat">
-<code class="sig-prename descclassname">stems.gis.tests.test_gis_geohash.</code><code class="sig-name descname">param_lat</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><em class="property"> = MarkDecorator(mark=Mark(name='parametrize', args=('lat', [dask.array&lt;arange, shape=(20,), dtype=float64, chunksize=(20,)&gt;]), kwargs={}))</em><a class="headerlink" href="#stems.gis.tests.test_gis_geohash.param_lat" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="data">
-<dt id="stems.gis.tests.test_gis_geohash.param_lon">
-<code class="sig-prename descclassname">stems.gis.tests.test_gis_geohash.</code><code class="sig-name descname">param_lon</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><em class="property"> = MarkDecorator(mark=Mark(name='parametrize', args=('lon', [dask.array&lt;arange, shape=(20,), dtype=float64, chunksize=(20,)&gt;]), kwargs={}))</em><a class="headerlink" href="#stems.gis.tests.test_gis_geohash.param_lon" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="data">
-<dt id="stems.gis.tests.test_gis_geohash.param_precision">
-<code class="sig-prename descclassname">stems.gis.tests.test_gis_geohash.</code><code class="sig-name descname">param_precision</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><em class="property"> = MarkDecorator(mark=Mark(name='parametrize', args=('precision', [8, 10, 12]), kwargs={}))</em><a class="headerlink" href="#stems.gis.tests.test_gis_geohash.param_precision" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 <dl class="function">
 <dt id="stems.gis.tests.test_gis_geohash.test_geohash_dask">
 <code class="sig-prename descclassname">stems.gis.tests.test_gis_geohash.</code><code class="sig-name descname">test_geohash_dask</code><span class="sig-paren">(</span><em class="sig-param">precision</em>, <em class="sig-param">lat</em>, <em class="sig-param">lon</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/tests/test_gis_geohash.html#test_geohash_dask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.tests.test_gis_geohash.test_geohash_dask" title="Permalink to this definition">¶</a></dt>

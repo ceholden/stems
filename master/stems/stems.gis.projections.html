@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.projections module &mdash; stems 0.0.1-20190506+14.g6c32c56 documentation</title>
+  <title>stems.gis.projections module &mdash; stems 0.0.1-20190604+1.g0fd2090 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190506+14.g6c32c56
+                0.0.1-20190604+1.g0fd2090
               </div>
             
           
@@ -176,11 +176,6 @@
 </ul>
 </div>
 <dl class="data">
-<dt id="stems.gis.projections.CF_CRS_NAMES">
-<code class="sig-prename descclassname">stems.gis.projections.</code><code class="sig-name descname">CF_CRS_NAMES</code><em class="property"> = (('horizontal_datum_name', 'GEOGCS|DATUM'), ('reference_ellipsoid_name', 'GEOGCS|DATUM|SPHEROID'), ('towgs84', 'GEOGCS|DATUM|TOWGS84'), ('prime_meridian_name', 'GEOGCS|PRIMEM'))</em><a class="headerlink" href="#stems.gis.projections.CF_CRS_NAMES" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="data">
 <dt id="stems.gis.projections.CF_ELLIPSOID_DEFS">
 <code class="sig-prename descclassname">stems.gis.projections.</code><code class="sig-name descname">CF_ELLIPSOID_DEFS</code><em class="property"> = (('semi_major_axis', 'GetSemiMajor'), ('semi_minor_axis', 'GetSemiMinor'), ('inverse_flattening', 'GetInvFlattening'))</em><a class="headerlink" href="#stems.gis.projections.CF_ELLIPSOID_DEFS" title="Permalink to this definition">¶</a></dt>
 <dd><p>mapping from CF ellipsoid parameter to SpatialReference method calls</p>
@@ -219,7 +214,7 @@
 <dd><p>Return CF-compliant CRS info to prevent “unknown” CRS/Ellipse/Geoid</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.23)"><em>rasterio.crs.CRS</em></a>) – CRS</p>
+<dd class="field-odd"><p><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.24)"><em>rasterio.crs.CRS</em></a>) – CRS</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>CF attributes</p>
@@ -255,7 +250,7 @@
 <dd><p>Return CF name of a CRS projection</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.23)"><em>rasterio.crs.CRS</em></a>) – CRS</p>
+<dd class="field-odd"><p><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.24)"><em>rasterio.crs.CRS</em></a>) – CRS</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Lowercase projection name (see keys of <code class="xref py py-mod docutils literal notranslate"><span class="pre">CF_PROJECTION_DEFS</span></code>)</p>
@@ -279,7 +274,7 @@
 <dd><p>Return ellipsoid parameters for a CRS</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.23)"><em>rasterio.crs.CRS</em></a>) – CRS</p>
+<dd class="field-odd"><p><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.24)"><em>rasterio.crs.CRS</em></a>) – CRS</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Ellipsoid parameters and values</p>
@@ -307,7 +302,7 @@
 <dd><p>Return projection parameters for a CRS</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.23)"><em>rasterio.crs.CRS</em></a>) – CRS</p>
+<dd class="field-odd"><p><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.24)"><em>rasterio.crs.CRS</em></a>) – CRS</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>CRS parameters and values</p>
@@ -338,7 +333,7 @@
 <dd><p>Returns appropriate names for coordinates given CRS</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.23)"><em>rasterio.crs.CRS</em></a>) – Coordinate reference system</p>
+<dd class="field-odd"><p><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.24)"><em>rasterio.crs.CRS</em></a>) – Coordinate reference system</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><ul class="simple">
@@ -363,7 +358,7 @@
 <dd><p>Return name of a CRS / ellipsoid pair</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.23)"><em>rasterio.crs.CRS</em></a>) – CRS</p>
+<dd class="field-odd"><p><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.24)"><em>rasterio.crs.CRS</em></a>) – CRS</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Lowercase projection name (see keys of <a class="reference internal" href="#stems.gis.projections.CF_PROJECTION_DEFS" title="stems.gis.projections.CF_PROJECTION_DEFS"><code class="xref py py-data docutils literal notranslate"><span class="pre">CF_PROJECTION_DEFS</span></code></a>)</p>
@@ -400,11 +395,6 @@
 </dd>
 </dl>
 </dd></dl>
-
-<dl class="data">
-<dt id="stems.gis.projections.logger">
-<code class="sig-prename descclassname">stems.gis.projections.</code><code class="sig-name descname">logger</code><em class="property"> = &lt;Logger stems.gis.projections (WARNING)&gt;</em><a class="headerlink" href="#stems.gis.projections.logger" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 </div>
 
