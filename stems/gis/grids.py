@@ -391,17 +391,21 @@ class Tile(object):
         Number of columns and rows in tile
     """
     def __init__(self, index, crs, bounds, res, size):
-        self.index = index
+        self.index = tuple(index)
         self.crs = crs
         self.bounds = BoundingBox(*bounds)
-        self.res = res
-        self.size = size
+        self.res = tuple(res)
+        self.size = tuple(size)
 
     def __eq__(self, other):
         for attr in ('index', 'crs', 'bounds', 'res', 'size', ):
             if getattr(self, attr) != getattr(other, attr, object()):
                 return False
         return True
+
+    def __hash__(self):
+        return hash((self.index, self.crs.wkt, self.bounds, self.res,
+                     self.size))
 
     def to_dict(self):
         """ Return a ``dict`` representing this Tile
