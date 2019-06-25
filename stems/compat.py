@@ -1,10 +1,15 @@
 """ External library compatibility
 """
 # cytoolz over toolz
+HAS_TOOLZ = True
 try:
     import cytoolz as toolz
 except ImportError:
-    import toolz
+    try:
+        import toolz
+    except ImportError:
+        HAS_TOOLZ = False
+        pass
 
 
 def requires_module(module):
