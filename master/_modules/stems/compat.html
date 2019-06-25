@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.compat &mdash; stems 0.0.1-20190604+1.g0fd2090 documentation</title>
+  <title>stems.compat &mdash; stems 0.0.1-20190604+3.g3605f6b documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190604+1.g0fd2090
+                0.0.1-20190604+3.g3605f6b
               </div>
             
           
@@ -165,10 +165,15 @@
 <span></span><span class="sd">&quot;&quot;&quot; External library compatibility</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="c1"># cytoolz over toolz</span>
+<span class="n">HAS_TOOLZ</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">cytoolz</span> <span class="k">as</span> <span class="nn">toolz</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-    <span class="kn">import</span> <span class="nn">toolz</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">import</span> <span class="nn">toolz</span>
+    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+        <span class="n">HAS_TOOLZ</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">pass</span>
 
 
 <div class="viewcode-block" id="requires_module"><a class="viewcode-back" href="../../stems/stems.compat.html#stems.compat.requires_module">[docs]</a><span class="k">def</span> <span class="nf">requires_module</span><span class="p">(</span><span class="n">module</span><span class="p">):</span>

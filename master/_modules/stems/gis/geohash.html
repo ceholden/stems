@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.geohash &mdash; stems 0.0.1-20190604+1.g0fd2090 documentation</title>
+  <title>stems.gis.geohash &mdash; stems 0.0.1-20190604+3.g3605f6b documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190604+1.g0fd2090
+                0.0.1-20190604+3.g3605f6b
               </div>
             
           
@@ -194,12 +194,22 @@
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
     <span class="n">_HAS_GEOHASH</span> <span class="o">=</span> <span class="kc">False</span>
 
-<span class="kn">import</span> <span class="nn">dask.array</span> <span class="k">as</span> <span class="nn">da</span>
+<span class="n">_HAS_DASK</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">dask.array</span> <span class="k">as</span> <span class="nn">da</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">_HAS_DASK</span> <span class="o">=</span> <span class="kc">False</span>
+
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">rasterio.crs</span> <span class="k">import</span> <span class="n">CRS</span>
 <span class="kn">from</span> <span class="nn">rasterio.warp</span> <span class="k">import</span> <span class="n">transform</span>
-<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+
+<span class="n">_HAS_XARRAY</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">_HAS_XARRAY</span> <span class="o">=</span> <span class="kc">False</span>
 
 <span class="kn">from</span> <span class="nn">..compat</span> <span class="k">import</span> <span class="n">requires_module</span>
 <span class="kn">from</span> <span class="nn">..utils</span> <span class="k">import</span> <span class="n">register_multi_singledispatch</span>
@@ -258,29 +268,32 @@
     <span class="k">return</span> <span class="n">_geohash_encode_kernel</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="n">crs</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="n">precision</span><span class="p">)</span>
 
 
-<span class="nd">@geohash_encode</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">Array</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">_geohash_encode_dask</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mi">12</span><span class="p">):</span>
-    <span class="n">dtype_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">((</span><span class="s1">&#39;U&#39;</span><span class="p">,</span> <span class="n">precision</span><span class="p">))</span>
-    <span class="n">sig</span> <span class="o">=</span> <span class="s1">&#39;(i),(i)-&gt;(i)&#39;</span> <span class="k">if</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span> <span class="k">else</span> <span class="s1">&#39;(),()-&gt;()&#39;</span>
+<span class="k">if</span> <span class="n">_HAS_DASK</span><span class="p">:</span>
+    <span class="nd">@geohash_encode</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">Array</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_geohash_encode_dask</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mi">12</span><span class="p">):</span>
+        <span class="n">dtype_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">((</span><span class="s1">&#39;U&#39;</span><span class="p">,</span> <span class="n">precision</span><span class="p">))</span>
+        <span class="n">sig</span> <span class="o">=</span> <span class="s1">&#39;(i),(i)-&gt;(i)&#39;</span> <span class="k">if</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span> <span class="k">else</span> <span class="s1">&#39;(),()-&gt;()&#39;</span>
 
-    <span class="n">ans</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">apply_gufunc</span><span class="p">(</span><span class="n">_geohash_encode_kernel</span><span class="p">,</span>
-                          <span class="n">sig</span><span class="p">,</span>
-                          <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span>
-                          <span class="n">output_dtypes</span><span class="o">=</span><span class="p">[</span><span class="n">dtype_</span><span class="p">],</span>
-                          <span class="n">crs</span><span class="o">=</span><span class="n">crs</span><span class="p">,</span>
-                          <span class="n">precision</span><span class="o">=</span><span class="n">precision</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">ans</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">apply_gufunc</span><span class="p">(</span><span class="n">_geohash_encode_kernel</span><span class="p">,</span>
+                              <span class="n">sig</span><span class="p">,</span>
+                              <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span>
+                              <span class="n">output_dtypes</span><span class="o">=</span><span class="p">[</span><span class="n">dtype_</span><span class="p">],</span>
+                              <span class="n">crs</span><span class="o">=</span><span class="n">crs</span><span class="p">,</span>
+                              <span class="n">precision</span><span class="o">=</span><span class="n">precision</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ans</span>
 
 
-<span class="nd">@geohash_encode</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">_geohash_encode_xarray</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mi">12</span><span class="p">):</span>
-    <span class="n">dtype_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">((</span><span class="s1">&#39;U&#39;</span><span class="p">,</span> <span class="n">precision</span><span class="p">))</span>
-    <span class="n">ans</span> <span class="o">=</span> <span class="n">geohash_encode</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="n">crs</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="n">precision</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">ndim</span><span class="p">(</span><span class="n">ans</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;geohash&#39;</span><span class="p">,</span> <span class="p">),</span> <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;geohash&#39;</span><span class="p">:</span> <span class="n">ans</span><span class="p">},</span>
-                            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;geohash&#39;</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;geohash&#39;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">_HAS_XARRAY</span><span class="p">:</span>
+    <span class="nd">@geohash_encode</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_geohash_encode_xarray</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mi">12</span><span class="p">):</span>
+        <span class="n">dtype_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">((</span><span class="s1">&#39;U&#39;</span><span class="p">,</span> <span class="n">precision</span><span class="p">))</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="n">geohash_encode</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="n">crs</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="n">precision</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">ndim</span><span class="p">(</span><span class="n">ans</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;geohash&#39;</span><span class="p">,</span> <span class="p">),</span>
+                                <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;geohash&#39;</span><span class="p">:</span> <span class="n">ans</span><span class="p">},</span>
+                                <span class="n">name</span><span class="o">=</span><span class="s1">&#39;geohash&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;geohash&#39;</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="geohash_decode"><a class="viewcode-back" href="../../../stems/stems.gis.geohash.html#stems.gis.geohash.geohash_decode">[docs]</a><span class="nd">@requires_module</span><span class="p">(</span><span class="s1">&#39;geohash&#39;</span><span class="p">)</span>
@@ -334,28 +347,30 @@
     <span class="k">return</span> <span class="n">_geohash_decode_kernel</span><span class="p">(</span><span class="n">geohashes</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="n">crs</span><span class="p">)</span>
 
 
-<span class="nd">@geohash_decode</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">Array</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">_geohash_decode_dask</span><span class="p">(</span><span class="n">geohashes</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="n">sig</span> <span class="o">=</span> <span class="s1">&#39;(i)-&gt;(i),(i)&#39;</span> <span class="k">if</span> <span class="n">geohashes</span><span class="o">.</span><span class="n">shape</span> <span class="k">else</span> <span class="s1">&#39;()-&gt;(),()&#39;</span>
-    <span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">apply_gufunc</span><span class="p">(</span><span class="n">_geohash_decode_kernel</span><span class="p">,</span>
-                           <span class="n">sig</span><span class="p">,</span>
-                           <span class="n">geohashes</span><span class="p">,</span>
-                           <span class="n">output_dtypes</span><span class="o">=</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">],</span>
-                           <span class="n">crs</span><span class="o">=</span><span class="n">crs</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span>
+<span class="k">if</span> <span class="n">_HAS_DASK</span><span class="p">:</span>
+    <span class="nd">@geohash_decode</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">Array</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_geohash_decode_dask</span><span class="p">(</span><span class="n">geohashes</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">sig</span> <span class="o">=</span> <span class="s1">&#39;(i)-&gt;(i),(i)&#39;</span> <span class="k">if</span> <span class="n">geohashes</span><span class="o">.</span><span class="n">shape</span> <span class="k">else</span> <span class="s1">&#39;()-&gt;(),()&#39;</span>
+        <span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">apply_gufunc</span><span class="p">(</span><span class="n">_geohash_decode_kernel</span><span class="p">,</span>
+                               <span class="n">sig</span><span class="p">,</span>
+                               <span class="n">geohashes</span><span class="p">,</span>
+                               <span class="n">output_dtypes</span><span class="o">=</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">],</span>
+                               <span class="n">crs</span><span class="o">=</span><span class="n">crs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span>
 
 
-<span class="nd">@geohash_decode</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">_geohash_decode_xarray</span><span class="p">(</span><span class="n">geohashes</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">geohashes</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">da</span><span class="o">.</span><span class="n">Array</span><span class="p">):</span>
-        <span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">_geohash_decode_dask</span><span class="p">(</span><span class="n">geohashes</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="n">crs</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">_geohash_decode_mem</span><span class="p">(</span><span class="n">geohashes</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="n">crs</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">_HAS_XARRAY</span> <span class="ow">and</span> <span class="n">_HAS_DASK</span><span class="p">:</span>
+    <span class="nd">@geohash_decode</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_geohash_decode_xarray</span><span class="p">(</span><span class="n">geohashes</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">geohashes</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">da</span><span class="o">.</span><span class="n">Array</span><span class="p">):</span>
+            <span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">_geohash_decode_dask</span><span class="p">(</span><span class="n">geohashes</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="n">crs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">_geohash_decode_mem</span><span class="p">(</span><span class="n">geohashes</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="n">crs</span><span class="p">)</span>
 
-    <span class="n">y_</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="n">geohashes</span><span class="o">.</span><span class="n">coords</span><span class="p">)</span>
-    <span class="n">x_</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="n">geohashes</span><span class="o">.</span><span class="n">coords</span><span class="p">)</span>
+        <span class="n">y_</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="n">geohashes</span><span class="o">.</span><span class="n">coords</span><span class="p">)</span>
+        <span class="n">x_</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="n">geohashes</span><span class="o">.</span><span class="n">coords</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">y_</span><span class="p">,</span> <span class="n">x_</span>
+        <span class="k">return</span> <span class="n">y_</span><span class="p">,</span> <span class="n">x_</span>
 
 
 <span class="k">def</span> <span class="nf">_guard_scalar_yx</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
