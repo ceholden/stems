@@ -30,12 +30,22 @@ try:
 except ImportError:
     _HAS_GEOHASH = False
 
-import dask.array as da
+_HAS_DASK = True
+try:
+    import dask.array as da
+except ImportError:
+    _HAS_DASK = False
+
 import numpy as np
 import pandas as pd
 from rasterio.crs import CRS
 from rasterio.warp import transform
-import xarray as xr
+
+_HAS_XARRAY = True
+try:
+    import xarray as xr
+except ImportError:
+    _HAS_XARRAY = False
 
 from ..compat import requires_module
 from ..utils import register_multi_singledispatch
@@ -94,29 +104,32 @@ def _geohash_encode_mem(y, x, crs=None, precision=12):
     return _geohash_encode_kernel(y, x, crs=crs, precision=precision)
 
 
-@geohash_encode.register(da.Array)
-def _geohash_encode_dask(y, x, crs=None, precision=12):
-    dtype_ = np.dtype(('U', precision))
-    sig = '(i),(i)->(i)' if y.shape else '(),()->()'
+if _HAS_DASK:
+    @geohash_encode.register(da.Array)
+    def _geohash_encode_dask(y, x, crs=None, precision=12):
+        dtype_ = np.dtype(('U', precision))
+        sig = '(i),(i)->(i)' if y.shape else '(),()->()'
 
-    ans = da.apply_gufunc(_geohash_encode_kernel,
-                          sig,
-                          y, x,
-                          output_dtypes=[dtype_],
-                          crs=crs,
-                          precision=precision)
-    return ans
+        ans = da.apply_gufunc(_geohash_encode_kernel,
+                              sig,
+                              y, x,
+                              output_dtypes=[dtype_],
+                              crs=crs,
+                              precision=precision)
+        return ans
 
 
-@geohash_encode.register(xr.DataArray)
-def _geohash_encode_xarray(y, x, crs=None, precision=12):
-    dtype_ = np.dtype(('U', precision))
-    ans = geohash_encode(y.data, x.data, crs=crs, precision=precision)
-    if np.ndim(ans):
-        return xr.DataArray(ans, dims=('geohash', ), coords={'geohash': ans},
-                            name='geohash')
-    else:
-        return xr.DataArray(ans, name='geohash')
+if _HAS_XARRAY:
+    @geohash_encode.register(xr.DataArray)
+    def _geohash_encode_xarray(y, x, crs=None, precision=12):
+        dtype_ = np.dtype(('U', precision))
+        ans = geohash_encode(y.data, x.data, crs=crs, precision=precision)
+        if np.ndim(ans):
+            return xr.DataArray(ans, dims=('geohash', ),
+                                coords={'geohash': ans},
+                                name='geohash')
+        else:
+            return xr.DataArray(ans, name='geohash')
 
 
 @requires_module('geohash')
@@ -170,28 +183,30 @@ def _geohash_decode_mem(geohashes, crs=None):
     return _geohash_decode_kernel(geohashes, crs=crs)
 
 
-@geohash_decode.register(da.Array)
-def _geohash_decode_dask(geohashes, crs=None):
-    sig = '(i)->(i),(i)' if geohashes.shape else '()->(),()'
-    y, x = da.apply_gufunc(_geohash_decode_kernel,
-                           sig,
-                           geohashes,
-                           output_dtypes=[np.float32, np.float32],
-                           crs=crs)
-    return y, x
+if _HAS_DASK:
+    @geohash_decode.register(da.Array)
+    def _geohash_decode_dask(geohashes, crs=None):
+        sig = '(i)->(i),(i)' if geohashes.shape else '()->(),()'
+        y, x = da.apply_gufunc(_geohash_decode_kernel,
+                               sig,
+                               geohashes,
+                               output_dtypes=[np.float32, np.float32],
+                               crs=crs)
+        return y, x
 
 
-@geohash_decode.register(xr.DataArray)
-def _geohash_decode_xarray(geohashes, crs=None):
-    if isinstance(geohashes.data, da.Array):
-        y, x = _geohash_decode_dask(geohashes.data, crs=crs)
-    else:
-        y, x = _geohash_decode_mem(geohashes.data, crs=crs)
+if _HAS_XARRAY and _HAS_DASK:
+    @geohash_decode.register(xr.DataArray)
+    def _geohash_decode_xarray(geohashes, crs=None):
+        if isinstance(geohashes.data, da.Array):
+            y, x = _geohash_decode_dask(geohashes.data, crs=crs)
+        else:
+            y, x = _geohash_decode_mem(geohashes.data, crs=crs)
 
-    y_ = xr.DataArray(y, name='y', coords=geohashes.coords)
-    x_ = xr.DataArray(x, name='x', coords=geohashes.coords)
+        y_ = xr.DataArray(y, name='y', coords=geohashes.coords)
+        x_ = xr.DataArray(x, name='x', coords=geohashes.coords)
 
-    return y_, x_
+        return y_, x_
 
 
 def _guard_scalar_yx(y, x):
