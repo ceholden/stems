@@ -6,6 +6,8 @@ import re
 
 import click
 
+from stems.executor import setup_backend, setup_executor
+
 logger = logging.getLogger(__name__)
 
 
@@ -71,52 +73,6 @@ def cb_bounds(ctx, param, value):
     else:
         from rasterio.coords import BoundingBox
         return BoundingBox(*bbox)
-
-
-def cb_executor(ctx, param, value):
-    """ Callback for returning a Distributed client
-    """
-    # TODO: can we find if there's no subcommand, and just skip?
-    from stems.executor import setup_backend, setup_executor
-    nprocs = ctx.params.get('nprocs', None)
-    nthreads = ctx.params.get('nthreads', None)
-
-    # Handle requests for threads/processes
-    client = None
-    if value in ('threads', 'processes', ):
-        setup_backend(value, nprocs=nprocs, nthreads=nthreads)
-    else:
-        # Parse address
-        if value:
-            client = setup_executor(address=value)
-        elif nprocs or nthreads:
-            if nprocs and not nthreads:
-                nthreads = 1
-            if nthreads and not nprocs:
-                nprocs = 1
-            client = setup_executor(n_workers=nprocs,
-                                    threads_per_worker=nthreads or 1)
-
-    if client:
-        ctx.call_on_close(close_scheduler)
-
-    return client
-
-
-def close_scheduler():
-    """ Close all clients/clusters on exit using ``ctx.call_on_close``
-    """
-    ctx = click.get_current_context()
-    client = ctx.obj.get('client', None)
-    if client is not None:
-        try:
-            client.close(timeout=10)
-        except Exception as e:
-            logger.debug(f'Exception closing executor client: {e}')
-        else:
-            logger.debug('Closed executor client')
-    else:
-        logger.debug('No client to close')
 
 
 def _param_name_job_id_total(param):
@@ -189,21 +145,57 @@ opt_nodata = click.option(
     show_default=True, help='NoDataValue'
 )
 
+# =============================================================================
 # Dask Distributed Executor / Client
-opt_nprocs = click.option(
-    '--nprocs', default=None,
-    show_default=True, is_eager=True, type=click.INT,
-    help='Number of workers to create'
-)
-opt_nthreads = click.option(
-    '--nthreads', default=None,
-    show_default=True, is_eager=True, type=click.INT,
-    help='Number of threads per worker'
-)
-opt_scheduler = click.option(
-    '--scheduler', default=None, show_default=True,
+EXECUTORS = ('sync', 'threads', 'processes',  'distributed', )
+
+
+def cb_executor(ctx, param, value):
+    """ Callback for returning a Distributed client
+
+    TODO
+    ----
+    * Can we find if there's no subcommand, and just skip?
+    """
+    executor, workers_or_ip = value
+
+    # Handle requests for threads/processes
+    client = None
+    if executor in ('threads', 'processes', 'sync', ):
+        setup_backend(executor, workers_or_ip)
+    elif executor == 'distributed':
+        try:
+            workers = int(workers_or_ip)
+        except ValueError:
+            address = workers_or_ip
+            workers = None
+        else:
+            address = None
+        client = setup_executor(address=address, n_workers=workers)
+
+    if client:
+        def close_scheduler():
+            if client is not None:
+                try:
+                    client.close(timeout=10)
+                except Exception as e:
+                    logger.debug(f'Exception closing executor client: {e}')
+                else:
+                    logger.debug('Closed executor client')
+            else:
+                logger.debug('No client to close')
+        ctx.call_on_close(close_scheduler)
+
+    return client
+
+
+opt_executor = click.option(
+    '--executor', type=(click.Choice(EXECUTORS), str),
+    default=('sync', None), show_default=True,
     callback=cb_executor,
-    help=('Scheduler address or backend ("threads" or "processes"). Creates a '
-          '`LocalCluster` if `nprocs` or `nthreads` are specified but no '
-          'address is given.')
+    help=(
+        'Configure parallel processing options for Dask locally ("sync", '
+        '"threads", or "processes") or using Distributed ("distributed"). '
+        'Must provide either worker count or scheduler address (ip:port).'
+    )
 )

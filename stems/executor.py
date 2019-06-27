@@ -5,28 +5,32 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def setup_backend(scheduler, nprocs=None, nthreads=None):
-    """ Setup Dask to use a particular scheduler backend
+def setup_backend(scheduler, workers=None):
+    """ Setup Dask to use threads or processes
     """
     import dask
-    if scheduler == 'threads':
-        if nthreads:
+
+    if scheduler in ('sync', 'single-threaded', 'synchronous', ):
+        logger.debug('Using the synchronous/single-threaded backend')
+        dask.config.set(scheduler='synchronous')
+    elif scheduler == 'threads':
+        if workers:
             from multiprocessing.pool import ThreadPool
-            pool = ThreadPool(int(nthreads))
+            pool = ThreadPool(int(workers))
         else:
             pool = None
-        logger.debug(f'Using `threads` backend (n={nthreads or "auto"})')
+        logger.debug(f'Using `threads` backend (n={workers or "auto"})')
         dask.config.set(scheduler='threads', pool=pool)
     elif scheduler == 'processes':
-        if nprocs:
+        if workers:
             from multiprocessing import Pool
-            pool = Pool(int(nprocs))
+            pool = Pool(int(workers))
         else:
             pool = None
-        logger.debug(f'Using `processes` backend (n={nprocs or "auto"})')
+        logger.debug(f'Using `processes` backend (n={workers or "auto"})')
         dask.config.set(scheduler='processes', pool=pool)
     else:
-        dask.config.set(scheduler=scheduler)
+        raise KeyError(f'Unsupported scheduler "{scheduler}"')
 
 
 def setup_executor(address=None, n_workers=None, threads_per_worker=1, **kwds):
