@@ -1,6 +1,7 @@
 """ Dask/Distributed related helpers
 """
 import logging
+import socket
 
 logger = logging.getLogger(__name__)
 
@@ -115,6 +116,7 @@ def executor_info(client, ip=True, bokeh=True, stats=True):
     infos = []
     if ip:
         infos.append('Scheduler: {0}'.format(ip_str))
+        infos.append('Host: {0}'.format(socket.gethostname()))
     if bokeh:
         infos.append('Bokeh: {0}'.format(bokeh_str))
     if stats:
