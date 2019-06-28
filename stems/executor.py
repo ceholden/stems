@@ -107,7 +107,8 @@ def executor_info(client, ip=True, bokeh=True, stats=True):
 
     if info:
         workers = len(info['workers'])
-        cores = sum(w['ncores'] for w in info['workers'].values())
+        cores = sum(w.get('ncores', w.get('nthreads', 1))
+                    for w in info['workers'].values())
         memory = sum(w['memory_limit'] for w in info['workers'].values())
         memory = distributed.utils.format_bytes(memory)
     else:
