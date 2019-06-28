@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.geohash &mdash; stems 0.0.1-20190604+3.g3605f6b documentation</title>
+  <title>stems.gis.geohash &mdash; stems 0.0.1-20190604+9.g1b57818 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190604+3.g3605f6b
+                0.0.1-20190604+9.g1b57818
               </div>
             
           
@@ -274,12 +274,11 @@
         <span class="n">dtype_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">((</span><span class="s1">&#39;U&#39;</span><span class="p">,</span> <span class="n">precision</span><span class="p">))</span>
         <span class="n">sig</span> <span class="o">=</span> <span class="s1">&#39;(i),(i)-&gt;(i)&#39;</span> <span class="k">if</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span> <span class="k">else</span> <span class="s1">&#39;(),()-&gt;()&#39;</span>
 
-        <span class="n">ans</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">apply_gufunc</span><span class="p">(</span><span class="n">_geohash_encode_kernel</span><span class="p">,</span>
-                              <span class="n">sig</span><span class="p">,</span>
-                              <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span>
-                              <span class="n">output_dtypes</span><span class="o">=</span><span class="p">[</span><span class="n">dtype_</span><span class="p">],</span>
-                              <span class="n">crs</span><span class="o">=</span><span class="n">crs</span><span class="p">,</span>
-                              <span class="n">precision</span><span class="o">=</span><span class="n">precision</span><span class="p">)</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">map_blocks</span><span class="p">(</span><span class="n">_geohash_encode_kernel</span><span class="p">,</span>
+                            <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span>
+                            <span class="n">dtype</span><span class="o">=</span><span class="n">dtype_</span><span class="p">,</span>
+                            <span class="n">crs</span><span class="o">=</span><span class="n">crs</span><span class="p">,</span>
+                            <span class="n">precision</span><span class="o">=</span><span class="n">precision</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ans</span>
 
 

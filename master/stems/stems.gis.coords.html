@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.coords module &mdash; stems 0.0.1-20190604+3.g3605f6b documentation</title>
+  <title>stems.gis.coords module &mdash; stems 0.0.1-20190604+9.g1b57818 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190604+3.g3605f6b
+                0.0.1-20190604+9.g1b57818
               </div>
             
           
@@ -180,9 +180,9 @@ the pixel sizing.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>y</strong> (<em>array-like</em>) – Y coordinates (latitude, y, etc)</p></li>
 <li><p><strong>x</strong> (<em>array-like</em>) – X coordinates (longitude, x, etc)</p></li>
-<li><p><strong>center</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Are coordinates provided pixel center (True) or
+<li><p><strong>center</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – Are coordinates provided pixel center (True) or
 upper-left (False)</p></li>
-<li><p><strong>assume_unique</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Assume coordinates are sorted and unique. Otherwise, will run
+<li><p><strong>assume_unique</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – Assume coordinates are sorted and unique. Otherwise, will run
 <code class="docutils literal notranslate"><span class="pre">np.unique</span></code> on each</p></li>
 </ul>
 </dd>
@@ -205,9 +205,9 @@ upper-left (False)</p></li>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>y</strong> (<em>array-like</em>) – Y coordinates (latitude, y, etc)</p></li>
 <li><p><strong>x</strong> (<em>array-like</em>) – X coordinates (longitude, x, etc)</p></li>
-<li><p><strong>center</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Are coordinates provided pixel center (True) or
+<li><p><strong>center</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – Are coordinates provided pixel center (True) or
 upper-left (False)</p></li>
-<li><p><strong>assume_unique</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Assume coordinates are sorted and unique. Otherwise, will run
+<li><p><strong>assume_unique</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – Assume coordinates are sorted and unique. Otherwise, will run
 <code class="docutils literal notranslate"><span class="pre">np.unique</span></code> on each</p></li>
 </ul>
 </dd>
@@ -228,8 +228,8 @@ upper-left (False)</p></li>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>transform</strong> (<em>affine.Affine</em>) – Affine transformation</p></li>
-<li><p><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Height in pixels</p></li>
-<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Width in pixels</p></li>
+<li><p><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Height in pixels</p></li>
+<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Width in pixels</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -256,16 +256,16 @@ height and width arguments must be supplied.</p>
 the provided bounds (left, bottom, right, up). Coordinates will
 be aligned/spaced according to the transform and will not necessarily
 match the upper-left of this <code class="docutils literal notranslate"><span class="pre">bbox</span></code></p></li>
-<li><p><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Number of pixels tall</p></li>
-<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Number of pixels wide</p></li>
-<li><p><strong>center</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Return coordinates for the center of each pixel</p></li>
+<li><p><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Number of pixels tall</p></li>
+<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Number of pixels wide</p></li>
+<li><p><strong>center</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – Return coordinates for the center of each pixel</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>y, x</strong> – Y/X coordinate pairs (e.g., latitude/longitude)</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a>[np.ndarray, np.ndarray]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#tuple" title="(in Python v3.7)">tuple</a>[np.ndarray, np.ndarray]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -282,7 +282,7 @@ match the upper-left of this <code class="docutils literal notranslate"><span cl
 <dd class="field-even"><p>Width and height</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)">float</a>, <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)">float</a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#tuple" title="(in Python v3.7)">tuple</a>[<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#float" title="(in Python v3.7)">float</a>, <a class="reference external" href="https://docs.python.org/3.7/library/functions.html#float" title="(in Python v3.7)">float</a>]</p>
 </dd>
 </dl>
 </dd></dl>

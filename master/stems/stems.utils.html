@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.utils module &mdash; stems 0.0.1-20190604+3.g3605f6b documentation</title>
+  <title>stems.utils module &mdash; stems 0.0.1-20190604+9.g1b57818 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190604+3.g3605f6b
+                0.0.1-20190604+9.g1b57818
               </div>
             
           
@@ -170,7 +170,7 @@
 <dl class="class">
 <dt id="stems.utils.FrozenKeyDict">
 <em class="property">class </em><code class="sig-prename descclassname">stems.utils.</code><code class="sig-name descname">FrozenKeyDict</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/utils.html#FrozenKeyDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.utils.FrozenKeyDict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/collections.abc.html#collections.abc.MutableMapping" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">collections.abc.MutableMapping</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.7/library/collections.abc.html#collections.abc.MutableMapping" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">collections.abc.MutableMapping</span></code></a></p>
 <p>A dict that doesn’t allow new keys</p>
 <dl class="method">
 <dt id="stems.utils.FrozenKeyDict.copy">
@@ -191,7 +191,7 @@
 <dd><p>Concatenate all list-like items in <code class="docutils literal notranslate"><span class="pre">l</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>l</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a>) – Sequence (but not a str)</p>
+<dd class="field-odd"><p><strong>l</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#tuple" title="(in Python v3.7)"><em>tuple</em></a>) – Sequence (but not a str)</p>
 </dd>
 <dt class="field-even">Yields</dt>
 <dd class="field-even"><p><em>list</em> – Concatenated list items</p>
@@ -223,7 +223,7 @@
 <dd class="field-odd"><p>numpy.core.getlimits.finfo or numpy.core.getlimits.iinfo</p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.6/library/exceptions.html#TypeError" title="(in Python v3.6)"><strong>TypeError</strong></a> – Raised if <code class="docutils literal notranslate"><span class="pre">arr</span></code> is not a int or float type</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.7/library/exceptions.html#TypeError" title="(in Python v3.7)"><strong>TypeError</strong></a> – Raised if <code class="docutils literal notranslate"><span class="pre">arr</span></code> is not a int or float type</p>
 </dd>
 </dl>
 </dd></dl>
@@ -235,16 +235,16 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>location</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.6/library/pathlib.html#pathlib.Path" title="(in Python v3.6)"><em>pathlib.Path</em></a>) – Directory location to search</p></li>
-<li><p><strong>pattern</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Search pattern for files</p></li>
-<li><p><strong>regex</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – True if <code class="docutils literal notranslate"><span class="pre">pattern</span></code> is a regular expression</p></li>
+<li><p><strong>location</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.7/library/pathlib.html#pathlib.Path" title="(in Python v3.7)"><em>pathlib.Path</em></a>) – Directory location to search</p></li>
+<li><p><strong>pattern</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Search pattern for files</p></li>
+<li><p><strong>regex</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – True if <code class="docutils literal notranslate"><span class="pre">pattern</span></code> is a regular expression</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>List of file paths for files found</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)">list</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#list" title="(in Python v3.7)">list</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -261,7 +261,7 @@
 <dd class="field-even"><p>Classes that inherit from <code class="docutils literal notranslate"><span class="pre">cls_</span></code></p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#set" title="(in Python v3.6)">set</a>[class]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#set" title="(in Python v3.7)">set</a>[class]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -272,7 +272,7 @@
 <dd><p>Flatten all list-like items in <code class="docutils literal notranslate"><span class="pre">l</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>l</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a>) – Sequence (but not a str)</p>
+<dd class="field-odd"><p><strong>l</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#tuple" title="(in Python v3.7)"><em>tuple</em></a>) – Sequence (but not a str)</p>
 </dd>
 <dt class="field-even">Yields</dt>
 <dd class="field-even"><p><em>list</em> – Flattened list items</p>
@@ -286,13 +286,13 @@
 <dd><p>Import a Python module/class/function from its string</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>string</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A Python object path</p>
+<dd class="field-odd"><p><strong>string</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – A Python object path</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>The imported object (class/module/function)</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)">object</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/functions.html#object" title="(in Python v3.7)">object</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -305,13 +305,13 @@
 other sequences like str or Mapping.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>obj</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><em>object</em></a>) – An object</p>
+<dd class="field-odd"><p><strong>obj</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#object" title="(in Python v3.7)"><em>object</em></a>) – An object</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>True if <code class="docutils literal notranslate"><span class="pre">obj</span></code> is a list (sequence but not str)</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)">bool</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)">bool</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -345,7 +345,7 @@ other sequences like str or Mapping.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>func</strong> (<em>callable</em>) – Function</p></li>
-<li><p><strong>types</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a>) – Multiple types to register</p></li>
+<li><p><strong>types</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#tuple" title="(in Python v3.7)"><em>tuple</em></a>) – Multiple types to register</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -364,8 +364,8 @@ other sequences like str or Mapping.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>one</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><em>Path</em>) – File to return relative path for</p></li>
-<li><p><strong>two</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><em>Path</em>) – File <code class="docutils literal notranslate"><span class="pre">one</span></code> will be relative to</p></li>
+<li><p><strong>one</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><em>Path</em>) – File to return relative path for</p></li>
+<li><p><strong>two</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><em>Path</em>) – File <code class="docutils literal notranslate"><span class="pre">one</span></code> will be relative to</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -384,12 +384,12 @@ other sequences like str or Mapping.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>destination</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><em>Path</em>) – The final intended location of the file</p></li>
-<li><p><strong>tmpdir</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) – By default, this function will yield a temporary filename
+<li><p><strong>destination</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><em>Path</em>) – The final intended location of the file</p></li>
+<li><p><strong>tmpdir</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – By default, this function will yield a temporary filename
 in the same directory as <code class="docutils literal notranslate"><span class="pre">destination</span></code>, but you may specify
 another location using <code class="docutils literal notranslate"><span class="pre">tmpdir</span></code>.</p></li>
-<li><p><strong>prefix</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) – Characters to prefix the temporary file with</p></li>
-<li><p><strong>suffix</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) – Characters to add at the end of the temporary filename. By default
+<li><p><strong>prefix</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Characters to prefix the temporary file with</p></li>
+<li><p><strong>suffix</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Characters to add at the end of the temporary filename. By default
 appends “.tmp.” and the process ID</p></li>
 </ul>
 </dd>
@@ -411,7 +411,7 @@ appends “.tmp.” and the process ID</p></li>
 <dd class="field-even"><p>Either original object if <code class="docutils literal notranslate"><span class="pre">len(l)</span> <span class="pre">!=</span> <span class="pre">1</span></code> else <code class="docutils literal notranslate"><span class="pre">l[0]</span></code></p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)">object</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/functions.html#object" title="(in Python v3.7)">object</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -429,15 +429,15 @@ appends “.tmp.” and the process ID</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>d</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – Dictionary to update</p></li>
-<li><p><strong>other</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – Other dict with replacement values</p></li>
+<li><p><strong>d</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – Dictionary to update</p></li>
+<li><p><strong>other</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – Other dict with replacement values</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Updated dict</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
 </dd>
 </dl>
 </dd></dl>

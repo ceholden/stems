@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.io.utils module &mdash; stems 0.0.1-20190604+3.g3605f6b documentation</title>
+  <title>stems.io.utils module &mdash; stems 0.0.1-20190604+9.g1b57818 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190604+3.g3605f6b
+                0.0.1-20190604+9.g1b57818
               </div>
             
           
@@ -175,18 +175,18 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>paths</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><em>Sequence</em>) – Glob style search pattern, or a list of filenames</p></li>
-<li><p><strong>index</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#slice" title="(in Python v3.6)"><em>slice</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Either a <code class="docutils literal notranslate"><span class="pre">slice</span></code> used to index on the stem of the filenames
+<li><p><strong>paths</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><em>Sequence</em>) – Glob style search pattern, or a list of filenames</p></li>
+<li><p><strong>index</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#slice" title="(in Python v3.7)"><em>slice</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Either a <code class="docutils literal notranslate"><span class="pre">slice</span></code> used to index on the stem of the filenames
 in <cite>paths</cite>, or together with <cite>sep</cite> an <cite>int</cite> used to index on
 the filename stem split by <cite>sep</cite> (e.g., <code class="docutils literal notranslate"><span class="pre">filename.split(sep)[index]</span></code>)</p></li>
-<li><p><strong>sep</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) – String field seperator</p></li>
+<li><p><strong>sep</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – String field seperator</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Attribute extracted from each filename path</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)">list</a>[<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)">str</a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#list" title="(in Python v3.7)">list</a>[<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -198,12 +198,12 @@ the filename stem split by <cite>sep</cite> (e.g., <code class="docutils literal
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>paths</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><em>Sequence</em>) – Glob style search pattern, or a list of filenames</p></li>
-<li><p><strong>index</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#slice" title="(in Python v3.6)"><em>slice</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Either a <code class="docutils literal notranslate"><span class="pre">slice</span></code> used to index on the stem of the filenames
+<li><p><strong>paths</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><em>Sequence</em>) – Glob style search pattern, or a list of filenames</p></li>
+<li><p><strong>index</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#slice" title="(in Python v3.7)"><em>slice</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Either a <code class="docutils literal notranslate"><span class="pre">slice</span></code> used to index on the stem of the filenames
 in <cite>paths</cite>, or together with <cite>sep</cite> an <cite>int</cite> used to index on
 the filename stem split by <cite>sep</cite> (e.g., <code class="docutils literal notranslate"><span class="pre">filename.split(sep)[index]</span></code>)</p></li>
-<li><p><strong>sep</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) – String field seperator</p></li>
-<li><p><strong>date_format</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Date format used by <code class="xref py py-func docutils literal notranslate"><span class="pre">datetime.datetime.strptime()</span></code></p></li>
+<li><p><strong>sep</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – String field seperator</p></li>
+<li><p><strong>date_format</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Date format used by <code class="xref py py-func docutils literal notranslate"><span class="pre">datetime.datetime.strptime()</span></code></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -221,14 +221,14 @@ the filename stem split by <cite>sep</cite> (e.g., <code class="docutils literal
 <dd><p>Return a list of path(s)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>paths</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><em>Sequence</em>) – Either a string glob in the form “path/to/my/files/<a href="#id1"><span class="problematic" id="id2">*</span></a>.nc” or an explicit
+<dd class="field-odd"><p><strong>paths</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><em>Sequence</em>) – Either a string glob in the form “path/to/my/files/<a href="#id1"><span class="problematic" id="id2">*</span></a>.nc” or an explicit
 list of files to open.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Paths determined from <code class="docutils literal notranslate"><span class="pre">paths</span></code></p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)">list</a>[Path]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#list" title="(in Python v3.7)">list</a>[Path]</p>
 </dd>
 </dl>
 </dd></dl>

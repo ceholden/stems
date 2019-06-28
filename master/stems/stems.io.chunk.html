@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.io.chunk module &mdash; stems 0.0.1-20190604+3.g3605f6b documentation</title>
+  <title>stems.io.chunk module &mdash; stems 0.0.1-20190604+9.g1b57818 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190604+3.g3605f6b
+                0.0.1-20190604+9.g1b57818
               </div>
             
           
@@ -175,7 +175,7 @@
 <blockquote>
 <div><ul class="simple">
 <li><p>e.g., <code class="docutils literal notranslate"><span class="pre">{'time':</span> <span class="pre">(3,</span> <span class="pre">3,</span> <span class="pre">3,</span> <span class="pre">1,</span> <span class="pre">)}</span></code></p></li>
-<li><p>For <a class="reference external" href="http://docs.dask.org/en/latest/array-api.html#dask.array.Array" title="(in Dask v1.2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dask.array.Array</span></code></a> and <a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>,
+<li><p>For <a class="reference external" href="http://docs.dask.org/en/latest/array-api.html#dask.array.Array" title="(in Dask v2.0.0+6.ge0f9456e)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dask.array.Array</span></code></a> and <a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>,
 <code class="docutils literal notranslate"><span class="pre">.chunks</span></code> is a tuple</p></li>
 <li><p><a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v0.12.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a> <code class="docutils literal notranslate"><span class="pre">.chunks</span></code> is a mapping</p></li>
 </ul>
@@ -193,13 +193,13 @@
 <dd><p>Try to guess the best chunksizes for a filename</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – File to read</p>
+<dd class="field-odd"><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – File to read</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Best guess for chunksizes to use for each dimension</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -211,19 +211,19 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>chunks</strong> (<em>Mapping</em><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>Mapping</em><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>]</em><em>]</em>) – Mapping of variable names to variable chunksizes</p></li>
+<li><p><strong>chunks</strong> (<em>Mapping</em><em>[</em><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>Mapping</em><em>[</em><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>]</em><em>]</em>) – Mapping of variable names to variable chunksizes</p></li>
 <li><p><strong>tiebreaker</strong> (<em>callable</em><em>, </em><em>optional</em>) – Controls what chunksize should be used for a dimension in the event
 of a tie. For example, if 3 variables had a chunksize of 250 and
 another 3 had a chunksize of 500, the guess is determined by
 <code class="docutils literal notranslate"><span class="pre">callable([250,</span> <span class="pre">500])</span></code>. By default, prefer the larger chunksize
-(i.e., <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#max" title="(in Python v3.6)"><code class="xref py py-func docutils literal notranslate"><span class="pre">max()</span></code></a>)</p></li>
+(i.e., <a class="reference external" href="https://docs.python.org/3.7/library/functions.html#max" title="(in Python v3.7)"><code class="xref py py-func docutils literal notranslate"><span class="pre">max()</span></code></a>)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Chunksize per dimension</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -246,8 +246,8 @@ another 3 had a chunksize of 500, the guess is determined by
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.1)"><em>xarray.DataArray</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a><em>, or </em><a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v0.12.1)"><em>xarray.Dataset</em></a>) – Input data containing chunk information</p></li>
-<li><p><strong>dims</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>]</em><em>, </em><em>optional</em>) – Optionally, provide the order in which dimension chunksizes
+<li><p><strong>data</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.1)"><em>xarray.DataArray</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a><em>, or </em><a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v0.12.1)"><em>xarray.Dataset</em></a>) – Input data containing chunk information</p></li>
+<li><p><strong>dims</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>]</em><em>, </em><em>optional</em>) – Optionally, provide the order in which dimension chunksizes
 should be returned. Useful when asking for chunksizes from
 not-necessarily-ordered data (dicts and Datasets)</p></li>
 </ul>
@@ -257,7 +257,7 @@ not-necessarily-ordered data (dicts and Datasets)</p></li>
 are no chunks.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#tuple" title="(in Python v3.7)">tuple</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -274,10 +274,10 @@ are no chunks.</p>
 <dd class="field-even"><p>Dimensions (keys) and chunk sizes (values)</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.6/library/exceptions.html#TypeError" title="(in Python v3.6)"><strong>TypeError</strong></a> – Raised if input is not a Dataset or DataArray</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.7/library/exceptions.html#TypeError" title="(in Python v3.7)"><strong>TypeError</strong></a> – Raised if input is not a Dataset or DataArray</p>
 </dd>
 </dl>
 </dd></dl>
@@ -289,7 +289,7 @@ are no chunks.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Read chunks from this file</p></li>
+<li><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Read chunks from this file</p></li>
 <li><p><strong>variables</strong> (<em>Sequence</em>) – Subset of variables to retrieve <code class="docutils literal notranslate"><span class="pre">chunking</span></code> for</p></li>
 </ul>
 </dd>
@@ -298,10 +298,10 @@ are no chunks.</p>
 mapping dimension name to chunksize (e.g., <code class="docutils literal notranslate"><span class="pre">{'x':</span> <span class="pre">250}</span></code>)</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>Mapping[<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)">str</a>, Mapping[<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)">str</a>, <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a>]]</p>
+<dd class="field-odd"><p>Mapping[<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a>, Mapping[<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a>, <a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)">int</a>]]</p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.6/library/exceptions.html#ValueError" title="(in Python v3.6)"><strong>ValueError</strong></a> – Raised if no chunks can be determined (unknown file format, etc.)</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.7/library/exceptions.html#ValueError" title="(in Python v3.7)"><strong>ValueError</strong></a> – Raised if no chunks can be determined (unknown file format, etc.)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -313,7 +313,7 @@ mapping dimension name to chunksize (e.g., <code class="docutils literal notrans
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Filename of NetCDF file</p></li>
+<li><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Filename of NetCDF file</p></li>
 <li><p><strong>variables</strong> (<em>Sequence</em>) – Subset of variables to retrieve <cite>chunking</cite> for</p></li>
 </ul>
 </dd>
@@ -322,7 +322,7 @@ mapping dimension name to chunksize (e.g., <code class="docutils literal notrans
 mapping dimension name to chunksize (e.g., <code class="docutils literal notranslate"><span class="pre">{'x':</span> <span class="pre">250}</span></code>)</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>Mapping[<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)">str</a>, Mapping[<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)">str</a>, <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a>]]</p>
+<dd class="field-odd"><p>Mapping[<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a>, Mapping[<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a>, <a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)">int</a>]]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -333,13 +333,13 @@ mapping dimension name to chunksize (e.g., <code class="docutils literal notrans
 <dd><p>Returns chunks for rasterio dataset formatted for xarray</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>riods</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/pathlib.html#pathlib.Path" title="(in Python v3.6)"><em>pathlib.Path</em></a><em>, or </em><em>rasterio.DatasetReader</em>) – Rasterio dataset or path to dataset</p>
+<dd class="field-odd"><p><strong>riods</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.7/library/pathlib.html#pathlib.Path" title="(in Python v3.7)"><em>pathlib.Path</em></a><em>, or </em><em>rasterio.DatasetReader</em>) – Rasterio dataset or path to dataset</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Chunks as expected by xarray (e.g., <code class="docutils literal notranslate"><span class="pre">{'x':</span> <span class="pre">50,</span> <span class="pre">'y':</span> <span class="pre">50}</span></code>)</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
 </dd>
 </dl>
 </dd></dl>

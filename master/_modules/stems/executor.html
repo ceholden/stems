@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.executor &mdash; stems 0.0.1-20190604+3.g3605f6b documentation</title>
+  <title>stems.executor &mdash; stems 0.0.1-20190604+9.g1b57818 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190604+3.g3605f6b
+                0.0.1-20190604+9.g1b57818
               </div>
             
           
@@ -165,32 +165,37 @@
 <span></span><span class="sd">&quot;&quot;&quot; Dask/Distributed related helpers</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">socket</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="setup_backend"><a class="viewcode-back" href="../../stems/stems.executor.html#stems.executor.setup_backend">[docs]</a><span class="k">def</span> <span class="nf">setup_backend</span><span class="p">(</span><span class="n">scheduler</span><span class="p">,</span> <span class="n">nprocs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nthreads</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Setup Dask to use a particular scheduler backend</span>
+<div class="viewcode-block" id="setup_backend"><a class="viewcode-back" href="../../stems/stems.executor.html#stems.executor.setup_backend">[docs]</a><span class="k">def</span> <span class="nf">setup_backend</span><span class="p">(</span><span class="n">scheduler</span><span class="p">,</span> <span class="n">workers</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Setup Dask to use threads or processes</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">import</span> <span class="nn">dask</span>
-    <span class="k">if</span> <span class="n">scheduler</span> <span class="o">==</span> <span class="s1">&#39;threads&#39;</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">nthreads</span><span class="p">:</span>
+
+    <span class="k">if</span> <span class="n">scheduler</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;sync&#39;</span><span class="p">,</span> <span class="s1">&#39;single-threaded&#39;</span><span class="p">,</span> <span class="s1">&#39;synchronous&#39;</span><span class="p">,</span> <span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Using the synchronous/single-threaded backend&#39;</span><span class="p">)</span>
+        <span class="n">dask</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">scheduler</span><span class="o">=</span><span class="s1">&#39;synchronous&#39;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">scheduler</span> <span class="o">==</span> <span class="s1">&#39;threads&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">workers</span><span class="p">:</span>
             <span class="kn">from</span> <span class="nn">multiprocessing.pool</span> <span class="k">import</span> <span class="n">ThreadPool</span>
-            <span class="n">pool</span> <span class="o">=</span> <span class="n">ThreadPool</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">nthreads</span><span class="p">))</span>
+            <span class="n">pool</span> <span class="o">=</span> <span class="n">ThreadPool</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">workers</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">pool</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Using `threads` backend (n={nthreads or &quot;auto&quot;})&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Using `threads` backend (n={workers or &quot;auto&quot;})&#39;</span><span class="p">)</span>
         <span class="n">dask</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">scheduler</span><span class="o">=</span><span class="s1">&#39;threads&#39;</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="n">pool</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">scheduler</span> <span class="o">==</span> <span class="s1">&#39;processes&#39;</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">nprocs</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">workers</span><span class="p">:</span>
             <span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="k">import</span> <span class="n">Pool</span>
-            <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">nprocs</span><span class="p">))</span>
+            <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">workers</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">pool</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Using `processes` backend (n={nprocs or &quot;auto&quot;})&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Using `processes` backend (n={workers or &quot;auto&quot;})&#39;</span><span class="p">)</span>
         <span class="n">dask</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">scheduler</span><span class="o">=</span><span class="s1">&#39;processes&#39;</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="n">pool</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">dask</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">scheduler</span><span class="o">=</span><span class="n">scheduler</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Unsupported scheduler &quot;</span><span class="si">{scheduler}</span><span class="s1">&quot;&#39;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="setup_executor"><a class="viewcode-back" href="../../stems/stems.executor.html#stems.executor.setup_executor">[docs]</a><span class="k">def</span> <span class="nf">setup_executor</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_workers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">threads_per_worker</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
@@ -266,7 +271,8 @@
 
     <span class="k">if</span> <span class="n">info</span><span class="p">:</span>
         <span class="n">workers</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;workers&#39;</span><span class="p">])</span>
-        <span class="n">cores</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="s1">&#39;ncores&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;workers&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="n">cores</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ncores&#39;</span><span class="p">,</span> <span class="n">w</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;nthreads&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+                    <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;workers&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
         <span class="n">memory</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="s1">&#39;memory_limit&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;workers&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
         <span class="n">memory</span> <span class="o">=</span> <span class="n">distributed</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">format_bytes</span><span class="p">(</span><span class="n">memory</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
@@ -275,6 +281,7 @@
     <span class="n">infos</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">if</span> <span class="n">ip</span><span class="p">:</span>
         <span class="n">infos</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Scheduler: </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ip_str</span><span class="p">))</span>
+        <span class="n">infos</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Host: </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">gethostname</span><span class="p">()))</span>
     <span class="k">if</span> <span class="n">bokeh</span><span class="p">:</span>
         <span class="n">infos</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Bokeh: </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">bokeh_str</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">stats</span><span class="p">:</span>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.io.xarray_ module &mdash; stems 0.0.1-20190604+3.g3605f6b documentation</title>
+  <title>stems.io.xarray_ module &mdash; stems 0.0.1-20190604+9.g1b57818 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190604+3.g3605f6b
+                0.0.1-20190604+9.g1b57818
               </div>
             
           
@@ -175,14 +175,14 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>paths</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>]</em>) – Either a string glob in the form “path/to/my/files/<a href="#id1"><span class="problematic" id="id2">*</span></a>.nc” or an explicit
+<li><p><strong>paths</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>]</em>) – Either a string glob in the form “path/to/my/files/<a href="#id1"><span class="problematic" id="id2">*</span></a>.nc” or an explicit
 list of files to open.</p></li>
-<li><p><strong>chunks</strong> (<em>'auto'</em><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – Number of chunks or the chunk size for each dimension. If ‘auto’,
+<li><p><strong>chunks</strong> (<em>'auto'</em><em>, </em><a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – Number of chunks or the chunk size for each dimension. If ‘auto’,
 reads chunks from first file in <code class="docutils literal notranslate"><span class="pre">paths</span></code> and uses
 <code class="xref py py-func docutils literal notranslate"><span class="pre">plants.io.chunking_.best_chunksizes()</span></code> to guess an appropriate
 chunksize  based on the most frequently used chunksize per dimension.
 Otherwise, pass <cite>chunks</cite> onto <code class="xref py py-func docutils literal notranslate"><span class="pre">xr.open_mfdataset()</span></code>.</p></li>
-<li><p><strong>concat_dim</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)"><em>None</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>DataArray</em><em> or </em><em>Index</em><em>, </em><em>optional</em>) – Dimension to concatenate files along. This argument is passed on to
+<li><p><strong>concat_dim</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/constants.html#None" title="(in Python v3.7)"><em>None</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>DataArray</em><em> or </em><em>Index</em><em>, </em><em>optional</em>) – Dimension to concatenate files along. This argument is passed on to
 <a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.auto_combine.html#xarray.auto_combine" title="(in xarray v0.12.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">xarray.auto_combine()</span></code></a> along with the dataset objects. You only
 need to provide this argument if the dimension along which you want to
 concatenate is not a dimension in the original datasets, e.g., if you
@@ -190,7 +190,7 @@ want to stack a collection of 2D arrays along a third dimension.
 By default, xarray attempts to infer this argument by examining
 component files. Set <code class="docutils literal notranslate"><span class="pre">concat_dim=None</span></code> explicitly to disable
 concatenation.</p></li>
-<li><p><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.24)"><em>rasterio.crs.CRS</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, or </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) – Coordinate reference system to assign, if not already georeferenced.
+<li><p><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.24)"><em>rasterio.crs.CRS</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>, or </em><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Coordinate reference system to assign, if not already georeferenced.
 If type is not <code class="docutils literal notranslate"><span class="pre">CRS</span></code>, will be converted using
 <code class="xref py py-func docutils literal notranslate"><span class="pre">plants.gis.convert.to_crs()</span></code>.</p></li>
 <li><p><strong>kwds</strong> (<em>optional</em>) – Options passed to <a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.open_mfdataset.html#xarray.open_mfdataset" title="(in xarray v0.12.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">xarray.open_mfdataset()</span></code></a></p></li>
@@ -203,7 +203,7 @@ If type is not <code class="docutils literal notranslate"><span class="pre">CRS<
 <dd class="field-odd"><p><a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v0.12.1)">xarray.Dataset</a></p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.6/library/exceptions.html#IOError" title="(in Python v3.6)"><strong>IOError</strong></a> – Raise if <code class="docutils literal notranslate"><span class="pre">paths</span></code> does not parse into any filenames (e.g., a bad glob)</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.7/library/exceptions.html#IOError" title="(in Python v3.7)"><strong>IOError</strong></a> – Raise if <code class="docutils literal notranslate"><span class="pre">paths</span></code> does not parse into any filenames (e.g., a bad glob)</p>
 </dd>
 </dl>
 </dd></dl>
