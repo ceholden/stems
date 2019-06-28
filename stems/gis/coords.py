@@ -193,11 +193,6 @@ def _inspect_coords(y, x, center=True, assume_unique=True):
         y_ = np.unique(y_)
         x_ = np.unique(x_)
 
-    if not _check_spacing(y_):
-        warnings.warn('"y" coordinate does not have equal spacing')
-    if not _check_spacing(x_):
-        warnings.warn('"x" coordinate does not have equal spacing')
-
     minmax_y = y_[0], y_[-1]
     minmax_x = x_[0], x_[-1]
 
@@ -205,9 +200,25 @@ def _inspect_coords(y, x, center=True, assume_unique=True):
         logger.warning('Unreversing y coordinate min/max')
         minmax_y = (minmax_y[1], minmax_y[0])
 
-    nx, ny = len(x_), len(y_)
-    dy = (minmax_y[0] - minmax_y[1]) / (ny - 1)
-    dx = (minmax_x[1] - minmax_x[0]) / (nx - 1)
+    # If spacing is not equal we guess from `(max - min) / n`
+    dy = _check_spacing(y_)
+    if dy is False:
+        warnings.warn('"y" coordinate does not have equal spacing')
+        ny = len(y_)
+        dy = (minmax_y[0] - minmax_y[1]) / (ny - 1)
+    else:
+        ny = (minmax_y[0] - minmax_y[1]) / dy
+        # np.unique returns sorted y so dy is negative, but not if unsorted
+        if not assume_unique:
+            dy *= -1
+
+    dx = _check_spacing(x_)
+    if dx is False:
+        warnings.warn('"x" coordinate does not have equal spacing')
+        nx = len(x_)
+        dx = (minmax_x[1] - minmax_x[0]) / (nx - 1)
+    else:
+        nx = (minmax_x[1] - minmax_x[0]) / dx
 
     transform = Affine(
         dx, 0.0, minmax_x[0],
@@ -234,13 +245,19 @@ def _inspect_coords(y, x, center=True, assume_unique=True):
 
 def _check_spacing(coord):
     """ Check for equal spacing (see GDAL NetCDF driver)
+
+    Returns
+    --------
+    bool or float
+        False if unequal spacing, otherwise returns the calculated pixel
+        spacing/resolution
     """
     def cmp(a, b, tol=2e-3):
         return abs(a - b) < tol
 
     n = len(coord)
     if n == 1:
-        return True
+        return 0.
     else:
         beg = coord[1] - coord[0]
         end = coord[n - 1] - coord[n - 2]
@@ -250,6 +267,6 @@ def _check_spacing(coord):
             mid = end
 
         if cmp(beg, mid) and cmp(mid, end) and cmp(beg, end):
-            return True
+            return beg
         else:
             return False
