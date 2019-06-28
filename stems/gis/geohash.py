@@ -110,12 +110,11 @@ if _HAS_DASK:
         dtype_ = np.dtype(('U', precision))
         sig = '(i),(i)->(i)' if y.shape else '(),()->()'
 
-        ans = da.apply_gufunc(_geohash_encode_kernel,
-                              sig,
-                              y, x,
-                              output_dtypes=[dtype_],
-                              crs=crs,
-                              precision=precision)
+        ans = da.map_blocks(_geohash_encode_kernel,
+                            y, x,
+                            dtype=dtype_,
+                            crs=crs,
+                            precision=precision)
         return ans
 
 
