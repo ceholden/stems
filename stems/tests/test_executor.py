@@ -43,9 +43,9 @@ def test_executor_info(n_workers=2, threads_per_worker=4):
     ncores = client.ncores()
 
     infos = executor.executor_info(client, True, True, True)
-    assert len(infos) == 5
-    assert str(len(ncores)) in infos[2]
-    assert str(sum(ncores.values())) in infos[3]
+    assert len(infos) == 6
+    assert str(len(ncores)) in infos[3]
+    assert str(sum(ncores.values())) in infos[4]
 
     infos = executor.executor_info(client, False, True, True)
     assert len(infos) == 4
