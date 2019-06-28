@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.coords &mdash; stems 0.0.1-20190604+9.g1b57818 documentation</title>
+  <title>stems.gis.coords &mdash; stems 0.0.1-20190604+10.ge8f792b documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190604+9.g1b57818
+                0.0.1-20190604+10.ge8f792b
               </div>
             
           
@@ -357,11 +357,6 @@
         <span class="n">y_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">y_</span><span class="p">)</span>
         <span class="n">x_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">x_</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">_check_spacing</span><span class="p">(</span><span class="n">y_</span><span class="p">):</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;&quot;y&quot; coordinate does not have equal spacing&#39;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">_check_spacing</span><span class="p">(</span><span class="n">x_</span><span class="p">):</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;&quot;x&quot; coordinate does not have equal spacing&#39;</span><span class="p">)</span>
-
     <span class="n">minmax_y</span> <span class="o">=</span> <span class="n">y_</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y_</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">minmax_x</span> <span class="o">=</span> <span class="n">x_</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x_</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
@@ -369,9 +364,25 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;Unreversing y coordinate min/max&#39;</span><span class="p">)</span>
         <span class="n">minmax_y</span> <span class="o">=</span> <span class="p">(</span><span class="n">minmax_y</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">minmax_y</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
-    <span class="n">nx</span><span class="p">,</span> <span class="n">ny</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_</span><span class="p">)</span>
-    <span class="n">dy</span> <span class="o">=</span> <span class="p">(</span><span class="n">minmax_y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">minmax_y</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="n">ny</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">dx</span> <span class="o">=</span> <span class="p">(</span><span class="n">minmax_x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">minmax_x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="n">nx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="c1"># If spacing is not equal we guess from `(max - min) / n`</span>
+    <span class="n">dy</span> <span class="o">=</span> <span class="n">_check_spacing</span><span class="p">(</span><span class="n">y_</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">dy</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;&quot;y&quot; coordinate does not have equal spacing&#39;</span><span class="p">)</span>
+        <span class="n">ny</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_</span><span class="p">)</span>
+        <span class="n">dy</span> <span class="o">=</span> <span class="p">(</span><span class="n">minmax_y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">minmax_y</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="n">ny</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ny</span> <span class="o">=</span> <span class="p">(</span><span class="n">minmax_y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">minmax_y</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="n">dy</span>
+        <span class="c1"># np.unique returns sorted y so dy is negative, but not if unsorted</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">assume_unique</span><span class="p">:</span>
+            <span class="n">dy</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
+
+    <span class="n">dx</span> <span class="o">=</span> <span class="n">_check_spacing</span><span class="p">(</span><span class="n">x_</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">dx</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;&quot;x&quot; coordinate does not have equal spacing&#39;</span><span class="p">)</span>
+        <span class="n">nx</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_</span><span class="p">)</span>
+        <span class="n">dx</span> <span class="o">=</span> <span class="p">(</span><span class="n">minmax_x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">minmax_x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="n">nx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">nx</span> <span class="o">=</span> <span class="p">(</span><span class="n">minmax_x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">minmax_x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="n">dx</span>
 
     <span class="n">transform</span> <span class="o">=</span> <span class="n">Affine</span><span class="p">(</span>
         <span class="n">dx</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">minmax_x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
@@ -398,13 +409,19 @@
 
 <span class="k">def</span> <span class="nf">_check_spacing</span><span class="p">(</span><span class="n">coord</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Check for equal spacing (see GDAL NetCDF driver)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    bool or float</span>
+<span class="sd">        False if unequal spacing, otherwise returns the calculated pixel</span>
+<span class="sd">        spacing/resolution</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">cmp</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">2e-3</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">abs</span><span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">tol</span>
 
     <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">coord</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="mf">0.</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">beg</span> <span class="o">=</span> <span class="n">coord</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">coord</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">end</span> <span class="o">=</span> <span class="n">coord</span><span class="p">[</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">coord</span><span class="p">[</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">]</span>
@@ -414,7 +431,7 @@
             <span class="n">mid</span> <span class="o">=</span> <span class="n">end</span>
 
         <span class="k">if</span> <span class="nb">cmp</span><span class="p">(</span><span class="n">beg</span><span class="p">,</span> <span class="n">mid</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">cmp</span><span class="p">(</span><span class="n">mid</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">cmp</span><span class="p">(</span><span class="n">beg</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
-            <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">return</span> <span class="n">beg</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
 </pre></div>
