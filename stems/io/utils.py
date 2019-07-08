@@ -6,6 +6,8 @@ from pathlib import Path
 
 import numpy as np
 
+from ..compat import toolz
+
 
 def parse_paths(paths):
     """ Return a list of path(s)
@@ -29,6 +31,10 @@ def parse_paths(paths):
             paths = glob.glob(str(paths))
         else:
             paths = [paths]
+    elif isinstance(paths, (list, tuple)):
+        paths = toolz.concat([parse_paths(p) for p in paths])
+    else:
+        raise TypeError('`paths` must be a str, Path, or list/tuple')
 
     return list([Path(p) for p in paths])
 
