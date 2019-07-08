@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.io.utils &mdash; stems 0.0.1-20190604+10.ge8f792b documentation</title>
+  <title>stems.io.utils &mdash; stems 0.0.1-20190604+11.g6b027a8 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190604+10.ge8f792b
+                0.0.1-20190604+11.g6b027a8
               </div>
             
           
@@ -170,6 +170,8 @@
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
+<span class="kn">from</span> <span class="nn">..compat</span> <span class="k">import</span> <span class="n">toolz</span>
+
 
 <div class="viewcode-block" id="parse_paths"><a class="viewcode-back" href="../../../stems/stems.io.utils.html#stems.io.utils.parse_paths">[docs]</a><span class="k">def</span> <span class="nf">parse_paths</span><span class="p">(</span><span class="n">paths</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Return a list of path(s)</span>
@@ -193,6 +195,10 @@
             <span class="n">paths</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">paths</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">paths</span> <span class="o">=</span> <span class="p">[</span><span class="n">paths</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">paths</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+        <span class="n">paths</span> <span class="o">=</span> <span class="n">toolz</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">parse_paths</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">paths</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;`paths` must be a str, Path, or list/tuple&#39;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="nb">list</span><span class="p">([</span><span class="n">Path</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">paths</span><span class="p">])</span></div>
 
