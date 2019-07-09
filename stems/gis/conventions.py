@@ -301,10 +301,6 @@ def create_coordinates(y, x, crs):
     ----------
     .. [1] http://cfconventions.org/cf-conventions/v1.6.0/cf-conventions.html#coordinate-types
     """
-    # Components of DataArray
-    assert y.ndim == 1
-    assert x.ndim == 1
-
     # 1. Extract data
     data_y = getattr(y, 'data', y)
     data_x = getattr(x, 'data', x)
@@ -313,9 +309,16 @@ def create_coordinates(y, x, crs):
     # Determine name according to projection
     var_x, var_y = projections.cf_xy_coord_names(crs)
 
-    # 3. Dimension name -- keep existing if possible
-    dim_y = getattr(y, 'dims', (var_y, ))[0]
-    dim_x = getattr(x, 'dims', (var_x, ))[0]
+    # 3. Coord name -- keep existing if possible
+    if y.ndim > 0:
+        dim_y = getattr(y, 'dims', (var_y, ))[0]
+    else:
+        dim_y = var_y
+
+    if x.ndim > 0:
+        dim_x = getattr(x, 'dims', (var_x, ))[0]
+    else:
+        dim_x = var_x
 
     # 4. Coords are either same coordinate or whatever was on y/x
     if dim_y == var_y:
@@ -327,7 +330,7 @@ def create_coordinates(y, x, crs):
     else:
         coords_x = {dim_x: x.coords[dim_x]}
 
-    # 6. Get copies of attributes
+    # 5. Get copies of attributes
     attrs_y = COORD_DEFS[var_y].copy()
     attrs_x = COORD_DEFS[var_x].copy()
 
@@ -338,9 +341,12 @@ def create_coordinates(y, x, crs):
         attrs_y['units'], attrs_x['units'] = units, units
 
     # Lastly, create DataArrays
-    y = xr.DataArray(data_y, coords=coords_y, dims=(dim_y, ),
+    dims_y = (dim_y, ) if data_y.shape else ()
+    dims_x = (dim_x, ) if data_x.shape else ()
+
+    y = xr.DataArray(data_y, coords=coords_y, dims=dims_y,
                      name=var_y, attrs=attrs_y)
-    x = xr.DataArray(data_x, coords=coords_x, dims=(dim_x, ),
+    x = xr.DataArray(data_x, coords=coords_x, dims=dims_x,
                      name=var_x, attrs=attrs_x)
 
     return y, x
