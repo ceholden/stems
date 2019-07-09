@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.conventions &mdash; stems 0.0.1-20190604+11.g6b027a8 documentation</title>
+  <title>stems.gis.conventions &mdash; stems 0.0.1-20190604+12.gd3b76f5 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190604+11.g6b027a8
+                0.0.1-20190604+12.gd3b76f5
               </div>
             
           
@@ -465,10 +465,6 @@
 <span class="sd">    ----------</span>
 <span class="sd">    .. [1] http://cfconventions.org/cf-conventions/v1.6.0/cf-conventions.html#coordinate-types</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Components of DataArray</span>
-    <span class="k">assert</span> <span class="n">y</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span>
-    <span class="k">assert</span> <span class="n">x</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span>
-
     <span class="c1"># 1. Extract data</span>
     <span class="n">data_y</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
     <span class="n">data_x</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
@@ -477,9 +473,16 @@
     <span class="c1"># Determine name according to projection</span>
     <span class="n">var_x</span><span class="p">,</span> <span class="n">var_y</span> <span class="o">=</span> <span class="n">projections</span><span class="o">.</span><span class="n">cf_xy_coord_names</span><span class="p">(</span><span class="n">crs</span><span class="p">)</span>
 
-    <span class="c1"># 3. Dimension name -- keep existing if possible</span>
-    <span class="n">dim_y</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="s1">&#39;dims&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">var_y</span><span class="p">,</span> <span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">dim_x</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s1">&#39;dims&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">var_x</span><span class="p">,</span> <span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="c1"># 3. Coord name -- keep existing if possible</span>
+    <span class="k">if</span> <span class="n">y</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">dim_y</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="s1">&#39;dims&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">var_y</span><span class="p">,</span> <span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">dim_y</span> <span class="o">=</span> <span class="n">var_y</span>
+
+    <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">dim_x</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s1">&#39;dims&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">var_x</span><span class="p">,</span> <span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">dim_x</span> <span class="o">=</span> <span class="n">var_x</span>
 
     <span class="c1"># 4. Coords are either same coordinate or whatever was on y/x</span>
     <span class="k">if</span> <span class="n">dim_y</span> <span class="o">==</span> <span class="n">var_y</span><span class="p">:</span>
@@ -491,7 +494,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="n">coords_x</span> <span class="o">=</span> <span class="p">{</span><span class="n">dim_x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="n">dim_x</span><span class="p">]}</span>
 
-    <span class="c1"># 6. Get copies of attributes</span>
+    <span class="c1"># 5. Get copies of attributes</span>
     <span class="n">attrs_y</span> <span class="o">=</span> <span class="n">COORD_DEFS</span><span class="p">[</span><span class="n">var_y</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="n">attrs_x</span> <span class="o">=</span> <span class="n">COORD_DEFS</span><span class="p">[</span><span class="n">var_x</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
@@ -502,9 +505,12 @@
         <span class="n">attrs_y</span><span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">],</span> <span class="n">attrs_x</span><span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">units</span><span class="p">,</span> <span class="n">units</span>
 
     <span class="c1"># Lastly, create DataArrays</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">data_y</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="n">coords_y</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="n">dim_y</span><span class="p">,</span> <span class="p">),</span>
+    <span class="n">dims_y</span> <span class="o">=</span> <span class="p">(</span><span class="n">dim_y</span><span class="p">,</span> <span class="p">)</span> <span class="k">if</span> <span class="n">data_y</span><span class="o">.</span><span class="n">shape</span> <span class="k">else</span> <span class="p">()</span>
+    <span class="n">dims_x</span> <span class="o">=</span> <span class="p">(</span><span class="n">dim_x</span><span class="p">,</span> <span class="p">)</span> <span class="k">if</span> <span class="n">data_x</span><span class="o">.</span><span class="n">shape</span> <span class="k">else</span> <span class="p">()</span>
+
+    <span class="n">y</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">data_y</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="n">coords_y</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="n">dims_y</span><span class="p">,</span>
                      <span class="n">name</span><span class="o">=</span><span class="n">var_y</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="n">attrs_y</span><span class="p">)</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">data_x</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="n">coords_x</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="n">dim_x</span><span class="p">,</span> <span class="p">),</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">data_x</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="n">coords_x</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="n">dims_x</span><span class="p">,</span>
                      <span class="n">name</span><span class="o">=</span><span class="n">var_x</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="n">attrs_x</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span></div>
