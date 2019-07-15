@@ -2,6 +2,7 @@
 """
 import datetime as dt
 import glob
+import os.path
 from pathlib import Path
 
 import numpy as np
@@ -23,12 +24,11 @@ def parse_paths(paths):
     list[Path]
         Paths determined from ``paths``
     """
-    if isinstance(paths, str):
+    if isinstance(paths, (Path, str)):
+        paths = os.path.expandvars(str(paths))
         # Filename or glob, either way turn into list
-        paths = glob.glob(paths)
-    elif isinstance(paths, Path):
         if '*' in str(paths):
-            paths = glob.glob(str(paths))
+            paths = glob.glob(paths)
         else:
             paths = [paths]
     elif isinstance(paths, (list, tuple)):
