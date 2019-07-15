@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.io.utils &mdash; stems 0.0.1-20190604+13.g633e886 documentation</title>
+  <title>stems.io.utils &mdash; stems 0.0.1-20190604+13.g13552b4 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190604+13.g633e886
+                0.0.1-20190604+13.g13552b4
               </div>
             
           
@@ -188,12 +188,11 @@
 <span class="sd">    list[Path]</span>
 <span class="sd">        Paths determined from ``paths``</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">paths</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">paths</span><span class="p">,</span> <span class="p">(</span><span class="n">Path</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+        <span class="n">paths</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expandvars</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">paths</span><span class="p">))</span>
         <span class="c1"># Filename or glob, either way turn into list</span>
-        <span class="n">paths</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">paths</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">paths</span><span class="p">,</span> <span class="n">Path</span><span class="p">):</span>
         <span class="k">if</span> <span class="s1">&#39;*&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">paths</span><span class="p">):</span>
-            <span class="n">paths</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">paths</span><span class="p">))</span>
+            <span class="n">paths</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">paths</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">paths</span> <span class="o">=</span> <span class="p">[</span><span class="n">paths</span><span class="p">]</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">paths</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
@@ -201,7 +200,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;`paths` must be a str, Path, or list/tuple&#39;</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="nb">list</span><span class="p">([</span><span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expandvars</span><span class="p">(</span><span class="n">p</span><span class="p">))</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">paths</span><span class="p">])</span></div>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">([</span><span class="n">Path</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">paths</span><span class="p">])</span></div>
 
 
 <div class="viewcode-block" id="parse_filename_attrs"><a class="viewcode-back" href="../../../stems/stems.io.utils.html#stems.io.utils.parse_filename_attrs">[docs]</a><span class="k">def</span> <span class="nf">parse_filename_attrs</span><span class="p">(</span><span class="n">paths</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
