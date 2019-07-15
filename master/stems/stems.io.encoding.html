@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.io.encoding module &mdash; stems 0.0.1-20190604+12.gd3b76f5 documentation</title>
+  <title>stems.io.encoding module &mdash; stems 0.0.1-20190604+13.g633e886 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190604+12.gd3b76f5
+                0.0.1-20190604+13.g633e886
               </div>
             
           
@@ -174,7 +174,7 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>xarr</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.2)"><em>xarray.DataArray</em></a>) – DataArray to consider</p></li>
+<li><p><strong>xarr</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.3)"><em>xarray.DataArray</em></a>) – DataArray to consider</p></li>
 <li><p><strong>chunks</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#tuple" title="(in Python v3.7)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>] or </em><em>Mapping</em><em>[</em><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>]</em>) – Chunks per dimension</p></li>
 </ul>
 </dd>
@@ -193,7 +193,7 @@
 <dd><p>Get dtype encoding info</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>xarr</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.2)"><em>xarray.DataArray</em></a><em> or </em><em>np.ndarray</em>) – DataArray to consider</p>
+<dd class="field-odd"><p><strong>xarr</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.3)"><em>xarray.DataArray</em></a><em> or </em><em>np.ndarray</em>) – DataArray to consider</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Datatype information for encoding (e.g., <code class="docutils literal notranslate"><span class="pre">{'dtype':</span> <span class="pre">np.float32}</span></code>)</p>
@@ -213,7 +213,7 @@ assign it when writing to disk
 (<code class="xref py py-data docutils literal notranslate"><span class="pre">xarray.backends.api.DATAARRAY_VARIABLE</span></code>).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>xarr</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.2)"><em>xarray.DataArray</em></a>) – Provide the name of this DataArray used for encoding</p>
+<dd class="field-odd"><p><strong>xarr</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.3)"><em>xarray.DataArray</em></a>) – Provide the name of this DataArray used for encoding</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Encoding variable name</p>
@@ -231,7 +231,7 @@ assign it when writing to disk
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>xarr</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.2)"><em>xarray.DataArray</em></a>) – DataArray to consider</p></li>
+<li><p><strong>xarr</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.3)"><em>xarray.DataArray</em></a>) – DataArray to consider</p></li>
 <li><p><strong>chunksizes</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#tuple" title="(in Python v3.7)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>]</em>) – Chunks per dimension</p></li>
 </ul>
 </dd>
@@ -253,7 +253,7 @@ python-netcdf represents, for example, 1d char array as 2d array</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>xarr</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.2)"><em>xarray.DataArray</em></a>) – DataArray to consider</p></li>
+<li><p><strong>xarr</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.3)"><em>xarray.DataArray</em></a>) – DataArray to consider</p></li>
 <li><p><strong>chunksizes</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#tuple" title="(in Python v3.7)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>]</em>) – Chunk sizes per dimension</p></li>
 </ul>
 </dd>
@@ -273,7 +273,7 @@ python-netcdf represents, for example, 1d char array as 2d array</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>xarr</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.2)"><em>xarray.DataArray</em></a><em> or </em><em>np.ndarray</em>) – DataArray to consider</p></li>
+<li><p><strong>xarr</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.3)"><em>xarray.DataArray</em></a><em> or </em><em>np.ndarray</em>) – DataArray to consider</p></li>
 <li><p><strong>dtype_</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>np.dtype</em><em>]</em>) – Datatype information for encoding (e.g., <code class="docutils literal notranslate"><span class="pre">{'dtype':</span> <span class="pre">np.float32}</span></code>)</p></li>
 </ul>
 </dd>
@@ -313,7 +313,7 @@ use chunks.</p></li>
 <li><p><strong>zlib</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – Use compression</p></li>
 <li><p><strong>complevel</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>, </em><em>optional</em>) – Compression level</p></li>
 <li><p><strong>nodata</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.7/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a><em>, or </em><em>sequence</em><em>, </em><em>optional</em>) – NoDataValue(s). Specify one for each <code class="docutils literal notranslate"><span class="pre">DataArray</span></code> in <code class="docutils literal notranslate"><span class="pre">data</span></code>
-if a <a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v0.12.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a>. Used for <code class="docutils literal notranslate"><span class="pre">_FillValue</span></code></p></li>
+if a <a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v0.12.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a>. Used for <code class="docutils literal notranslate"><span class="pre">_FillValue</span></code></p></li>
 <li><p><strong>encoding_kwds</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – Additional encoding data to pass</p></li>
 </ul>
 </dd>
@@ -328,7 +328,7 @@ information</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <dl class="simple">
-<dt><code class="xref py py-func docutils literal notranslate"><span class="pre">xarray.Dataset.to_netcdf()</span></code></dt><dd><p>Encoding information designed to be passed to <a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.Dataset.to_netcdf.html#xarray.Dataset.to_netcdf" title="(in xarray v0.12.2)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">xarray.Dataset.to_netcdf()</span></code></a>.</p>
+<dt><code class="xref py py-func docutils literal notranslate"><span class="pre">xarray.Dataset.to_netcdf()</span></code></dt><dd><p>Encoding information designed to be passed to <a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.Dataset.to_netcdf.html#xarray.Dataset.to_netcdf" title="(in xarray v0.12.3)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">xarray.Dataset.to_netcdf()</span></code></a>.</p>
 </dd>
 </dl>
 </div>
