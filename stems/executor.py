@@ -94,25 +94,25 @@ def executor_info(client, ip=True, bokeh=True, stats=True):
     else:
         ip_str = ''
 
-    if info and 'bokeh' in info['services']:
+    if info:
+        # Bokeh info
         protocol, rest = client.scheduler.address.split('://')
-        port = info['services']['bokeh']
         if protocol == 'inproc':  # process/thread server
             host = 'localhost'
         else:
             host = rest.split(':')[0]
+        port = (info['services'].get('bokeh',
+                info['services'].get('dashboard', '')))
         bokeh_str = 'http://{host}:{port}/status'.format(host=host, port=port)
-    else:
-        bokeh_str = ''
 
-    if info:
+        # Worker / memory / etc
         workers = len(info['workers'])
         cores = sum(w.get('ncores', w.get('nthreads', 1))
                     for w in info['workers'].values())
         memory = sum(w['memory_limit'] for w in info['workers'].values())
         memory = distributed.utils.format_bytes(memory)
     else:
-        workers, cores, memory = '', '', ''
+        bokeh_str, workers, cores, memory = [''] * 4
 
     infos = []
     if ip:
