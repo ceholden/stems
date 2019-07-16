@@ -8,7 +8,7 @@
     
     
     <meta http-equiv="X-UA-Compatible" content="IE=emulateIE7" />
-    <title>Coverage for stems/executor.py: 52%</title>
+    <title>Coverage for stems/executor.py: 58%</title>
     <link rel="stylesheet" href="style.css" type="text/css">
     
     <script type="text/javascript" src="jquery.min.js"></script>
@@ -24,15 +24,15 @@
 <div id="header">
     <div class="content">
         <h1>Coverage for <b>stems/executor.py</b> :
-            <span class="pc_cov">52%</span>
+            <span class="pc_cov">58%</span>
         </h1>
 
         <img id="keyboard_icon" src="keybd_closed.png" alt="Show keyboard shortcuts" />
 
         <h2 class="stats">
-            62 statements &nbsp;
-            <span class="run hide_run shortkey_r button_toggle_run">32 run</span>
-            <span class="mis shortkey_m button_toggle_mis">30 missing</span>
+            60 statements &nbsp;
+            <span class="run hide_run shortkey_r button_toggle_run">35 run</span>
+            <span class="mis shortkey_m button_toggle_mis">25 missing</span>
             <span class="exc shortkey_x button_toggle_exc">0 excluded</span>
 
             
@@ -164,17 +164,17 @@
 <p id="n95" class="stm mis"><a href="#n95">95</a></p>
 <p id="n96" class="pln"><a href="#n96">96</a></p>
 <p id="n97" class="stm run hide_run"><a href="#n97">97</a></p>
-<p id="n98" class="stm mis"><a href="#n98">98</a></p>
-<p id="n99" class="stm mis"><a href="#n99">99</a></p>
-<p id="n100" class="stm mis"><a href="#n100">100</a></p>
+<p id="n98" class="pln"><a href="#n98">98</a></p>
+<p id="n99" class="stm run hide_run"><a href="#n99">99</a></p>
+<p id="n100" class="stm run hide_run"><a href="#n100">100</a></p>
 <p id="n101" class="stm mis"><a href="#n101">101</a></p>
 <p id="n102" class="pln"><a href="#n102">102</a></p>
-<p id="n103" class="stm mis"><a href="#n103">103</a></p>
-<p id="n104" class="stm mis"><a href="#n104">104</a></p>
+<p id="n103" class="stm run hide_run"><a href="#n103">103</a></p>
+<p id="n104" class="stm run hide_run"><a href="#n104">104</a></p>
 <p id="n105" class="pln"><a href="#n105">105</a></p>
 <p id="n106" class="stm run hide_run"><a href="#n106">106</a></p>
 <p id="n107" class="pln"><a href="#n107">107</a></p>
-<p id="n108" class="stm run hide_run"><a href="#n108">108</a></p>
+<p id="n108" class="pln"><a href="#n108">108</a></p>
 <p id="n109" class="stm run hide_run"><a href="#n109">109</a></p>
 <p id="n110" class="stm run hide_run"><a href="#n110">110</a></p>
 <p id="n111" class="pln"><a href="#n111">111</a></p>
@@ -294,25 +294,25 @@
 <p id="t94" class="pln">    <span class="key">else</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t95" class="stm mis">        <span class="nam">ip_str</span> <span class="op">=</span> <span class="str">''</span><span class="strut">&nbsp;</span></p>
 <p id="t96" class="pln"><span class="strut">&nbsp;</span></p>
-<p id="t97" class="stm run hide_run">    <span class="key">if</span> <span class="nam">info</span> <span class="key">and</span> <span class="str">'bokeh'</span> <span class="key">in</span> <span class="nam">info</span><span class="op">[</span><span class="str">'services'</span><span class="op">]</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t98" class="stm mis">        <span class="nam">protocol</span><span class="op">,</span> <span class="nam">rest</span> <span class="op">=</span> <span class="nam">client</span><span class="op">.</span><span class="nam">scheduler</span><span class="op">.</span><span class="nam">address</span><span class="op">.</span><span class="nam">split</span><span class="op">(</span><span class="str">'://'</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t99" class="stm mis">        <span class="nam">port</span> <span class="op">=</span> <span class="nam">info</span><span class="op">[</span><span class="str">'services'</span><span class="op">]</span><span class="op">[</span><span class="str">'bokeh'</span><span class="op">]</span><span class="strut">&nbsp;</span></p>
-<p id="t100" class="stm mis">        <span class="key">if</span> <span class="nam">protocol</span> <span class="op">==</span> <span class="str">'inproc'</span><span class="op">:</span>  <span class="com"># process/thread server</span><span class="strut">&nbsp;</span></p>
+<p id="t97" class="stm run hide_run">    <span class="key">if</span> <span class="nam">info</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t98" class="pln">        <span class="com"># Bokeh info</span><span class="strut">&nbsp;</span></p>
+<p id="t99" class="stm run hide_run">        <span class="nam">protocol</span><span class="op">,</span> <span class="nam">rest</span> <span class="op">=</span> <span class="nam">client</span><span class="op">.</span><span class="nam">scheduler</span><span class="op">.</span><span class="nam">address</span><span class="op">.</span><span class="nam">split</span><span class="op">(</span><span class="str">'://'</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t100" class="stm run hide_run">        <span class="key">if</span> <span class="nam">protocol</span> <span class="op">==</span> <span class="str">'inproc'</span><span class="op">:</span>  <span class="com"># process/thread server</span><span class="strut">&nbsp;</span></p>
 <p id="t101" class="stm mis">            <span class="nam">host</span> <span class="op">=</span> <span class="str">'localhost'</span><span class="strut">&nbsp;</span></p>
 <p id="t102" class="pln">        <span class="key">else</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t103" class="stm mis">            <span class="nam">host</span> <span class="op">=</span> <span class="nam">rest</span><span class="op">.</span><span class="nam">split</span><span class="op">(</span><span class="str">':'</span><span class="op">)</span><span class="op">[</span><span class="num">0</span><span class="op">]</span><span class="strut">&nbsp;</span></p>
-<p id="t104" class="stm mis">        <span class="nam">bokeh_str</span> <span class="op">=</span> <span class="str">'http://{host}:{port}/status'</span><span class="op">.</span><span class="nam">format</span><span class="op">(</span><span class="nam">host</span><span class="op">=</span><span class="nam">host</span><span class="op">,</span> <span class="nam">port</span><span class="op">=</span><span class="nam">port</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t105" class="pln">    <span class="key">else</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t106" class="stm run hide_run">        <span class="nam">bokeh_str</span> <span class="op">=</span> <span class="str">''</span><span class="strut">&nbsp;</span></p>
+<p id="t103" class="stm run hide_run">            <span class="nam">host</span> <span class="op">=</span> <span class="nam">rest</span><span class="op">.</span><span class="nam">split</span><span class="op">(</span><span class="str">':'</span><span class="op">)</span><span class="op">[</span><span class="num">0</span><span class="op">]</span><span class="strut">&nbsp;</span></p>
+<p id="t104" class="stm run hide_run">        <span class="nam">port</span> <span class="op">=</span> <span class="op">(</span><span class="nam">info</span><span class="op">[</span><span class="str">'services'</span><span class="op">]</span><span class="op">.</span><span class="nam">get</span><span class="op">(</span><span class="str">'bokeh'</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
+<p id="t105" class="pln">                <span class="nam">info</span><span class="op">[</span><span class="str">'services'</span><span class="op">]</span><span class="op">.</span><span class="nam">get</span><span class="op">(</span><span class="str">'dashboard'</span><span class="op">,</span> <span class="str">''</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t106" class="stm run hide_run">        <span class="nam">bokeh_str</span> <span class="op">=</span> <span class="str">'http://{host}:{port}/status'</span><span class="op">.</span><span class="nam">format</span><span class="op">(</span><span class="nam">host</span><span class="op">=</span><span class="nam">host</span><span class="op">,</span> <span class="nam">port</span><span class="op">=</span><span class="nam">port</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t107" class="pln"><span class="strut">&nbsp;</span></p>
-<p id="t108" class="stm run hide_run">    <span class="key">if</span> <span class="nam">info</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t108" class="pln">        <span class="com"># Worker / memory / etc</span><span class="strut">&nbsp;</span></p>
 <p id="t109" class="stm run hide_run">        <span class="nam">workers</span> <span class="op">=</span> <span class="nam">len</span><span class="op">(</span><span class="nam">info</span><span class="op">[</span><span class="str">'workers'</span><span class="op">]</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t110" class="stm run hide_run">        <span class="nam">cores</span> <span class="op">=</span> <span class="nam">sum</span><span class="op">(</span><span class="nam">w</span><span class="op">.</span><span class="nam">get</span><span class="op">(</span><span class="str">'ncores'</span><span class="op">,</span> <span class="nam">w</span><span class="op">.</span><span class="nam">get</span><span class="op">(</span><span class="str">'nthreads'</span><span class="op">,</span> <span class="num">1</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t111" class="pln">                    <span class="key">for</span> <span class="nam">w</span> <span class="key">in</span> <span class="nam">info</span><span class="op">[</span><span class="str">'workers'</span><span class="op">]</span><span class="op">.</span><span class="nam">values</span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t112" class="stm run hide_run">        <span class="nam">memory</span> <span class="op">=</span> <span class="nam">sum</span><span class="op">(</span><span class="nam">w</span><span class="op">[</span><span class="str">'memory_limit'</span><span class="op">]</span> <span class="key">for</span> <span class="nam">w</span> <span class="key">in</span> <span class="nam">info</span><span class="op">[</span><span class="str">'workers'</span><span class="op">]</span><span class="op">.</span><span class="nam">values</span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t113" class="stm run hide_run">        <span class="nam">memory</span> <span class="op">=</span> <span class="nam">distributed</span><span class="op">.</span><span class="nam">utils</span><span class="op">.</span><span class="nam">format_bytes</span><span class="op">(</span><span class="nam">memory</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t114" class="pln">    <span class="key">else</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t115" class="stm mis">        <span class="nam">workers</span><span class="op">,</span> <span class="nam">cores</span><span class="op">,</span> <span class="nam">memory</span> <span class="op">=</span> <span class="str">''</span><span class="op">,</span> <span class="str">''</span><span class="op">,</span> <span class="str">''</span><span class="strut">&nbsp;</span></p>
+<p id="t115" class="stm mis">        <span class="nam">bokeh_str</span><span class="op">,</span> <span class="nam">workers</span><span class="op">,</span> <span class="nam">cores</span><span class="op">,</span> <span class="nam">memory</span> <span class="op">=</span> <span class="op">[</span><span class="str">''</span><span class="op">]</span> <span class="op">*</span> <span class="num">4</span><span class="strut">&nbsp;</span></p>
 <p id="t116" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t117" class="stm run hide_run">    <span class="nam">infos</span> <span class="op">=</span> <span class="op">[</span><span class="op">]</span><span class="strut">&nbsp;</span></p>
 <p id="t118" class="stm run hide_run">    <span class="key">if</span> <span class="nam">ip</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
@@ -336,7 +336,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.3</a>,
-            created at 2019-07-15 20:34
+            created at 2019-07-16 20:18
         </p>
     </div>
 </div>

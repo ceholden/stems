@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.executor &mdash; stems 0.0.1-20190604+13.g13552b4 documentation</title>
+  <title>stems.executor &mdash; stems 0.0.1-20190604+14.gb993282 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.1-20190604+13.g13552b4
+                0.0.1-20190604+14.gb993282
               </div>
             
           
@@ -258,25 +258,25 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="n">ip_str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
 
-    <span class="k">if</span> <span class="n">info</span> <span class="ow">and</span> <span class="s1">&#39;bokeh&#39;</span> <span class="ow">in</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;services&#39;</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="n">info</span><span class="p">:</span>
+        <span class="c1"># Bokeh info</span>
         <span class="n">protocol</span><span class="p">,</span> <span class="n">rest</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">scheduler</span><span class="o">.</span><span class="n">address</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;://&#39;</span><span class="p">)</span>
-        <span class="n">port</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;services&#39;</span><span class="p">][</span><span class="s1">&#39;bokeh&#39;</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">protocol</span> <span class="o">==</span> <span class="s1">&#39;inproc&#39;</span><span class="p">:</span>  <span class="c1"># process/thread server</span>
             <span class="n">host</span> <span class="o">=</span> <span class="s1">&#39;localhost&#39;</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">host</span> <span class="o">=</span> <span class="n">rest</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">port</span> <span class="o">=</span> <span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;services&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;bokeh&#39;</span><span class="p">,</span>
+                <span class="n">info</span><span class="p">[</span><span class="s1">&#39;services&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;dashboard&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)))</span>
         <span class="n">bokeh_str</span> <span class="o">=</span> <span class="s1">&#39;http://</span><span class="si">{host}</span><span class="s1">:</span><span class="si">{port}</span><span class="s1">/status&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">bokeh_str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
 
-    <span class="k">if</span> <span class="n">info</span><span class="p">:</span>
+        <span class="c1"># Worker / memory / etc</span>
         <span class="n">workers</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;workers&#39;</span><span class="p">])</span>
         <span class="n">cores</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ncores&#39;</span><span class="p">,</span> <span class="n">w</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;nthreads&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
                     <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;workers&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
         <span class="n">memory</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="s1">&#39;memory_limit&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;workers&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
         <span class="n">memory</span> <span class="o">=</span> <span class="n">distributed</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">format_bytes</span><span class="p">(</span><span class="n">memory</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">workers</span><span class="p">,</span> <span class="n">cores</span><span class="p">,</span> <span class="n">memory</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">bokeh_str</span><span class="p">,</span> <span class="n">workers</span><span class="p">,</span> <span class="n">cores</span><span class="p">,</span> <span class="n">memory</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">4</span>
 
     <span class="n">infos</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">if</span> <span class="n">ip</span><span class="p">:</span>
