@@ -1,0 +1,7 @@
+stems.tests.test\_times module
+==============================
+
+.. automodule:: stems.tests.test_times
+   :members:
+   :undoc-members:
+   :show-inheritance:

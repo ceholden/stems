@@ -1,0 +1,345 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>stems.gis.tests.test_gis_projections &mdash; stems 0.0.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> stems
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../faq.html">Frequenty Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../gis.html">Geographic Information Systems (GIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../gis_grids.html">Tile Grid Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../parallel.html">Parallel Computing Helpers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../xarray.html">XArray Integration</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">stems</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>stems.gis.tests.test_gis_projections</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for stems.gis.tests.test_gis_projections</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; Tests for :py:mod:`stems.gis.projections`</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">osgeo</span> <span class="k">import</span> <span class="n">osr</span>
+<span class="kn">from</span> <span class="nn">rasterio.crs</span> <span class="k">import</span> <span class="n">CRS</span>
+<span class="kn">import</span> <span class="nn">pytest</span>
+
+<span class="kn">from</span> <span class="nn">stems.gis</span> <span class="k">import</span> <span class="n">projections</span>
+<span class="kn">from</span> <span class="nn">stems.gis.tests</span> <span class="k">import</span> <span class="n">data</span>
+
+<span class="n">PROJ_EPSG</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4326</span><span class="p">,</span> <span class="mi">3857</span><span class="p">,</span> <span class="mi">32619</span><span class="p">]</span>
+
+
+<span class="c1"># ============================================================================</span>
+<span class="c1"># EPSG code</span>
+<div class="viewcode-block" id="test_epsg_code"><a class="viewcode-back" href="../../../../stems/stems.gis.tests.test_gis_projections.html#stems.gis.tests.test_gis_projections.test_epsg_code">[docs]</a><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s1">&#39;code&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">5070</span><span class="p">,</span> <span class="mi">4326</span><span class="p">,</span> <span class="mi">32619</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">test_epsg_code</span><span class="p">(</span><span class="n">code</span><span class="p">):</span>
+    <span class="c1"># test rasterio</span>
+    <span class="n">crs_</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
+    <span class="n">test</span> <span class="o">=</span> <span class="n">projections</span><span class="o">.</span><span class="n">epsg_code</span><span class="p">(</span><span class="n">crs_</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">test</span> <span class="o">==</span> <span class="n">f</span><span class="s1">&#39;epsg:</span><span class="si">{code}</span><span class="s1">&#39;</span>
+    <span class="c1"># test osr</span>
+    <span class="n">crs_</span> <span class="o">=</span> <span class="n">osr</span><span class="o">.</span><span class="n">SpatialReference</span><span class="p">()</span>
+    <span class="n">crs_</span><span class="o">.</span><span class="n">ImportFromEPSG</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
+    <span class="n">test</span> <span class="o">=</span> <span class="n">projections</span><span class="o">.</span><span class="n">epsg_code</span><span class="p">(</span><span class="n">crs_</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">test</span> <span class="o">==</span> <span class="n">f</span><span class="s1">&#39;epsg:</span><span class="si">{code}</span><span class="s1">&#39;</span></div>
+
+
+<div class="viewcode-block" id="test_epsg_code_fail"><a class="viewcode-back" href="../../../../stems/stems.gis.tests.test_gis_projections.html#stems.gis.tests.test_gis_projections.test_epsg_code_fail">[docs]</a><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s1">&#39;wkt&#39;</span><span class="p">,</span> <span class="p">[</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">EXAMPLE_LAEA_NA</span><span class="p">[</span><span class="s1">&#39;wkt&#39;</span><span class="p">],</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">EXAMPLE_AEA_NA</span><span class="p">[</span><span class="s1">&#39;wkt&#39;</span><span class="p">],</span>
+<span class="p">])</span>
+<span class="k">def</span> <span class="nf">test_epsg_code_fail</span><span class="p">(</span><span class="n">wkt</span><span class="p">):</span>
+    <span class="n">crs_</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_wkt</span><span class="p">(</span><span class="n">wkt</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">match</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;Cannot decode.*&#39;</span><span class="p">):</span>
+        <span class="n">projections</span><span class="o">.</span><span class="n">epsg_code</span><span class="p">(</span><span class="n">crs_</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="test_crs_longname"><a class="viewcode-back" href="../../../../stems/stems.gis.tests.test_gis_projections.html#stems.gis.tests.test_gis_projections.test_crs_longname">[docs]</a><span class="k">def</span> <span class="nf">test_crs_longname</span><span class="p">(</span><span class="n">example_crs</span><span class="p">):</span>
+    <span class="n">crs_</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_wkt</span><span class="p">(</span><span class="n">example_crs</span><span class="p">[</span><span class="s1">&#39;wkt&#39;</span><span class="p">])</span>
+    <span class="n">test</span> <span class="o">=</span> <span class="n">projections</span><span class="o">.</span><span class="n">crs_longname</span><span class="p">(</span><span class="n">crs_</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">test</span> <span class="o">==</span> <span class="n">example_crs</span><span class="p">[</span><span class="s1">&#39;longname&#39;</span><span class="p">]</span></div>
+
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># CF info / parameters</span>
+<span class="c1"># =============================================================================</span>
+
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<span class="c1"># cf_crs_name</span>
+<div class="viewcode-block" id="test_cf_crs_name"><a class="viewcode-back" href="../../../../stems/stems.gis.tests.test_gis_projections.html#stems.gis.tests.test_gis_projections.test_cf_crs_name">[docs]</a><span class="k">def</span> <span class="nf">test_cf_crs_name</span><span class="p">(</span><span class="n">example_crs</span><span class="p">):</span>
+    <span class="n">crs_</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="n">example_crs</span><span class="p">[</span><span class="s1">&#39;wkt&#39;</span><span class="p">])</span>
+    <span class="n">test</span> <span class="o">=</span> <span class="n">projections</span><span class="o">.</span><span class="n">cf_crs_name</span><span class="p">(</span><span class="n">crs_</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">test</span> <span class="o">==</span> <span class="n">example_crs</span><span class="p">[</span><span class="s1">&#39;cf_name&#39;</span><span class="p">]</span></div>
+
+
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<span class="c1"># cf_crs_attrs</span>
+<div class="viewcode-block" id="test_cf_crs_attrs_1"><a class="viewcode-back" href="../../../../stems/stems.gis.tests.test_gis_projections.html#stems.gis.tests.test_gis_projections.test_cf_crs_attrs_1">[docs]</a><span class="k">def</span> <span class="nf">test_cf_crs_attrs_1</span><span class="p">():</span>
+    <span class="c1"># WGS84</span>
+    <span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span>
+    <span class="n">test</span> <span class="o">=</span> <span class="n">projections</span><span class="o">.</span><span class="n">cf_crs_attrs</span><span class="p">(</span><span class="n">crs</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">test</span><span class="p">[</span><span class="s1">&#39;horizontal_datum_name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;WGS_1984&#39;</span>
+    <span class="k">assert</span> <span class="n">test</span><span class="p">[</span><span class="s1">&#39;reference_ellipsoid_name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;WGS 84&#39;</span>
+    <span class="k">assert</span> <span class="s1">&#39;towgs84&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">test</span>
+    <span class="k">assert</span> <span class="n">test</span><span class="p">[</span><span class="s1">&#39;prime_meridian_name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Greenwich&#39;</span></div>
+
+
+<div class="viewcode-block" id="test_cf_crs_attrs_2"><a class="viewcode-back" href="../../../../stems/stems.gis.tests.test_gis_projections.html#stems.gis.tests.test_gis_projections.test_cf_crs_attrs_2">[docs]</a><span class="k">def</span> <span class="nf">test_cf_crs_attrs_2</span><span class="p">():</span>
+    <span class="c1"># NAD83 / CONUS AEA</span>
+    <span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">5070</span><span class="p">)</span>
+    <span class="n">test</span> <span class="o">=</span> <span class="n">projections</span><span class="o">.</span><span class="n">cf_crs_attrs</span><span class="p">(</span><span class="n">crs</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">test</span><span class="p">[</span><span class="s1">&#39;horizontal_datum_name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;North_American_Datum_1983&#39;</span>
+    <span class="k">assert</span> <span class="n">test</span><span class="p">[</span><span class="s1">&#39;reference_ellipsoid_name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;GRS 1980&#39;</span>
+    <span class="k">assert</span> <span class="n">test</span><span class="p">[</span><span class="s1">&#39;towgs84&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;0&#39;</span>
+    <span class="k">assert</span> <span class="n">test</span><span class="p">[</span><span class="s1">&#39;prime_meridian_name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Greenwich&#39;</span></div>
+
+
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<span class="c1"># cf_proj_params</span>
+<div class="viewcode-block" id="test_cf_proj_params_LAEA"><a class="viewcode-back" href="../../../../stems/stems.gis.tests.test_gis_projections.html#stems.gis.tests.test_gis_projections.test_cf_proj_params_LAEA">[docs]</a><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s1">&#39;lat_0&#39;</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">30</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">])</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s1">&#39;lon_0&#39;</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">45</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">45</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">test_cf_proj_params_LAEA</span><span class="p">(</span><span class="n">lon_0</span><span class="p">,</span> <span class="n">lat_0</span><span class="p">):</span>
+    <span class="c1"># Lambert Azimuthal Equal Area</span>
+    <span class="n">proj4</span> <span class="o">=</span> <span class="p">(</span><span class="n">f</span><span class="s2">&quot;+proj=laea +lat_0=</span><span class="si">{lat_0}</span><span class="s2"> +lon_0=</span><span class="si">{lon_0}</span><span class="s2"> +x_0=0 +y_0=0 &quot;</span>
+             <span class="n">f</span><span class="s2">&quot;+datum=WGS84 +units=m +no_defs &quot;</span><span class="p">)</span>
+    <span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="n">proj4</span><span class="p">)</span>
+    <span class="n">cf_attrs</span> <span class="o">=</span> <span class="n">projections</span><span class="o">.</span><span class="n">cf_proj_params</span><span class="p">(</span><span class="n">crs</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">cf_attrs</span><span class="p">[</span><span class="s1">&#39;longitude_of_projection_origin&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">lon_0</span>
+    <span class="k">assert</span> <span class="n">cf_attrs</span><span class="p">[</span><span class="s1">&#39;latitude_of_projection_origin&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">lat_0</span></div>
+
+
+<div class="viewcode-block" id="test_cf_proj_params_AEA"><a class="viewcode-back" href="../../../../stems/stems.gis.tests.test_gis_projections.html#stems.gis.tests.test_gis_projections.test_cf_proj_params_AEA">[docs]</a><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s1">&#39;lon_0&#39;</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">45</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">45</span><span class="p">])</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">((</span><span class="s1">&#39;lat_0&#39;</span><span class="p">,</span> <span class="s1">&#39;lat_1&#39;</span><span class="p">,</span> <span class="s1">&#39;lat_2&#39;</span><span class="p">,</span> <span class="p">),</span> <span class="p">[</span>
+    <span class="p">(</span><span class="o">-</span><span class="mi">30</span><span class="p">,</span> <span class="o">-</span><span class="mi">40</span><span class="p">,</span> <span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="p">),</span>
+    <span class="p">(</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="p">),</span>
+    <span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="p">)</span>
+<span class="p">])</span>
+<span class="k">def</span> <span class="nf">test_cf_proj_params_AEA</span><span class="p">(</span><span class="n">lon_0</span><span class="p">,</span> <span class="n">lat_0</span><span class="p">,</span> <span class="n">lat_1</span><span class="p">,</span> <span class="n">lat_2</span><span class="p">):</span>
+    <span class="c1"># Alber&#39;s Conic Equal Area</span>
+    <span class="n">proj4</span> <span class="o">=</span> <span class="p">(</span><span class="n">f</span><span class="s2">&quot;+proj=aea +lat_1=</span><span class="si">{lat_1}</span><span class="s2"> +lat_2=</span><span class="si">{lat_2}</span><span class="s2"> +lat_0=</span><span class="si">{lat_0}</span><span class="s2"> &quot;</span>
+             <span class="n">f</span><span class="s2">&quot;+lon_0=</span><span class="si">{lon_0}</span><span class="s2"> +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs &quot;</span><span class="p">)</span>
+    <span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="n">proj4</span><span class="p">)</span>
+    <span class="n">cf_attrs</span> <span class="o">=</span> <span class="n">projections</span><span class="o">.</span><span class="n">cf_proj_params</span><span class="p">(</span><span class="n">crs</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">cf_attrs</span><span class="p">[</span><span class="s1">&#39;longitude_of_central_meridian&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">lon_0</span>
+    <span class="k">assert</span> <span class="n">cf_attrs</span><span class="p">[</span><span class="s1">&#39;latitude_of_projection_origin&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">lat_0</span>
+    <span class="k">assert</span> <span class="n">cf_attrs</span><span class="p">[</span><span class="s1">&#39;standard_parallel&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="p">(</span><span class="n">lat_1</span><span class="p">,</span> <span class="n">lat_2</span><span class="p">)</span></div>
+
+
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<span class="c1"># cf_ellps_params</span>
+<div class="viewcode-block" id="test_cf_ellps_params_WGS84"><a class="viewcode-back" href="../../../../stems/stems.gis.tests.test_gis_projections.html#stems.gis.tests.test_gis_projections.test_cf_ellps_params_WGS84">[docs]</a><span class="k">def</span> <span class="nf">test_cf_ellps_params_WGS84</span><span class="p">():</span>
+    <span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span>
+    <span class="n">test</span> <span class="o">=</span> <span class="n">projections</span><span class="o">.</span><span class="n">cf_ellps_params</span><span class="p">(</span><span class="n">crs</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">test</span><span class="p">[</span><span class="s1">&#39;semi_major_axis&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mf">6378137.0</span>
+    <span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="s1">&#39;semi_minor_axis&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="mf">6356752.314245179</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e7</span>
+    <span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="s1">&#39;inverse_flattening&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="mf">298.257223563</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e7</span></div>
+
+
+<div class="viewcode-block" id="test_cf_ellps_params_NAD83"><a class="viewcode-back" href="../../../../stems/stems.gis.tests.test_gis_projections.html#stems.gis.tests.test_gis_projections.test_cf_ellps_params_NAD83">[docs]</a><span class="k">def</span> <span class="nf">test_cf_ellps_params_NAD83</span><span class="p">():</span>
+    <span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">5070</span><span class="p">)</span>
+    <span class="n">test</span> <span class="o">=</span> <span class="n">projections</span><span class="o">.</span><span class="n">cf_ellps_params</span><span class="p">(</span><span class="n">crs</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">test</span><span class="p">[</span><span class="s1">&#39;semi_major_axis&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mf">6378137.0</span>
+    <span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="s1">&#39;semi_minor_axis&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="mf">6356752.314140356</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e7</span>
+    <span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="s1">&#39;inverse_flattening&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="mf">298.257222101</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e7</span></div>
+
+
+<span class="c1"># ----------------------------------------------------------------------------</span>
+<span class="c1"># cf_xy_coord_names</span>
+<div class="viewcode-block" id="test_cf_xy_coord_names"><a class="viewcode-back" href="../../../../stems/stems.gis.tests.test_gis_projections.html#stems.gis.tests.test_gis_projections.test_cf_xy_coord_names">[docs]</a><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">((</span><span class="s1">&#39;crs&#39;</span><span class="p">,</span> <span class="s1">&#39;ans&#39;</span><span class="p">),</span> <span class="p">(</span>
+    <span class="p">(</span><span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">4326</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;longitude&#39;</span><span class="p">,</span> <span class="s1">&#39;latitude&#39;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">5070</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">))</span>
+<span class="p">))</span>
+<span class="k">def</span> <span class="nf">test_cf_xy_coord_names</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="n">ans</span><span class="p">):</span>
+    <span class="n">test</span> <span class="o">=</span> <span class="n">projections</span><span class="o">.</span><span class="n">cf_xy_coord_names</span><span class="p">(</span><span class="n">crs</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">test</span> <span class="o">==</span> <span class="n">ans</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,369 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>stems.io.tests.test_io_encoding &mdash; stems 0.0.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> stems
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../faq.html">Frequenty Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../gis.html">Geographic Information Systems (GIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../gis_grids.html">Tile Grid Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../parallel.html">Parallel Computing Helpers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../xarray.html">XArray Integration</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">stems</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>stems.io.tests.test_io_encoding</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for stems.io.tests.test_io_encoding</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; Tests for :py:mod:`stems.io.encoding`</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">dask.array</span> <span class="k">as</span> <span class="nn">da</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pytest</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+
+<span class="kn">from</span> <span class="nn">stems.io</span> <span class="k">import</span> <span class="n">encoding</span>
+
+
+<span class="c1"># ----------------------------------------------------------------------------</span>
+<span class="c1"># default_encoding</span>
+<div class="viewcode-block" id="test_default_encoding_dataarray"><a class="viewcode-back" href="../../../../stems/stems.io.tests.test_io_encoding.html#stems.io.tests.test_io_encoding.test_default_encoding_dataarray">[docs]</a><span class="k">def</span> <span class="nf">test_default_encoding_dataarray</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">,</span> <span class="n">dataset_11w7h100t4v</span><span class="p">):</span>
+    <span class="n">data_vars</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">dataset_11w7h100t4v</span><span class="o">.</span><span class="n">data_vars</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="k">for</span> <span class="n">dv</span> <span class="ow">in</span> <span class="n">data_vars</span><span class="p">:</span>
+        <span class="n">xarr</span> <span class="o">=</span> <span class="n">dataset_11w7h100t4v</span><span class="p">[</span><span class="n">dv</span><span class="p">]</span>
+        <span class="n">enc</span> <span class="o">=</span> <span class="n">encoding</span><span class="o">.</span><span class="n">netcdf_encoding</span><span class="p">(</span><span class="n">xarr</span><span class="p">)</span>
+        <span class="c1"># ensure variable in encoding</span>
+        <span class="k">assert</span> <span class="n">dv</span> <span class="ow">in</span> <span class="n">enc</span>
+        <span class="c1"># ensure dtype is correct</span>
+        <span class="k">assert</span> <span class="n">enc</span><span class="p">[</span><span class="n">dv</span><span class="p">][</span><span class="s1">&#39;dtype&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">xarr</span><span class="o">.</span><span class="n">dtype</span>
+        <span class="c1"># ensure chunking is correct</span>
+        <span class="k">assert</span> <span class="n">enc</span><span class="p">[</span><span class="n">dv</span><span class="p">][</span><span class="s1">&#39;chunksizes&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+        <span class="c1"># no nodata so no _FillValue</span>
+        <span class="k">assert</span> <span class="s1">&#39;_FillValue&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">enc</span><span class="p">[</span><span class="n">dv</span><span class="p">]</span>
+        <span class="c1"># compression by default</span>
+        <span class="k">assert</span> <span class="s1">&#39;complevel&#39;</span> <span class="ow">in</span> <span class="n">enc</span><span class="p">[</span><span class="n">dv</span><span class="p">]</span>
+        <span class="k">assert</span> <span class="n">enc</span><span class="p">[</span><span class="n">dv</span><span class="p">][</span><span class="s1">&#39;zlib&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">True</span>
+
+    <span class="c1"># Test that integrates with xarray / actually works</span>
+    <span class="n">dataset_11w7h100t4v</span><span class="o">.</span><span class="n">to_netcdf</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">tmpdir</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;tmp.nc&#39;</span><span class="p">)),</span> <span class="n">encoding</span><span class="o">=</span><span class="n">enc</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">test_default_encoding_dataset</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">,</span> <span class="n">dataset_11w7h100t4v</span><span class="p">):</span>
+    <span class="n">enc</span> <span class="o">=</span> <span class="n">encoding</span><span class="o">.</span><span class="n">netcdf_encoding</span><span class="p">(</span><span class="n">dataset_11w7h100t4v</span><span class="p">)</span>
+
+    <span class="c1"># Check</span>
+    <span class="k">for</span> <span class="n">dv</span> <span class="ow">in</span> <span class="n">dataset_11w7h100t4v</span><span class="o">.</span><span class="n">data_vars</span><span class="p">:</span>
+        <span class="n">enc_</span> <span class="o">=</span> <span class="n">enc</span><span class="p">[</span><span class="n">dv</span><span class="p">]</span>
+        <span class="c1"># ensure dtype is correct</span>
+        <span class="k">assert</span> <span class="n">enc_</span><span class="p">[</span><span class="s1">&#39;dtype&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">dataset_11w7h100t4v</span><span class="p">[</span><span class="n">dv</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span>
+        <span class="c1"># ensure chunking is correct</span>
+        <span class="k">assert</span> <span class="n">enc</span><span class="p">[</span><span class="n">dv</span><span class="p">][</span><span class="s1">&#39;chunksizes&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+        <span class="c1"># no nodata so no _FillValue</span>
+        <span class="k">assert</span> <span class="s1">&#39;_FillValue&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">enc</span><span class="p">[</span><span class="n">dv</span><span class="p">]</span>
+        <span class="c1"># compression by default</span>
+        <span class="k">assert</span> <span class="s1">&#39;complevel&#39;</span> <span class="ow">in</span> <span class="n">enc</span><span class="p">[</span><span class="n">dv</span><span class="p">]</span>
+        <span class="k">assert</span> <span class="n">enc</span><span class="p">[</span><span class="n">dv</span><span class="p">][</span><span class="s1">&#39;zlib&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">True</span>
+
+    <span class="c1"># Test that integrates with xarray / actually works</span>
+    <span class="n">dataset_11w7h100t4v</span><span class="o">.</span><span class="n">to_netcdf</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">tmpdir</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;tmp.nc&#39;</span><span class="p">)),</span> <span class="n">encoding</span><span class="o">=</span><span class="n">enc</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="test_default_encoding_dataset"><a class="viewcode-back" href="../../../../stems/stems.io.tests.test_io_encoding.html#stems.io.tests.test_io_encoding.test_default_encoding_dataset">[docs]</a><span class="k">def</span> <span class="nf">test_default_encoding_dataset</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">,</span> <span class="n">dataset_11w7h100t4v</span><span class="p">):</span>
+    <span class="n">data_vars</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">dataset_11w7h100t4v</span><span class="o">.</span><span class="n">data_vars</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+    <span class="n">chunks</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">}</span>
+    <span class="n">nodata</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">data_vars</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data_vars</span><span class="p">))))</span>
+
+    <span class="n">enc</span> <span class="o">=</span> <span class="n">encoding</span><span class="o">.</span><span class="n">netcdf_encoding</span><span class="p">(</span>
+        <span class="n">dataset_11w7h100t4v</span><span class="p">,</span>
+        <span class="n">chunks</span><span class="o">=</span><span class="n">chunks</span><span class="p">,</span>
+        <span class="n">zlib</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">nodata</span><span class="o">=</span><span class="n">nodata</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Check</span>
+    <span class="k">for</span> <span class="n">dv</span> <span class="ow">in</span> <span class="n">data_vars</span><span class="p">:</span>
+        <span class="n">enc_</span> <span class="o">=</span> <span class="n">enc</span><span class="p">[</span><span class="n">dv</span><span class="p">]</span>
+        <span class="c1"># ensure dtype is correct</span>
+        <span class="k">assert</span> <span class="n">enc_</span><span class="p">[</span><span class="s1">&#39;dtype&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">dataset_11w7h100t4v</span><span class="p">[</span><span class="n">dv</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span>
+        <span class="c1"># ensure chunking is correct</span>
+        <span class="k">assert</span> <span class="n">enc</span><span class="p">[</span><span class="n">dv</span><span class="p">][</span><span class="s1">&#39;chunksizes&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+        <span class="c1"># _FillValue different in each variable</span>
+        <span class="k">assert</span> <span class="n">enc</span><span class="p">[</span><span class="n">dv</span><span class="p">][</span><span class="s1">&#39;_FillValue&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">nodata</span><span class="p">[</span><span class="n">dv</span><span class="p">]</span>
+        <span class="c1"># compression by default</span>
+        <span class="k">assert</span> <span class="n">enc</span><span class="p">[</span><span class="n">dv</span><span class="p">][</span><span class="s1">&#39;zlib&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">False</span>
+
+    <span class="c1"># Test that integrates with xarray / actually works</span>
+    <span class="n">dataset_11w7h100t4v</span><span class="o">.</span><span class="n">to_netcdf</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">tmpdir</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;tmp.nc&#39;</span><span class="p">)),</span> <span class="n">encoding</span><span class="o">=</span><span class="n">enc</span><span class="p">)</span></div>
+
+
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<span class="c1"># encoding_name</span>
+<div class="viewcode-block" id="test_encoding_name"><a class="viewcode-back" href="../../../../stems/stems.io.tests.test_io_encoding.html#stems.io.tests.test_io_encoding.test_encoding_name">[docs]</a><span class="k">def</span> <span class="nf">test_encoding_name</span><span class="p">():</span>
+    <span class="n">xarr</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+    <span class="k">assert</span> <span class="n">encoding</span><span class="o">.</span><span class="n">encoding_name</span><span class="p">(</span><span class="n">xarr</span><span class="p">)</span> <span class="o">==</span> <span class="n">xr</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">DATAARRAY_VARIABLE</span>
+    <span class="n">xarr</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;test&#39;</span>
+    <span class="k">assert</span> <span class="n">encoding</span><span class="o">.</span><span class="n">encoding_name</span><span class="p">(</span><span class="n">xarr</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;test&#39;</span></div>
+
+
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<span class="c1"># encoding_dtype</span>
+<div class="viewcode-block" id="test_encoding_dtype"><a class="viewcode-back" href="../../../../stems/stems.io.tests.test_io_encoding.html#stems.io.tests.test_io_encoding.test_encoding_dtype">[docs]</a><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s1">&#39;dtype&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">byte</span><span class="p">,</span>
+                                   <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">))</span>
+<span class="k">def</span> <span class="nf">test_encoding_dtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">):</span>
+    <span class="n">xarr</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">))</span>
+    <span class="n">ans</span> <span class="o">=</span> <span class="n">encoding</span><span class="o">.</span><span class="n">encoding_dtype</span><span class="p">(</span><span class="n">xarr</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">ans</span> <span class="o">==</span> <span class="p">{</span><span class="s1">&#39;dtype&#39;</span><span class="p">:</span> <span class="n">xarr</span><span class="o">.</span><span class="n">dtype</span><span class="p">}</span></div>
+
+
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<span class="c1"># encoding_chunksizes</span>
+<div class="viewcode-block" id="test_encoding_chunksizes_None"><a class="viewcode-back" href="../../../../stems/stems.io.tests.test_io_encoding.html#stems.io.tests.test_io_encoding.test_encoding_chunksizes_None">[docs]</a><span class="k">def</span> <span class="nf">test_encoding_chunksizes_None</span><span class="p">():</span>
+    <span class="n">chunks</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="p">)</span>
+    <span class="n">xarr</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="n">chunks</span><span class="o">=</span><span class="n">chunks</span><span class="p">))</span>
+    <span class="n">ans</span> <span class="o">=</span> <span class="n">encoding</span><span class="o">.</span><span class="n">encoding_chunksizes</span><span class="p">(</span><span class="n">xarr</span><span class="p">,</span> <span class="n">chunks</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">ans</span> <span class="o">==</span> <span class="n">chunks</span></div>
+
+
+<div class="viewcode-block" id="test_encoding_chunksizes_dict"><a class="viewcode-back" href="../../../../stems/stems.io.tests.test_io_encoding.html#stems.io.tests.test_io_encoding.test_encoding_chunksizes_dict">[docs]</a><span class="k">def</span> <span class="nf">test_encoding_chunksizes_dict</span><span class="p">():</span>
+    <span class="n">chunks</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="p">)</span>
+    <span class="n">xarr</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="n">chunks</span><span class="o">=</span><span class="n">chunks</span><span class="p">))</span>
+    <span class="n">chunks_</span> <span class="o">=</span> <span class="p">{</span><span class="n">dim</span><span class="p">:</span> <span class="mi">50</span> <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">xarr</span><span class="o">.</span><span class="n">dims</span><span class="p">}</span>
+    <span class="n">ans</span> <span class="o">=</span> <span class="n">encoding</span><span class="o">.</span><span class="n">encoding_chunksizes</span><span class="p">(</span><span class="n">xarr</span><span class="p">,</span> <span class="n">chunks</span><span class="o">=</span><span class="n">chunks_</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">ans</span> <span class="o">==</span> <span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="p">)</span> <span class="o">*</span> <span class="n">xarr</span><span class="o">.</span><span class="n">ndim</span></div>
+
+
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<span class="c1"># guard_chunksizes</span>
+<div class="viewcode-block" id="test_guard_chunksizes"><a class="viewcode-back" href="../../../../stems/stems.io.tests.test_io_encoding.html#stems.io.tests.test_io_encoding.test_guard_chunksizes">[docs]</a><span class="k">def</span> <span class="nf">test_guard_chunksizes</span><span class="p">():</span>
+    <span class="n">chunks</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="p">)</span>
+    <span class="n">xarr</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="n">chunks</span><span class="o">=</span><span class="n">chunks</span><span class="p">))</span>
+    <span class="c1"># Test too big</span>
+    <span class="n">ans</span> <span class="o">=</span> <span class="n">encoding</span><span class="o">.</span><span class="n">guard_chunksizes</span><span class="p">(</span><span class="n">xarr</span><span class="p">,</span> <span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="p">))</span>
+    <span class="k">assert</span> <span class="n">ans</span> <span class="o">==</span> <span class="n">xarr</span><span class="o">.</span><span class="n">shape</span>
+    <span class="c1"># Test passing sizes (no change)</span>
+    <span class="n">ans</span> <span class="o">=</span> <span class="n">encoding</span><span class="o">.</span><span class="n">guard_chunksizes</span><span class="p">(</span><span class="n">xarr</span><span class="p">,</span> <span class="n">chunks</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">ans</span> <span class="o">==</span> <span class="n">chunks</span></div>
+
+
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<span class="c1"># guard_chunksizes_str</span>
+<div class="viewcode-block" id="test_guard_chunksizes_str"><a class="viewcode-back" href="../../../../stems/stems.io.tests.test_io_encoding.html#stems.io.tests.test_io_encoding.test_guard_chunksizes_str">[docs]</a><span class="k">def</span> <span class="nf">test_guard_chunksizes_str</span><span class="p">():</span>
+    <span class="c1"># 1D (but really 2D in NetCDF world) array of character</span>
+    <span class="n">xarr</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">([</span><span class="s1">&#39;asdf&#39;</span><span class="p">],</span> <span class="mi">5</span><span class="p">))</span>
+    <span class="c1"># Should get 2D of chunks out for 1D in</span>
+    <span class="c1"># (since stored as multiple 1D arrays)</span>
+    <span class="n">chunks</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">)</span>
+    <span class="n">test</span> <span class="o">=</span> <span class="n">encoding</span><span class="o">.</span><span class="n">guard_chunksizes_str</span><span class="p">(</span><span class="n">xarr</span><span class="p">,</span> <span class="n">chunks</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">test</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
+    <span class="k">assert</span> <span class="n">test</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">test</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">xarr</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">itemsize</span>
+
+    <span class="c1"># If object type, just punt</span>
+    <span class="n">chunks</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">)</span>
+    <span class="n">test</span> <span class="o">=</span> <span class="n">encoding</span><span class="o">.</span><span class="n">guard_chunksizes_str</span><span class="p">(</span><span class="n">xarr</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">object</span><span class="p">),</span> <span class="n">chunks</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">test</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span></div>
+
+
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<span class="c1"># guard_dtype</span>
+<div class="viewcode-block" id="test_guard_dtype"><a class="viewcode-back" href="../../../../stems/stems.io.tests.test_io_encoding.html#stems.io.tests.test_io_encoding.test_guard_dtype">[docs]</a><span class="k">def</span> <span class="nf">test_guard_dtype</span><span class="p">():</span>
+    <span class="c1"># some float</span>
+    <span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span>
+    <span class="n">xarr</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">))</span>
+    <span class="n">ans</span> <span class="o">=</span> <span class="n">encoding</span><span class="o">.</span><span class="n">guard_dtype</span><span class="p">(</span><span class="n">xarr</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;dtype&#39;</span><span class="p">:</span> <span class="n">xarr</span><span class="o">.</span><span class="n">dtype</span><span class="p">})</span>
+    <span class="k">assert</span> <span class="n">ans</span> <span class="o">==</span> <span class="p">{</span><span class="s1">&#39;dtype&#39;</span><span class="p">:</span> <span class="n">dtype</span><span class="p">}</span>
+
+    <span class="c1"># datetime should be ignored</span>
+    <span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span>
+    <span class="n">xarr</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">))</span>
+    <span class="n">ans</span> <span class="o">=</span> <span class="n">encoding</span><span class="o">.</span><span class="n">guard_dtype</span><span class="p">(</span><span class="n">xarr</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;dtype&#39;</span><span class="p">:</span> <span class="n">xarr</span><span class="o">.</span><span class="n">dtype</span><span class="p">})</span>
+    <span class="k">assert</span> <span class="n">ans</span> <span class="o">==</span> <span class="p">{}</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

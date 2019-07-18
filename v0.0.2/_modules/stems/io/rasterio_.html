@@ -1,0 +1,329 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>stems.io.rasterio_ &mdash; stems 0.0.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> stems
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq.html">Frequenty Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../gis.html">Geographic Information Systems (GIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../gis_grids.html">Tile Grid Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../parallel.html">Parallel Computing Helpers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../xarray.html">XArray Integration</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">stems</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>stems.io.rasterio_</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for stems.io.rasterio_</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; Rasterio IO helpers</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="k">import</span> <span class="n">Path</span>
+
+<span class="kn">import</span> <span class="nn">rasterio</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+
+<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">xarray_accessor</span>
+<span class="kn">from</span> <span class="nn">..gis</span> <span class="k">import</span> <span class="n">projections</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<span class="c1">#: Default Rasterio driver format</span>
+<span class="n">DEFAULT_RASTERIO_DRIVER</span> <span class="o">=</span> <span class="s1">&#39;GTiff&#39;</span>
+<span class="c1">#: Attributes to keep from output of ``xarray.open_rasterio``</span>
+<span class="n">RASTERIO_ATTR_WHITELIST</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;nodatavals&#39;</span><span class="p">,</span> <span class="p">)</span>
+
+
+<div class="viewcode-block" id="xarray_to_rasterio"><a class="viewcode-back" href="../../../stems/stems.io.rasterio_.html#stems.io.rasterio_.xarray_to_rasterio">[docs]</a><span class="k">def</span> <span class="nf">xarray_to_rasterio</span><span class="p">(</span><span class="n">xarr</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">driver</span><span class="o">=</span><span class="n">DEFAULT_RASTERIO_DRIVER</span><span class="p">,</span>
+                       <span class="n">crs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">nodata</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="o">**</span><span class="n">meta</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Save a DataArray to a rasterio/GDAL dataset</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xarr : xarray.DataArray</span>
+<span class="sd">        2D or 3D DataArray to save. Shape is assumed to be</span>
+<span class="sd">        ``(width, height, )`` for 2D or  ``(count, width, height, )`` for</span>
+<span class="sd">        3D arrays</span>
+<span class="sd">    path : str or Path</span>
+<span class="sd">        Save DataArray to this file path</span>
+<span class="sd">    driver : str, optional</span>
+<span class="sd">        Rasterio dataset driver</span>
+<span class="sd">    crs : str, dict, or rasterio.crs.CRS, optional</span>
+<span class="sd">        Optionally, provide CRS information about ``xarr``. Will</span>
+<span class="sd">        try to read from ``xarr`` if not provided</span>
+<span class="sd">    transform : affine.Affine, optional</span>
+<span class="sd">        Optionally, provide affine transform information about ``xarr``. Will</span>
+<span class="sd">        try to read from ``xarr`` if not provided</span>
+<span class="sd">    nodata : int or float, optional</span>
+<span class="sd">        No data value to set</span>
+<span class="sd">    **meta</span>
+<span class="sd">        Additional keyword arguments to :py:func:`rasterio.open`. Useful for</span>
+<span class="sd">        specifying block sizes, color interpretation, and other metadata.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    path : Path</span>
+<span class="sd">        Saved file path</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        Raised if ``xarr`` is not 2D or 3D</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">xarr</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Can only save 2D or 3D ``xarray.DataArray``s to &#39;</span>
+                        <span class="s1">&#39;rasterio/GDAL datasets&#39;</span><span class="p">)</span>
+
+    <span class="n">xarr</span><span class="p">,</span> <span class="n">meta_</span> <span class="o">=</span> <span class="n">_prepare_xarray_for_rasterio</span><span class="p">(</span><span class="n">xarr</span><span class="p">,</span> <span class="n">crs</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span>
+                                               <span class="n">driver</span><span class="o">=</span><span class="n">driver</span><span class="p">,</span> <span class="o">**</span><span class="n">meta</span><span class="p">)</span>
+    <span class="n">dim_band</span> <span class="o">=</span> <span class="n">xarr</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># TODO: support some kind of block writing if chunked (dask array)</span>
+    <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="p">),</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">meta_</span><span class="p">)</span> <span class="k">as</span> <span class="n">dst</span><span class="p">:</span>
+        <span class="c1"># Write data</span>
+        <span class="n">dst</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">xarr</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+
+        <span class="c1"># Write 1st dim (&quot;band&quot;) coordinate names as band descriptions</span>
+        <span class="n">dst</span><span class="o">.</span><span class="n">descriptions</span> <span class="o">=</span> <span class="n">xarr</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="n">dim_band</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+
+        <span class="c1"># Write attrs as tags (except &quot;grid_mapping&quot;)</span>
+        <span class="n">tags</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">xarr</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;grid_mapping&#39;</span><span class="p">,</span> <span class="p">)</span>
+        <span class="p">}</span>
+        <span class="n">dst</span><span class="o">.</span><span class="n">update_tags</span><span class="p">(</span><span class="o">**</span><span class="n">tags</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">nodata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">dst</span><span class="o">.</span><span class="n">nodata</span> <span class="o">=</span> <span class="n">nodata</span>
+
+    <span class="k">return</span> <span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">_prepare_xarray_for_rasterio</span><span class="p">(</span><span class="n">xarr</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                 <span class="n">dim_y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dim_x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dim_band</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                 <span class="o">**</span><span class="n">meta</span><span class="p">):</span>
+    <span class="c1"># Expand 2D to 3D before processing</span>
+    <span class="n">dim_band</span> <span class="o">=</span> <span class="n">dim_band</span> <span class="ow">or</span> <span class="s1">&#39;band&#39;</span>
+    <span class="k">if</span> <span class="n">xarr</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">xarr</span> <span class="o">=</span> <span class="n">xarr</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">dim_band</span><span class="p">)</span>
+        <span class="n">xarr</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="s1">&#39;band&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">xarr</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="k">if</span> <span class="n">xarr</span><span class="o">.</span><span class="n">name</span> <span class="k">else</span> <span class="p">[</span><span class="s1">&#39;Band_1&#39;</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">xarr</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Can only save 2D or 3D DataArrays&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">dim_band</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">xarr</span><span class="o">.</span><span class="n">dims</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Cannot find band dimension &quot;</span><span class="si">{dim_band}</span><span class="s1">&quot; in dims&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">crs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">crs</span> <span class="o">=</span> <span class="n">xarr</span><span class="o">.</span><span class="n">stems</span><span class="o">.</span><span class="n">crs</span>
+
+    <span class="k">if</span> <span class="n">transform</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">transform</span> <span class="o">=</span> <span class="n">xarr</span><span class="o">.</span><span class="n">stems</span><span class="o">.</span><span class="n">transform</span>
+
+    <span class="k">if</span> <span class="n">dim_x</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">dim_y</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">dim_x</span><span class="p">,</span> <span class="n">dim_y</span> <span class="o">=</span> <span class="n">projections</span><span class="o">.</span><span class="n">cf_xy_coord_names</span><span class="p">(</span><span class="n">crs</span><span class="p">)</span>
+
+    <span class="n">dims_</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">xarr</span><span class="o">.</span><span class="n">dims</span><span class="p">,</span> <span class="n">xarr</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+
+    <span class="n">meta_</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;driver&#39;</span><span class="p">:</span> <span class="n">DEFAULT_RASTERIO_DRIVER</span><span class="p">,</span>
+        <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="n">dims_</span><span class="p">[</span><span class="n">dim_band</span><span class="p">],</span>
+        <span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="n">dims_</span><span class="p">[</span><span class="n">dim_x</span><span class="p">],</span>
+        <span class="s1">&#39;height&#39;</span><span class="p">:</span> <span class="n">dims_</span><span class="p">[</span><span class="n">dim_y</span><span class="p">],</span>
+        <span class="s1">&#39;dtype&#39;</span><span class="p">:</span> <span class="n">xarr</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span>
+        <span class="s1">&#39;crs&#39;</span><span class="p">:</span> <span class="n">crs</span><span class="p">,</span>
+        <span class="s1">&#39;transform&#39;</span><span class="p">:</span> <span class="n">transform</span>
+    <span class="p">}</span>
+    <span class="n">meta_</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">meta</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">xarr</span><span class="p">,</span> <span class="n">meta_</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

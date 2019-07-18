@@ -1,0 +1,7 @@
+stems.io.tests.test\_io\_vrt module
+===================================
+
+.. automodule:: stems.io.tests.test_io_vrt
+   :members:
+   :undoc-members:
+   :show-inheritance:

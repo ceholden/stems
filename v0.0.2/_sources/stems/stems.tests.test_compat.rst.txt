@@ -1,0 +1,7 @@
+stems.tests.test\_compat module
+===============================
+
+.. automodule:: stems.tests.test_compat
+   :members:
+   :undoc-members:
+   :show-inheritance:

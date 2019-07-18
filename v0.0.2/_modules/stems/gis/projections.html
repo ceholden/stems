@@ -1,0 +1,553 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>stems.gis.projections &mdash; stems 0.0.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> stems
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq.html">Frequenty Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../gis.html">Geographic Information Systems (GIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../gis_grids.html">Tile Grid Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../parallel.html">Parallel Computing Helpers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../xarray.html">XArray Integration</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">stems</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>stems.gis.projections</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for stems.gis.projections</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; Projection handling - OSGEO/Rasterio, CF/NetCDF, and Cartopy</span>
+
+<span class="sd">See Also</span>
+<span class="sd">--------</span>
+
+<span class="sd">* https://trac.osgeo.org/gdal/wiki/NetCDF_ProjectionTestingStatus</span>
+<span class="sd">* http://cfconventions.org/Data/cf-conventions/cf-conventions-1.7/build/cf-conventions.html#appendix-grid-mappings</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">singledispatch</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">from</span> <span class="nn">rasterio.crs</span> <span class="k">import</span> <span class="n">CRS</span>
+<span class="kn">from</span> <span class="nn">osgeo</span> <span class="k">import</span> <span class="n">osr</span>
+
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="k">import</span> <span class="n">crs2osr</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">errors</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<span class="c1">#: dict: Mapping between OGC WKT &lt;-&gt; CF projection names</span>
+<span class="n">CF_PROJECTION_NAMES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;Albers_Conic_Equal_Area&#39;</span><span class="p">:</span> <span class="s1">&#39;albers_conic_equal_area&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Azimuthal_Equidistant&#39;</span><span class="p">:</span> <span class="s1">&#39;azimuthal_equidistant&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Lambert_Azimuthal_Equal_Area&#39;</span><span class="p">:</span> <span class="s1">&#39;lambert_azimuthal_equal_area&#39;</span><span class="p">,</span>
+    <span class="c1"># ...</span>
+    <span class="s1">&#39;Sinusoidal&#39;</span><span class="p">:</span> <span class="s1">&#39;sinusoidal&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Transverse_Mercator&#39;</span><span class="p">:</span> <span class="s1">&#39;transverse_mercator&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="c1">#: dict: Mapping between CF &lt;-&gt; OGC WKT projection parameters for projections</span>
+<span class="n">CF_PROJECTION_DEFS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1"># http://cfconventions.org/cf-conventions/cf-conventions.html#lambert-azimuthal-equal-area</span>
+    <span class="s1">&#39;albers_conic_equal_area&#39;</span><span class="p">:</span> <span class="p">(</span>
+        <span class="p">(</span><span class="s1">&#39;latitude_of_projection_origin&#39;</span><span class="p">,</span> <span class="s1">&#39;latitude_of_center&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;longitude_of_central_meridian&#39;</span><span class="p">,</span> <span class="s1">&#39;longitude_of_center&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;standard_parallel&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;standard_parallel_1&#39;</span><span class="p">,</span> <span class="s1">&#39;standard_parallel_2&#39;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="s1">&#39;false_easting&#39;</span><span class="p">,</span> <span class="s1">&#39;false_easting&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;false_northing&#39;</span><span class="p">,</span> <span class="s1">&#39;false_northing&#39;</span><span class="p">),</span>
+    <span class="p">),</span>
+    <span class="s1">&#39;lambert_azimuthal_equal_area&#39;</span><span class="p">:</span> <span class="p">(</span>
+        <span class="p">(</span><span class="s1">&#39;longitude_of_projection_origin&#39;</span><span class="p">,</span> <span class="s1">&#39;longitude_of_center&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;latitude_of_projection_origin&#39;</span><span class="p">,</span> <span class="s1">&#39;latitude_of_center&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;false_easting&#39;</span><span class="p">,</span> <span class="s1">&#39;false_easting&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;false_northing&#39;</span><span class="p">,</span> <span class="s1">&#39;false_northing&#39;</span><span class="p">),</span>
+    <span class="p">),</span>
+    <span class="c1"># http://cfconventions.org/cf-conventions/cf-conventions.html#_transverse_mercator</span>
+    <span class="s1">&#39;transverse_mercator&#39;</span><span class="p">:</span> <span class="p">(</span>
+        <span class="p">(</span><span class="s1">&#39;latitude_of_projection_origin&#39;</span><span class="p">,</span> <span class="s1">&#39;latitude_of_origin&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;longitude_of_central_meridian&#39;</span><span class="p">,</span> <span class="s1">&#39;central_meridian&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;scale_factor_at_central_meridian&#39;</span><span class="p">,</span> <span class="s1">&#39;scale_factor&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;false_easting&#39;</span><span class="p">,</span> <span class="s1">&#39;false_easting&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;false_northing&#39;</span><span class="p">,</span> <span class="s1">&#39;false_northing&#39;</span><span class="p">),</span>
+    <span class="p">),</span>
+    <span class="s1">&#39;universal_transverse_mercator&#39;</span><span class="p">:</span> <span class="p">(</span>
+        <span class="p">(</span><span class="s1">&#39;utm_zone_number&#39;</span><span class="p">,</span> <span class="s1">&#39;utm_zone_number&#39;</span><span class="p">)</span>
+    <span class="p">),</span>
+    <span class="c1"># http://cfconventions.org/cf-conventions/cf-conventions.html#_sinusoidal</span>
+    <span class="s1">&#39;sinusoidal&#39;</span><span class="p">:</span> <span class="p">(</span>
+        <span class="p">(</span><span class="s1">&#39;longitude_of_central_meridian&#39;</span><span class="p">,</span> <span class="s1">&#39;central_meridian&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;false_northing&#39;</span><span class="p">,</span> <span class="s1">&#39;false_northing&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;false_easting&#39;</span><span class="p">,</span> <span class="s1">&#39;false_easting&#39;</span><span class="p">),</span>
+    <span class="p">),</span>
+    <span class="s1">&#39;latitude_longitude&#39;</span><span class="p">:</span> <span class="p">(),</span>  <span class="c1"># None</span>
+<span class="p">}</span>
+
+<span class="c1">#: tuple: Mapping between CF &lt;-&gt; OGC WKT projection attribute name definitions</span>
+<span class="c1"># https://trac.osgeo.org/gdal/wiki/NetCDF_ProjectionTestingStatus#CoordinatesystemkeywordsstartingwithCF-1.7</span>
+<span class="n">CF_CRS_NAMES</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="p">(</span><span class="s1">&#39;horizontal_datum_name&#39;</span><span class="p">,</span> <span class="s1">&#39;GEOGCS|DATUM&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;reference_ellipsoid_name&#39;</span><span class="p">,</span> <span class="s1">&#39;GEOGCS|DATUM|SPHEROID&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;towgs84&#39;</span><span class="p">,</span> <span class="s1">&#39;GEOGCS|DATUM|TOWGS84&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;prime_meridian_name&#39;</span><span class="p">,</span> <span class="s1">&#39;GEOGCS|PRIMEM&#39;</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1">#: tuple: mapping from CF ellipsoid parameter to SpatialReference method calls</span>
+<span class="n">CF_ELLIPSOID_DEFS</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="p">(</span><span class="s1">&#39;semi_major_axis&#39;</span><span class="p">,</span> <span class="s1">&#39;GetSemiMajor&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;semi_minor_axis&#39;</span><span class="p">,</span> <span class="s1">&#39;GetSemiMinor&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;inverse_flattening&#39;</span><span class="p">,</span> <span class="s1">&#39;GetInvFlattening&#39;</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="c1"># TODO: support more...</span>
+<span class="c1"># TODO: Cartopy mappings</span>
+
+
+<span class="c1"># ============================================================================</span>
+<span class="c1"># EPSG code</span>
+<div class="viewcode-block" id="epsg_code"><a class="viewcode-back" href="../../../stems/stems.gis.projections.html#stems.gis.projections.epsg_code">[docs]</a><span class="nd">@singledispatch</span>
+<span class="k">def</span> <span class="nf">epsg_code</span><span class="p">(</span><span class="n">crs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return EPSG code for a CRS</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    crs : CRS or osr.SpatialReference</span>
+<span class="sd">        Coordinate reference system defined by an EPSG code</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">        EPSG code string</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        Raised if projection does not correspond to an EPSG code</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Input `crs` needs to be rasterio `CRS` or &#39;</span>
+                    <span class="s1">&#39;osr `SpatialReference`&#39;</span><span class="p">)</span></div>
+
+
+<span class="nd">@epsg_code</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">osr</span><span class="o">.</span><span class="n">SpatialReference</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_epsg_code_osr</span><span class="p">(</span><span class="n">crs</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">crs</span><span class="o">.</span><span class="n">AutoIdentifyEPSG</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">RuntimeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Cannot decode EPSG code from CRS&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">auth</span> <span class="o">=</span> <span class="n">crs</span><span class="o">.</span><span class="n">GetAuthorityName</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+            <span class="n">code</span> <span class="o">=</span> <span class="n">crs</span><span class="o">.</span><span class="n">GetAuthorityCode</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+            <span class="k">return</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">:</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">auth</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">code</span><span class="p">)</span>
+
+
+<span class="nd">@epsg_code</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">CRS</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_epsg_code_rasterio</span><span class="p">(</span><span class="n">crs</span><span class="p">):</span>
+    <span class="n">osr_crs</span> <span class="o">=</span> <span class="n">crs2osr</span><span class="p">(</span><span class="n">crs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_epsg_code_osr</span><span class="p">(</span><span class="n">osr_crs</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="crs_longname"><a class="viewcode-back" href="../../../stems/stems.gis.projections.html#stems.gis.projections.crs_longname">[docs]</a><span class="k">def</span> <span class="nf">crs_longname</span><span class="p">(</span><span class="n">crs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return name of a CRS / ellipsoid pair</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    crs : rasterio.crs.CRS</span>
+<span class="sd">        CRS</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">        Lowercase projection name (see keys of :py:data:`CF_PROJECTION_DEFS`)</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; crs_longname(CRS.from_epsg(3857))  # Web Mercator</span>
+<span class="sd">    &#39;WGS 84 / Pseudo-Mercator&#39;</span>
+<span class="sd">    &gt;&gt;&gt; crs_longname(CRS.from_epsg(32619))  # UTM19N</span>
+<span class="sd">    &#39;WGS 84 / UTM zone 19N&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># This doesn&#39;t necessarily relate to CF but it&#39;s nice to have</span>
+    <span class="n">crs_osr</span> <span class="o">=</span> <span class="n">crs2osr</span><span class="p">(</span><span class="n">crs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">crs</span><span class="o">.</span><span class="n">is_projected</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">crs_osr</span><span class="o">.</span><span class="n">GetAttrValue</span><span class="p">(</span><span class="s1">&#39;PROJCS&#39;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">crs</span><span class="o">.</span><span class="n">is_geographic</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">crs_osr</span><span class="o">.</span><span class="n">GetAttrValue</span><span class="p">(</span><span class="s1">&#39;GEOGCS&#39;</span><span class="p">)</span></div>
+
+
+<span class="c1"># ============================================================================</span>
+<span class="c1"># CF info / parameters</span>
+<div class="viewcode-block" id="cf_crs_name"><a class="viewcode-back" href="../../../stems/stems.gis.projections.html#stems.gis.projections.cf_crs_name">[docs]</a><span class="k">def</span> <span class="nf">cf_crs_name</span><span class="p">(</span><span class="n">crs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return CF name of a CRS projection</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    crs : rasterio.crs.CRS</span>
+<span class="sd">        CRS</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">        Lowercase projection name (see keys of :py:mod:`CF_PROJECTION_DEFS`)</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; cf_crs_attrs(CRS.from_epsg(4326))  # WGS84</span>
+<span class="sd">    &#39;latitude_longitude&#39;</span>
+<span class="sd">    &gt;&gt;&gt; cf_crs_attrs(CRS.from_epsg(32619))  # UTM19N</span>
+<span class="sd">    &#39;transverse_mercator&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">crs_osr</span> <span class="o">=</span> <span class="n">crs2osr</span><span class="p">(</span><span class="n">crs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">crs</span><span class="o">.</span><span class="n">is_projected</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">crs_osr</span><span class="o">.</span><span class="n">GetAttrValue</span><span class="p">(</span><span class="s1">&#39;PROJECTION&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">CF_PROJECTION_NAMES</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">crs</span><span class="o">.</span><span class="n">is_valid</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">TODO</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Cannot handle &quot;</span><span class="si">{name}</span><span class="s1">&quot; CRS types &#39;</span>
+                                  <span class="n">f</span><span class="s1">&#39;yet: </span><span class="si">{crs.wkt}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s1">&#39;Unsupported CRS &quot;</span><span class="si">{0!r}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">crs</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">CF_PROJECTION_NAMES</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;latitude_longitude&#39;</span></div>
+
+
+<div class="viewcode-block" id="cf_crs_attrs"><a class="viewcode-back" href="../../../stems/stems.gis.projections.html#stems.gis.projections.cf_crs_attrs">[docs]</a><span class="k">def</span> <span class="nf">cf_crs_attrs</span><span class="p">(</span><span class="n">crs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return CF-compliant CRS info to prevent &quot;unknown&quot; CRS/Ellipse/Geoid</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    crs: rasterio.crs.CRS</span>
+<span class="sd">        CRS</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    OrderedDict</span>
+<span class="sd">        CF attributes</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] https://cf-pcmdi.llnl.gov/trac/wiki/Cf2CrsWkt#Table2-FutureCF-1.7CFGridMappingAttributes</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; cf_crs_attrs(CRS.from_epsg(4326))  # WGS84</span>
+<span class="sd">    OrderedDict([(&#39;geographic_coordinate_system_name&#39;, &#39;WGS 84&#39;),</span>
+<span class="sd">             (&#39;horizontal_datum_name&#39;, &#39;WGS_1984&#39;),</span>
+<span class="sd">             (&#39;reference_ellipsoid_name&#39;, &#39;WGS 84&#39;),</span>
+<span class="sd">             (&#39;prime_meridian_name&#39;, &#39;Greenwich&#39;)])</span>
+<span class="sd">    &gt;&gt;&gt; cf_crs_attrs(CRS.from_epsg(32619))  # UTM19N</span>
+<span class="sd">    OrderedDict([(&#39;projected_coordinate_system_name&#39;, &#39;WGS 84 / UTM zone 19N&#39;),</span>
+<span class="sd">                 (&#39;horizontal_datum_name&#39;, &#39;WGS_1984&#39;),</span>
+<span class="sd">                 (&#39;reference_ellipsoid_name&#39;, &#39;WGS 84&#39;),</span>
+<span class="sd">                 (&#39;prime_meridian_name&#39;, &#39;Greenwich&#39;)])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">osr_crs</span> <span class="o">=</span> <span class="n">crs2osr</span><span class="p">(</span><span class="n">crs</span><span class="p">)</span>
+    <span class="n">attrs</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+
+    <span class="n">long_name</span> <span class="o">=</span> <span class="n">crs_longname</span><span class="p">(</span><span class="n">crs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">crs</span><span class="o">.</span><span class="n">is_projected</span><span class="p">:</span>
+        <span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;projected_coordinate_system_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">long_name</span>
+    <span class="k">elif</span> <span class="n">crs</span><span class="o">.</span><span class="n">is_geographic</span><span class="p">:</span>
+        <span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;geographic_coordinate_system_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">long_name</span>
+
+    <span class="k">for</span> <span class="n">cf_parm</span><span class="p">,</span> <span class="n">osgeo_parm</span> <span class="ow">in</span> <span class="n">CF_CRS_NAMES</span><span class="p">:</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">osr_crs</span><span class="o">.</span><span class="n">GetAttrValue</span><span class="p">(</span><span class="n">osgeo_parm</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">value</span><span class="p">:</span>  <span class="c1"># only record if not None so we can serialize</span>
+            <span class="n">attrs</span><span class="p">[</span><span class="n">cf_parm</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="k">return</span> <span class="n">attrs</span></div>
+
+
+<div class="viewcode-block" id="cf_proj_params"><a class="viewcode-back" href="../../../stems/stems.gis.projections.html#stems.gis.projections.cf_proj_params">[docs]</a><span class="k">def</span> <span class="nf">cf_proj_params</span><span class="p">(</span><span class="n">crs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return projection parameters for a CRS</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    crs: rasterio.crs.CRS</span>
+<span class="sd">        CRS</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    OrderedDict</span>
+<span class="sd">        CRS parameters and values</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    stems.errors.TODO</span>
+<span class="sd">        Raise if CRS isn&#39;t supported yet</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; cf_crs_attrs(CRS.from_epsg(4326))  # WGS84</span>
+<span class="sd">    OrderedDict()</span>
+<span class="sd">    &gt;&gt;&gt; cf_crs_attrs(CRS.from_epsg(32619))  # UTM19N</span>
+<span class="sd">    OrderedDict([(&#39;latitude_of_projection_origin&#39;, 0.0),</span>
+<span class="sd">                 (&#39;longitude_of_central_meridian&#39;, -69.0),</span>
+<span class="sd">                 (&#39;scale_factor_at_central_meridian&#39;, 0.9996),</span>
+<span class="sd">                 (&#39;false_easting&#39;, 500000.0),</span>
+<span class="sd">                 (&#39;false_northing&#39;, 0.0)])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">cf_crs_name</span><span class="p">(</span><span class="n">crs</span><span class="p">)</span>
+    <span class="n">osr_crs</span> <span class="o">=</span> <span class="n">crs2osr</span><span class="p">(</span><span class="n">crs</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">CF_PROJECTION_DEFS</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">TODO</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Cannot handle &quot;</span><span class="si">{name}</span><span class="s1">&quot; CRS types yet&#39;</span><span class="p">)</span>
+
+    <span class="n">parms</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>  <span class="c1"># &quot;parm&quot; is eww, but ref to `GetProjParm`</span>
+    <span class="k">for</span> <span class="n">cf_parm</span><span class="p">,</span> <span class="n">osgeo_parm</span> <span class="ow">in</span> <span class="n">CF_PROJECTION_DEFS</span><span class="p">[</span><span class="n">name</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">osgeo_parm</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+            <span class="n">parms</span><span class="p">[</span><span class="n">cf_parm</span><span class="p">]</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">osr_crs</span><span class="o">.</span><span class="n">GetProjParm</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">osgeo_parm</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">parms</span><span class="p">[</span><span class="n">cf_parm</span><span class="p">]</span> <span class="o">=</span> <span class="n">osr_crs</span><span class="o">.</span><span class="n">GetProjParm</span><span class="p">(</span><span class="n">osgeo_parm</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">parms</span></div>
+
+
+<div class="viewcode-block" id="cf_ellps_params"><a class="viewcode-back" href="../../../stems/stems.gis.projections.html#stems.gis.projections.cf_ellps_params">[docs]</a><span class="k">def</span> <span class="nf">cf_ellps_params</span><span class="p">(</span><span class="n">crs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return ellipsoid parameters for a CRS</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    crs: rasterio.crs.CRS</span>
+<span class="sd">        CRS</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    OrderedDict</span>
+<span class="sd">        Ellipsoid parameters and values</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; cf_crs_attrs(CRS.from_epsg(4326))  # WGS84</span>
+<span class="sd">    OrderedDict([(&#39;semi_major_axis&#39;, 6378137.0),</span>
+<span class="sd">                 (&#39;semi_minor_axis&#39;, 6356752.314245179),</span>
+<span class="sd">                 (&#39;inverse_flattening&#39;, 298.257223563)])</span>
+<span class="sd">    &gt;&gt;&gt; cf_crs_attrs(CRS.from_epsg(32619))  # UTM19N</span>
+<span class="sd">    OrderedDict([(&#39;semi_major_axis&#39;, 6378137.0),</span>
+<span class="sd">                 (&#39;semi_minor_axis&#39;, 6356752.314245179),</span>
+<span class="sd">                 (&#39;inverse_flattening&#39;, 298.257223563)])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">osr_crs</span> <span class="o">=</span> <span class="n">crs2osr</span><span class="p">(</span><span class="n">crs</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">OrderedDict</span><span class="p">(</span>
+        <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">osr_crs</span><span class="p">,</span> <span class="n">func</span><span class="p">)())</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">func</span><span class="p">)</span> <span class="ow">in</span> <span class="n">CF_ELLIPSOID_DEFS</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="cf_xy_coord_names"><a class="viewcode-back" href="../../../stems/stems.gis.projections.html#stems.gis.projections.cf_xy_coord_names">[docs]</a><span class="k">def</span> <span class="nf">cf_xy_coord_names</span><span class="p">(</span><span class="n">crs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Returns appropriate names for coordinates given CRS</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    crs : rasterio.crs.CRS</span>
+<span class="sd">        Coordinate reference system</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str : x_coord_name</span>
+<span class="sd">        X coordinate name</span>
+<span class="sd">    str : y_coord_name</span>
+<span class="sd">        Y coordinate name</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; cf_crs_attrs(CRS.from_epsg(4326))  # WGS84</span>
+<span class="sd">    (&#39;longitude&#39;, &#39;latitude&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; cf_crs_attrs(CRS.from_epsg(32619))  # UTM19N</span>
+<span class="sd">    (&#39;x&#39;, &#39;y&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># CRSError is raised if neither is true, so we don&#39;t handle</span>
+    <span class="k">if</span> <span class="n">crs</span><span class="o">.</span><span class="n">is_geographic</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;longitude&#39;</span><span class="p">,</span> <span class="s1">&#39;latitude&#39;</span>
+    <span class="k">elif</span> <span class="n">crs</span><span class="o">.</span><span class="n">is_projected</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;CRS must either be geographic or projected&#39;</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

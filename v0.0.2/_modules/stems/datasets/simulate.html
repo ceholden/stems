@@ -1,0 +1,323 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>stems.datasets.simulate &mdash; stems 0.0.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> stems
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq.html">Frequenty Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../gis.html">Geographic Information Systems (GIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../gis_grids.html">Tile Grid Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../parallel.html">Parallel Computing Helpers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../xarray.html">XArray Integration</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">stems</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>stems.datasets.simulate</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for stems.datasets.simulate</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; Tools for generating simulated datasets</span>
+
+<span class="sd">The intent of this module is to provide tools for generating simulated data</span>
+<span class="sd">that is usefulf for testing, debugging, and learning. This module is inspired</span>
+<span class="sd">by the :py:func:`sklearn.datasets.make_classification` and</span>
+<span class="sd">:py:func:`sklearn.datasets.make_regression`, among others.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+
+<span class="c1"># Defaults</span>
+<span class="n">_N_SAMPLES</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">_N_SERIES</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">_N_SEGMENT</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">_DATE_START</span> <span class="o">=</span> <span class="s1">&#39;2000-01-01&#39;</span>
+<span class="n">_DATE_END</span> <span class="o">=</span> <span class="s1">&#39;2010-01-01&#39;</span>
+<span class="n">_FREQ</span> <span class="o">=</span> <span class="s1">&#39;16D&#39;</span>
+
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># Segments</span>
+<div class="viewcode-block" id="make_segments"><a class="viewcode-back" href="../../../stems/stems.datasets.simulate.html#stems.datasets.simulate.make_segments">[docs]</a><span class="k">def</span> <span class="nf">make_segments</span><span class="p">(</span><span class="n">date_start</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">date_end</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">date_freq</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                  <span class="n">n_series</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">n_segments</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">seg_sep</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                  <span class="n">means</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">stds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">trends</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                  <span class="n">amplitudes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">phases</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Simulate data from multiple temporal segments</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    date_start : str, datetime, and more, optional</span>
+<span class="sd">        Starting date (in a format known to Pandas)</span>
+<span class="sd">    date_end : str, datetime, and more, optional</span>
+<span class="sd">        Ending date (in a format known to Pandas)</span>
+<span class="sd">    date_freq : str, optional</span>
+<span class="sd">        Date frequency</span>
+<span class="sd">    n_series : int</span>
+<span class="sd">        Number of series/spectral bands to simulate</span>
+<span class="sd">    n_segments : int</span>
+<span class="sd">        Number of segments to simulate</span>
+<span class="sd">    seg_sep : Sequence[float]</span>
+<span class="sd">        Separability of segments (i.e., the size of the disturbance)</span>
+<span class="sd">    means : Sequence[float]</span>
+<span class="sd">        The mean value for each series/spectral band (passed to</span>
+<span class="sd">        :py:func:`make_time_series_mean`)</span>
+<span class="sd">    stds : Sequence[float]</span>
+<span class="sd">        The standard deviation for each series/spectral band (passed to</span>
+<span class="sd">        :py:func:`make_time_series_mean`)</span>
+<span class="sd">    trends : Sequence[float]</span>
+<span class="sd">        The time trend for each series/spectral band (passed to</span>
+<span class="sd">        :py:func:`make_time_series_trend`)</span>
+<span class="sd">    amplitudes : Sequence[float]</span>
+<span class="sd">        The harmonic amplitude value for each series/spectral band (passed to</span>
+<span class="sd">        :py:func:`make_time_series_harmonic`)</span>
+<span class="sd">    phases : Sequence[float]</span>
+<span class="sd">        The harmonic phase value for each series/spectral band (passed to</span>
+<span class="sd">        :py:func:`make_time_series_harmonic`)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    xr.DataArray</span>
+<span class="sd">        Simulated data for ``n_segments`` across ``n_series`` series/spectral</span>
+<span class="sd">        bands</span>
+<span class="sd">    np.ndarray</span>
+<span class="sd">        Array of ``datetime64`` indicating the dates of change</span>
+<span class="sd">        (size=``n_segments - 1``)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">n_series</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">n_segments</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">and</span> <span class="n">n_segments</span> <span class="o">&gt;=</span> <span class="mi">1</span>
+    <span class="c1"># TODO</span>
+    <span class="k">pass</span></div>
+
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># Time series</span>
+<div class="viewcode-block" id="make_dates"><a class="viewcode-back" href="../../../stems/stems.datasets.simulate.html#stems.datasets.simulate.make_dates">[docs]</a><span class="k">def</span> <span class="nf">make_dates</span><span class="p">(</span><span class="n">date_start</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">date_end</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">date_freq</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return ``datetime64`` dates</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    date_start : str, datetime, and more, optional</span>
+<span class="sd">        Starting date (in a format known to Pandas)</span>
+<span class="sd">    date_end : str, datetime, and more, optional</span>
+<span class="sd">        Ending date (in a format known to Pandas)</span>
+<span class="sd">    date_freq : str, optional</span>
+<span class="sd">        Date frequency</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    np.ndarray</span>
+<span class="sd">        Dates as ``np.datetime64``</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    pandas.date_range</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">date_start</span><span class="p">,</span> <span class="n">date_end</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="n">date_freq</span><span class="p">)</span><span class="o">.</span><span class="n">values</span></div>
+
+
+<div class="viewcode-block" id="make_time_series_mean"><a class="viewcode-back" href="../../../stems/stems.datasets.simulate.html#stems.datasets.simulate.make_time_series_mean">[docs]</a><span class="k">def</span> <span class="nf">make_time_series_mean</span><span class="p">(</span><span class="n">dates</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">std</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="make_time_series_trend"><a class="viewcode-back" href="../../../stems/stems.datasets.simulate.html#stems.datasets.simulate.make_time_series_trend">[docs]</a><span class="k">def</span> <span class="nf">make_time_series_trend</span><span class="p">(</span><span class="n">dates</span><span class="p">,</span> <span class="n">trend</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="make_time_series_harmonic"><a class="viewcode-back" href="../../../stems/stems.datasets.simulate.html#stems.datasets.simulate.make_time_series_harmonic">[docs]</a><span class="k">def</span> <span class="nf">make_time_series_harmonic</span><span class="p">(</span><span class="n">dates</span><span class="p">,</span> <span class="n">amplitude</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="make_time_series_noise"><a class="viewcode-back" href="../../../stems/stems.datasets.simulate.html#stems.datasets.simulate.make_time_series_noise">[docs]</a><span class="k">def</span> <span class="nf">make_time_series_noise</span><span class="p">(</span><span class="n">dates</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">std</span><span class="o">=</span><span class="mf">1.</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Generate a time series of noise</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># TODO: implement Gaussian noise with mean/std</span>
+    <span class="c1"># TODO: add kwarg to parametrize noise from clouds/shadows</span>
+    <span class="k">pass</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,7 @@
+stems.io.tests.test\_io\_utils module
+=====================================
+
+.. automodule:: stems.io.tests.test_io_utils
+   :members:
+   :undoc-members:
+   :show-inheritance:

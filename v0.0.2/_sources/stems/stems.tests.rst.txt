@@ -1,0 +1,25 @@
+stems.tests package
+===================
+
+Submodules
+----------
+
+.. toctree::
+
+   stems.tests.build_data
+   stems.tests.conftest
+   stems.tests.test_compat
+   stems.tests.test_executor
+   stems.tests.test_logging_
+   stems.tests.test_parallel
+   stems.tests.test_times
+   stems.tests.test_utils
+   stems.tests.test_xarray_accessor
+
+Module contents
+---------------
+
+.. automodule:: stems.tests
+   :members:
+   :undoc-members:
+   :show-inheritance:

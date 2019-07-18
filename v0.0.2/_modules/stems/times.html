@@ -1,0 +1,399 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>stems.times &mdash; stems 0.0.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> stems
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">Frequenty Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../gis.html">Geographic Information Systems (GIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../gis_grids.html">Tile Grid Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../parallel.html">Parallel Computing Helpers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../xarray.html">XArray Integration</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">stems</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>stems.times</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for stems.times</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; Module for handling dates and times</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">datetime</span> <span class="k">as</span> <span class="nn">dt</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">singledispatch</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">import</span> <span class="nn">dask.array</span> <span class="k">as</span> <span class="nn">da</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="k">import</span> <span class="n">register_multi_singledispatch</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="n">_NUMBERS</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="p">)</span>
+<span class="n">_LIST_LIKE</span> <span class="o">=</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="p">)</span>
+<span class="n">_ARRAY_LIKE</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">da</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span> <span class="p">)</span>
+<span class="n">_PANDAS</span> <span class="o">=</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Index</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">,</span> <span class="p">)</span>
+<span class="n">_ARRAYS</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">da</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span> <span class="p">)</span>
+<span class="n">_XARRAYS</span> <span class="o">=</span> <span class="p">(</span><span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Variable</span><span class="p">,</span> <span class="p">)</span>
+
+
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="ordinal_to_datetime64"><a class="viewcode-back" href="../../stems/stems.times.html#stems.times.ordinal_to_datetime64">[docs]</a><span class="nd">@singledispatch</span>
+<span class="k">def</span> <span class="nf">ordinal_to_datetime64</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Convert ordinal to datetime64, handling NaN/NaT</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Not supported for type &quot;{type(x)}&quot;&#39;</span><span class="p">)</span></div>
+
+
+<span class="nd">@register_multi_singledispatch</span><span class="p">(</span><span class="n">ordinal_to_datetime64</span><span class="p">,</span> <span class="n">_NUMBERS</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_ordinal_to_datetime64_scalar</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromordinal</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;NaT&#39;</span><span class="p">)</span>
+
+
+<span class="nd">@register_multi_singledispatch</span><span class="p">(</span><span class="n">ordinal_to_datetime64</span><span class="p">,</span> <span class="n">_LIST_LIKE</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_ordinal_to_datetime64_sequence</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">x_</span> <span class="o">=</span> <span class="p">[</span><span class="n">_ordinal_to_datetime64_scalar</span><span class="p">(</span><span class="n">x_</span><span class="p">)</span> <span class="k">for</span> <span class="n">x_</span> <span class="ow">in</span> <span class="n">x</span><span class="p">]</span>
+    <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)(</span><span class="n">x_</span><span class="p">)</span>
+
+
+<span class="nd">@ordinal_to_datetime64</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_ordinal_to_datetime64_np</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_ordinal_to_datetime64_scalar</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">_ordinal_to_datetime64_scalar</span><span class="p">(</span><span class="n">x_</span><span class="p">)</span> <span class="k">for</span> <span class="n">x_</span> <span class="ow">in</span> <span class="n">x</span><span class="p">],</span>
+                        <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">)</span>
+
+
+<span class="nd">@register_multi_singledispatch</span><span class="p">(</span><span class="n">ordinal_to_datetime64</span><span class="p">,</span> <span class="n">_PANDAS</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_ordinal_to_datetime64_pd</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">x_</span> <span class="o">=</span> <span class="n">_ordinal_to_datetime64_np</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Index</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Index</span><span class="p">(</span><span class="n">x_</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">x_</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+
+<span class="nd">@ordinal_to_datetime64</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">Array</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_ordinal_to_datetime64_da</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">da</span><span class="o">.</span><span class="n">map_blocks</span><span class="p">(</span><span class="n">_ordinal_to_datetime64_np</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="p">)</span>
+
+
+<span class="nd">@register_multi_singledispatch</span><span class="p">(</span><span class="n">ordinal_to_datetime64</span><span class="p">,</span> <span class="n">_XARRAYS</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_ordinal_to_datetime64_xarr</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">x_</span> <span class="o">=</span> <span class="n">_ordinal_to_datetime64_array</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">x_</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">dims</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">coords</span><span class="p">,</span>
+                        <span class="n">attrs</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">attrs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="datetime64_to_pydatetime"><a class="viewcode-back" href="../../stems/stems.times.html#stems.times.datetime64_to_pydatetime">[docs]</a><span class="nd">@singledispatch</span>
+<span class="k">def</span> <span class="nf">datetime64_to_pydatetime</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Convert datetime64 to Python datetime.datetime</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Not supported for type &quot;{type(x)}&quot;&#39;</span><span class="p">)</span></div>
+
+
+<span class="nd">@register_multi_singledispatch</span><span class="p">(</span><span class="n">datetime64_to_pydatetime</span><span class="p">,</span> <span class="n">_ARRAYS</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_datetime64_to_pydatetime_array</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;M8[ms]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;O&#39;</span><span class="p">)</span>
+
+
+<span class="nd">@register_multi_singledispatch</span><span class="p">(</span><span class="n">datetime64_to_pydatetime</span><span class="p">,</span> <span class="n">_XARRAYS</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_datetime64_to_pydatetime_xarray</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">x_</span> <span class="o">=</span> <span class="n">_datetime64_to_pydatetime_array</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">x_</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">dims</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">coords</span><span class="p">,</span>
+                        <span class="n">attrs</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">attrs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="datetime64_to_ordinal"><a class="viewcode-back" href="../../stems/stems.times.html#stems.times.datetime64_to_ordinal">[docs]</a><span class="nd">@singledispatch</span>
+<span class="k">def</span> <span class="nf">datetime64_to_ordinal</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Convert datetime to ordinal</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Not supported for type &quot;{type(x)}&quot;&#39;</span><span class="p">)</span></div>
+
+
+<span class="nd">@register_multi_singledispatch</span><span class="p">(</span><span class="n">datetime64_to_ordinal</span><span class="p">,</span> <span class="n">_LIST_LIKE</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_datetime64_to_ordinal_list</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">x_</span> <span class="o">=</span> <span class="p">[</span><span class="n">_datetime64_to_ordinal_scalar</span><span class="p">(</span><span class="n">x_</span><span class="p">)</span> <span class="k">for</span> <span class="n">x_</span> <span class="ow">in</span> <span class="n">x</span><span class="p">]</span>
+    <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)(</span><span class="n">x_</span><span class="p">)</span>
+
+
+<span class="nd">@datetime64_to_ordinal</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_datetime64_to_ordinal_np</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="c1"># Convert to pydatetime first if datetime</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">datetime64_to_pydatetime</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="o">.</span><span class="n">toordinal</span><span class="p">())</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x_</span><span class="o">.</span><span class="n">toordinal</span><span class="p">()</span> <span class="k">for</span> <span class="n">x_</span> <span class="ow">in</span> <span class="n">x</span><span class="p">])</span>
+
+
+<div class="viewcode-block" id="datetime64_to_ordinal_pd"><a class="viewcode-back" href="../../stems/stems.times.html#stems.times.datetime64_to_ordinal_pd">[docs]</a><span class="nd">@register_multi_singledispatch</span><span class="p">(</span><span class="n">datetime64_to_ordinal</span><span class="p">,</span> <span class="n">_PANDAS</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">datetime64_to_ordinal_pd</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">x_</span> <span class="o">=</span> <span class="n">_datetime64_to_ordinal_np</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Index</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Index</span><span class="p">(</span><span class="n">x_</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span> <span class="ow">or</span> <span class="n">x</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">x_</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span> <span class="ow">or</span> <span class="n">x</span><span class="o">.</span><span class="n">name</span><span class="p">)</span></div>
+
+
+<span class="nd">@datetime64_to_ordinal</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">Array</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_datetime64_to_ordinal_da</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">da</span><span class="o">.</span><span class="n">map_blocks</span><span class="p">(</span><span class="n">_datetime64_to_ordinal_np</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+
+
+<span class="nd">@register_multi_singledispatch</span><span class="p">(</span><span class="n">datetime64_to_ordinal</span><span class="p">,</span> <span class="n">_XARRAYS</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_datetime64_to_ordinal_xarr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">x_</span> <span class="o">=</span> <span class="n">datetime64_to_ordinal</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">x_</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">dims</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">coords</span><span class="p">,</span>
+                        <span class="n">attrs</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">attrs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span> <span class="ow">or</span> <span class="n">x</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="datetime64_to_strftime"><a class="viewcode-back" href="../../stems/stems.times.html#stems.times.datetime64_to_strftime">[docs]</a><span class="nd">@singledispatch</span>
+<span class="k">def</span> <span class="nf">datetime64_to_strftime</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">strf</span><span class="o">=</span><span class="s1">&#39;%Y%m</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">cast</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="n">fill</span><span class="o">=-</span><span class="mi">9999</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Convert time data to some string format (e.g., 20000101)</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    time : array-like</span>
+<span class="sd">        Array of time data</span>
+<span class="sd">    strf : str, optional</span>
+<span class="sd">        String format to be used with ``strftime``</span>
+<span class="sd">    cast : callable</span>
+<span class="sd">        Function to cast the string format to a number</span>
+<span class="sd">    fill : int or float</span>
+<span class="sd">        Fill value to use when ``time`` is NaN or NaT</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    array-like</span>
+<span class="sd">        Ordinal date formatted into a date string numeric representation</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;`time` must be a NumPy, Dask, or Xarray array&#39;</span><span class="p">)</span></div>
+
+
+<span class="nd">@datetime64_to_strftime</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_datetime64_to_strftime_np</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">strf</span><span class="o">=</span><span class="s1">&#39;%Y%m</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">cast</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span>
+                               <span class="n">fill</span><span class="o">=-</span><span class="mi">9999</span><span class="p">):</span>
+    <span class="c1"># to_datetime needs 1D, so reshape after func</span>
+    <span class="n">time_</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
+    <span class="n">strf_time_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">time_</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">strf</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+    <span class="c1"># NaN or NaT in `time_` is now &#39;NaT&#39; in strf_time_, so we need to fill it</span>
+    <span class="n">na</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">time_</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">strf_time_</span><span class="p">[</span><span class="n">na</span><span class="p">]</span> <span class="o">=</span> <span class="n">fill</span>
+
+    <span class="c1"># Now it&#39;s safe to cast to numeric</span>
+    <span class="n">strf_time_</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">strf_time_</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">strf_time_</span>
+
+
+<span class="nd">@datetime64_to_strftime</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">Array</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_datetime64_to_strftime_da</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">strf</span><span class="o">=</span><span class="s1">&#39;%Y%m</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">cast</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span>
+                               <span class="n">fill</span><span class="o">=-</span><span class="mi">9999</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">da</span><span class="o">.</span><span class="n">map_blocks</span><span class="p">(</span><span class="n">_datetime64_to_strftime_np</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span>
+                         <span class="n">dtype</span><span class="o">=</span><span class="n">cast</span><span class="p">,</span>
+                         <span class="n">strf</span><span class="o">=</span><span class="n">strf</span><span class="p">,</span> <span class="n">cast</span><span class="o">=</span><span class="n">cast</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">fill</span><span class="p">)</span>
+
+
+<span class="nd">@datetime64_to_strftime</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_datetime64_to_strftime_xarray</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">strf</span><span class="o">=</span><span class="s1">&#39;%Y%m</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">cast</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span>
+                                   <span class="n">fill</span><span class="o">=-</span><span class="mi">9999</span><span class="p">):</span>
+    <span class="n">time_</span> <span class="o">=</span> <span class="n">datetime64_to_strftime</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">strf</span><span class="o">=</span><span class="n">strf</span><span class="p">,</span> <span class="n">cast</span><span class="o">=</span><span class="n">cast</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">fill</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">time_</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="n">time</span><span class="o">.</span><span class="n">dims</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="n">time</span><span class="o">.</span><span class="n">coords</span><span class="p">,</span>
+                        <span class="n">name</span><span class="o">=</span><span class="n">time</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="n">time</span><span class="o">.</span><span class="n">attrs</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

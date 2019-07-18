@@ -1,0 +1,791 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>stems.io.vrt &mdash; stems 0.0.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> stems
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq.html">Frequenty Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../gis.html">Geographic Information Systems (GIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../gis_grids.html">Tile Grid Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../parallel.html">Parallel Computing Helpers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../xarray.html">XArray Integration</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">stems</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>stems.io.vrt</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for stems.io.vrt</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; Create VRTs</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span><span class="p">,</span> <span class="n">defaultdict</span>
+<span class="kn">from</span> <span class="nn">contextlib</span> <span class="k">import</span> <span class="n">contextmanager</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="k">import</span> <span class="n">Path</span>
+<span class="kn">import</span> <span class="nn">xml.etree.ElementTree</span> <span class="k">as</span> <span class="nn">ET</span>
+<span class="kn">from</span> <span class="nn">xml.dom</span> <span class="k">import</span> <span class="n">minidom</span>
+
+<span class="kn">from</span> <span class="nn">osgeo</span> <span class="k">import</span> <span class="n">gdal</span>
+<span class="kn">import</span> <span class="nn">rasterio</span>
+<span class="kn">from</span> <span class="nn">rasterio.coords</span> <span class="k">import</span> <span class="n">BoundingBox</span>
+<span class="kn">from</span> <span class="nn">rasterio.dtypes</span> <span class="k">import</span> <span class="n">_gdal_typename</span>
+<span class="kn">from</span> <span class="nn">rasterio.transform</span> <span class="k">import</span> <span class="n">rowcol</span>
+<span class="kn">import</span> <span class="nn">six</span>
+
+<span class="kn">from</span> <span class="nn">..gis.geom</span> <span class="k">import</span> <span class="p">(</span><span class="n">bounds_transform_union</span><span class="p">,</span>
+                        <span class="n">calculate_src_window</span><span class="p">,</span>
+                        <span class="n">calculate_dst_window</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">..utils</span> <span class="k">import</span> <span class="n">cached_property</span><span class="p">,</span> <span class="n">list_like</span><span class="p">,</span> <span class="n">relative_to</span>
+
+<span class="n">gdal</span><span class="o">.</span><span class="n">UseExceptions</span><span class="p">()</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<span class="n">_NOBANDS_NOPROPS_ERROR_MSG</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s1">&#39;Cannot determine dataset properties without storing any &#39;</span>
+    <span class="s1">&#39;bands. Add some via ``VRTDataset.add_band``&#39;</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="VRTDataset"><a class="viewcode-back" href="../../../stems/stems.io.vrt.html#stems.io.VRTDataset">[docs]</a><span class="k">class</span> <span class="nc">VRTDataset</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Create a VRT from a band in one or more datasets</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    separate : bool, optional</span>
+<span class="sd">        Put input bands in separate, stacked bands in the output</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">separate</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">separate</span> <span class="o">=</span> <span class="n">separate</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">Element</span><span class="p">(</span><span class="s1">&#39;VRTDataset&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bands</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">bands</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;dict[int, list[VRTSourceBand]]: Bands organized by output VRT band</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Ensure is returned ordered by VRT bidx (the key)</span>
+        <span class="c1"># Also ensure we don&#39;t return empty list of bands</span>
+        <span class="k">return</span> <span class="n">OrderedDict</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bands</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_bands</span><span class="p">)</span>
+                           <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bands</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Affine: Affine transform for VRTDataset</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_bounds_transform</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">transform</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;BoundingBox: Bounding box of VRTDataset</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">bounds</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_bounds_transform</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">bounds</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">width</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; int: Number of columns</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">height</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; int: Number of rows</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;tuple[int, int]: Number of rows and columns</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_bounds_transform</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">shape</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">count</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;int: Number of output bands in VRT</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bands</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">crs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;CRS: VRTDataset coordinate reference system</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">bands</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">_NOBANDS_NOPROPS_ERROR_MSG</span><span class="p">)</span>
+        <span class="n">bands_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bands_to_list</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">bands_list</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">crs</span>
+
+<div class="viewcode-block" id="VRTDataset.from_bands"><a class="viewcode-back" href="../../../stems/stems.io.vrt.html#stems.io.VRTDataset.from_bands">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_bands</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">paths</span><span class="p">,</span> <span class="n">separate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bidx</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        paths : str or list[str]</span>
+<span class="sd">            List of paths to open as datasets</span>
+<span class="sd">        separate : bool, optional</span>
+<span class="sd">            Put input bands in separate, stacked bands in the output</span>
+<span class="sd">        bidx : int, list[int], optional</span>
+<span class="sd">            Band indices of `datasets` to include. If ``int``, all</span>
+<span class="sd">            ``paths`` will use this band ``bidx``. Otherwise, pass a</span>
+<span class="sd">            list of band indices for each path in ``paths``. Defaults</span>
+<span class="sd">            to ``1``.</span>
+<span class="sd">        kwds : dict</span>
+<span class="sd">            Keywords to pass to ``VRTSourceBand()`` for each band. Pass</span>
+<span class="sd">            a list or tuple as a value to specify different values</span>
+<span class="sd">            for each band.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        VRTDataset</span>
+<span class="sd">            VRTDataset initialized from input paths</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">paths</span><span class="p">,</span> <span class="n">six</span><span class="o">.</span><span class="n">string_types</span><span class="p">):</span>
+            <span class="n">paths</span> <span class="o">=</span> <span class="p">(</span><span class="n">paths</span><span class="p">,</span> <span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bidx</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">bidx</span> <span class="o">=</span> <span class="p">(</span><span class="n">bidx</span><span class="p">,</span> <span class="p">)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">paths</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">paths</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">bidx</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">kwds</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwds</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">list_like</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Found scalar for &quot;</span><span class="si">{0}</span><span class="s1">&quot; keyword. Duplicating &#39;</span>
+                                 <span class="s1">&#39;for each band&#39;</span><span class="p">)</span>
+                    <span class="n">kwds</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">paths</span><span class="p">)</span>
+                <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">kwds</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">paths</span><span class="p">)</span>
+
+        <span class="n">vrt</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">bidx_</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">paths</span><span class="p">,</span> <span class="n">bidx</span><span class="p">)):</span>
+            <span class="n">_kwds</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwds</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+            <span class="n">vrt</span><span class="o">.</span><span class="n">add_band</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">bidx_</span><span class="p">,</span> <span class="o">**</span><span class="n">_kwds</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">vrt</span></div>
+
+<div class="viewcode-block" id="VRTDataset.add_band"><a class="viewcode-back" href="../../../stems/stems.io.vrt.html#stems.io.VRTDataset.add_band">[docs]</a>    <span class="k">def</span> <span class="nf">add_band</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">src_bidx</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">vrt_bidx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">validate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                 <span class="o">**</span><span class="n">band_kwds</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Add a band to VRT dataset</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        path : str</span>
+<span class="sd">            List of paths to open as datasets</span>
+<span class="sd">        src_bidx : int, optional</span>
+<span class="sd">            Band indices of `datasets` to include. Defaults to ``1``</span>
+<span class="sd">        vrt_bidx : int or None</span>
+<span class="sd">            Destination band in VRT for new band. Only used if</span>
+<span class="sd">            ``self.separate`` is True</span>
+<span class="sd">        validate : bool, optional</span>
+<span class="sd">            Validate band forms to expected attributes before adding</span>
+<span class="sd">        band_kwds : dict</span>
+<span class="sd">            Additional keyword arguments passed onto :py:class:`VRTSourceBand`</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        vrt_bidx: int</span>
+<span class="sd">            VRT band index</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            Raised if vrt_bidx is invalid</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Handle non-specified vrt_bidx</span>
+        <span class="n">n_band</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bands</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">separate</span><span class="p">:</span>
+            <span class="n">vrt_bidx</span> <span class="o">=</span> <span class="n">n_band</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">vrt_bidx</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">vrt_bidx</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">vrt_bidx</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">vrt_bidx</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;`vrt_bidx` must be `1` if not stacking into &#39;</span>
+                                 <span class="s1">&#39;separate bands (see `self.separate`)&#39;</span><span class="p">)</span>
+            <span class="n">vrt_bidx</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">vrt_bidx</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;`vrt_bid` must be greater than 0&#39;</span><span class="p">)</span>
+
+        <span class="n">vrtband</span> <span class="o">=</span> <span class="n">VRTSourceBand</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">src_bidx</span><span class="p">,</span> <span class="o">**</span><span class="n">band_kwds</span><span class="p">)</span>
+
+        <span class="c1"># Validate if not 1st band</span>
+        <span class="k">if</span> <span class="n">n_band</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">validate</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_validate</span><span class="p">(</span><span class="n">vrtband</span><span class="p">)</span>
+
+        <span class="c1"># Append</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bands</span><span class="p">[</span><span class="n">vrt_bidx</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vrtband</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">vrt_bidx</span></div>
+
+<div class="viewcode-block" id="VRTDataset.write"><a class="viewcode-back" href="../../../stems/stems.io.vrt.html#stems.io.VRTDataset.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">relative</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Save VRT XML data to a filename</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        path : str, optional</span>
+<span class="sd">            Save VRT to this filename. If ``None``, returns</span>
+<span class="sd">            the XML text</span>
+<span class="sd">        relative : bool, optional</span>
+<span class="sd">            Reference VRT sources relative to the VRT</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        str</span>
+<span class="sd">            Filename</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">relative</span><span class="p">:</span>
+            <span class="n">relative</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+        <span class="n">xml_ele</span> <span class="o">=</span> <span class="n">_make_vrt_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                                    <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">,</span>
+                                    <span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="p">,</span>
+                                    <span class="bp">self</span><span class="o">.</span><span class="n">bands</span><span class="p">,</span>
+                                    <span class="n">relative_to_vrt</span><span class="o">=</span><span class="n">relative</span><span class="p">)</span>
+        <span class="n">xmlstr</span> <span class="o">=</span> <span class="n">_make_vrt_str</span><span class="p">(</span><span class="n">xml_ele</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="p">),</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fid</span><span class="p">:</span>
+                <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">xmlstr</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">path</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">xmlstr</span></div>
+
+<div class="viewcode-block" id="VRTDataset.close"><a class="viewcode-back" href="../../../stems/stems.io.vrt.html#stems.io.VRTDataset.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Close any opened VRTSourceBand(s)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">bidx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bands</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bands</span><span class="p">[</span><span class="n">bidx</span><span class="p">]:</span>
+                <span class="n">band</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">_bands_to_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># () -&gt; [(vrt_bidx, VRTSourceBand), ...]</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">([(</span><span class="n">k</span><span class="p">,</span> <span class="n">band</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bands</span> <span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bands</span><span class="p">[</span><span class="n">k</span><span class="p">]])</span>
+
+    <span class="k">def</span> <span class="nf">_validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">test_band</span><span class="p">):</span>
+        <span class="c1"># Validate suitability of newly added band</span>
+        <span class="k">if</span> <span class="n">test_band</span><span class="o">.</span><span class="n">crs</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;All bands must have same ``crs``&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_bounds_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">bands</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">_NOBANDS_NOPROPS_ERROR_MSG</span><span class="p">)</span>
+        <span class="n">bands_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bands_to_list</span><span class="p">()</span>
+        <span class="n">bounds_</span> <span class="o">=</span> <span class="nb">list</span><span class="p">([</span><span class="n">b</span><span class="o">.</span><span class="n">bounds</span> <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">bands_list</span><span class="p">])</span>
+        <span class="n">transforms_</span> <span class="o">=</span> <span class="nb">list</span><span class="p">([</span><span class="n">b</span><span class="o">.</span><span class="n">transform</span> <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">bands_list</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">bounds_transform_union</span><span class="p">(</span><span class="n">bounds_</span><span class="p">,</span> <span class="n">transforms_</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="VRTSourceBand"><a class="viewcode-back" href="../../../stems/stems.io.vrt.html#stems.io.VRTSourceBand">[docs]</a><span class="k">class</span> <span class="nc">VRTSourceBand</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; A VRT band originating from some other file</span>
+
+<span class="sd">    Note that all properties on this object return information used</span>
+<span class="sd">    for VRT XML generation, but not XML elements (e.g., returns the</span>
+<span class="sd">    SubElement name and this new element&#39;s text value).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    path : str</span>
+<span class="sd">        Filename of dataset containing band</span>
+<span class="sd">    src_bidx : int</span>
+<span class="sd">        Source band index (begins on 1)</span>
+<span class="sd">    description : str, optional</span>
+<span class="sd">        Override band description</span>
+<span class="sd">    nodata : float or int, optional</span>
+<span class="sd">        Override NoDataValue</span>
+<span class="sd">    keep_open : bool, optional</span>
+<span class="sd">        Keep dataset open</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">src_bidx</span><span class="p">,</span>
+                 <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">nodata</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">keep_open</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">src_bidx</span> <span class="o">=</span> <span class="n">src_bidx</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_desc</span> <span class="o">=</span> <span class="n">description</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ndv</span> <span class="o">=</span> <span class="n">nodata</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">keep_open</span> <span class="o">=</span> <span class="n">keep_open</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ds</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="VRTSourceBand.open"><a class="viewcode-back" href="../../../stems/stems.io.vrt.html#stems.io.VRTSourceBand.open">[docs]</a>    <span class="nd">@contextmanager</span>
+    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ds</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">keep_open</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ds</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="VRTSourceBand.start"><a class="viewcode-back" href="../../../stems/stems.io.vrt.html#stems.io.VRTSourceBand.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Open dataset, if closed</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ds</span><span class="p">,</span> <span class="s1">&#39;closed&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Opening dataset for VRTSourceBand&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ds</span> <span class="o">=</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">),</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="VRTSourceBand.close"><a class="viewcode-back" href="../../../stems/stems.io.vrt.html#stems.io.VRTSourceBand.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Close dataset reference, if open</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ds</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ds</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ds</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+    <span class="nd">@cached_property</span>
+    <span class="k">def</span> <span class="nf">crs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">open</span><span class="p">()</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ds</span><span class="o">.</span><span class="n">crs</span>
+
+    <span class="nd">@cached_property</span>
+    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">open</span><span class="p">()</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ds</span><span class="o">.</span><span class="n">transform</span>
+
+    <span class="nd">@cached_property</span>
+    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">open</span><span class="p">()</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ds</span><span class="o">.</span><span class="n">bounds</span>
+
+    <span class="nd">@cached_property</span>
+    <span class="k">def</span> <span class="nf">width</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">open</span><span class="p">()</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ds</span><span class="o">.</span><span class="n">width</span>
+
+    <span class="nd">@cached_property</span>
+    <span class="k">def</span> <span class="nf">height</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">open</span><span class="p">()</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ds</span><span class="o">.</span><span class="n">height</span>
+
+    <span class="nd">@cached_property</span>
+    <span class="k">def</span> <span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">open</span><span class="p">()</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">)</span>
+
+    <span class="nd">@cached_property</span>
+    <span class="k">def</span> <span class="nf">dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">open</span><span class="p">()</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ds</span><span class="o">.</span><span class="n">dtypes</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">src_bidx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+
+    <span class="nd">@cached_property</span>
+    <span class="k">def</span> <span class="nf">blockxsize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">open</span><span class="p">()</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ds</span><span class="o">.</span><span class="n">block_shapes</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">src_bidx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="nd">@cached_property</span>
+    <span class="k">def</span> <span class="nf">blockysize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">open</span><span class="p">()</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ds</span><span class="o">.</span><span class="n">block_shapes</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">src_bidx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="nd">@cached_property</span>
+    <span class="k">def</span> <span class="nf">nodata</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ndv</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ndv</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">open</span><span class="p">()</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">ds</span><span class="o">.</span><span class="n">nodatavals</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">src_bidx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+
+    <span class="nd">@cached_property</span>
+    <span class="k">def</span> <span class="nf">description</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_desc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_desc</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">open</span><span class="p">()</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">ds</span><span class="o">.</span><span class="n">descriptions</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">src_bidx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+
+    <span class="nd">@cached_property</span>
+    <span class="k">def</span> <span class="nf">colorinterp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">open</span><span class="p">()</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ds</span><span class="o">.</span><span class="n">colorinterp</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">src_bidx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span></div>
+
+
+<span class="c1"># ----------------------------------------------------------------------------</span>
+<span class="c1"># XML</span>
+<span class="k">def</span> <span class="nf">_make_vrt_str</span><span class="p">(</span><span class="n">root</span><span class="p">):</span>
+    <span class="n">root_str</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">tostring</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">minidom</span>
+            <span class="o">.</span><span class="n">parseString</span><span class="p">(</span><span class="n">root_str</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">toprettyxml</span><span class="p">(</span><span class="n">indent</span><span class="o">=</span><span class="s1">&#39;    &#39;</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">_make_vrt_element</span><span class="p">(</span><span class="n">vrt_width</span><span class="p">,</span> <span class="n">vrt_height</span><span class="p">,</span> <span class="n">vrt_transform</span><span class="p">,</span> <span class="n">vrt_crs</span><span class="p">,</span> <span class="n">vrt_bands</span><span class="p">,</span>
+                      <span class="n">relative_to_vrt</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return VRT as XML Element</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    vrt_width : int</span>
+<span class="sd">        Number of columns</span>
+<span class="sd">    vrt_height : int</span>
+<span class="sd">        Number of rows</span>
+<span class="sd">    vrt_transform : Affine</span>
+<span class="sd">        Transform of output VRT</span>
+<span class="sd">    vrt_crs : CRS</span>
+<span class="sd">        CRS of output VRT</span>
+<span class="sd">    vrt_bands : dict[int, list[VRTSourceBand]]</span>
+<span class="sd">        VRTSourceBand information, organized by output VRT bidx (e.g.,</span>
+<span class="sd">        ``{1: [VRTSourceBand], 2: [VRTSourceBand]}`` if separate, or</span>
+<span class="sd">        ``{1: [VRTSourceBand, VRTSourceBand]}`` if mosaicing)</span>
+<span class="sd">    relative_to_vrt : str or Path</span>
+<span class="sd">        Reference VRT sources relative to the VRT at this location</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    xml.etree.ElementTree</span>
+<span class="sd">        XML element tree with XML information</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Needed, but since we can get from other inputs calculate to save space</span>
+    <span class="n">vrt_bounds</span> <span class="o">=</span> <span class="n">BoundingBox</span><span class="p">(</span><span class="n">vrt_transform</span><span class="o">.</span><span class="n">c</span><span class="p">,</span>
+                             <span class="n">vrt_transform</span><span class="o">.</span><span class="n">f</span> <span class="o">+</span> <span class="n">vrt_transform</span><span class="o">.</span><span class="n">e</span> <span class="o">*</span> <span class="n">vrt_height</span><span class="p">,</span>
+                             <span class="n">vrt_transform</span><span class="o">.</span><span class="n">c</span> <span class="o">+</span> <span class="n">vrt_transform</span><span class="o">.</span><span class="n">a</span> <span class="o">*</span> <span class="n">vrt_width</span><span class="p">,</span>
+                             <span class="n">vrt_transform</span><span class="o">.</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="c1"># Create root element</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">_make_vrt_root</span><span class="p">(</span><span class="n">vrt_width</span><span class="p">,</span> <span class="n">vrt_height</span><span class="p">,</span> <span class="n">vrt_transform</span><span class="p">,</span> <span class="n">vrt_crs</span><span class="p">)</span>
+
+    <span class="c1"># Create destination VRT bands</span>
+    <span class="n">xml_bands</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">vrt_bidx</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">vrt_bands</span><span class="p">):</span>
+        <span class="c1"># Only create if there are bands to put in</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">vrt_bands</span><span class="p">[</span><span class="n">vrt_bidx</span><span class="p">]:</span>
+            <span class="k">continue</span>
+
+        <span class="c1"># For now, first band sets some metadata, like description and NDV</span>
+        <span class="c1"># TODO: Allow overrides to pass to `_make_band`!</span>
+        <span class="n">ex</span> <span class="o">=</span> <span class="n">vrt_bands</span><span class="p">[</span><span class="n">vrt_bidx</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">with</span> <span class="n">ex</span><span class="o">.</span><span class="n">open</span><span class="p">():</span>  <span class="c1"># ensure open the whole time</span>
+            <span class="n">xml_band</span> <span class="o">=</span> <span class="n">_make_band</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">ex</span><span class="p">,</span> <span class="n">vrt_bidx</span><span class="p">)</span>
+        <span class="n">xml_bands</span><span class="p">[</span><span class="n">vrt_bidx</span><span class="p">]</span> <span class="o">=</span> <span class="n">xml_band</span>
+
+    <span class="c1"># Add sources for each output VRT band</span>
+    <span class="k">for</span> <span class="n">vrt_bidx</span><span class="p">,</span> <span class="n">xml_band</span> <span class="ow">in</span> <span class="n">xml_bands</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">src_band</span> <span class="ow">in</span> <span class="n">vrt_bands</span><span class="p">[</span><span class="n">vrt_bidx</span><span class="p">]:</span>
+            <span class="k">with</span> <span class="n">src_band</span><span class="o">.</span><span class="n">open</span><span class="p">():</span>  <span class="c1"># ensure open the entire time</span>
+                <span class="n">_make_source</span><span class="p">(</span><span class="n">xml_band</span><span class="p">,</span> <span class="n">src_band</span><span class="p">,</span>
+                             <span class="n">vrt_bounds</span><span class="p">,</span> <span class="n">vrt_transform</span><span class="p">,</span>
+                             <span class="n">relative_to_vrt</span><span class="o">=</span><span class="n">relative_to_vrt</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">root</span>
+
+
+<span class="k">def</span> <span class="nf">_make_vrt_root</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">crs</span><span class="p">):</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">Element</span><span class="p">(</span><span class="s1">&#39;VRTDataset&#39;</span><span class="p">)</span>
+    <span class="n">root</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;rasterXSize&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">width</span><span class="p">))</span>
+    <span class="n">root</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;rasterYSize&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">height</span><span class="p">))</span>
+    <span class="n">_make_geotransform</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">transform</span><span class="p">)</span>
+    <span class="n">_make_crs</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">crs</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">root</span>
+
+
+<span class="k">def</span> <span class="nf">_make_crs</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">crs</span><span class="p">):</span>
+    <span class="n">ele</span> <span class="o">=</span> <span class="n">_make_subelement</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s1">&#39;SRS&#39;</span><span class="p">,</span> <span class="n">crs</span><span class="o">.</span><span class="n">wkt</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ele</span>
+
+
+<span class="k">def</span> <span class="nf">_make_geotransform</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mi">9</span><span class="p">):</span>
+    <span class="c1"># Output VRT tranform</span>
+    <span class="n">gt_str</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">precision</span><span class="p">))</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">transform</span><span class="o">.</span><span class="n">to_gdal</span><span class="p">())</span>
+    <span class="n">ele</span> <span class="o">=</span> <span class="n">_make_subelement</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s1">&#39;GeoTransform&#39;</span><span class="p">,</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">gt_str</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">ele</span>
+
+
+<span class="k">def</span> <span class="nf">_make_band</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">source_band</span><span class="p">,</span> <span class="n">vrt_bidx</span><span class="p">,</span>
+               <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">vrt_ndv</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="c1"># Create &lt;VRTRasterBand&gt;</span>
+    <span class="n">band</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s1">&#39;VRTRasterBand&#39;</span><span class="p">)</span>
+    <span class="n">band</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;dataType&#39;</span><span class="p">,</span> <span class="n">_gdal_typename</span><span class="p">(</span><span class="n">source_band</span><span class="o">.</span><span class="n">dtype</span><span class="p">))</span>
+    <span class="n">band</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;band&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">vrt_bidx</span><span class="p">))</span>
+
+    <span class="c1"># Optional subelements</span>
+    <span class="c1"># TODO: ColorTable, GDALRasterAttributeTable, UnitType,</span>
+    <span class="c1">#       Offset, Scale, CategoryNames</span>
+    <span class="n">colorinterp</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">GetColorInterpretationName</span><span class="p">(</span>
+        <span class="n">source_band</span><span class="o">.</span><span class="n">colorinterp</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+    <span class="n">_make_subelement</span><span class="p">(</span><span class="n">band</span><span class="p">,</span> <span class="s1">&#39;ColorInterp&#39;</span><span class="p">,</span> <span class="n">colorinterp</span><span class="p">)</span>
+
+    <span class="c1"># Output band NDV defaults to source NDV</span>
+    <span class="n">vrt_ndv</span> <span class="o">=</span> <span class="n">vrt_ndv</span> <span class="k">if</span> <span class="n">vrt_ndv</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">source_band</span><span class="o">.</span><span class="n">nodata</span>
+    <span class="k">if</span> <span class="n">vrt_ndv</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">_make_subelement</span><span class="p">(</span><span class="n">band</span><span class="p">,</span> <span class="s1">&#39;NoDataValue&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">vrt_ndv</span><span class="p">))</span>
+
+    <span class="n">description</span> <span class="o">=</span> <span class="n">description</span> <span class="ow">or</span> <span class="n">source_band</span><span class="o">.</span><span class="n">description</span>
+    <span class="k">if</span> <span class="n">description</span><span class="p">:</span>
+        <span class="n">band</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;Description&#39;</span><span class="p">,</span> <span class="n">description</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">band</span>
+
+
+<span class="k">def</span> <span class="nf">_make_source</span><span class="p">(</span><span class="n">xml_band</span><span class="p">,</span> <span class="n">source_band</span><span class="p">,</span> <span class="n">vrt_bounds</span><span class="p">,</span> <span class="n">vrt_transform</span><span class="p">,</span>
+                 <span class="n">relative_to_vrt</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">source</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">xml_band</span><span class="p">,</span> <span class="s1">&#39;ComplexSource&#39;</span><span class="p">)</span>
+
+    <span class="n">_make_source_path</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">source_band</span><span class="o">.</span><span class="n">path</span><span class="p">,</span>
+                      <span class="n">relative_to_vrt</span><span class="o">=</span><span class="n">relative_to_vrt</span><span class="p">)</span>
+    <span class="n">_make_source_band</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">source_band</span><span class="o">.</span><span class="n">src_bidx</span><span class="p">)</span>
+    <span class="n">_make_source_props</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">source_band</span><span class="p">)</span>
+
+    <span class="c1"># SrcRect and DstRect</span>
+    <span class="n">_make_src_rect</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">source_band</span><span class="o">.</span><span class="n">bounds</span><span class="p">,</span> <span class="n">source_band</span><span class="o">.</span><span class="n">transform</span><span class="p">,</span>
+                   <span class="n">vrt_bounds</span><span class="p">)</span>
+    <span class="n">_make_dst_rect</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">source_band</span><span class="o">.</span><span class="n">bounds</span><span class="p">,</span> <span class="n">vrt_transform</span><span class="p">)</span>
+
+    <span class="c1"># NODATA</span>
+    <span class="k">if</span> <span class="n">source_band</span><span class="o">.</span><span class="n">nodata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">_make_subelement</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="s1">&#39;NODATA&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">source_band</span><span class="o">.</span><span class="n">nodata</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">source</span>
+
+
+<span class="k">def</span> <span class="nf">_make_source_path</span><span class="p">(</span><span class="n">xml_parent</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span>
+                      <span class="n">relative_to_vrt</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">ele</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">xml_parent</span><span class="p">,</span> <span class="s1">&#39;SourceFilename&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">relative_to_vrt</span><span class="p">:</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">relative_to</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">relative_to_vrt</span><span class="p">)</span>
+        <span class="n">ele</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;relativeToVRT&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span>
+    <span class="n">ele</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ele</span>
+
+
+<span class="k">def</span> <span class="nf">_make_source_band</span><span class="p">(</span><span class="n">xml_parent</span><span class="p">,</span> <span class="n">src_bidx</span><span class="p">):</span>
+    <span class="c1"># Creates &lt;SourceBand&gt; ... a number ... &lt;SourceBand/&gt; tag</span>
+    <span class="k">return</span> <span class="n">_make_subelement</span><span class="p">(</span><span class="n">xml_parent</span><span class="p">,</span> <span class="s1">&#39;SourceBand&#39;</span><span class="p">,</span> <span class="n">src_bidx</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_make_source_props</span><span class="p">(</span><span class="n">xml_parent</span><span class="p">,</span> <span class="n">source_band</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Creates &lt;SourceProperties ... /&gt; tag</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xml_parent : xml.etree.Element.SubElement</span>
+<span class="sd">        Parent XML element, like a &quot;ComplexSource&quot; or &quot;SimpleSource&quot;</span>
+<span class="sd">    source_band : VRTSourceBand</span>
+<span class="sd">        The source band</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    xml.etree.Element.SubElement</span>
+<span class="sd">        &quot;SourceProperties&quot; subelement</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ele</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">xml_parent</span><span class="p">,</span> <span class="s1">&#39;SourceProperties&#39;</span><span class="p">)</span>
+
+    <span class="n">ele</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;RasterXSize&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">source_band</span><span class="o">.</span><span class="n">width</span><span class="p">))</span>
+    <span class="n">ele</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;RasterYSize&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">source_band</span><span class="o">.</span><span class="n">height</span><span class="p">))</span>
+    <span class="n">ele</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;DataType&#39;</span><span class="p">,</span> <span class="n">_gdal_typename</span><span class="p">(</span><span class="n">source_band</span><span class="o">.</span><span class="n">dtype</span><span class="p">))</span>
+    <span class="n">ele</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;BlockXSize&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">source_band</span><span class="o">.</span><span class="n">blockxsize</span><span class="p">))</span>
+    <span class="n">ele</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;BlockYSize&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">source_band</span><span class="o">.</span><span class="n">blockysize</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">ele</span>
+
+
+<span class="k">def</span> <span class="nf">_make_src_rect</span><span class="p">(</span><span class="n">xml_parent</span><span class="p">,</span> <span class="n">src_bounds</span><span class="p">,</span> <span class="n">src_transform</span><span class="p">,</span> <span class="n">dst_bounds</span><span class="p">):</span>
+    <span class="n">win</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">calculate_src_window</span><span class="p">(</span><span class="n">src_bounds</span><span class="p">,</span> <span class="n">src_transform</span><span class="p">,</span> <span class="n">dst_bounds</span><span class="p">)</span>
+
+    <span class="n">ele</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">xml_parent</span><span class="p">,</span> <span class="s1">&#39;SrcRect&#39;</span><span class="p">)</span>
+    <span class="n">ele</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;xOff&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">win</span><span class="o">.</span><span class="n">col_off</span><span class="p">))</span>
+    <span class="n">ele</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;yOff&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">win</span><span class="o">.</span><span class="n">row_off</span><span class="p">))</span>
+    <span class="n">ele</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;xSize&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">win</span><span class="o">.</span><span class="n">width</span><span class="p">))</span>
+    <span class="n">ele</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;ySize&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">win</span><span class="o">.</span><span class="n">height</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">ele</span>
+
+
+<span class="k">def</span> <span class="nf">_make_dst_rect</span><span class="p">(</span><span class="n">xml_parent</span><span class="p">,</span> <span class="n">src_bounds</span><span class="p">,</span> <span class="n">dst_transform</span><span class="p">):</span>
+    <span class="n">win</span> <span class="o">=</span> <span class="n">calculate_dst_window</span><span class="p">(</span><span class="n">src_bounds</span><span class="p">,</span> <span class="n">dst_transform</span><span class="p">)</span>
+
+    <span class="n">ele</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">xml_parent</span><span class="p">,</span> <span class="s1">&#39;DstRect&#39;</span><span class="p">)</span>
+    <span class="n">ele</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;xOff&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">win</span><span class="o">.</span><span class="n">col_off</span><span class="p">))</span>
+    <span class="n">ele</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;yOff&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">win</span><span class="o">.</span><span class="n">row_off</span><span class="p">))</span>
+    <span class="n">ele</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;xSize&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">win</span><span class="o">.</span><span class="n">width</span><span class="p">))</span>
+    <span class="n">ele</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;ySize&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">win</span><span class="o">.</span><span class="n">height</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">ele</span>
+
+
+<span class="k">def</span> <span class="nf">_make_subelement</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+    <span class="n">sub</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+    <span class="n">sub</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">sub</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

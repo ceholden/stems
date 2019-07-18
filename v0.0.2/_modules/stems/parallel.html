@@ -1,0 +1,404 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>stems.parallel &mdash; stems 0.0.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> stems
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">Frequenty Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../gis.html">Geographic Information Systems (GIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../gis_grids.html">Tile Grid Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../parallel.html">Parallel Computing Helpers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../xarray.html">XArray Integration</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">stems</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>stems.parallel</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for stems.parallel</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; Helper tools to facilitate turning computation into dask-able gufuncs</span>
+
+<span class="sd">References</span>
+<span class="sd">----------</span>
+<span class="sd">[1] https://docs.scipy.org/doc/numpy/reference/c-api.generalized-ufuncs.html</span>
+<span class="sd">[2] http://numba.pydata.org/numba-doc/dev/user/vectorize.html</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">defaultdict</span>
+<span class="kn">import</span> <span class="nn">functools</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="k">import</span> <span class="n">product</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">six</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<span class="c1"># ----------------------------------------------------------------------------</span>
+<span class="c1"># Dimension helpers</span>
+<div class="viewcode-block" id="iter_chunks"><a class="viewcode-back" href="../../stems/stems.parallel.html#stems.parallel.iter_chunks">[docs]</a><span class="k">def</span> <span class="nf">iter_chunks</span><span class="p">(</span><span class="n">dim_sizes</span><span class="p">,</span> <span class="n">chunk_sizes</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return slices that help iterate over dimensions in chunks/blocks</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dim_sizes : dict[str, int]</span>
+<span class="sd">        Dimension sizes</span>
+<span class="sd">    chunk_sizes : None, int, or dict[str, int]</span>
+<span class="sd">        Sizes of chunks. If ``int``, will use the same size for all dimensions.</span>
+<span class="sd">        If ``None``, will iter over each element in all dimensions (e.g., one</span>
+<span class="sd">        pixel)</span>
+
+<span class="sd">    Yields</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict[str, slice or int]</span>
+<span class="sd">        Mapping of dimension name to select statement (e.g.,</span>
+<span class="sd">        ``{&#39;x&#39;: slice(0, 50), &#39;y&#39;: slice(0, 50)}``)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># TODO: dispatch on dict/tuple so this works more easily with DataArray</span>
+    <span class="n">dims</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">dim_sizes</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">chunk_sizes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Parse chunks</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">chunk_sizes</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">size</span> <span class="o">=</span> <span class="p">{</span><span class="n">d</span><span class="p">:</span> <span class="n">chunk_sizes</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dims</span><span class="p">}</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">chunk_sizes</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="c1"># Ensure all dims are represented, defaulting to 1</span>
+            <span class="n">size</span> <span class="o">=</span> <span class="p">{</span><span class="n">d</span><span class="p">:</span> <span class="n">chunk_sizes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dims</span><span class="p">}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;`chunk_sizes` must be None, int, or dict&#39;</span><span class="p">)</span>
+        <span class="c1"># Create all possible slices</span>
+        <span class="n">coords</span> <span class="o">=</span> <span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="p">(</span>
+            <span class="p">(</span><span class="nb">slice</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">)</span> <span class="k">for</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span> <span class="ow">in</span>
+             <span class="n">_zip_iter_seq_window</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">dim_sizes</span><span class="p">[</span><span class="n">dim</span><span class="p">]),</span> <span class="n">size</span><span class="p">[</span><span class="n">dim</span><span class="p">]))</span>
+            <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">dims</span>
+        <span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Just 1 item -- no slice needed</span>
+        <span class="n">coords</span> <span class="o">=</span> <span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">dim_sizes</span><span class="p">[</span><span class="n">dim</span><span class="p">])</span> <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">dims</span><span class="p">))</span>
+
+    <span class="c1"># Yield out coordinates</span>
+    <span class="k">for</span> <span class="n">coords_</span> <span class="ow">in</span> <span class="n">coords</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="p">{</span><span class="n">dim</span><span class="p">:</span> <span class="n">coord</span> <span class="k">for</span> <span class="n">dim</span><span class="p">,</span> <span class="n">coord</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">dims</span><span class="p">,</span> <span class="n">coords_</span><span class="p">)}</span></div>
+
+
+<div class="viewcode-block" id="iter_noncore_chunks"><a class="viewcode-back" href="../../stems/stems.parallel.html#stems.parallel.iter_noncore_chunks">[docs]</a><span class="k">def</span> <span class="nf">iter_noncore_chunks</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">core_dims</span><span class="p">,</span> <span class="n">chunk_sizes</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Yield data in chunks selected out from non-core dimensions</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : xr.DataArray or xr.Dataset</span>
+<span class="sd">        Data</span>
+<span class="sd">    core_dims : str or list[str]</span>
+<span class="sd">        One or more dimensions to exclude from selection. These dimensions</span>
+<span class="sd">        will be the only dimensions on the data returned</span>
+<span class="sd">    chunk_size : int, dict[str, int], or None</span>
+<span class="sd">        Chunk/block/window size when iterating over noncore dimensions. If</span>
+<span class="sd">        ``None``, will return a slice for each element in each dimension.</span>
+
+<span class="sd">    Yields</span>
+<span class="sd">    ------</span>
+<span class="sd">    dict[str, slice]</span>
+<span class="sd">        ``isel`` select statements to retrieve data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">core_dims</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">core_dims</span> <span class="o">=</span> <span class="p">(</span><span class="n">core_dims</span><span class="p">,</span> <span class="p">)</span>
+
+    <span class="n">noncore</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">core_dims</span><span class="p">)</span>
+    <span class="n">noncore_sizes</span> <span class="o">=</span> <span class="p">{</span><span class="n">dim</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span><span class="o">.</span><span class="n">size</span> <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">noncore</span><span class="p">}</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">iter_chunks</span><span class="p">(</span><span class="n">noncore_sizes</span><span class="p">,</span> <span class="n">chunk_sizes</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="n">i</span></div>
+
+
+<div class="viewcode-block" id="map_collect_1d"><a class="viewcode-back" href="../../stems/stems.parallel.html#stems.parallel.map_collect_1d">[docs]</a><span class="k">def</span> <span class="nf">map_collect_1d</span><span class="p">(</span><span class="n">core_dims</span><span class="p">,</span> <span class="n">arg_idx</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">concat_axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                   <span class="n">concat_func</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Decorator that maps a function across pixels and concatenates the result</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    core_dims : Sequence[str]</span>
+<span class="sd">        Core dimensions to exclude from broadcast/selection. For example,</span>
+<span class="sd">        if applying a time series model over all x/y in a DataArray,</span>
+<span class="sd">        the ``core_dim`` could be &#39;time&#39;.</span>
+<span class="sd">    arg_idx : int or tuple[int], optional</span>
+<span class="sd">        Index(es) of ``*args`` to pick as the data to iterate over.</span>
+<span class="sd">    concat_axis : int, optional</span>
+<span class="sd">        Axis along which the arrays will be joined (passed to ``concat_func``)</span>
+<span class="sd">    concat_func : callable, optional</span>
+<span class="sd">        Function used to concatenate the data. Should take the ``axis`` keyword</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    callable</span>
+<span class="sd">        Decorator for function (parametrized by ``core_dims`` and ``arg_idx``)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arg_idx</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="p">)):</span>
+        <span class="n">arg_idx</span> <span class="o">=</span> <span class="p">(</span><span class="n">arg_idx</span><span class="p">,</span> <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+        <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">inner</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+            <span class="c1"># Extract from args and check</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">args</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">arg_idx</span><span class="p">]</span>
+            <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="p">(</span><span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span> <span class="p">))</span>
+                       <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data</span><span class="p">)</span>
+
+            <span class="c1"># Find noncore dim names and sizes to iterate over</span>
+            <span class="n">dim_sizes</span> <span class="o">=</span> <span class="n">_check_data_dims</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="n">noncore_dims</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">d</span> <span class="k">for</span> <span class="n">dat</span> <span class="ow">in</span> <span class="n">data</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dat</span><span class="o">.</span><span class="n">dims</span>
+                                 <span class="k">if</span> <span class="n">d</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">core_dims</span><span class="p">)</span>
+            <span class="n">noncore_dims_sizes</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">dim_sizes</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">noncore_dims</span><span class="p">}</span>
+
+            <span class="c1"># `None` for chunk_sizes defaults to 1 and avoids slices</span>
+            <span class="n">iter_</span> <span class="o">=</span> <span class="n">iter_chunks</span><span class="p">(</span><span class="n">noncore_dims_sizes</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+            <span class="c1"># Store arguments so we can replace some with data post-selection</span>
+            <span class="n">func_args</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+
+            <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">window</span> <span class="ow">in</span> <span class="n">iter_</span><span class="p">:</span>
+                <span class="c1"># Select data</span>
+                <span class="n">data_</span> <span class="o">=</span> <span class="p">[</span><span class="n">_isel_n_squeeze</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">noncore_dims</span><span class="p">,</span> <span class="o">**</span><span class="n">window</span><span class="p">)</span>
+                         <span class="k">for</span> <span class="n">dat</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span>
+
+                <span class="c1"># Replace `*args` with subset version(s) of `data`</span>
+                <span class="k">for</span> <span class="n">dat_i</span><span class="p">,</span> <span class="n">arg_i</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">arg_idx</span><span class="p">):</span>
+                    <span class="n">func_args</span><span class="p">[</span><span class="n">arg_i</span><span class="p">]</span> <span class="o">=</span> <span class="n">data_</span><span class="p">[</span><span class="n">dat_i</span><span class="p">]</span>
+
+                <span class="c1"># TODO: delayed?</span>
+                <span class="c1"># Run and collect</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">func_args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+            <span class="c1"># Concatenate and return</span>
+            <span class="n">results_</span> <span class="o">=</span> <span class="n">concat_func</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">concat_axis</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">results_</span>
+
+        <span class="k">return</span> <span class="n">inner</span>
+
+    <span class="k">return</span> <span class="n">decorator</span></div>
+
+
+<span class="k">def</span> <span class="nf">_iter_seq</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">spacing</span><span class="p">):</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">offset</span> <span class="o">*</span> <span class="n">spacing</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="o">+</span> <span class="n">offset</span> <span class="o">*</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">spacing</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">i_</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">))</span> <span class="k">for</span> <span class="n">i_</span> <span class="ow">in</span> <span class="n">i</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_zip_iter_seq_window</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">spacing</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">zip</span><span class="p">(</span><span class="n">_iter_seq</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">spacing</span><span class="p">),</span> <span class="n">_iter_seq</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">spacing</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">_check_data_dims</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="c1"># Populate all dimensions organized by name</span>
+    <span class="n">dims_</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">dat</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">dat</span><span class="o">.</span><span class="n">dims</span><span class="p">:</span>
+            <span class="n">dims_</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+
+    <span class="c1"># Ensure all dimensions match</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">dims_</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">eq</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">dim</span><span class="p">[</span><span class="mi">1</span><span class="p">:])]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="n">eq</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Data dimensions for &quot;</span><span class="si">{key}</span><span class="s1">&quot; do not all match&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Finally just return the sizes for each dimension</span>
+    <span class="n">dim_sizes</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">vals</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">size</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">vals</span> <span class="ow">in</span> <span class="n">dims_</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="k">return</span> <span class="n">dim_sizes</span>
+
+
+<span class="k">def</span> <span class="nf">_isel_n_squeeze</span><span class="p">(</span><span class="n">xarr</span><span class="p">,</span> <span class="n">noncore_dims</span><span class="p">,</span> <span class="o">**</span><span class="n">isel</span><span class="p">):</span>
+    <span class="n">isel_</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">isel</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">xarr</span><span class="o">.</span><span class="n">dims</span><span class="p">}</span>
+    <span class="n">item</span> <span class="o">=</span> <span class="n">xarr</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="o">**</span><span class="n">isel_</span><span class="p">)</span>
+    <span class="n">squeeze_dims</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">noncore_dims</span> <span class="k">if</span>
+                         <span class="p">(</span><span class="n">d</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">dims</span> <span class="ow">and</span> <span class="n">item</span><span class="p">[</span><span class="n">d</span><span class="p">]</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">squeeze_dims</span><span class="p">:</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">squeeze_dims</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">item</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

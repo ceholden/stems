@@ -1,0 +1,478 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>stems.gis.coords &mdash; stems 0.0.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> stems
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq.html">Frequenty Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../gis.html">Geographic Information Systems (GIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../gis_grids.html">Tile Grid Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../parallel.html">Parallel Computing Helpers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../xarray.html">XArray Integration</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">stems</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>stems.gis.coords</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for stems.gis.coords</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; Coordinate and geotransforms</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">from</span> <span class="nn">affine</span> <span class="k">import</span> <span class="n">Affine</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">rasterio.coords</span> <span class="k">import</span> <span class="n">BoundingBox</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<span class="c1"># ============================================================================</span>
+<span class="c1"># From transform</span>
+<div class="viewcode-block" id="transform_to_coords"><a class="viewcode-back" href="../../../stems/stems.gis.coords.html#stems.gis.coords.transform_to_coords">[docs]</a><span class="k">def</span> <span class="nf">transform_to_coords</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span>
+                        <span class="n">bbox</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">width</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return the coordinates for a given transform</span>
+
+<span class="sd">    This function needs to know how many pixels are in the raster,</span>
+<span class="sd">    so either a :py:class:`rasterio.coords.BoundingBox` or</span>
+<span class="sd">    height and width arguments must be supplied.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    transform : affine.Affine</span>
+<span class="sd">        Affine transform</span>
+<span class="sd">    bbox : BoundingBox</span>
+<span class="sd">        Return the coordinates for this transform that are contained inside</span>
+<span class="sd">        the provided bounds (left, bottom, right, up). Coordinates will</span>
+<span class="sd">        be aligned/spaced according to the transform and will not necessarily</span>
+<span class="sd">        match the upper-left of this ``bbox``</span>
+<span class="sd">    height : int</span>
+<span class="sd">        Number of pixels tall</span>
+<span class="sd">    width : int</span>
+<span class="sd">        Number of pixels wide</span>
+<span class="sd">    center : bool, optional</span>
+<span class="sd">        Return coordinates for the center of each pixel</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    y, x : tuple[np.ndarray, np.ndarray]</span>
+<span class="sd">        Y/X coordinate pairs (e.g., latitude/longitude)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># TODO Guard type of transform and bbox using convert func</span>
+    <span class="c1"># transform = convert.to_transform(transform)</span>
+
+    <span class="k">if</span> <span class="n">bbox</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># TODO Guard bbox</span>
+        <span class="c1"># bbox = convert.to_bbox(bbox)</span>
+
+        <span class="c1"># Find nearest y/x for bbox given posting from transform</span>
+        <span class="n">off_y</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">((</span><span class="n">bbox</span><span class="o">.</span><span class="n">top</span> <span class="o">-</span> <span class="n">transform</span><span class="o">.</span><span class="n">f</span><span class="p">)</span> <span class="o">/</span> <span class="n">transform</span><span class="o">.</span><span class="n">e</span><span class="p">)</span>
+        <span class="n">off_x</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">((</span><span class="n">bbox</span><span class="o">.</span><span class="n">left</span> <span class="o">-</span> <span class="n">transform</span><span class="o">.</span><span class="n">c</span><span class="p">)</span> <span class="o">/</span> <span class="n">transform</span><span class="o">.</span><span class="n">a</span><span class="p">)</span>
+        <span class="c1"># Determine (potentially) new upper-left for bbox</span>
+        <span class="n">top</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">f</span> <span class="o">+</span> <span class="n">off_y</span> <span class="o">*</span> <span class="n">transform</span><span class="o">.</span><span class="n">e</span>
+        <span class="n">left</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">c</span> <span class="o">+</span> <span class="n">off_x</span> <span class="o">*</span> <span class="n">transform</span><span class="o">.</span><span class="n">a</span>
+
+        <span class="c1"># Calculate size needed to cover bounds</span>
+        <span class="n">height</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="nb">abs</span><span class="p">((</span><span class="n">top</span> <span class="o">-</span> <span class="n">bbox</span><span class="o">.</span><span class="n">bottom</span><span class="p">)</span> <span class="o">/</span> <span class="n">transform</span><span class="o">.</span><span class="n">e</span><span class="p">)))</span>
+        <span class="n">width</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="nb">abs</span><span class="p">((</span><span class="n">bbox</span><span class="o">.</span><span class="n">right</span> <span class="o">-</span> <span class="n">left</span><span class="p">)</span> <span class="o">/</span> <span class="n">transform</span><span class="o">.</span><span class="n">a</span><span class="p">)))</span>
+
+        <span class="c1"># Move the transform to this location</span>
+        <span class="n">transform</span> <span class="o">=</span> <span class="n">transform</span> <span class="o">*</span> <span class="n">Affine</span><span class="o">.</span><span class="n">translation</span><span class="p">(</span><span class="n">off_x</span><span class="p">,</span> <span class="n">off_y</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="p">(</span><span class="n">height</span> <span class="ow">and</span> <span class="n">width</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Must provide either a BoundingBox (`bbox`) &quot;</span>
+                         <span class="s2">&quot;or the dimensions (`height` and `width`) &quot;</span>
+                         <span class="s2">&quot;of the raster grid.&quot;</span><span class="p">)</span>
+
+    <span class="n">offset</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="k">if</span> <span class="n">center</span> <span class="k">else</span> <span class="mf">0.0</span>
+
+    <span class="n">x</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">width</span><span class="p">)</span> <span class="o">+</span> <span class="n">offset</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">width</span><span class="p">)</span> <span class="o">+</span> <span class="n">offset</span><span class="p">)</span> <span class="o">*</span> <span class="n">transform</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">height</span><span class="p">)</span> <span class="o">+</span> <span class="n">offset</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">height</span><span class="p">)</span> <span class="o">+</span> <span class="n">offset</span><span class="p">)</span> <span class="o">*</span> <span class="n">transform</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="transform_to_res"><a class="viewcode-back" href="../../../stems/stems.gis.coords.html#stems.gis.coords.transform_to_res">[docs]</a><span class="k">def</span> <span class="nf">transform_to_res</span><span class="p">(</span><span class="n">transform</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return the resolution from a transform</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    transform : affine.Affine</span>
+<span class="sd">        Affine transform</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tuple[float, float]</span>
+<span class="sd">        Width and height</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">f</span> <span class="o">=</span> <span class="n">transform</span><span class="p">[:</span><span class="mi">6</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">b</span> <span class="o">==</span> <span class="n">d</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># no rotation</span>
+        <span class="k">return</span> <span class="n">a</span><span class="p">,</span> <span class="o">-</span><span class="n">e</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="n">a</span> <span class="o">+</span> <span class="n">d</span> <span class="o">*</span> <span class="n">d</span><span class="p">),</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">b</span> <span class="o">*</span> <span class="n">b</span> <span class="o">+</span> <span class="n">e</span> <span class="o">*</span> <span class="n">e</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="transform_to_bounds"><a class="viewcode-back" href="../../../stems/stems.gis.coords.html#stems.gis.coords.transform_to_bounds">[docs]</a><span class="k">def</span> <span class="nf">transform_to_bounds</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return a BoundingBox for some transform and shape</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    transform : affine.Affine</span>
+<span class="sd">        Affine transformation</span>
+<span class="sd">    height : int</span>
+<span class="sd">        Height in pixels</span>
+<span class="sd">    width : int</span>
+<span class="sd">        Width in pixels</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    BoundingBox</span>
+<span class="sd">        left, bottom, right, &amp; top bounding box coordinates</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">f</span> <span class="o">=</span> <span class="n">transform</span><span class="p">[:</span><span class="mi">6</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">b</span> <span class="o">==</span> <span class="n">d</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">BoundingBox</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">f</span> <span class="o">+</span> <span class="n">e</span> <span class="o">*</span> <span class="n">height</span><span class="p">,</span> <span class="n">c</span> <span class="o">+</span> <span class="n">a</span> <span class="o">*</span> <span class="n">width</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Not implemented for rotated transformations (TODO)&quot;</span><span class="p">)</span></div>
+
+
+<span class="c1"># ============================================================================</span>
+<span class="c1"># From coordinates</span>
+<div class="viewcode-block" id="coords_to_transform"><a class="viewcode-back" href="../../../stems/stems.gis.coords.html#stems.gis.coords.coords_to_transform">[docs]</a><span class="k">def</span> <span class="nf">coords_to_transform</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">assume_unique</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Calculate Affine transform from coordinates</span>
+
+<span class="sd">    Note: y/x will be loaded into memory</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    y : array-like</span>
+<span class="sd">        Y coordinates (latitude, y, etc)</span>
+<span class="sd">    x : array-like</span>
+<span class="sd">        X coordinates (longitude, x, etc)</span>
+<span class="sd">    center : bool, optional</span>
+<span class="sd">        Are coordinates provided pixel center (True) or</span>
+<span class="sd">        upper-left (False)</span>
+<span class="sd">    assume_unique : bool, optional</span>
+<span class="sd">        Assume coordinates are sorted and unique. Otherwise, will run</span>
+<span class="sd">        ``np.unique`` on each</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    affine.Affine</span>
+<span class="sd">        Affine transformation</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">xform</span><span class="p">,</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">shape</span> <span class="o">=</span> <span class="n">_inspect_coords</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">,</span>
+                                           <span class="n">assume_unique</span><span class="o">=</span><span class="n">assume_unique</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">xform</span></div>
+
+
+<div class="viewcode-block" id="coords_to_bounds"><a class="viewcode-back" href="../../../stems/stems.gis.coords.html#stems.gis.coords.coords_to_bounds">[docs]</a><span class="k">def</span> <span class="nf">coords_to_bounds</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">assume_unique</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Calculate the BoundingBox of the coordinates</span>
+
+<span class="sd">    If the Affine ``transform`` of the data is known, it can be provided.</span>
+<span class="sd">    Otherwise this function runs :py:func:`coords_to_transform` to determine</span>
+<span class="sd">    the pixel sizing.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    y : array-like</span>
+<span class="sd">        Y coordinates (latitude, y, etc)</span>
+<span class="sd">    x : array-like</span>
+<span class="sd">        X coordinates (longitude, x, etc)</span>
+<span class="sd">    center : bool, optional</span>
+<span class="sd">        Are coordinates provided pixel center (True) or</span>
+<span class="sd">        upper-left (False)</span>
+<span class="sd">    assume_unique : bool, optional</span>
+<span class="sd">        Assume coordinates are sorted and unique. Otherwise, will run</span>
+<span class="sd">        ``np.unique`` on each</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    BoundingBox</span>
+<span class="sd">        Bounds expressed as left, bottom, right, top</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">xform</span><span class="p">,</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">shape</span> <span class="o">=</span> <span class="n">_inspect_coords</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">,</span>
+                                           <span class="n">assume_unique</span><span class="o">=</span><span class="n">assume_unique</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">bounds</span></div>
+
+
+<span class="c1"># TODO: @warn_dask?</span>
+<span class="c1"># TODO: @lru_cache?</span>
+<span class="k">def</span> <span class="nf">_inspect_coords</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">assume_unique</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="c1"># returns transform, bounds, shape</span>
+    <span class="n">y_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="n">x_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">assume_unique</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;Computing unique values of coordinates...&#39;</span><span class="p">)</span>
+        <span class="n">y_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">y_</span><span class="p">)</span>
+        <span class="n">x_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">x_</span><span class="p">)</span>
+
+    <span class="n">minmax_y</span> <span class="o">=</span> <span class="n">y_</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y_</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">minmax_x</span> <span class="o">=</span> <span class="n">x_</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x_</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">minmax_y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">minmax_y</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;Unreversing y coordinate min/max&#39;</span><span class="p">)</span>
+        <span class="n">minmax_y</span> <span class="o">=</span> <span class="p">(</span><span class="n">minmax_y</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">minmax_y</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="c1"># If spacing is not equal we guess from `(max - min) / n`</span>
+    <span class="n">dy</span> <span class="o">=</span> <span class="n">_check_spacing</span><span class="p">(</span><span class="n">y_</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">dy</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;&quot;y&quot; coordinate does not have equal spacing&#39;</span><span class="p">)</span>
+        <span class="n">ny</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_</span><span class="p">)</span>
+        <span class="n">dy</span> <span class="o">=</span> <span class="p">(</span><span class="n">minmax_y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">minmax_y</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="n">ny</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ny</span> <span class="o">=</span> <span class="p">(</span><span class="n">minmax_y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">minmax_y</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="n">dy</span>
+        <span class="c1"># np.unique returns sorted y so dy is negative, but not if unsorted</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">assume_unique</span><span class="p">:</span>
+            <span class="n">dy</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
+
+    <span class="n">dx</span> <span class="o">=</span> <span class="n">_check_spacing</span><span class="p">(</span><span class="n">x_</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">dx</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;&quot;x&quot; coordinate does not have equal spacing&#39;</span><span class="p">)</span>
+        <span class="n">nx</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_</span><span class="p">)</span>
+        <span class="n">dx</span> <span class="o">=</span> <span class="p">(</span><span class="n">minmax_x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">minmax_x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="n">nx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">nx</span> <span class="o">=</span> <span class="p">(</span><span class="n">minmax_x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">minmax_x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="n">dx</span>
+
+    <span class="n">transform</span> <span class="o">=</span> <span class="n">Affine</span><span class="p">(</span>
+        <span class="n">dx</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">minmax_x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="mf">0.</span><span class="p">,</span> <span class="n">dy</span><span class="p">,</span> <span class="n">minmax_y</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">center</span><span class="p">:</span>
+        <span class="c1"># affine transform is relative to upper-left, not pixel center</span>
+        <span class="n">transform</span> <span class="o">=</span> <span class="n">transform</span> <span class="o">*</span> <span class="n">Affine</span><span class="o">.</span><span class="n">translation</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="c1"># create bounds that cover pixel area</span>
+        <span class="n">bounds</span> <span class="o">=</span> <span class="n">BoundingBox</span><span class="p">(</span><span class="n">minmax_x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">dx</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+                             <span class="n">minmax_y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">dy</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+                             <span class="n">minmax_x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">dx</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+                             <span class="n">minmax_y</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">dy</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># create bounds that cover pixel area</span>
+        <span class="n">bounds</span> <span class="o">=</span> <span class="n">BoundingBox</span><span class="p">(</span><span class="n">minmax_x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                             <span class="n">minmax_y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">dy</span><span class="p">,</span>
+                             <span class="n">minmax_x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">dx</span><span class="p">,</span>
+                             <span class="n">minmax_y</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">transform</span><span class="p">,</span> <span class="n">bounds</span><span class="p">,</span> <span class="p">(</span><span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_check_spacing</span><span class="p">(</span><span class="n">coord</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Check for equal spacing (see GDAL NetCDF driver)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    bool or float</span>
+<span class="sd">        False if unequal spacing, otherwise returns the calculated pixel</span>
+<span class="sd">        spacing/resolution</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">cmp</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">2e-3</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">abs</span><span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">tol</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">coord</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">beg</span> <span class="o">=</span> <span class="n">coord</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">coord</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="n">coord</span><span class="p">[</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">coord</span><span class="p">[</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">mid</span> <span class="o">=</span> <span class="n">coord</span><span class="p">[</span><span class="n">n</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">coord</span><span class="p">[</span><span class="n">n</span> <span class="o">//</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">mid</span> <span class="o">=</span> <span class="n">end</span>
+
+        <span class="k">if</span> <span class="nb">cmp</span><span class="p">(</span><span class="n">beg</span><span class="p">,</span> <span class="n">mid</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">cmp</span><span class="p">(</span><span class="n">mid</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">cmp</span><span class="p">(</span><span class="n">beg</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">beg</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
