@@ -1,0 +1,71 @@
+{% set version = "v0.0.2" %}
+
+package:
+  name: stems
+  version: {{ version }}
+
+
+source:
+  git_rev: v0.0.2
+  git_url: https://github.com/ceholden/stems.git
+
+
+build:
+  number: 0
+  skip: true  # [py<36]
+  noarch: python
+  script: python -m pip install --no-deps --ignore-installed .
+
+requirements:
+  host:
+    - pip
+    - python
+  run:
+    - python
+    - dask
+    - distributed
+    - numpy
+    - pandas
+    - xarray
+    - cytoolz
+    - toolz
+    - pyyaml
+    # GIS
+    - affine
+    - fiona
+    - gdal
+    - rasterio
+    - shapely
+    - python-geohash
+    # Data / Formats
+    - netcdf4
+    # CLI
+    - click
+    - click-plugins
+    - cligj
+
+
+test:
+  imports:
+    - stems
+    - stems.gis
+    - stems.io
+
+
+about:
+  home: https://github.com/ceholden/stems
+  license: BSD-3-Clause
+  license_file: LICENSE
+  licence_family: BSD
+  summary: 'Spatio-temporal Tools for Earth Monitoring Science'
+  description: |
+    STEMS is a library to help with analysis of geospatial time series data. It
+    tries to integrate geospatial libraries (rasterio, fiona, and shapely) with
+    the xarray library to make it easier to use netCDF4 files for large data
+    processing. This library also contains functions and tools to facilitate
+    processing these data with dask and distributed.
+
+
+extra:
+  recipe-maintainers:
+    - ceholden
