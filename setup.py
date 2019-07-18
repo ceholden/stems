@@ -60,7 +60,6 @@ TESTS_REQUIRE = [
 ]
 EXTRAS_REQUIRE = {
     'core': INSTALL_REQUIRES,
-    'tests': TESTS_REQUIRE,
     'geohash': ['python-geohash']
 }
 EXTRAS_REQUIRE['all'] = sorted(set(sum(EXTRAS_REQUIRE.values(), [])))
