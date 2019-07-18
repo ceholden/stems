@@ -14,15 +14,13 @@ dependencies:
   - toolz
   - pyyaml
   - xarray
-  - ipython
-  - jupyterlab
-  - nodejs
   # GIS
   - affine
   - fiona
   - gdal
   - rasterio
   - shapely
+  - python-geohash
   # data / formats
   - netcdf4
   # CLI
@@ -42,4 +40,3 @@ dependencies:
   - pip:
     - coverage-badge
     - sphinxcontrib-bibtex
-    - python-geohash
