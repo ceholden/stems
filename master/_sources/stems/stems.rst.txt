@@ -11,6 +11,7 @@ Subpackages
    stems.gis
    stems.io
    stems.sensors
+   stems.tests
 
 Submodules
 ----------

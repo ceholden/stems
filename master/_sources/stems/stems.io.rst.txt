@@ -1,6 +1,13 @@
 stems.io package
 ================
 
+Subpackages
+-----------
+
+.. toctree::
+
+   stems.io.tests
+
 Submodules
 ----------
 

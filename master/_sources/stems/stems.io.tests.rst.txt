@@ -1,0 +1,23 @@
+stems.io.tests package
+======================
+
+Submodules
+----------
+
+.. toctree::
+
+   stems.io.tests.conftest
+   stems.io.tests.test_io_chunk
+   stems.io.tests.test_io_encoding
+   stems.io.tests.test_io_rasterio_
+   stems.io.tests.test_io_utils
+   stems.io.tests.test_io_vrt
+   stems.io.tests.test_io_xarray_
+
+Module contents
+---------------
+
+.. automodule:: stems.io.tests
+   :members:
+   :undoc-members:
+   :show-inheritance:

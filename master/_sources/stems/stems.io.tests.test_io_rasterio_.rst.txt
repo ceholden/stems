@@ -1,0 +1,7 @@
+stems.io.tests.test\_io\_rasterio\_ module
+==========================================
+
+.. automodule:: stems.io.tests.test_io_rasterio_
+   :members:
+   :undoc-members:
+   :show-inheritance:
