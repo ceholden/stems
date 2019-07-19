@@ -13,12 +13,14 @@ For information on the style of this change log, see
 UNRELEASED
 ==========
 
-ALPHA 0.0.1-20190506
-====================
+v0.0.2.post0
+============
 
-Development version released 05/06/2019.
+* Include ``versioneer.py`` in MANIFEST.in
+* Switch to PyPI URL for conda recipe
 
-ALPHA 0.0.1
-===========
 
-Released 04/01/2019.
+v0.0.2
+======
+
+Initial public release.
