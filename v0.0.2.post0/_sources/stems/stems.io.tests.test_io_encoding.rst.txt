@@ -1,0 +1,7 @@
+stems.io.tests.test\_io\_encoding module
+========================================
+
+.. automodule:: stems.io.tests.test_io_encoding
+   :members:
+   :undoc-members:
+   :show-inheritance:

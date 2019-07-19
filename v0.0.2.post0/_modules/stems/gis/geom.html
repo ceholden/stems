@@ -1,0 +1,453 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>stems.gis.geom &mdash; stems 0.0.2.post0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> stems
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.2.post0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq.html">Frequenty Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../gis.html">Geographic Information Systems (GIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../gis_grids.html">Tile Grid Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../parallel.html">Parallel Computing Helpers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../xarray.html">XArray Integration</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">stems</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>stems.gis.geom</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for stems.gis.geom</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; Geometry related functions</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">math</span>
+
+<span class="kn">import</span> <span class="nn">affine</span>
+<span class="kn">from</span> <span class="nn">rasterio.coords</span> <span class="k">import</span> <span class="n">BoundingBox</span>
+<span class="kn">from</span> <span class="nn">rasterio.windows</span> <span class="k">import</span> <span class="n">Window</span><span class="p">,</span> <span class="n">from_bounds</span>
+<span class="kn">import</span> <span class="nn">shapely.geometry</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">coords</span>
+<span class="kn">from</span> <span class="nn">..utils</span> <span class="k">import</span> <span class="n">list_like</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># Bounds / BoundingBox</span>
+<div class="viewcode-block" id="bounds_union"><a class="viewcode-back" href="../../../stems/stems.gis.geom.html#stems.gis.geom.bounds_union">[docs]</a><span class="k">def</span> <span class="nf">bounds_union</span><span class="p">(</span><span class="o">*</span><span class="n">bounds</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return the union of some BoundingBox(s)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    bounds : BoundingBox</span>
+<span class="sd">        Bounding boxes</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    BoundingBox</span>
+<span class="sd">        The union of all input BoundingBox</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">bounds</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    <span class="k">assert</span> <span class="nb">all</span><span class="p">([</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">BoundingBox</span><span class="p">)</span> <span class="ow">or</span>
+                <span class="p">(</span><span class="n">list_like</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">==</span> <span class="mi">4</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">bounds</span><span class="p">])</span>
+
+    <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">bounds</span><span class="p">:</span>
+        <span class="n">left</span><span class="p">,</span> <span class="n">bottom</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">top</span> <span class="o">=</span> <span class="n">b</span>
+        <span class="n">xs</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">])</span>
+        <span class="n">ys</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">bottom</span><span class="p">,</span> <span class="n">top</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">BoundingBox</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">xs</span><span class="p">),</span> <span class="nb">min</span><span class="p">(</span><span class="n">ys</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">xs</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">ys</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="bounds_intersection"><a class="viewcode-back" href="../../../stems/stems.gis.geom.html#stems.gis.geom.bounds_intersection">[docs]</a><span class="k">def</span> <span class="nf">bounds_intersection</span><span class="p">(</span><span class="o">*</span><span class="n">bounds</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return the intersection of some BoundingBox(s)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    bounds : BoundingBox</span>
+<span class="sd">        Bounding boxes</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    BoundingBox</span>
+<span class="sd">        The intersection of all input BoundingBox</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">bounds</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    <span class="k">assert</span> <span class="nb">all</span><span class="p">([</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">BoundingBox</span><span class="p">)</span> <span class="ow">or</span>
+                <span class="p">(</span><span class="n">list_like</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">==</span> <span class="mi">4</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">bounds</span><span class="p">])</span>
+
+    <span class="n">left</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">bounds</span><span class="p">])</span>
+    <span class="n">bottom</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">bounds</span><span class="p">])</span>
+    <span class="n">right</span> <span class="o">=</span> <span class="nb">min</span><span class="p">([</span><span class="n">b</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">bounds</span><span class="p">])</span>
+    <span class="n">top</span> <span class="o">=</span> <span class="nb">min</span><span class="p">([</span><span class="n">b</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">bounds</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">BoundingBox</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">bottom</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">top</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="bounds_transform_union"><a class="viewcode-back" href="../../../stems/stems.gis.geom.html#stems.gis.geom.bounds_transform_union">[docs]</a><span class="k">def</span> <span class="nf">bounds_transform_union</span><span class="p">(</span><span class="n">bounds</span><span class="p">,</span> <span class="n">transform</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Calculate union of bounds for some transform</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    bounds : Sequence[BoundingBox]</span>
+<span class="sd">        Bounding boxes</span>
+<span class="sd">    transform : Affine</span>
+<span class="sd">        Affine transform to use</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    rasterio.coords.BoundingBox</span>
+<span class="sd">        Union of BoundingBox</span>
+<span class="sd">    affine.Affine</span>
+<span class="sd">        Unified affine transform</span>
+<span class="sd">    tuple[int, int]</span>
+<span class="sd">        Shape of union (nrow, ncol)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">coords</span><span class="o">.</span><span class="n">transform_to_res</span><span class="p">(</span><span class="n">transform</span><span class="p">)</span>
+    <span class="c1"># Union of bounds</span>
+    <span class="n">out_bounds</span> <span class="o">=</span> <span class="n">bounds_union</span><span class="p">(</span><span class="o">*</span><span class="n">bounds</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Initial output bounds: </span><span class="si">%r</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">out_bounds</span><span class="p">)</span>
+
+    <span class="c1"># Create transform</span>
+    <span class="n">out_transform</span> <span class="o">=</span> <span class="n">affine</span><span class="o">.</span><span class="n">Affine</span><span class="o">.</span><span class="n">translation</span><span class="p">(</span><span class="n">out_bounds</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="n">out_bounds</span><span class="o">.</span><span class="n">top</span><span class="p">)</span>
+    <span class="n">out_transform</span> <span class="o">*=</span> <span class="n">affine</span><span class="o">.</span><span class="n">Affine</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="n">res</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Output transform: </span><span class="si">%r</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">out_transform</span><span class="p">)</span>
+
+    <span class="c1"># Calculate width / height</span>
+    <span class="n">out_w</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">((</span><span class="n">out_bounds</span><span class="o">.</span><span class="n">right</span> <span class="o">-</span> <span class="n">out_bounds</span><span class="o">.</span><span class="n">left</span><span class="p">)</span> <span class="o">/</span> <span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+    <span class="n">out_h</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">((</span><span class="n">out_bounds</span><span class="o">.</span><span class="n">top</span> <span class="o">-</span> <span class="n">out_bounds</span><span class="o">.</span><span class="n">bottom</span><span class="p">)</span> <span class="o">/</span> <span class="n">res</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Output width / height: </span><span class="si">%d</span><span class="s1"> / </span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">out_w</span><span class="p">,</span> <span class="n">out_h</span><span class="p">)</span>
+
+    <span class="c1"># Adjust bounds to fit (given integer width / height)</span>
+    <span class="n">right</span><span class="p">,</span> <span class="n">bottom</span> <span class="o">=</span> <span class="n">out_transform</span> <span class="o">*</span> <span class="p">(</span><span class="n">out_w</span><span class="p">,</span> <span class="n">out_h</span><span class="p">)</span>
+    <span class="n">out_bounds</span> <span class="o">=</span> <span class="n">BoundingBox</span><span class="p">(</span><span class="n">out_bounds</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="n">bottom</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">out_bounds</span><span class="o">.</span><span class="n">top</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Adjusted bounds: </span><span class="si">%r</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">out_bounds</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">out_bounds</span><span class="p">,</span> <span class="n">out_transform</span><span class="p">,</span> <span class="p">(</span><span class="n">out_h</span><span class="p">,</span> <span class="n">out_w</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="calculate_src_window"><a class="viewcode-back" href="../../../stems/stems.gis.geom.html#stems.gis.geom.calculate_src_window">[docs]</a><span class="k">def</span> <span class="nf">calculate_src_window</span><span class="p">(</span><span class="n">src_bounds</span><span class="p">,</span> <span class="n">src_transform</span><span class="p">,</span> <span class="n">dst_bounds</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Calculate the source window for some output bounds</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    src_bounds : rasterio.coords.BoundingBox</span>
+<span class="sd">        Input bounds for the source raster image</span>
+<span class="sd">    src_transform : affine.Affine</span>
+<span class="sd">        Affine transform for the source raster image</span>
+<span class="sd">    dst_bounds : rasterio.coords.BoundingBox</span>
+<span class="sd">        Destination bounds</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    rasterio.windows.Window</span>
+<span class="sd">        Window of source that contains ``dst_bounds``</span>
+<span class="sd">    rasterio.coords.BoundingBox</span>
+<span class="sd">        The BoundingBox representing the destination window for the source</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># TODO: refactor to use bbox_union/intersect?</span>
+    <span class="c1"># Calculate source window and bounds (x/y offsets and sizes)</span>
+    <span class="n">src_w</span><span class="p">,</span> <span class="n">src_s</span><span class="p">,</span> <span class="n">src_e</span><span class="p">,</span> <span class="n">src_n</span> <span class="o">=</span> <span class="n">src_bounds</span>
+    <span class="n">dst_w</span><span class="p">,</span> <span class="n">dst_s</span><span class="p">,</span> <span class="n">dst_e</span><span class="p">,</span> <span class="n">dst_n</span> <span class="o">=</span> <span class="n">dst_bounds</span>
+
+    <span class="n">left</span> <span class="o">=</span> <span class="n">src_w</span> <span class="k">if</span> <span class="n">src_w</span> <span class="o">&gt;</span> <span class="n">dst_w</span> <span class="k">else</span> <span class="n">dst_w</span>
+    <span class="n">bottom</span> <span class="o">=</span> <span class="n">src_s</span> <span class="k">if</span> <span class="n">src_s</span> <span class="o">&gt;</span> <span class="n">dst_s</span> <span class="k">else</span> <span class="n">dst_s</span>
+    <span class="n">right</span> <span class="o">=</span> <span class="n">src_e</span> <span class="k">if</span> <span class="n">src_e</span> <span class="o">&lt;</span> <span class="n">dst_e</span> <span class="k">else</span> <span class="n">dst_e</span>
+    <span class="n">top</span> <span class="o">=</span> <span class="n">src_n</span> <span class="k">if</span> <span class="n">src_n</span> <span class="o">&lt;</span> <span class="n">dst_n</span> <span class="k">else</span> <span class="n">dst_n</span>
+    <span class="n">adj_bounds</span> <span class="o">=</span> <span class="n">BoundingBox</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">bottom</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">top</span><span class="p">)</span>
+
+    <span class="n">src_window</span> <span class="o">=</span> <span class="n">from_bounds</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">bottom</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">top</span><span class="p">,</span>
+                             <span class="n">src_transform</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Computed source window: </span><span class="si">%r</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">src_window</span><span class="p">)</span>
+
+    <span class="c1"># Round the sizes</span>
+    <span class="n">src_window</span> <span class="o">=</span> <span class="n">_round_window</span><span class="p">(</span><span class="n">src_window</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Rounded to source window: </span><span class="si">%r</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">src_window</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">src_window</span><span class="p">,</span> <span class="n">adj_bounds</span></div>
+
+
+<div class="viewcode-block" id="calculate_dst_window"><a class="viewcode-back" href="../../../stems/stems.gis.geom.html#stems.gis.geom.calculate_dst_window">[docs]</a><span class="k">def</span> <span class="nf">calculate_dst_window</span><span class="p">(</span><span class="n">src_bounds</span><span class="p">,</span> <span class="n">dst_transform</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Calculate the rounded source window for some other transform</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    src_bounds : rasterio.coords.BoundingBox</span>
+<span class="sd">        Input bounds for the source raster image</span>
+<span class="sd">    dst_transform : affine.Affine</span>
+<span class="sd">        Destination Affine transform</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    rasterio.windows.Window</span>
+<span class="sd">        Window of source that conforms (pixel size, upper left) to</span>
+<span class="sd">        ``dst_tranform``</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dst_window</span> <span class="o">=</span> <span class="n">from_bounds</span><span class="p">(</span><span class="o">*</span><span class="n">src_bounds</span><span class="p">,</span> <span class="n">dst_transform</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Computed destination window: </span><span class="si">%r</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">dst_window</span><span class="p">)</span>
+    <span class="n">dst_window</span> <span class="o">=</span> <span class="n">_round_window</span><span class="p">(</span><span class="n">dst_window</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Rounded to destination window: </span><span class="si">%r</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">dst_window</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">dst_window</span></div>
+
+
+<span class="k">def</span> <span class="nf">_round_window</span><span class="p">(</span><span class="n">window</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">window</span><span class="o">.</span><span class="n">round_shape</span><span class="p">()</span><span class="o">.</span><span class="n">round_offsets</span><span class="p">()</span>
+
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># Geometry</span>
+<div class="viewcode-block" id="is_null"><a class="viewcode-back" href="../../../stems/stems.gis.geom.html#stems.gis.geom.is_null">[docs]</a><span class="k">def</span> <span class="nf">is_null</span><span class="p">(</span><span class="n">geom</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return True if a geometry is not valid / null</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    shapely.geometry.BaseGeometry</span>
+<span class="sd">        Some shapely geometry (or something that supports</span>
+<span class="sd">        __geo_interface__)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bool</span>
+<span class="sd">        Null or not</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># asShape doesn&#39;t copy vs shape</span>
+    <span class="n">geom_</span> <span class="o">=</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">asShape</span><span class="p">(</span><span class="n">geom</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">geom_</span><span class="p">,</span> <span class="s1">&#39;_geom&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span></div>
+
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># GEOJSON</span>
+<span class="n">_CO_RFC7946</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;RFC7946=YES&#39;</span><span class="p">,</span> <span class="s1">&#39;WRITE_BBOX=YES&#39;</span><span class="p">]</span>
+<div class="viewcode-block" id="fix_geojson_rfc7946"><a class="viewcode-back" href="../../../stems/stems.gis.geom.html#stems.gis.geom.fix_geojson_rfc7946">[docs]</a><span class="k">def</span> <span class="nf">fix_geojson_rfc7946</span><span class="p">(</span><span class="n">geojson</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Fixes issues with dateline and meridian cutting</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    geojson : dict</span>
+<span class="sd">        GeoJSON as a dict</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        Fixed up GeoJSON</span>
+
+<span class="sd">    TODO</span>
+<span class="sd">    ----</span>
+<span class="sd">    * Q1: Can we do this ourself using shapely/maths?</span>
+<span class="sd">    * Q2: Is solution to Q1 faster? Avoids dumps/loads</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">osgeo</span> <span class="k">import</span> <span class="n">gdal</span><span class="p">,</span> <span class="n">ogr</span>
+    <span class="n">gdal</span><span class="o">.</span><span class="n">UseExceptions</span><span class="p">()</span>
+    <span class="n">ogr</span><span class="o">.</span><span class="n">UseExceptions</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">read_vsi</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="n">vsifile</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">VSIFOpenL</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+        <span class="n">gdal</span><span class="o">.</span><span class="n">VSIFSeekL</span><span class="p">(</span><span class="n">vsifile</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">vsileng</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">VSIFTellL</span><span class="p">(</span><span class="n">vsifile</span><span class="p">)</span>
+        <span class="n">gdal</span><span class="o">.</span><span class="n">VSIFSeekL</span><span class="p">(</span><span class="n">vsifile</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">gdal</span><span class="o">.</span><span class="n">VSIFReadL</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">vsileng</span><span class="p">,</span> <span class="n">vsifile</span><span class="p">)</span>
+
+    <span class="c1"># Fix up GeoJSON while writing to memory</span>
+    <span class="n">_</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">VectorTranslate</span><span class="p">(</span><span class="s1">&#39;/vsimem/out.json&#39;</span><span class="p">,</span>
+                             <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">geojson</span><span class="p">),</span>
+                             <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;GeoJSON&#39;</span><span class="p">,</span>
+                             <span class="n">layerCreationOptions</span><span class="o">=</span><span class="n">_CO_RFC7946</span><span class="p">)</span>
+    <span class="n">_</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># make sure to delete so it flushes</span>
+
+    <span class="n">text</span> <span class="o">=</span> <span class="p">(</span><span class="n">read_vsi</span><span class="p">(</span><span class="s1">&#39;/vsimem/out.json&#39;</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">text</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,459 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>stems.io.tests.test_io_vrt &mdash; stems 0.0.2.post0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> stems
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.2.post0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../faq.html">Frequenty Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../gis.html">Geographic Information Systems (GIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../gis_grids.html">Tile Grid Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../parallel.html">Parallel Computing Helpers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../xarray.html">XArray Integration</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">stems</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>stems.io.tests.test_io_vrt</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for stems.io.tests.test_io_vrt</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Tests for :py:mod:`stems.io.vrt`</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
+
+<span class="kn">from</span> <span class="nn">affine</span> <span class="k">import</span> <span class="n">Affine</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pytest</span>
+<span class="kn">import</span> <span class="nn">rasterio</span>
+<span class="kn">from</span> <span class="nn">rasterio.crs</span> <span class="k">import</span> <span class="n">CRS</span>
+<span class="kn">from</span> <span class="nn">rasterio.enums</span> <span class="k">import</span> <span class="n">ColorInterp</span>
+<span class="kn">import</span> <span class="nn">six</span>
+
+<span class="kn">from</span> <span class="nn">stems.io</span> <span class="k">import</span> <span class="n">vrt</span>
+<span class="kn">from</span> <span class="nn">stems.tests</span> <span class="k">import</span> <span class="n">build_data</span>
+
+
+<span class="c1"># ----------------------------------------------------------------------------</span>
+<span class="c1"># VRTDataset</span>
+<div class="viewcode-block" id="test_VRTDataset_1"><a class="viewcode-back" href="../../../../stems/stems.io.tests.test_io_vrt.html#stems.io.tests.test_io_vrt.test_VRTDataset_1">[docs]</a><span class="k">def</span> <span class="nf">test_VRTDataset_1</span><span class="p">(</span><span class="n">image_11w7h4b</span><span class="p">):</span>
+    <span class="c1"># Test dataset properties (crs/transform/bounds)</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">vrt</span><span class="o">.</span><span class="n">VRTDataset</span><span class="p">(</span><span class="n">separate</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">ds</span><span class="o">.</span><span class="n">add_band</span><span class="p">(</span><span class="n">image_11w7h4b</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">vrt_bidx</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">image_11w7h4b</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">src</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="n">ds</span><span class="o">.</span><span class="n">crs</span> <span class="o">==</span> <span class="n">src</span><span class="o">.</span><span class="n">crs</span>
+        <span class="k">assert</span> <span class="n">ds</span><span class="o">.</span><span class="n">bounds</span> <span class="o">==</span> <span class="n">src</span><span class="o">.</span><span class="n">bounds</span>
+        <span class="k">assert</span> <span class="n">ds</span><span class="o">.</span><span class="n">transform</span> <span class="o">==</span> <span class="n">src</span><span class="o">.</span><span class="n">transform</span>
+        <span class="k">assert</span> <span class="n">ds</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">src</span><span class="o">.</span><span class="n">shape</span>
+        <span class="k">assert</span> <span class="n">ds</span><span class="o">.</span><span class="n">count</span> <span class="o">==</span> <span class="mi">1</span></div>
+
+
+<div class="viewcode-block" id="test_VRTDataset_2"><a class="viewcode-back" href="../../../../stems/stems.io.tests.test_io_vrt.html#stems.io.tests.test_io_vrt.test_VRTDataset_2">[docs]</a><span class="k">def</span> <span class="nf">test_VRTDataset_2</span><span class="p">(</span><span class="n">image_11w7h4b</span><span class="p">):</span>
+    <span class="c1"># Test vrt_bidx autoincrement</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">vrt</span><span class="o">.</span><span class="n">VRTDataset</span><span class="p">(</span><span class="n">separate</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">vrt_bidx</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">add_band</span><span class="p">(</span><span class="n">image_11w7h4b</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">vrt_bidx</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">vrt_bidx</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="n">vrt_bidx</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">add_band</span><span class="p">(</span><span class="n">image_11w7h4b</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">vrt_bidx</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">vrt_bidx</span> <span class="o">==</span> <span class="mi">2</span>
+    <span class="k">assert</span> <span class="n">ds</span><span class="o">.</span><span class="n">count</span> <span class="o">==</span> <span class="mi">2</span></div>
+
+
+<div class="viewcode-block" id="test_VRTDataset_3"><a class="viewcode-back" href="../../../../stems/stems.io.tests.test_io_vrt.html#stems.io.tests.test_io_vrt.test_VRTDataset_3">[docs]</a><span class="k">def</span> <span class="nf">test_VRTDataset_3</span><span class="p">(</span><span class="n">image_11w7h4b_chopped</span><span class="p">):</span>
+    <span class="c1"># Test vrt_bidx autoincrement -- don&#39;t increment for mosaic</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">vrt</span><span class="o">.</span><span class="n">VRTDataset</span><span class="p">(</span><span class="n">separate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">vrt_bidx</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">add_band</span><span class="p">(</span><span class="n">image_11w7h4b_chopped</span><span class="p">[</span><span class="s1">&#39;ul&#39;</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="n">vrt_bidx</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">vrt_bidx</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="n">vrt_bidx</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">add_band</span><span class="p">(</span><span class="n">image_11w7h4b_chopped</span><span class="p">[</span><span class="s1">&#39;ur&#39;</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="n">vrt_bidx</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">vrt_bidx</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="n">ds</span><span class="o">.</span><span class="n">count</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">_bands</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">==</span> <span class="mi">2</span></div>
+
+
+<div class="viewcode-block" id="test_VRTDataset_5"><a class="viewcode-back" href="../../../../stems/stems.io.tests.test_io_vrt.html#stems.io.tests.test_io_vrt.test_VRTDataset_5">[docs]</a><span class="k">def</span> <span class="nf">test_VRTDataset_5</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">,</span> <span class="n">image_11w7h4b</span><span class="p">):</span>
+    <span class="c1"># Test use of `relative`/`relative_to_vrt`</span>
+    <span class="n">vrtf</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">tmpdir</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;test.vrt&#39;</span><span class="p">))</span>
+
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">vrt</span><span class="o">.</span><span class="n">VRTDataset</span><span class="p">(</span><span class="n">separate</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">ds</span><span class="o">.</span><span class="n">add_band</span><span class="p">(</span><span class="n">image_11w7h4b</span><span class="p">)</span>
+
+    <span class="n">vrtf_out</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">vrtf</span><span class="p">,</span> <span class="n">relative</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">image_11w7h4b</span><span class="p">)</span> <span class="k">as</span> <span class="n">src</span><span class="p">:</span>
+        <span class="n">dat_ans</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">indexes</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">vrtf_out</span><span class="p">)</span> <span class="k">as</span> <span class="n">src</span><span class="p">:</span>
+        <span class="n">dat_test</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+    <span class="n">np</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">dat_test</span><span class="p">,</span> <span class="n">dat_ans</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="test_VRTDataset_4"><a class="viewcode-back" href="../../../../stems/stems.io.tests.test_io_vrt.html#stems.io.tests.test_io_vrt.test_VRTDataset_4">[docs]</a><span class="k">def</span> <span class="nf">test_VRTDataset_4</span><span class="p">(</span><span class="n">image_11w7h4b</span><span class="p">):</span>
+    <span class="c1"># Test ``ds.bands`` order</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">vrt</span><span class="o">.</span><span class="n">VRTDataset</span><span class="p">(</span><span class="n">separate</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">ds</span><span class="o">.</span><span class="n">add_band</span><span class="p">(</span><span class="n">image_11w7h4b</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">vrt_bidx</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">ds</span><span class="o">.</span><span class="n">count</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="n">ds</span><span class="o">.</span><span class="n">add_band</span><span class="p">(</span><span class="n">image_11w7h4b</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">vrt_bidx</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">ds</span><span class="o">.</span><span class="n">count</span> <span class="o">==</span> <span class="mi">2</span>
+
+    <span class="n">bands</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">bands</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bands</span><span class="p">,</span> <span class="n">OrderedDict</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">list</span><span class="p">(</span><span class="n">bands</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">==</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="nb">all</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">bands</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span>
+
+    <span class="c1"># Check insertion is in correct key</span>
+    <span class="n">ds</span><span class="o">.</span><span class="n">add_band</span><span class="p">(</span><span class="n">image_11w7h4b</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">vrt_bidx</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">bands</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">==</span> <span class="mi">2</span>
+    <span class="c1"># Check count is still 2, despite there being 3 input bands</span>
+    <span class="k">assert</span> <span class="n">ds</span><span class="o">.</span><span class="n">count</span> <span class="o">==</span> <span class="mi">2</span></div>
+
+
+<div class="viewcode-block" id="test_VRTDataset_error_nobands"><a class="viewcode-back" href="../../../../stems/stems.io.tests.test_io_vrt.html#stems.io.tests.test_io_vrt.test_VRTDataset_error_nobands">[docs]</a><span class="k">def</span> <span class="nf">test_VRTDataset_error_nobands</span><span class="p">():</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">vrt</span><span class="o">.</span><span class="n">VRTDataset</span><span class="p">()</span>
+    <span class="n">err</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;Cannot determine dataset properties.*&#39;</span>
+    <span class="k">for</span> <span class="n">prop</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;crs&#39;</span><span class="p">,</span> <span class="s1">&#39;transform&#39;</span><span class="p">,</span> <span class="s1">&#39;bounds&#39;</span><span class="p">,</span> <span class="s1">&#39;shape&#39;</span><span class="p">,</span> <span class="p">):</span>
+        <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">match</span><span class="o">=</span><span class="n">err</span><span class="p">):</span>
+            <span class="nb">getattr</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">prop</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="test_VRTDataset_error_badbidx"><a class="viewcode-back" href="../../../../stems/stems.io.tests.test_io_vrt.html#stems.io.tests.test_io_vrt.test_VRTDataset_error_badbidx">[docs]</a><span class="k">def</span> <span class="nf">test_VRTDataset_error_badbidx</span><span class="p">(</span><span class="n">image_11w7h4b</span><span class="p">):</span>
+    <span class="c1"># Test vrt_bidx ValueError for bad vrt_bidx</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">vrt</span><span class="o">.</span><span class="n">VRTDataset</span><span class="p">(</span><span class="n">separate</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">match</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;.*greater than 0&#39;</span><span class="p">):</span>
+        <span class="n">ds</span><span class="o">.</span><span class="n">add_band</span><span class="p">(</span><span class="n">image_11w7h4b</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">vrt_bidx</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="test_VRTDataset_error_notstack"><a class="viewcode-back" href="../../../../stems/stems.io.tests.test_io_vrt.html#stems.io.tests.test_io_vrt.test_VRTDataset_error_notstack">[docs]</a><span class="k">def</span> <span class="nf">test_VRTDataset_error_notstack</span><span class="p">(</span><span class="n">image_11w7h4b</span><span class="p">):</span>
+    <span class="c1"># Test vrt_bidx ValueError for mosaic</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">vrt</span><span class="o">.</span><span class="n">VRTDataset</span><span class="p">(</span><span class="n">separate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">match</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;.*if not stacking.*&#39;</span><span class="p">):</span>
+        <span class="n">ds</span><span class="o">.</span><span class="n">add_band</span><span class="p">(</span><span class="n">image_11w7h4b</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">vrt_bidx</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="test_VRTDataset_error_diffcrs"><a class="viewcode-back" href="../../../../stems/stems.io.tests.test_io_vrt.html#stems.io.tests.test_io_vrt.test_VRTDataset_error_diffcrs">[docs]</a><span class="k">def</span> <span class="nf">test_VRTDataset_error_diffcrs</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">,</span> <span class="n">image_11w7h4b</span><span class="p">):</span>
+    <span class="c1"># Fail on projection difference</span>
+    <span class="n">img1</span> <span class="o">=</span> <span class="n">image_11w7h4b</span>
+    <span class="n">img2</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">tmpdir</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;img.tif&#39;</span><span class="p">))</span>
+
+    <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">img1</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">src</span><span class="p">:</span>
+        <span class="n">meta</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">meta</span>
+        <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;crs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">img2</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">meta</span><span class="p">)</span> <span class="k">as</span> <span class="n">dst</span><span class="p">:</span>
+            <span class="n">dst</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">src</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">vrt</span><span class="o">.</span><span class="n">VRTDataset</span><span class="p">(</span><span class="n">separate</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">ds</span><span class="o">.</span><span class="n">add_band</span><span class="p">(</span><span class="n">img1</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">match</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;must have same.*crs.*&#39;</span><span class="p">):</span>
+        <span class="n">ds</span><span class="o">.</span><span class="n">add_band</span><span class="p">(</span><span class="n">img2</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="test_VRTDataset_stack"><a class="viewcode-back" href="../../../../stems/stems.io.tests.test_io_vrt.html#stems.io.tests.test_io_vrt.test_VRTDataset_stack">[docs]</a><span class="k">def</span> <span class="nf">test_VRTDataset_stack</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">,</span> <span class="n">image_11w7h4b</span><span class="p">):</span>
+    <span class="n">vrtf</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">tmpdir</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;test.vrt&#39;</span><span class="p">))</span>
+
+    <span class="c1"># Create and test count</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">vrt</span><span class="o">.</span><span class="n">VRTDataset</span><span class="p">(</span><span class="n">separate</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+        <span class="n">ds</span><span class="o">.</span><span class="n">add_band</span><span class="p">(</span><span class="n">image_11w7h4b</span><span class="p">,</span> <span class="n">src_bidx</span><span class="o">=</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">vrt_bidx</span><span class="o">=</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">ds</span><span class="o">.</span><span class="n">count</span> <span class="o">==</span> <span class="mi">4</span>
+
+    <span class="c1"># Test writing to str</span>
+    <span class="n">xml_str</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">write</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">xml_str</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+
+    <span class="c1"># Test writing to file</span>
+    <span class="n">vrtf_out</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">vrtf</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">vrtf_out</span><span class="p">)</span> <span class="k">as</span> <span class="n">src</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="n">src</span><span class="o">.</span><span class="n">count</span> <span class="o">==</span> <span class="n">ds</span><span class="o">.</span><span class="n">count</span>
+        <span class="k">assert</span> <span class="n">src</span><span class="o">.</span><span class="n">transform</span> <span class="o">==</span> <span class="n">ds</span><span class="o">.</span><span class="n">transform</span>
+        <span class="k">assert</span> <span class="n">src</span><span class="o">.</span><span class="n">bounds</span> <span class="o">==</span> <span class="n">ds</span><span class="o">.</span><span class="n">bounds</span>
+        <span class="k">assert</span> <span class="n">src</span><span class="o">.</span><span class="n">crs</span> <span class="o">==</span> <span class="n">ds</span><span class="o">.</span><span class="n">crs</span>
+        <span class="n">dat</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+    <span class="c1"># Ensure data comes out the same</span>
+    <span class="n">dat_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">dat</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">image_11w7h4b</span><span class="p">)</span> <span class="k">as</span> <span class="n">src</span><span class="p">:</span>
+        <span class="n">dat_test</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">dat_test</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="test_VRTDataset_mosaic_1"><a class="viewcode-back" href="../../../../stems/stems.io.tests.test_io_vrt.html#stems.io.tests.test_io_vrt.test_VRTDataset_mosaic_1">[docs]</a><span class="k">def</span> <span class="nf">test_VRTDataset_mosaic_1</span><span class="p">(</span><span class="n">image_11w7h4b_chopped</span><span class="p">):</span>
+    <span class="c1"># Test bounds with upper half</span>
+    <span class="n">info</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;ul&#39;</span><span class="p">,</span> <span class="s1">&#39;ur&#39;</span><span class="p">,</span> <span class="p">):</span>
+        <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">image_11w7h4b_chopped</span><span class="p">[</span><span class="n">q</span><span class="p">])</span> <span class="k">as</span> <span class="n">src</span><span class="p">:</span>
+            <span class="n">info</span><span class="p">[</span><span class="n">q</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;bounds&#39;</span><span class="p">:</span> <span class="n">src</span><span class="o">.</span><span class="n">bounds</span><span class="p">,</span>
+                <span class="s1">&#39;height&#39;</span><span class="p">:</span> <span class="n">src</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>
+                <span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="n">src</span><span class="o">.</span><span class="n">width</span>
+            <span class="p">}</span>
+
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">vrt</span><span class="o">.</span><span class="n">VRTDataset</span><span class="p">(</span><span class="n">separate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">ds</span><span class="o">.</span><span class="n">add_band</span><span class="p">(</span><span class="n">image_11w7h4b_chopped</span><span class="p">[</span><span class="s1">&#39;ul&#39;</span><span class="p">])</span>
+    <span class="n">ds</span><span class="o">.</span><span class="n">add_band</span><span class="p">(</span><span class="n">image_11w7h4b_chopped</span><span class="p">[</span><span class="s1">&#39;ur&#39;</span><span class="p">])</span>
+    <span class="k">assert</span> <span class="n">ds</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="n">bottom</span> <span class="o">==</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;ul&#39;</span><span class="p">][</span><span class="s1">&#39;bounds&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">bottom</span>
+    <span class="k">assert</span> <span class="n">ds</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="n">top</span> <span class="o">==</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;ur&#39;</span><span class="p">][</span><span class="s1">&#39;bounds&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">top</span>
+    <span class="k">assert</span> <span class="n">ds</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="n">left</span> <span class="o">==</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;ul&#39;</span><span class="p">][</span><span class="s1">&#39;bounds&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">left</span>
+    <span class="k">assert</span> <span class="n">ds</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="n">right</span> <span class="o">==</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;ur&#39;</span><span class="p">][</span><span class="s1">&#39;bounds&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">right</span></div>
+
+
+<div class="viewcode-block" id="test_VRTDataset_mosaic_2"><a class="viewcode-back" href="../../../../stems/stems.io.tests.test_io_vrt.html#stems.io.tests.test_io_vrt.test_VRTDataset_mosaic_2">[docs]</a><span class="k">def</span> <span class="nf">test_VRTDataset_mosaic_2</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">,</span> <span class="n">image_11w7h4b_chopped</span><span class="p">):</span>
+    <span class="n">vrtf</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">tmpdir</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;test.vrt&#39;</span><span class="p">))</span>
+    <span class="n">quads</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;ul&#39;</span><span class="p">,</span> <span class="s1">&#39;ur&#39;</span><span class="p">,</span> <span class="s1">&#39;ll&#39;</span><span class="p">,</span> <span class="s1">&#39;lr&#39;</span><span class="p">,</span> <span class="p">)</span>
+    <span class="n">quad_imgs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">([</span><span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">image_11w7h4b_chopped</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                      <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">quads</span><span class="p">])</span>
+
+    <span class="c1"># Should look like the &#39;all&#39; image</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">vrt</span><span class="o">.</span><span class="n">VRTDataset</span><span class="o">.</span><span class="n">from_bands</span><span class="p">(</span><span class="n">quad_imgs</span><span class="p">,</span> <span class="n">separate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">image_11w7h4b_chopped</span><span class="p">[</span><span class="s1">&#39;all&#39;</span><span class="p">])</span> <span class="k">as</span> <span class="n">src</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="n">ds</span><span class="o">.</span><span class="n">bounds</span> <span class="o">==</span> <span class="n">src</span><span class="o">.</span><span class="n">bounds</span>
+        <span class="k">assert</span> <span class="n">ds</span><span class="o">.</span><span class="n">transform</span> <span class="o">==</span> <span class="n">src</span><span class="o">.</span><span class="n">transform</span>
+        <span class="k">assert</span> <span class="n">ds</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">src</span><span class="o">.</span><span class="n">shape</span>
+
+        <span class="c1"># Now write it and test again</span>
+        <span class="n">vrtf_out</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">vrtf</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">vrtf_out</span><span class="p">)</span> <span class="k">as</span> <span class="n">vrt_src</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">vrt_src</span><span class="o">.</span><span class="n">bounds</span> <span class="o">==</span> <span class="n">src</span><span class="o">.</span><span class="n">bounds</span>
+            <span class="k">assert</span> <span class="n">vrt_src</span><span class="o">.</span><span class="n">transform</span> <span class="o">==</span> <span class="n">src</span><span class="o">.</span><span class="n">transform</span>
+            <span class="k">assert</span> <span class="n">vrt_src</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">src</span><span class="o">.</span><span class="n">shape</span></div>
+
+
+<span class="c1"># ----------------------------------------------------------------------------</span>
+<span class="c1"># VRTSourceBand</span>
+<div class="viewcode-block" id="test_VRTSourceBand_1"><a class="viewcode-back" href="../../../../stems/stems.io.tests.test_io_vrt.html#stems.io.tests.test_io_vrt.test_VRTSourceBand_1">[docs]</a><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s1">&#39;params&#39;</span><span class="p">,</span> <span class="p">[</span>
+    <span class="p">{}</span>  <span class="c1"># default, but parametrized here to make room for later</span>
+<span class="p">])</span>
+<span class="k">def</span> <span class="nf">test_VRTSourceBand_1</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+    <span class="n">dst</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">tmpdir</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;test.tif&#39;</span><span class="p">))</span>
+    <span class="n">dst_</span><span class="p">,</span> <span class="n">kwds</span><span class="p">,</span> <span class="n">meta</span> <span class="o">=</span> <span class="n">build_data</span><span class="o">.</span><span class="n">create_test_raster</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">]):</span>
+        <span class="n">vrtb</span> <span class="o">=</span> <span class="n">vrt</span><span class="o">.</span><span class="n">VRTSourceBand</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">b</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># crs</span>
+        <span class="k">assert</span> <span class="n">vrtb</span><span class="o">.</span><span class="n">crs</span> <span class="o">==</span> <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;crs&#39;</span><span class="p">]</span>
+        <span class="c1"># transform</span>
+        <span class="k">assert</span> <span class="n">vrtb</span><span class="o">.</span><span class="n">transform</span> <span class="o">==</span> <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;transform&#39;</span><span class="p">]</span>
+        <span class="c1"># bounds</span>
+        <span class="k">assert</span> <span class="n">vrtb</span><span class="o">.</span><span class="n">bounds</span> <span class="o">==</span> <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;bounds&#39;</span><span class="p">]</span>
+        <span class="c1"># width / height</span>
+        <span class="k">assert</span> <span class="n">vrtb</span><span class="o">.</span><span class="n">height</span> <span class="o">==</span> <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">]</span>
+        <span class="k">assert</span> <span class="n">vrtb</span><span class="o">.</span><span class="n">width</span> <span class="o">==</span> <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;width&#39;</span><span class="p">]</span>
+        <span class="c1"># dtype</span>
+        <span class="k">assert</span> <span class="n">vrtb</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;dtype&#39;</span><span class="p">]</span>
+        <span class="c1"># blockxsize / blockysize</span>
+        <span class="k">assert</span> <span class="n">vrtb</span><span class="o">.</span><span class="n">blockxsize</span> <span class="o">==</span> <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;blockxsize&#39;</span><span class="p">]</span>
+        <span class="k">assert</span> <span class="n">vrtb</span><span class="o">.</span><span class="n">blockysize</span> <span class="o">==</span> <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;blockysize&#39;</span><span class="p">]</span>
+        <span class="c1"># nodata</span>
+        <span class="k">assert</span> <span class="n">vrtb</span><span class="o">.</span><span class="n">nodata</span> <span class="o">==</span> <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;nodata&#39;</span><span class="p">]</span>
+        <span class="c1"># description</span>
+        <span class="k">assert</span> <span class="n">vrtb</span><span class="o">.</span><span class="n">description</span> <span class="o">==</span> <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">][</span><span class="n">b</span><span class="p">]</span>
+        <span class="c1"># colorinterp</span>
+        <span class="k">assert</span> <span class="n">vrtb</span><span class="o">.</span><span class="n">colorinterp</span> <span class="o">==</span> <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;colorinterp&#39;</span><span class="p">][</span><span class="n">b</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="test_VRTSourceBand_2"><a class="viewcode-back" href="../../../../stems/stems.io.tests.test_io_vrt.html#stems.io.tests.test_io_vrt.test_VRTSourceBand_2">[docs]</a><span class="k">def</span> <span class="nf">test_VRTSourceBand_2</span><span class="p">(</span><span class="n">image_11w7h4b</span><span class="p">):</span>
+    <span class="c1"># Test overrides</span>
+    <span class="n">vrtb</span> <span class="o">=</span> <span class="n">vrt</span><span class="o">.</span><span class="n">VRTSourceBand</span><span class="p">(</span><span class="n">image_11w7h4b</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>
+                              <span class="n">description</span><span class="o">=</span><span class="s1">&#39;rusrev&#39;</span><span class="p">,</span> <span class="n">nodata</span><span class="o">=</span><span class="mi">1918</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">vrtb</span><span class="o">.</span><span class="n">description</span> <span class="o">==</span> <span class="s1">&#39;rusrev&#39;</span>
+    <span class="k">assert</span> <span class="n">vrtb</span><span class="o">.</span><span class="n">nodata</span> <span class="o">==</span> <span class="mi">1918</span></div>
+
+
+<div class="viewcode-block" id="test_VRTSourceBand_open_close"><a class="viewcode-back" href="../../../../stems/stems.io.tests.test_io_vrt.html#stems.io.tests.test_io_vrt.test_VRTSourceBand_open_close">[docs]</a><span class="k">def</span> <span class="nf">test_VRTSourceBand_open_close</span><span class="p">(</span><span class="n">image_11w7h4b</span><span class="p">):</span>
+    <span class="n">vrtb</span> <span class="o">=</span> <span class="n">vrt</span><span class="o">.</span><span class="n">VRTSourceBand</span><span class="p">(</span><span class="n">image_11w7h4b</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">keep_open</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Should have _ds after a `start`</span>
+    <span class="n">vrtb</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">vrtb</span><span class="o">.</span><span class="n">_ds</span><span class="p">,</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">DatasetReader</span><span class="p">)</span>
+    <span class="c1"># Should be None after `close`</span>
+    <span class="n">vrtb</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="n">vrtb</span><span class="o">.</span><span class="n">_ds</span> <span class="ow">is</span> <span class="kc">None</span>
+    <span class="c1"># Context manager -- kept open</span>
+    <span class="k">with</span> <span class="n">vrtb</span><span class="o">.</span><span class="n">open</span><span class="p">()</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="ow">not</span> <span class="n">ds</span><span class="o">.</span><span class="n">closed</span>
+    <span class="k">assert</span> <span class="ow">not</span> <span class="n">vrtb</span><span class="o">.</span><span class="n">_ds</span><span class="o">.</span><span class="n">closed</span>
+    <span class="c1"># Close</span>
+    <span class="n">vrtb</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

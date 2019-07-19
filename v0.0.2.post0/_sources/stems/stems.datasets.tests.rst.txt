@@ -1,0 +1,17 @@
+stems.datasets.tests package
+============================
+
+Submodules
+----------
+
+.. toctree::
+
+   stems.datasets.tests.test_datasets_simulate
+
+Module contents
+---------------
+
+.. automodule:: stems.datasets.tests
+   :members:
+   :undoc-members:
+   :show-inheritance:

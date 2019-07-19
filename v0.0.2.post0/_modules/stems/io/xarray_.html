@@ -1,0 +1,338 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>stems.io.xarray_ &mdash; stems 0.0.2.post0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> stems
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.2.post0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq.html">Frequenty Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../gis.html">Geographic Information Systems (GIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../gis_grids.html">Tile Grid Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../parallel.html">Parallel Computing Helpers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../xarray.html">XArray Integration</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">stems</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>stems.io.xarray_</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for stems.io.xarray_</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; xarray IO standards and helpers</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+
+<span class="kn">from</span> <span class="nn">..gis</span> <span class="k">import</span> <span class="n">convert</span>
+<span class="kn">from</span> <span class="nn">..gis.conventions</span> <span class="k">import</span> <span class="n">is_georeferenced</span><span class="p">,</span> <span class="n">georeference</span>
+<span class="kn">from</span> <span class="nn">..gis.projections</span> <span class="k">import</span> <span class="n">cf_xy_coord_names</span>
+<span class="kn">from</span> <span class="nn">.chunk</span> <span class="k">import</span> <span class="n">auto_determine_chunks</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="k">import</span> <span class="n">parse_paths</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="open_dataset"><a class="viewcode-back" href="../../../stems/stems.io.xarray_.html#stems.io.open_dataset">[docs]</a><span class="k">def</span> <span class="nf">open_dataset</span><span class="p">(</span><span class="n">paths</span><span class="p">,</span> <span class="n">chunks</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="n">concat_dim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Open an xarray dataset (somewhat) intelligently</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    paths : str or List[str]</span>
+<span class="sd">        Either a string glob in the form &quot;path/to/my/files/*.nc&quot; or an explicit</span>
+<span class="sd">        list of files to open.</span>
+<span class="sd">    chunks : &#39;auto&#39;, int or dict</span>
+<span class="sd">        Number of chunks or the chunk size for each dimension. If &#39;auto&#39;,</span>
+<span class="sd">        reads chunks from first file in ``paths`` and uses</span>
+<span class="sd">        :py:func:`plants.io.chunking_.best_chunksizes` to guess an appropriate</span>
+<span class="sd">        chunksize  based on the most frequently used chunksize per dimension.</span>
+<span class="sd">        Otherwise, pass `chunks` onto :py:func:`xr.open_mfdataset`.</span>
+<span class="sd">    concat_dim : None, str, DataArray or Index, optional</span>
+<span class="sd">        Dimension to concatenate files along. This argument is passed on to</span>
+<span class="sd">        :py:func:`xarray.auto_combine` along with the dataset objects. You only</span>
+<span class="sd">        need to provide this argument if the dimension along which you want to</span>
+<span class="sd">        concatenate is not a dimension in the original datasets, e.g., if you</span>
+<span class="sd">        want to stack a collection of 2D arrays along a third dimension.</span>
+<span class="sd">        By default, xarray attempts to infer this argument by examining</span>
+<span class="sd">        component files. Set ``concat_dim=None`` explicitly to disable</span>
+<span class="sd">        concatenation.</span>
+<span class="sd">    crs : rasterio.crs.CRS, int, or str, optional</span>
+<span class="sd">        Coordinate reference system to assign, if not already georeferenced.</span>
+<span class="sd">        If type is not ``CRS``, will be converted using</span>
+<span class="sd">        :py:func:`plants.gis.convert.to_crs`.</span>
+<span class="sd">    kwds : optional</span>
+<span class="sd">        Options passed to :py:func:`xarray.open_mfdataset`</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    xarray.Dataset</span>
+<span class="sd">        Multi-file dataset</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    IOError</span>
+<span class="sd">        Raise if ``paths`` does not parse into any filenames (e.g., a bad glob)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Parse path from input</span>
+    <span class="n">paths_</span> <span class="o">=</span> <span class="n">parse_paths</span><span class="p">(</span><span class="n">paths</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">paths</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s1">&#39;Could not find a file to read using input &quot;</span><span class="si">{paths}</span><span class="s1">&quot;&#39;</span>
+                      <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">paths</span><span class="o">=</span><span class="n">paths</span><span class="p">))</span>
+
+    <span class="c1"># Guess at chunks</span>
+    <span class="k">if</span> <span class="n">chunks</span> <span class="o">==</span> <span class="s1">&#39;auto&#39;</span><span class="p">:</span>
+        <span class="n">chunks</span> <span class="o">=</span> <span class="n">auto_determine_chunks</span><span class="p">(</span><span class="n">paths_</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="c1"># The xarray call we&#39;re wrapping</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_mfdataset</span><span class="p">(</span><span class="n">paths_</span><span class="p">,</span>
+                           <span class="n">chunks</span><span class="o">=</span><span class="n">chunks</span><span class="p">,</span>
+                           <span class="n">concat_dim</span><span class="o">=</span><span class="n">concat_dim</span><span class="p">,</span>
+                           <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+
+    <span class="c1"># TODO: what to do if no geocoding (?)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_georeferenced</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">crs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Adding CRS information provided&#39;</span><span class="p">)</span>
+            <span class="n">crs_</span> <span class="o">=</span> <span class="n">convert</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">crs</span><span class="p">)</span>
+            <span class="n">transform_</span> <span class="o">=</span> <span class="n">convert</span><span class="o">.</span><span class="n">to_transform</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+            <span class="n">ds</span> <span class="o">=</span> <span class="n">georeference</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">crs_</span><span class="p">,</span> <span class="n">transform_</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;No georeference information found on file.&#39;</span><span class="p">)</span>
+
+    <span class="c1"># TODO: in GIS, figure out if we can go CF -&gt; proj, not just other way</span>
+    <span class="c1">#       around</span>
+    <span class="k">return</span> <span class="n">ds</span></div>
+
+
+<div class="viewcode-block" id="xarray_map"><a class="viewcode-back" href="../../../stems/stems.io.xarray_.html#stems.io.xarray_map">[docs]</a><span class="k">def</span> <span class="nf">xarray_map</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nodata</span><span class="o">=-</span><span class="mi">9999</span><span class="p">,</span> <span class="n">dim_band</span><span class="o">=</span><span class="s1">&#39;band&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; A raster map with ``count`` bands</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    y : array-like</span>
+<span class="sd">        Y coordinates</span>
+<span class="sd">    x : array-like</span>
+<span class="sd">        X coordinates</span>
+<span class="sd">    count : int</span>
+<span class="sd">        Number of bands</span>
+<span class="sd">    dtype : np.dtype</span>
+<span class="sd">        Data type</span>
+<span class="sd">    crs : CRS, optional</span>
+<span class="sd">        Optionally, give the raster a CRS</span>
+<span class="sd">    nodata : float or int</span>
+<span class="sd">        No Data Value to initialize data with</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    xr.DataArray</span>
+<span class="sd">        3D (band, y, x,) &quot;map&quot; to write data into</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">crs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">crs_</span> <span class="o">=</span> <span class="n">convert</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">crs</span><span class="p">)</span>
+        <span class="n">dim_yx</span> <span class="o">=</span> <span class="n">cf_xy_coord_names</span><span class="p">(</span><span class="n">crs_</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">dim_yx</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="p">)</span>
+
+    <span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="p">)</span>
+    <span class="n">dims</span> <span class="o">=</span> <span class="p">(</span><span class="n">dim_band</span><span class="p">,</span> <span class="p">)</span> <span class="o">+</span> <span class="n">dim_yx</span>
+
+    <span class="n">coords</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">dim_yx</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">y</span><span class="p">,</span>
+        <span class="n">dim_yx</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="n">x</span><span class="p">,</span>
+        <span class="n">dim_band</span><span class="p">:</span> <span class="p">[</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{dim_band}</span><span class="s1">_{i:0{len(str(count))}d}&#39;</span>
+                   <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">count</span><span class="p">)]</span>
+    <span class="p">}</span>
+
+    <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">nodata</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="n">xarr</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="n">dims</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="n">coords</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">crs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">xarr</span> <span class="o">=</span> <span class="n">georeference</span><span class="p">(</span><span class="n">xarr</span><span class="p">,</span> <span class="n">crs</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">xarr</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,7 @@
+stems.tests.test\_executor module
+=================================
+
+.. automodule:: stems.tests.test_executor
+   :members:
+   :undoc-members:
+   :show-inheritance:

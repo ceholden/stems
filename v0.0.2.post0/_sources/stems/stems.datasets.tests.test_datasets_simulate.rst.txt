@@ -1,0 +1,7 @@
+stems.datasets.tests.test\_datasets\_simulate module
+====================================================
+
+.. automodule:: stems.datasets.tests.test_datasets_simulate
+   :members:
+   :undoc-members:
+   :show-inheritance:

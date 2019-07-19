@@ -1,0 +1,7 @@
+stems.tests.test\_parallel module
+=================================
+
+.. automodule:: stems.tests.test_parallel
+   :members:
+   :undoc-members:
+   :show-inheritance:

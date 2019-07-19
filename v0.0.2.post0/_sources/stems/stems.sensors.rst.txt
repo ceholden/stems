@@ -1,0 +1,10 @@
+stems.sensors package
+=====================
+
+Module contents
+---------------
+
+.. automodule:: stems.sensors
+   :members:
+   :undoc-members:
+   :show-inheritance:

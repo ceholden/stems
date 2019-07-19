@@ -1,0 +1,7 @@
+stems.tests.build\_data module
+==============================
+
+.. automodule:: stems.tests.build_data
+   :members:
+   :undoc-members:
+   :show-inheritance:

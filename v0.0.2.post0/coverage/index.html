@@ -1,0 +1,374 @@
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Coverage report</title>
+    <link rel="stylesheet" href="style.css" type="text/css">
+    
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="jquery.ba-throttle-debounce.min.js"></script>
+    <script type="text/javascript" src="jquery.tablesorter.min.js"></script>
+    <script type="text/javascript" src="jquery.hotkeys.js"></script>
+    <script type="text/javascript" src="coverage_html.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(coverage.index_ready);
+    </script>
+</head>
+<body class="indexfile">
+
+<div id="header">
+    <div class="content">
+        <h1>Coverage report:
+            <span class="pc_cov">78%</span>
+        </h1>
+
+        <img id="keyboard_icon" src="keybd_closed.png" alt="Show keyboard shortcuts" />
+
+        <form id="filter_container">
+            <input id="filter" type="text" value="" placeholder="filter..." />
+        </form>
+    </div>
+</div>
+
+<div class="help_panel">
+    <img id="panel_icon" src="keybd_open.png" alt="Hide keyboard shortcuts" />
+    <p class="legend">Hot-keys on this page</p>
+    <div>
+    <p class="keyhelp">
+        <span class="key">n</span>
+        <span class="key">s</span>
+        <span class="key">m</span>
+        <span class="key">x</span>
+        
+        <span class="key">c</span> &nbsp; change column sorting
+    </p>
+    </div>
+</div>
+
+<div id="index">
+    <table class="index">
+        <thead>
+            
+            <tr class="tablehead" title="Click to sort">
+                <th class="name left headerSortDown shortkey_n">Module</th>
+                <th class="shortkey_s">statements</th>
+                <th class="shortkey_m">missing</th>
+                <th class="shortkey_x">excluded</th>
+                
+                <th class="right shortkey_c">coverage</th>
+            </tr>
+        </thead>
+        
+        <tfoot>
+            <tr class="total">
+                <td class="name left">Total</td>
+                <td>1925</td>
+                <td>426</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="1499 1925">78%</td>
+            </tr>
+        </tfoot>
+        <tbody>
+            
+            <tr class="file">
+                <td class="name left"><a href="stems___init___py.html">stems/__init__.py</a></td>
+                <td>14</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="14 14">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="stems_cli___init___py.html">stems/cli/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="stems_cli_main_py.html">stems/cli/main.py</a></td>
+                <td>28</td>
+                <td>28</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 28">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="stems_cli_options_py.html">stems/cli/options.py</a></td>
+                <td>95</td>
+                <td>95</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 95">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="stems_compat_py.html">stems/compat.py</a></td>
+                <td>24</td>
+                <td>6</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="18 24">75%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="stems_datasets___init___py.html">stems/datasets/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="stems_datasets_simulate_py.html">stems/datasets/simulate.py</a></td>
+                <td>22</td>
+                <td>22</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 22">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="stems_errors_py.html">stems/errors.py</a></td>
+                <td>6</td>
+                <td>2</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="4 6">67%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="stems_executor_py.html">stems/executor.py</a></td>
+                <td>60</td>
+                <td>25</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="35 60">58%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="stems_gis___init___py.html">stems/gis/__init__.py</a></td>
+                <td>5</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="5 5">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="stems_gis_conventions_py.html">stems/gis/conventions.py</a></td>
+                <td>128</td>
+                <td>15</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="113 128">88%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="stems_gis_convert_py.html">stems/gis/convert.py</a></td>
+                <td>66</td>
+                <td>5</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="61 66">92%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="stems_gis_coords_py.html">stems/gis/coords.py</a></td>
+                <td>84</td>
+                <td>4</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="80 84">95%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="stems_gis_geohash_py.html">stems/gis/geohash.py</a></td>
+                <td>110</td>
+                <td>9</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="101 110">92%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="stems_gis_geom_py.html">stems/gis/geom.py</a></td>
+                <td>80</td>
+                <td>15</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="65 80">81%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="stems_gis_grids_py.html">stems/gis/grids.py</a></td>
+                <td>183</td>
+                <td>22</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="161 183">88%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="stems_gis_projections_py.html">stems/gis/projections.py</a></td>
+                <td>75</td>
+                <td>6</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="69 75">92%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="stems_gis_utils_py.html">stems/gis/utils.py</a></td>
+                <td>24</td>
+                <td>2</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="22 24">92%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="stems_io___init___py.html">stems/io/__init__.py</a></td>
+                <td>3</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="3 3">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="stems_io_chunk_py.html">stems/io/chunk.py</a></td>
+                <td>100</td>
+                <td>18</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="82 100">82%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="stems_io_encoding_py.html">stems/io/encoding.py</a></td>
+                <td>80</td>
+                <td>2</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="78 80">98%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="stems_io_rasterio__py.html">stems/io/rasterio_.py</a></td>
+                <td>41</td>
+                <td>6</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="35 41">85%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="stems_io_utils_py.html">stems/io/utils.py</a></td>
+                <td>36</td>
+                <td>27</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="9 36">25%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="stems_io_vrt_py.html">stems/io/vrt.py</a></td>
+                <td>257</td>
+                <td>14</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="243 257">95%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="stems_io_xarray__py.html">stems/io/xarray_.py</a></td>
+                <td>37</td>
+                <td>26</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="11 37">30%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="stems_logging__py.html">stems/logging_.py</a></td>
+                <td>14</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="14 14">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="stems_parallel_py.html">stems/parallel.py</a></td>
+                <td>73</td>
+                <td>39</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="34 73">47%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="stems_sensors___init___py.html">stems/sensors/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="stems_times_py.html">stems/times.py</a></td>
+                <td>87</td>
+                <td>36</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="51 87">59%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="stems_utils_py.html">stems/utils.py</a></td>
+                <td>144</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="144 144">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="stems_xarray_accessor_py.html">stems/xarray_accessor.py</a></td>
+                <td>49</td>
+                <td>2</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="47 49">96%</td>
+            </tr>
+            
+        </tbody>
+    </table>
+
+    <p id="no_rows">
+        No items found using the specified filter.
+    </p>
+</div>
+
+<div id="footer">
+    <div class="content">
+        <p>
+            <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.3</a>,
+            created at 2019-07-19 20:29
+        </p>
+    </div>
+</div>
+
+</body>
+</html>
