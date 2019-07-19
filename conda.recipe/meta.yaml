@@ -1,4 +1,4 @@
-{% set version = "v0.0.2" %}
+{% set version = "0.0.2" %}
 
 package:
   name: stems
@@ -6,7 +6,7 @@ package:
 
 
 source:
-  git_rev: v0.0.2
+  git_rev: v{{ version }}
   git_url: https://github.com/ceholden/stems.git
 
 
