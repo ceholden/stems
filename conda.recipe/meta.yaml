@@ -6,8 +6,8 @@ package:
 
 
 source:
-  git_rev: v{{ version }}
-  git_url: https://github.com/ceholden/stems.git
+  url: https://files.pythonhosted.org/packages/19/a6/064c551f490dda19d5b9b17e19f246616ea90f91ad517fa6a933a0ae6b64/stems-{{ version }}.tar.gz
+  sha256: 5eee3c64da28d7aad0b5d8ac24e319d5a7669499c3cd1f43f48fa0a73a972e10
 
 
 build:
