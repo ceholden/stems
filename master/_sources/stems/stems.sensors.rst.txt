@@ -1,6 +1,13 @@
 stems.sensors package
 =====================
 
+Submodules
+----------
+
+.. toctree::
+
+   stems.sensors.landsat
+
 Module contents
 ---------------
 

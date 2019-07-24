@@ -1,0 +1,7 @@
+stems.sensors.landsat module
+============================
+
+.. automodule:: stems.sensors.landsat
+   :members:
+   :undoc-members:
+   :show-inheritance:

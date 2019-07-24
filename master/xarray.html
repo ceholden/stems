@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>XArray Integration &mdash; stems 0.0.2+3.g72e52fa documentation</title>
+  <title>XArray Integration &mdash; stems 0.0.2.post0+3.g9796d8b documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.0.2+3.g72e52fa
+                0.0.2.post0+3.g9796d8b
               </div>
             
           
@@ -249,99 +249,91 @@ converted.</p>
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">stems</span></code> XArray accessor makes accessing geospatial metadata much easier:</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [6]: </span><span class="k">print</span><span class="p">(</span><span class="s1">&#39;CRS:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">test_ds</span><span class="o">.</span><span class="n">stems</span><span class="o">.</span><span class="n">crs</span><span class="p">)</span>
-<span class="go">CRS:</span>
-<span class="go"> EPSG:32619</span>
+<pre class="literal-block">In [6]: print('CRS:\n', test_ds.stems.crs)
+CRS:
+ EPSG:32619
 
-<span class="gp">In [7]: </span><span class="k">print</span><span class="p">(</span><span class="s1">&#39;Affine transform:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">test_ds</span><span class="o">.</span><span class="n">stems</span><span class="o">.</span><span class="n">transform</span><span class="p">)</span>
-<span class="go">                 Affine transform:</span>
-<span class="go"> | 30.00, 0.00, 100.00|</span>
-<span class="go">| 0.00,-30.00, 200.00|</span>
-<span class="go">| 0.00, 0.00, 1.00|</span>
+In [7]: print('Affine transform:\n', test_ds.stems.transform)
+Affine transform:
+ | 30.00, 0.00, 100.00|
+| 0.00,-30.00, 200.00|
+| 0.00, 0.00, 1.00|
 
-<span class="gp">In [8]: </span><span class="k">print</span><span class="p">(</span><span class="s1">&#39;Bounds:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">test_ds</span><span class="o">.</span><span class="n">stems</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
-<span class="go">                                                                                                      Bounds:</span>
-<span class="go"> BoundingBox(left=100.0, bottom=-10.0, right=430.0, top=200.0)</span>
+In [8]: print('Bounds:\n', test_ds.stems.bounds)
+Bounds:
+ BoundingBox(left=100.0, bottom=-10.0, right=430.0, top=200.0)
 
-<span class="gp">In [9]: </span><span class="k">print</span><span class="p">(</span><span class="s1">&#39;Bounding box:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">test_ds</span><span class="o">.</span><span class="n">stems</span><span class="o">.</span><span class="n">bbox</span><span class="p">)</span>
-<span class="go">                                                                                                                                                                             Bounding box:</span>
-<span class="go"> POLYGON ((430 -10, 430 200, 100 200, 100 -10, 430 -10))</span>
-</pre></div>
-</div>
+In [9]: print('Bounding box:\n', test_ds.stems.bbox)
+Bounding box:
+ POLYGON ((430 -10, 430 200, 100 200, 100 -10, 430 -10))</pre>
 </div>
 <div class="section" id="georeferencing">
 <h3>Georeferencing<a class="headerlink" href="#georeferencing" title="Permalink to this headline">¶</a></h3>
 <p>We can also assign georeferencing information for new data that we might
 create:</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="go"># Calculate (and drop the CRS to show example)</span>
-<span class="gp">In [10]: </span><span class="n">ratio</span> <span class="o">=</span> <span class="p">(</span><span class="n">test_ds</span><span class="p">[</span><span class="s1">&#39;nir&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">test_ds</span><span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;crs&#39;</span><span class="p">)</span>
+<pre class="literal-block"># Calculate (and drop the CRS to show example)
+In [10]: ratio = (test_ds['nir'] / test_ds['red']).drop('crs')
 
-<span class="gp">In [11]: </span><span class="n">ratio</span><span class="o">.</span><span class="n">stems</span><span class="o">.</span><span class="n">is_georeferenced</span><span class="p">()</span>
-<span class="gh">Out[11]: </span><span class="go">False</span>
+In [11]: ratio.stems.is_georeferenced()
+Out[11]: False
 
-<span class="gp">In [12]: </span><span class="n">ratio</span>
-<span class="go">               Out[12]: </span>
-<span class="go">&lt;xarray.DataArray (y: 7, x: 11, time: 100)&gt;</span>
-<span class="go">dask.array&lt;shape=(7, 11, 100), dtype=float64, chunksize=(3, 5, 25)&gt;</span>
-<span class="go">Coordinates:</span>
-<span class="go">  * y        (y) float64 185.0 155.0 125.0 95.0 65.0 35.0 5.0</span>
-<span class="go">  * x        (x) float64 115.0 145.0 175.0 205.0 ... 325.0 355.0 385.0 415.0</span>
-<span class="go">  * time     (time) datetime64[ns] 2000-01-01 ... 2010-01-01</span>
-</pre></div>
-</div>
+In [12]: ratio
+Out[12]: 
+&lt;xarray.DataArray (y: 7, x: 11, time: 100)&gt;
+dask.array&lt;shape=(7, 11, 100), dtype=float64, chunksize=(3, 5, 25)&gt;
+Coordinates:
+  * y        (y) float64 185.0 155.0 125.0 95.0 65.0 35.0 5.0
+  * x        (x) float64 115.0 145.0 175.0 205.0 ... 325.0 355.0 385.0 415.0
+  * time     (time) datetime64[ns] 2000-01-01 ... 2010-01-01</pre>
 <p>Now we can use the <code class="docutils literal notranslate"><span class="pre">stems</span></code> accessor to georeference the data:</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [13]: </span><span class="n">ratio_</span> <span class="o">=</span> <span class="n">ratio</span><span class="o">.</span><span class="n">stems</span><span class="o">.</span><span class="n">georeference</span><span class="p">(</span><span class="n">test_ds</span><span class="o">.</span><span class="n">stems</span><span class="o">.</span><span class="n">crs</span><span class="p">,</span>
-<span class="gp">   ....: </span>                                  <span class="n">test_ds</span><span class="o">.</span><span class="n">stems</span><span class="o">.</span><span class="n">transform</span><span class="p">)</span>
-<span class="gp">   ....: </span>
+<pre class="literal-block">In [13]: ratio_ = ratio.stems.georeference(test_ds.stems.crs,
+   ....:                                   test_ds.stems.transform)
+   ....: 
 
-<span class="gp">In [14]: </span><span class="n">ratio_</span><span class="o">.</span><span class="n">stems</span><span class="o">.</span><span class="n">is_georeferenced</span><span class="p">()</span>
-<span class="gh">Out[14]: </span><span class="go">True</span>
+In [14]: ratio_.stems.is_georeferenced()
+Out[14]: True
 
-<span class="gp">In [15]: </span><span class="n">ratio_</span>
-<span class="go">              Out[15]: </span>
-<span class="go">&lt;xarray.DataArray (y: 7, x: 11, time: 100)&gt;</span>
-<span class="go">dask.array&lt;shape=(7, 11, 100), dtype=float64, chunksize=(3, 5, 25)&gt;</span>
-<span class="go">Coordinates:</span>
-<span class="go">  * y        (y) float64 185.0 155.0 125.0 95.0 65.0 35.0 5.0</span>
-<span class="go">  * x        (x) float64 115.0 145.0 175.0 205.0 ... 325.0 355.0 385.0 415.0</span>
-<span class="go">  * time     (time) datetime64[ns] 2000-01-01 ... 2010-01-01</span>
-<span class="go">    crs      int32 32619</span>
-<span class="go">Attributes:</span>
-<span class="go">    grid_mapping:  crs</span>
-<span class="go">    Conventions:   CF-1.7</span>
-</pre></div>
-</div>
+In [15]: ratio_
+Out[15]: 
+&lt;xarray.DataArray (y: 7, x: 11, time: 100)&gt;
+dask.array&lt;shape=(7, 11, 100), dtype=float64, chunksize=(3, 5, 25)&gt;
+Coordinates:
+  * y        (y) float64 185.0 155.0 125.0 95.0 65.0 35.0 5.0
+  * x        (x) float64 115.0 145.0 175.0 205.0 ... 325.0 355.0 385.0 415.0
+  * time     (time) datetime64[ns] 2000-01-01 ... 2010-01-01
+    crs      int32 32619
+Attributes:
+    grid_mapping:  crs
+    Conventions:   CF-1.7</pre>
 <p>For comparison, you could also directly use components from stems to do the
 same thing:</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [16]: </span><span class="kn">from</span> <span class="nn">stems.gis</span> <span class="kn">import</span> <span class="n">convert</span><span class="p">,</span> <span class="n">conventions</span><span class="p">,</span> <span class="n">coords</span>
+<pre class="literal-block">In [16]: from stems.gis import convert, conventions, coords
 
-<span class="go"># Get the CRS/transform from source data &quot;test_ds&quot;</span>
-<span class="gp">In [17]: </span><span class="n">grid_mapping</span> <span class="o">=</span> <span class="n">conventions</span><span class="o">.</span><span class="n">get_grid_mapping</span><span class="p">(</span><span class="n">test_ds</span><span class="p">)</span>
+# Get the CRS/transform from source data &quot;test_ds&quot;
+In [17]: grid_mapping = conventions.get_grid_mapping(test_ds)
 
-<span class="gp">In [18]: </span><span class="n">crs_</span> <span class="o">=</span> <span class="n">convert</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">grid_mapping</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;spatial_ref&#39;</span><span class="p">])</span>
+In [18]: crs_ = convert.to_crs(grid_mapping.attrs['spatial_ref'])
 
-<span class="gp">In [19]: </span><span class="n">transform_</span> <span class="o">=</span> <span class="n">coords</span><span class="o">.</span><span class="n">coords_to_transform</span><span class="p">(</span><span class="n">ratio</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">],</span> <span class="n">ratio</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">])</span>
+In [19]: transform_ = coords.coords_to_transform(ratio['y'], ratio['x'])
 
-<span class="go"># Apply</span>
-<span class="gp">In [20]: </span><span class="n">ratio_</span> <span class="o">=</span> <span class="n">conventions</span><span class="o">.</span><span class="n">georeference</span><span class="p">(</span><span class="n">ratio</span><span class="p">,</span> <span class="n">crs_</span><span class="p">,</span> <span class="n">transform_</span><span class="p">)</span>
+# Apply
+In [20]: ratio_ = conventions.georeference(ratio, crs_, transform_)
 
-<span class="gp">In [21]: </span><span class="n">ratio_</span><span class="o">.</span><span class="n">stems</span><span class="o">.</span><span class="n">is_georeferenced</span><span class="p">()</span>
-<span class="gh">Out[21]: </span><span class="go">True</span>
+In [21]: ratio_.stems.is_georeferenced()
+Out[21]: True
 
-<span class="gp">In [22]: </span><span class="n">ratio_</span>
-<span class="go">              Out[22]: </span>
-<span class="go">&lt;xarray.DataArray (y: 7, x: 11, time: 100)&gt;</span>
-<span class="go">dask.array&lt;shape=(7, 11, 100), dtype=float64, chunksize=(3, 5, 25)&gt;</span>
-<span class="go">Coordinates:</span>
-<span class="go">  * y        (y) float64 185.0 155.0 125.0 95.0 65.0 35.0 5.0</span>
-<span class="go">  * x        (x) float64 115.0 145.0 175.0 205.0 ... 325.0 355.0 385.0 415.0</span>
-<span class="go">  * time     (time) datetime64[ns] 2000-01-01 ... 2010-01-01</span>
-<span class="go">    crs      int32 32619</span>
-<span class="go">Attributes:</span>
-<span class="go">    grid_mapping:  crs</span>
-<span class="go">    Conventions:   CF-1.7</span>
-</pre></div>
-</div>
+In [22]: ratio_
+Out[22]: 
+&lt;xarray.DataArray (y: 7, x: 11, time: 100)&gt;
+dask.array&lt;shape=(7, 11, 100), dtype=float64, chunksize=(3, 5, 25)&gt;
+Coordinates:
+  * y        (y) float64 185.0 155.0 125.0 95.0 65.0 35.0 5.0
+  * x        (x) float64 115.0 145.0 175.0 205.0 ... 325.0 355.0 385.0 415.0
+  * time     (time) datetime64[ns] 2000-01-01 ... 2010-01-01
+    crs      int32 32619
+Attributes:
+    grid_mapping:  crs
+    Conventions:   CF-1.7</pre>
 <p>As you can see, it’s a lot faster and more straightforward to use the accessors!</p>
 </div>
 </div>

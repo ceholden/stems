@@ -11,6 +11,7 @@ Submodules
    stems.tests.test_compat
    stems.tests.test_executor
    stems.tests.test_logging_
+   stems.tests.test_masking
    stems.tests.test_parallel
    stems.tests.test_times
    stems.tests.test_utils

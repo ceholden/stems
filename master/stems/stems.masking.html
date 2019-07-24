@@ -1,0 +1,286 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>stems.masking module &mdash; stems 0.0.2.post0+3.g9796d8b documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> stems
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.2.post0+3.g9796d8b
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequenty Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../gis.html">Geographic Information Systems (GIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gis_grids.html">Tile Grid Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel.html">Parallel Computing Helpers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../xarray.html">XArray Integration</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">stems</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>stems.masking module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/ceholden/stems/blob/master/docs/source/stems/stems.masking.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-stems.masking">
+<span id="stems-masking-module"></span><h1>stems.masking module<a class="headerlink" href="#module-stems.masking" title="Permalink to this headline">¶</a></h1>
+<p>Helpers with data masks (clouds, qa/qc, etc)</p>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/USGS-EROS/landsat-ldope-tools/blob/master/src/unpack_collection_bits.c">https://github.com/USGS-EROS/landsat-ldope-tools/blob/master/src/unpack_collection_bits.c</a></p></li>
+</ul>
+<dl class="function">
+<dt id="stems.masking.bitpack_to_coding">
+<code class="sig-prename descclassname">stems.masking.</code><code class="sig-name descname">bitpack_to_coding</code><span class="sig-paren">(</span><em class="sig-param">bitpack</em>, <em class="sig-param">offsets</em>, <em class="sig-param">coding</em>, <em class="sig-param">dtype=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/masking.html#bitpack_to_coding"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.masking.bitpack_to_coding" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unpack a bipacked QA/QC band to some coding (e.g. CFMask)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bitpack</strong> (<em>np.ndarray</em><em>, </em><a class="reference external" href="http://docs.dask.org/en/latest/array-api.html#dask.array.Array" title="(in Dask v2.1.0)"><em>dask.array.Array</em></a><em>, or </em><em>xr.DataArray</em>) – Bitpacked data</p></li>
+<li><p><strong>offsets</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – Dict mapping output mask coding to bitpack (offset, width)</p></li>
+<li><p><strong>coding</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – Dict mapping offsets to coding values (e.g., <code class="docutils literal notranslate"><span class="pre">{4:</span> <span class="pre">4}</span></code>)</p></li>
+<li><p><strong>dtype</strong> (<em>np.dtype</em><em>, </em><em>optional</em>) – Output NumPy datatype. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, output will be same
+datatype as input <code class="docutils literal notranslate"><span class="pre">bitpack</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>CFmask look-alike array</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.masking.checkbit">
+<code class="sig-prename descclassname">stems.masking.</code><code class="sig-name descname">checkbit</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">offset</em>, <em class="sig-param">width=1</em>, <em class="sig-param">value=3</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/masking.html#checkbit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.masking.checkbit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unpack a bit into True/False</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>np.ndarray</em><em>, </em><em>da.Array</em><em>, </em><em>xr.DataArray</em>) – Bitpacked array data</p></li>
+<li><p><strong>offset</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Bit offset</p></li>
+<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>, </em><em>optional</em>) – Width of bitpacking (e.g., 1=&gt;[0, 1], 2=&gt;[0, 1, 2, 3])</p></li>
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>, </em><em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">width</span> <span class="pre">&gt;</span> <span class="pre">1</span></code>, specify the value required to be True (e.g., 3 for
+‘high’, 2 for ‘medium’, etc. in some codings)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True or False value of unpacked bit(s)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>array-like, dtype=bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.masking.unpack_bitpack">
+<code class="sig-prename descclassname">stems.masking.</code><code class="sig-name descname">unpack_bitpack</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">offsets</em>, <em class="sig-param">dtype=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/masking.html#unpack_bitpack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.masking.unpack_bitpack" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unpack bitpacked data (e.g., a QA/QC band)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>np.ndarray</em><em>, </em><a class="reference external" href="http://docs.dask.org/en/latest/array-api.html#dask.array.Array" title="(in Dask v2.1.0)"><em>dask.array.Array</em></a><em>, or </em><em>xr.DataArray</em>) – Bitpacked data</p></li>
+<li><p><strong>offsets</strong> (<em>Sequence</em><em>[</em><em>(</em><em>Int</em><em>, </em><em>Int</em><em>)</em><em>]</em>) – Bit offsets and widths to unpack</p></li>
+<li><p><strong>dtype</strong> (<em>dtype</em><em>, </em><em>optional</em>) – Return dtype. If not specified, defaults to input
+data datatype</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>unpacked_data</strong> – Data unpacked from bits into multiple arrays (last dim). Return type
+dependent on input.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray, <a class="reference external" href="http://docs.dask.org/en/latest/array-api.html#dask.array.Array" title="(in Dask v2.1.0)">dask.array.Array</a>, or xr.DataArray</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
