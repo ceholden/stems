@@ -1,0 +1,151 @@
+# Reference:
+# https://www.usgs.gov/land-resources/nli/landsat/landsat-collection-1-level-1-quality-assessment-band?qt-science_support_page_related_con=0#qt-science_support_page_related_con
+
+OLI:
+  fill:
+    offset: 0
+    width: 1
+  terrain_occl:
+    offset: 1
+    width: 1
+  radiometric_sat:
+    offset: 2
+    width: 2
+    values:
+      'none': 0
+      '1-2': 1
+      '3-4': 2
+      '5+': 3
+  cloud:
+    offset: 4
+    width: 1
+  cloud_confidence:
+    offset: 5
+    width: 2
+    values:
+      'no': 0
+      'unset': 0
+      'low': 1
+      'medium': 2
+      'high': 3
+  cloud_shadow_confidence:
+    offset: 7
+    width: 2
+    values:
+      'no': 0
+      'unset': 0
+      'low': 1
+      'medium': 2
+      'high': 3
+  snow_ice_confidence:
+    offset: 9
+    width: 2
+    values:
+      'no': 0
+      'unset': 0
+      'low': 1
+      'medium': 2
+      'high': 3
+  cirrus_confidence:
+    offset: 11
+    width: 2
+    values:
+      'no': 0
+      'unset': 0
+      'low': 1
+      'medium': 2
+      'high': 3
+
+
+ETM+:
+  fill:
+    offset: 0
+    width: 1
+  dropped:
+    offset: 1
+    width: 1
+  radiometric_sat:
+    offset: 2
+    width: 2
+    values:
+      'none': 0
+      '1-2': 1
+      '3-4': 2
+      '5+': 3
+  cloud:
+    offset: 4
+    width: 1
+  cloud_confidence:
+    offset: 5
+    width: 2
+    values:
+      'no': 0
+      'unset': 0
+      'low': 1
+      'medium': 2
+      'high': 3
+  cloud_shadow_confidence:
+    offset: 7
+    width: 2
+    values:
+      'no': 0
+      'unset': 0
+      'low': 1
+      'medium': 2
+      'high': 3
+  snow_ice_confidence:
+    offset: 9
+    width: 2
+    values:
+      'no': 0
+      'unset': 0
+      'low': 1
+      'medium': 2
+      'high': 3
+
+
+TM:
+  fill:
+    offset: 0
+    width: 1
+  dropped:
+    offset: 1
+    width: 1
+  radiometric_sat:
+    offset: 2
+    width: 2
+    values:
+      'none': 0
+      '1-2': 1
+      '3-4': 2
+      '5+': 3
+  cloud:
+    offset: 4
+    width: 1
+  cloud_confidence:
+    offset: 5
+    width: 2
+    values:
+      'no': 0
+      'unset': 0
+      'low': 1
+      'medium': 2
+      'high': 3
+  cloud_shadow_confidence:
+    offset: 7
+    width: 2
+    values:
+      'no': 0
+      'unset': 0
+      'low': 1
+      'medium': 2
+      'high': 3
+  snow_ice_confidence:
+    offset: 9
+    width: 2
+    values:
+      'no': 0
+      'unset': 0
+      'low': 1
+      'medium': 2
+      'high': 3
