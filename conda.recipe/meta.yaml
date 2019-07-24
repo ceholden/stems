@@ -1,4 +1,4 @@
-{% set version = "0.0.2" %}
+{% set version = "0.0.2.post0" %}
 
 package:
   name: stems
@@ -6,8 +6,8 @@ package:
 
 
 source:
-  url: https://files.pythonhosted.org/packages/19/a6/064c551f490dda19d5b9b17e19f246616ea90f91ad517fa6a933a0ae6b64/stems-{{ version }}.tar.gz
-  sha256: 5eee3c64da28d7aad0b5d8ac24e319d5a7669499c3cd1f43f48fa0a73a972e10
+  url: https://files.pythonhosted.org/packages/6c/09/9500c49dceb413ceeb7321bc0306986219f09e0ede03b9d866b483d8de72/stems-0.0.2.post0.tar.gz
+  sha256: 36263a96da3cb3975e34f68f3ee28ca8454484055a622c41eb9aa79e1898624e
 
 
 build:
