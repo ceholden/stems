@@ -1,0 +1,7 @@
+stems.io.tests.test\_io\_xarray\_ module
+========================================
+
+.. automodule:: stems.io.tests.test_io_xarray_
+   :members:
+   :undoc-members:
+   :show-inheritance:

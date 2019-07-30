@@ -1,0 +1,412 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>stems.gis.convert &mdash; stems 0.0.3 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> stems
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq.html">Frequenty Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../gis.html">Geographic Information Systems (GIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../gis_grids.html">Tile Grid Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../parallel.html">Parallel Computing Helpers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../xarray.html">XArray Integration</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">stems</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>stems.gis.convert</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for stems.gis.convert</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; GIS variable conversion library</span>
+
+<span class="sd">Functions here are convenient ways of going from various representations</span>
+<span class="sd">of GIS information used in this stack (e.g., WKT) to the following</span>
+<span class="sd">representations:</span>
+
+
+<span class="sd">* Coordinate Reference System</span>
+<span class="sd">    * :py:class:`rasterio.crs.CRS`</span>
+<span class="sd">* Geotransform</span>
+<span class="sd">    * :py:class:`affine.Affine`</span>
+<span class="sd">* Bounding Box</span>
+<span class="sd">    * :py:class:`rasterio.coords.BoundingBox`</span>
+<span class="sd">* Bounds</span>
+<span class="sd">    * :py:class:`shapely.geom.Polygon`</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">singledispatch</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">from</span> <span class="nn">affine</span> <span class="k">import</span> <span class="n">Affine</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">osgeo</span> <span class="k">import</span> <span class="n">osr</span>
+<span class="kn">from</span> <span class="nn">rasterio.coords</span> <span class="k">import</span> <span class="n">BoundingBox</span>
+<span class="kn">from</span> <span class="nn">rasterio.crs</span> <span class="k">import</span> <span class="n">CRS</span>
+<span class="kn">from</span> <span class="nn">rasterio.errors</span> <span class="k">import</span> <span class="n">CRSError</span>
+<span class="kn">import</span> <span class="nn">shapely.geometry</span>
+
+<span class="kn">from</span> <span class="nn">..utils</span> <span class="k">import</span> <span class="p">(</span><span class="n">find_subclasses</span><span class="p">,</span>
+                     <span class="n">register_multi_singledispatch</span><span class="p">)</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span>
+
+<span class="n">LIST_TYPE</span> <span class="o">=</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="p">)</span>
+<span class="c1"># XARRAY_TYPE = (xr.Dataset, xr.DataArray)</span>
+<span class="n">GEOM_TYPE</span> <span class="o">=</span> <span class="n">find_subclasses</span><span class="p">(</span><span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">BaseGeometry</span><span class="p">)</span>
+
+
+<span class="c1"># ============================================================================</span>
+<span class="c1"># Affine geotransform</span>
+<div class="viewcode-block" id="to_transform"><a class="viewcode-back" href="../../../stems/stems.gis.convert.html#stems.gis.convert.to_transform">[docs]</a><span class="nd">@singledispatch</span>
+<span class="k">def</span> <span class="nf">to_transform</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">from_gdal</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Convert input into an :py:class:`affine.Affine` transform</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    value : Affine or iterable</span>
+<span class="sd">        6 numbers representing affine transform</span>
+<span class="sd">    from_gdal : bool, optional</span>
+<span class="sd">        If `value` is a tuple or list, specifies if transform</span>
+<span class="sd">        is GDAL variety (True) or rasterio/affine (False)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    affine.Affine</span>
+<span class="sd">        Affine transform</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">raise</span> <span class="n">_CANT_CONVERT</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<span class="nd">@to_transform</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Affine</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_to_transform_affine</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">from_gdal</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">value</span>
+
+
+<span class="nd">@register_multi_singledispatch</span><span class="p">(</span><span class="n">to_transform</span><span class="p">,</span> <span class="n">LIST_TYPE</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_to_transform_iter</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">from_gdal</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">from_gdal</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Affine</span><span class="o">.</span><span class="n">from_gdal</span><span class="p">(</span><span class="o">*</span><span class="n">value</span><span class="p">[:</span><span class="mi">6</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Affine</span><span class="p">(</span><span class="o">*</span><span class="n">value</span><span class="p">[:</span><span class="mi">6</span><span class="p">])</span>
+
+
+<span class="nd">@to_transform</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_to_transform_str</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">from_gdal</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">_to_transform_iter</span><span class="p">([</span><span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sep</span><span class="p">)])</span>
+
+
+<span class="c1"># ============================================================================</span>
+<span class="c1"># CRS</span>
+<span class="c1"># TODO: Dispatch function for Cartopy</span>
+<div class="viewcode-block" id="to_crs"><a class="viewcode-back" href="../../../stems/stems.gis.convert.html#stems.gis.convert.to_crs">[docs]</a><span class="nd">@singledispatch</span>
+<span class="k">def</span> <span class="nf">to_crs</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Convert a CRS representation to a :py:class:`rasterio.crs.CRS`</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    value : str, int, dict, or osr.SpatialReference</span>
+<span class="sd">        Coordinate reference system as WKT, Proj.4 string, EPSG code,</span>
+<span class="sd">        rasterio-compatible proj4 attributes in a dict, or OSR definition</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    rasterio.crs.CRS</span>
+<span class="sd">        CRS</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">raise</span> <span class="n">_CANT_CONVERT</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<span class="nd">@to_crs</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">CRS</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_to_crs_crs</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">value</span>
+
+
+<span class="nd">@to_crs</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_to_crs_str</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="c1"># After rasterio=1.0.14 WKT is backbone so try it first</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">crs_</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_wkt</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="n">crs_</span><span class="o">.</span><span class="n">is_valid</span>
+    <span class="k">except</span> <span class="n">CRSError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Could not parse CRS as WKT&#39;</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">crs_</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="n">crs_</span><span class="o">.</span><span class="n">is_valid</span>
+        <span class="k">except</span> <span class="n">CRSError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Could not parse CRS as Proj4&#39;</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">CRSError</span><span class="p">(</span><span class="s1">&#39;Could not interpret CRS input as &#39;</span>
+                           <span class="s1">&#39;either WKT or Proj4&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">crs_</span>
+
+
+<span class="nd">@to_crs</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_to_crs_epsg</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+
+<span class="nd">@to_crs</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="nb">dict</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_to_crs_dict</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">CRS</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+
+<span class="nd">@to_crs</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">osr</span><span class="o">.</span><span class="n">SpatialReference</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_to_crs_osr</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_wkt</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">ExportToWkt</span><span class="p">())</span>
+
+
+<span class="c1"># ============================================================================</span>
+<span class="c1"># BoundingBox</span>
+<div class="viewcode-block" id="to_bounds"><a class="viewcode-back" href="../../../stems/stems.gis.convert.html#stems.gis.convert.to_bounds">[docs]</a><span class="nd">@singledispatch</span>
+<span class="k">def</span> <span class="nf">to_bounds</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Convert input to a :py:class:`rasterio.coords.BoundingBox`</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    value : iterable, or Polygon</span>
+<span class="sd">        Input containing some geographic information</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    BoundingBox</span>
+<span class="sd">        Bounding box (left, bottom, right, top). Also described as</span>
+<span class="sd">        (minx, miny, maxx, maxy)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">raise</span> <span class="n">_CANT_CONVERT</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<span class="nd">@to_bounds</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">BoundingBox</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_to_bounds_bounds</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">value</span>
+
+
+<span class="nd">@register_multi_singledispatch</span><span class="p">(</span><span class="n">to_bounds</span><span class="p">,</span> <span class="n">LIST_TYPE</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_to_bounds_iter</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">BoundingBox</span><span class="p">(</span><span class="o">*</span><span class="n">value</span><span class="p">)</span>
+
+
+<span class="nd">@register_multi_singledispatch</span><span class="p">(</span><span class="n">to_bounds</span><span class="p">,</span> <span class="n">GEOM_TYPE</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_to_bounds_geom</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">BoundingBox</span><span class="p">(</span><span class="o">*</span><span class="n">value</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+
+
+<span class="c1"># ============================================================================</span>
+<span class="c1"># Polygon</span>
+<div class="viewcode-block" id="to_bbox"><a class="viewcode-back" href="../../../stems/stems.gis.convert.html#stems.gis.convert.to_bbox">[docs]</a><span class="nd">@singledispatch</span>
+<span class="k">def</span> <span class="nf">to_bbox</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Convert input a bounding box :py:class:`shapely.geometry.Polygon`</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    value : BoundingBox</span>
+<span class="sd">        Object representing a bounding box, or an xarray object with coords</span>
+<span class="sd">        we can use to calculate one from</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    shapely.geometry.Polygon</span>
+<span class="sd">        BoundingBox as a polygon</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">raise</span> <span class="n">_CANT_CONVERT</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<span class="nd">@register_multi_singledispatch</span><span class="p">(</span><span class="n">to_bbox</span><span class="p">,</span> <span class="n">GEOM_TYPE</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_to_bbox_geom</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">_to_bbox_bounds</span><span class="p">(</span><span class="n">BoundingBox</span><span class="p">(</span><span class="o">*</span><span class="n">value</span><span class="o">.</span><span class="n">bounds</span><span class="p">))</span>
+
+
+<span class="nd">@to_bbox</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">BoundingBox</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_to_bbox_bounds</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="o">*</span><span class="n">value</span><span class="p">)</span>
+
+
+<span class="c1"># ============================================================================</span>
+<span class="c1"># UTILITIES</span>
+<span class="k">def</span> <span class="nf">_CANT_CONVERT</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+    <span class="k">return</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Don&#39;t know how to convert this type: {type(obj)}&quot;</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

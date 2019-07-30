@@ -1,0 +1,238 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>stems.tests.test_masking module &mdash; stems 0.0.3 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> stems
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequenty Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../gis.html">Geographic Information Systems (GIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gis_grids.html">Tile Grid Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel.html">Parallel Computing Helpers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../xarray.html">XArray Integration</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">stems</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>stems.tests.test_masking module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/ceholden/stems/blob/master/docs/source/stems/stems.tests.test_masking.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-stems.tests.test_masking">
+<span id="stems-tests-test-masking-module"></span><h1>stems.tests.test_masking module<a class="headerlink" href="#module-stems.tests.test_masking" title="Permalink to this headline">¶</a></h1>
+<p>Tests for <a class="reference internal" href="stems.masking.html#module-stems.masking" title="stems.masking"><code class="xref py py-mod docutils literal notranslate"><span class="pre">stems.masking</span></code></a></p>
+<dl class="function">
+<dt id="stems.tests.test_masking.landsat8_pixelqa_info">
+<code class="sig-prename descclassname">stems.tests.test_masking.</code><code class="sig-name descname">landsat8_pixelqa_info</code><span class="sig-paren">(</span><em class="sig-param">request</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/tests/test_masking.html#landsat8_pixelqa_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.tests.test_masking.landsat8_pixelqa_info" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="stems.tests.test_masking.landsat8_pixelqa_values">
+<code class="sig-prename descclassname">stems.tests.test_masking.</code><code class="sig-name descname">landsat8_pixelqa_values</code><span class="sig-paren">(</span><em class="sig-param">request</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/tests/test_masking.html#landsat8_pixelqa_values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.tests.test_masking.landsat8_pixelqa_values" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="stems.tests.test_masking.test_bitpack_to_coding">
+<code class="sig-prename descclassname">stems.tests.test_masking.</code><code class="sig-name descname">test_bitpack_to_coding</code><span class="sig-paren">(</span><em class="sig-param">landsat8_pixelqa_values</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/tests/test_masking.html#test_bitpack_to_coding"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.tests.test_masking.test_bitpack_to_coding" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="stems.tests.test_masking.test_checkbit">
+<code class="sig-prename descclassname">stems.tests.test_masking.</code><code class="sig-name descname">test_checkbit</code><span class="sig-paren">(</span><em class="sig-param">landsat8_pixelqa_values</em>, <em class="sig-param">landsat8_pixelqa_info</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/tests/test_masking.html#test_checkbit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.tests.test_masking.test_checkbit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="stems.tests.test_masking.test_unpack_bitpack">
+<code class="sig-prename descclassname">stems.tests.test_masking.</code><code class="sig-name descname">test_unpack_bitpack</code><span class="sig-paren">(</span><em class="sig-param">landsat8_pixelqa_values</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/tests/test_masking.html#test_unpack_bitpack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.tests.test_masking.test_unpack_bitpack" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

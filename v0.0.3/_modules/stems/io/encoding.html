@@ -1,0 +1,509 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>stems.io.encoding &mdash; stems 0.0.3 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> stems
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq.html">Frequenty Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../gis.html">Geographic Information Systems (GIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../gis_grids.html">Tile Grid Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../parallel.html">Parallel Computing Helpers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../xarray.html">XArray Integration</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">stems</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>stems.io.encoding</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for stems.io.encoding</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">singledispatch</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+
+<span class="kn">from</span> <span class="nn">..utils</span> <span class="k">import</span> <span class="n">list_like</span>
+<span class="kn">from</span> <span class="nn">.chunk</span> <span class="k">import</span> <span class="n">chunks_to_chunksizes</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<span class="c1">#: NumPy string types (str, bytes, unicode)</span>
+<span class="n">_NP_STRING_TYPES</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">str_</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">bytes_</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">unicode_</span><span class="p">,</span> <span class="p">)</span>
+
+
+<div class="viewcode-block" id="netcdf_encoding"><a class="viewcode-back" href="../../../stems/stems.io.encoding.html#stems.io.encoding.netcdf_encoding">[docs]</a><span class="nd">@singledispatch</span>
+<span class="k">def</span> <span class="nf">netcdf_encoding</span><span class="p">(</span><span class="n">data</span><span class="p">,</span>
+                    <span class="n">chunks</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                    <span class="n">zlib</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">complevel</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                    <span class="n">nodata</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                    <span class="o">**</span><span class="n">encoding_kwds</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return &quot;good&quot; NetCDF encoding information for some data</span>
+
+<span class="sd">    The returned encoding is the default or &quot;good&quot; known standard for data</span>
+<span class="sd">    used in ``stems``. Each default determined in this function is given</span>
+<span class="sd">    as a keyword argument to allow overriding, and you can also pass additional</span>
+<span class="sd">    encoding items via ``**encoding``. You may pass one override for all</span>
+<span class="sd">    data, or overrides for each data variable (as a dict).</span>
+
+<span class="sd">    For more information, see the NetCDF4 documentation for the</span>
+<span class="sd">    ``createVariable`` [1].</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : xr.DataArray or xr.Dataset</span>
+<span class="sd">        Define encoding for this data. If ``xr.Dataset``, map function across</span>
+<span class="sd">        all ``xr.DataArray`` in ``data.data_vars``</span>
+<span class="sd">    dtype : np.dtype, optional</span>
+<span class="sd">        The data type used for the encoded data. Defaults to the input data</span>
+<span class="sd">        type(s), but can be set to facilitate discretization based compression</span>
+<span class="sd">        (typically alongside scale_factor and _FillValue)</span>
+<span class="sd">    chunks : None, tuple or dict, optional</span>
+<span class="sd">        Chunksizes used to encode NetCDF. If given as a `tuple`, chunks should</span>
+<span class="sd">        be given for each dimension. Chunks for dimensions not specified when</span>
+<span class="sd">        given as a `dict` will default to 1. Passing ``False`` will not</span>
+<span class="sd">        use chunks.</span>
+<span class="sd">    zlib : bool, optional</span>
+<span class="sd">        Use compression</span>
+<span class="sd">    complevel : int, optional</span>
+<span class="sd">        Compression level</span>
+<span class="sd">    nodata : int, float, or sequence, optional</span>
+<span class="sd">        NoDataValue(s). Specify one for each ``DataArray`` in ``data``</span>
+<span class="sd">        if a :py:class:`xarray.Dataset`. Used for ``_FillValue``</span>
+<span class="sd">    encoding_kwds : dict</span>
+<span class="sd">        Additional encoding data to pass</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        Dict mapping band name (e.g., variable name) to relevant encoding</span>
+<span class="sd">        information</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    xarray.Dataset.to_netcdf</span>
+<span class="sd">        Encoding information designed to be passed to</span>
+<span class="sd">        :py:meth:`xarray.Dataset.to_netcdf`.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] http://unidata.github.io/netcdf4-python/#netCDF4.Dataset.createVariable</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Unknown type for input ``data`` &quot;{type(data)}&quot;&#39;</span><span class="p">)</span></div>
+
+
+<span class="nd">@netcdf_encoding</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_netcdf_encoding_dataarray</span><span class="p">(</span><span class="n">data</span><span class="p">,</span>
+                               <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                               <span class="n">chunks</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                               <span class="n">zlib</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                               <span class="n">complevel</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                               <span class="n">nodata</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                               <span class="o">**</span><span class="n">encoding_kwds</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">encoding_name</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">encoding</span> <span class="o">=</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="p">{}}</span>
+
+    <span class="c1"># dtype: Determine &amp; guard/fixup</span>
+    <span class="n">dtype_</span> <span class="o">=</span> <span class="n">guard_dtype</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">dtype</span> <span class="ow">or</span> <span class="n">encoding_dtype</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dtype_</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span>
+    <span class="n">encoding</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">dtype_</span><span class="p">)</span>
+
+    <span class="c1"># chunksizes: Determine and guard/fixup</span>
+    <span class="k">if</span> <span class="n">chunks</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="n">chunks</span> <span class="o">=</span> <span class="n">encoding_chunksizes</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">chunks</span><span class="o">=</span><span class="n">chunks</span><span class="p">)</span>
+        <span class="n">chunks</span> <span class="o">=</span> <span class="n">guard_chunksizes_str</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">guard_chunksizes</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">chunks</span><span class="p">))</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">chunks</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">chunks</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">chunks</span><span class="p">:</span>
+            <span class="n">encoding</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;chunksizes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">chunks</span><span class="p">)</span>
+
+    <span class="c1"># _FillValue</span>
+    <span class="k">if</span> <span class="n">nodata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">nodata</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">))</span>
+        <span class="n">encoding</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;_FillValue&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">nodata</span>
+
+    <span class="c1"># complevel &amp; zlib: compression</span>
+    <span class="n">encoding</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;complevel&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">complevel</span>
+    <span class="n">encoding</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;zlib&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">zlib</span>
+
+    <span class="c1"># Fill in user input</span>
+    <span class="n">encoding</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">encoding_kwds</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">encoding</span>
+
+
+<span class="nd">@netcdf_encoding</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_netcdf_encoding_dataset</span><span class="p">(</span><span class="n">data</span><span class="p">,</span>
+                             <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                             <span class="n">chunks</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                             <span class="n">zlib</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                             <span class="n">complevel</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                             <span class="n">nodata</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                             <span class="o">**</span><span class="n">encoding_kwds</span><span class="p">):</span>
+    <span class="n">encoding</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">data_vars</span><span class="p">:</span>
+        <span class="c1"># Allow user to specify local (key exists) or global (KeyError) kwds</span>
+        <span class="n">kwds</span> <span class="o">=</span> <span class="n">encoding_kwds</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">encoding_kwds</span><span class="p">)</span>
+
+        <span class="c1"># Construct, unpacking if needed</span>
+        <span class="n">var_encoding</span> <span class="o">=</span> <span class="n">_netcdf_encoding_dataarray</span><span class="p">(</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">var</span><span class="p">],</span>
+            <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="k">if</span> <span class="n">_is_dict</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span> <span class="k">else</span> <span class="n">dtype</span><span class="p">,</span>
+            <span class="n">chunks</span><span class="o">=</span><span class="n">chunks</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="k">if</span> <span class="n">_has_key</span><span class="p">(</span><span class="n">chunks</span><span class="p">,</span> <span class="n">var</span><span class="p">)</span> <span class="k">else</span> <span class="n">chunks</span><span class="p">,</span>
+            <span class="n">zlib</span><span class="o">=</span><span class="n">zlib</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="k">if</span> <span class="n">_is_dict</span><span class="p">(</span><span class="n">zlib</span><span class="p">)</span> <span class="k">else</span> <span class="n">zlib</span><span class="p">,</span>
+            <span class="n">complevel</span><span class="o">=</span><span class="n">complevel</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="k">if</span> <span class="n">_is_dict</span><span class="p">(</span><span class="n">complevel</span><span class="p">)</span> <span class="k">else</span> <span class="n">complevel</span><span class="p">,</span>
+            <span class="n">nodata</span><span class="o">=</span><span class="n">nodata</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="k">if</span> <span class="n">_is_dict</span><span class="p">(</span><span class="n">nodata</span><span class="p">)</span> <span class="k">else</span> <span class="n">nodata</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwds</span>
+        <span class="p">)</span>
+        <span class="n">encoding</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">var_encoding</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">encoding</span>
+
+
+<span class="c1"># ----------------------------------------------------------------------------</span>
+<span class="c1"># Encoding components for DataArray(s)</span>
+<div class="viewcode-block" id="encoding_name"><a class="viewcode-back" href="../../../stems/stems.io.encoding.html#stems.io.encoding.encoding_name">[docs]</a><span class="k">def</span> <span class="nf">encoding_name</span><span class="p">(</span><span class="n">xarr</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return the name of the variable to provide encoding for</span>
+
+<span class="sd">    Either returns the name of the DataArray, or the name that XArray will</span>
+<span class="sd">    assign it when writing to disk</span>
+<span class="sd">    (:py:data:`xarray.backends.api.DATAARRAY_VARIABLE`).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xarr : xarray.DataArray</span>
+<span class="sd">        Provide the name of this DataArray used for encoding</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">        Encoding variable name</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">xarr</span><span class="o">.</span><span class="n">name</span> <span class="ow">or</span> <span class="n">xr</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">DATAARRAY_VARIABLE</span></div>
+
+
+<div class="viewcode-block" id="encoding_dtype"><a class="viewcode-back" href="../../../stems/stems.io.encoding.html#stems.io.encoding.encoding_dtype">[docs]</a><span class="k">def</span> <span class="nf">encoding_dtype</span><span class="p">(</span><span class="n">xarr</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get dtype encoding info</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xarr : xarray.DataArray or np.ndarray</span>
+<span class="sd">        DataArray to consider</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict[str, np.dtype]</span>
+<span class="sd">        Datatype information for encoding (e.g., ``{&#39;dtype&#39;: np.float32}``)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;dtype&#39;</span><span class="p">:</span> <span class="n">xarr</span><span class="o">.</span><span class="n">dtype</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="encoding_chunksizes"><a class="viewcode-back" href="../../../stems/stems.io.encoding.html#stems.io.encoding.encoding_chunksizes">[docs]</a><span class="k">def</span> <span class="nf">encoding_chunksizes</span><span class="p">(</span><span class="n">xarr</span><span class="p">,</span> <span class="n">chunks</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Find/resolve chunksize for a DataArray</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xarr : xarray.DataArray</span>
+<span class="sd">        DataArray to consider</span>
+<span class="sd">    chunks : tuple[int] or Mapping[str, int]</span>
+<span class="sd">        Chunks per dimension</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tuple[int]</span>
+<span class="sd">        Chunksizes per dimension</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">chunks</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Grab chunks from DataArray</span>
+        <span class="n">chunksize</span> <span class="o">=</span> <span class="n">chunks_to_chunksizes</span><span class="p">(</span><span class="n">xarr</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">chunks</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="c1"># Default to 1 chunk per dimension if none found</span>
+        <span class="n">chunksize</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">chunks</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">xarr</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="n">dim</span><span class="p">]))</span>
+                          <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">xarr</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">chunksize</span></div>
+
+
+<span class="c1"># ----------------------------------------------------------------------------</span>
+<span class="c1"># Encoding checks, safeguards, and fixes</span>
+<div class="viewcode-block" id="guard_chunksizes"><a class="viewcode-back" href="../../../stems/stems.io.encoding.html#stems.io.encoding.guard_chunksizes">[docs]</a><span class="k">def</span> <span class="nf">guard_chunksizes</span><span class="p">(</span><span class="n">xarr</span><span class="p">,</span> <span class="n">chunksizes</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Guard chunksize to be &lt;= dimension sizes</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xarr : xarray.DataArray</span>
+<span class="sd">        DataArray to consider</span>
+<span class="sd">    chunksizes : tuple[int]</span>
+<span class="sd">        Chunks per dimension</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tuple[int]</span>
+<span class="sd">        Guarded chunksizes</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">xarr</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">)</span> <span class="ow">and</span> <span class="n">list_like</span><span class="p">(</span><span class="n">chunksizes</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">chunksizes</span><span class="p">)</span> <span class="o">==</span> <span class="n">xarr</span><span class="o">.</span><span class="n">ndim</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">chunksizes</span>
+
+    <span class="n">chunksizes_</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">csize</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">size</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">chunksizes</span><span class="p">,</span> <span class="n">xarr</span><span class="o">.</span><span class="n">dims</span><span class="p">,</span> <span class="n">xarr</span><span class="o">.</span><span class="n">shape</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">csize</span> <span class="o">&gt;</span> <span class="n">size</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Chunk size for dim </span><span class="si">{dim}</span><span class="s1"> is larger than dim &#39;</span>
+                           <span class="n">f</span><span class="s1">&#39;size (</span><span class="si">{size}</span><span class="s1">). Resetting (</span><span class="si">{csize}</span><span class="s1">-&gt;</span><span class="si">{size}</span><span class="s1">)&#39;</span><span class="p">)</span>
+            <span class="n">chunksizes_</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">csize</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>  <span class="c1"># shortcut for length, but doesn&#39;t work in encoding</span>
+            <span class="n">chunksizes_</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">chunksizes_</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">csize</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">chunksizes_</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="guard_chunksizes_str"><a class="viewcode-back" href="../../../stems/stems.io.encoding.html#stems.io.encoding.guard_chunksizes_str">[docs]</a><span class="k">def</span> <span class="nf">guard_chunksizes_str</span><span class="p">(</span><span class="n">xarr</span><span class="p">,</span> <span class="n">chunksizes</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Guard chunk sizes for str datatypes</span>
+
+<span class="sd">    Chunks for ``str`` need to include string length dimension since</span>
+<span class="sd">    python-netcdf represents, for example, 1d char array as 2d array</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xarr : xarray.DataArray</span>
+<span class="sd">        DataArray to consider</span>
+<span class="sd">    chunksizes : tuple[int]</span>
+<span class="sd">        Chunk sizes per dimension</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tuple[int]</span>
+<span class="sd">        Guarded chunk sizes</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">xarr</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">type</span> <span class="ow">in</span> <span class="n">_NP_STRING_TYPES</span> <span class="ow">and</span> <span class="n">chunksizes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">chunksizes</span><span class="p">)</span> <span class="o">==</span> <span class="n">xarr</span><span class="o">.</span><span class="n">ndim</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Adding chunk size to `str` dtype variable &#39;</span>
+                         <span class="n">f</span><span class="s1">&#39;&quot;</span><span class="si">{xarr.name}</span><span class="s1">&quot; corresponding to the string length&#39;</span><span class="p">)</span>
+            <span class="n">chunksizes</span> <span class="o">=</span> <span class="n">chunksizes</span> <span class="o">+</span> <span class="p">(</span><span class="n">xarr</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">itemsize</span><span class="p">,</span> <span class="p">)</span>
+    <span class="k">elif</span> <span class="n">xarr</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;O&#39;</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Removing chunks for `dtype=object` variable &#39;</span>
+                     <span class="n">f</span><span class="s1">&#39;&quot;</span><span class="si">{xarr.name}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
+        <span class="n">chunksizes</span> <span class="o">=</span> <span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">chunksizes</span></div>
+
+
+<div class="viewcode-block" id="guard_dtype"><a class="viewcode-back" href="../../../stems/stems.io.encoding.html#stems.io.encoding.guard_dtype">[docs]</a><span class="k">def</span> <span class="nf">guard_dtype</span><span class="p">(</span><span class="n">xarr</span><span class="p">,</span> <span class="n">dtype_</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Guard dtype encoding for datetime datatypes</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xarr : xarray.DataArray or np.ndarray</span>
+<span class="sd">        DataArray to consider</span>
+<span class="sd">    dtype_ : dict[str, np.dtype]</span>
+<span class="sd">        Datatype information for encoding (e.g., ``{&#39;dtype&#39;: np.float32}``)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict[str, np.dtype]</span>
+<span class="sd">        Datatype information for encoding (e.g., ``{&#39;dtype&#39;: np.float32}``),</span>
+<span class="sd">        if valid. Otherwise returns empty dict</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Don&#39;t encode datatype for datetime types, since xarray changes it</span>
+    <span class="k">if</span> <span class="n">xarr</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;M&#39;</span><span class="p">:</span>
+        <span class="n">dtype_</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">return</span> <span class="n">dtype_</span></div>
+
+
+<span class="k">def</span> <span class="nf">_is_dict</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_has_key</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">_is_dict</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="ow">and</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">d</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

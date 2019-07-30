@@ -1,0 +1,7 @@
+stems.tests.conftest module
+===========================
+
+.. automodule:: stems.tests.conftest
+   :members:
+   :undoc-members:
+   :show-inheritance:

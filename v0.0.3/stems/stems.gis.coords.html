@@ -1,0 +1,332 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>stems.gis.coords module &mdash; stems 0.0.3 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> stems
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequenty Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../gis.html">Geographic Information Systems (GIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gis_grids.html">Tile Grid Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel.html">Parallel Computing Helpers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../xarray.html">XArray Integration</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">stems</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>stems.gis.coords module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/ceholden/stems/blob/master/docs/source/stems/stems.gis.coords.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-stems.gis.coords">
+<span id="stems-gis-coords-module"></span><h1>stems.gis.coords module<a class="headerlink" href="#module-stems.gis.coords" title="Permalink to this headline">¶</a></h1>
+<p>Coordinate and geotransforms</p>
+<dl class="function">
+<dt id="stems.gis.coords.coords_to_bounds">
+<code class="sig-prename descclassname">stems.gis.coords.</code><code class="sig-name descname">coords_to_bounds</code><span class="sig-paren">(</span><em class="sig-param">y</em>, <em class="sig-param">x</em>, <em class="sig-param">center=True</em>, <em class="sig-param">assume_unique=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/coords.html#coords_to_bounds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.coords.coords_to_bounds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the BoundingBox of the coordinates</p>
+<p>If the Affine <code class="docutils literal notranslate"><span class="pre">transform</span></code> of the data is known, it can be provided.
+Otherwise this function runs <a class="reference internal" href="#stems.gis.coords.coords_to_transform" title="stems.gis.coords.coords_to_transform"><code class="xref py py-func docutils literal notranslate"><span class="pre">coords_to_transform()</span></code></a> to determine
+the pixel sizing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y</strong> (<em>array-like</em>) – Y coordinates (latitude, y, etc)</p></li>
+<li><p><strong>x</strong> (<em>array-like</em>) – X coordinates (longitude, x, etc)</p></li>
+<li><p><strong>center</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – Are coordinates provided pixel center (True) or
+upper-left (False)</p></li>
+<li><p><strong>assume_unique</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – Assume coordinates are sorted and unique. Otherwise, will run
+<code class="docutils literal notranslate"><span class="pre">np.unique</span></code> on each</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Bounds expressed as left, bottom, right, top</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>BoundingBox</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.gis.coords.coords_to_transform">
+<code class="sig-prename descclassname">stems.gis.coords.</code><code class="sig-name descname">coords_to_transform</code><span class="sig-paren">(</span><em class="sig-param">y</em>, <em class="sig-param">x</em>, <em class="sig-param">center=True</em>, <em class="sig-param">assume_unique=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/coords.html#coords_to_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.coords.coords_to_transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate Affine transform from coordinates</p>
+<p>Note: y/x will be loaded into memory</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y</strong> (<em>array-like</em>) – Y coordinates (latitude, y, etc)</p></li>
+<li><p><strong>x</strong> (<em>array-like</em>) – X coordinates (longitude, x, etc)</p></li>
+<li><p><strong>center</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – Are coordinates provided pixel center (True) or
+upper-left (False)</p></li>
+<li><p><strong>assume_unique</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – Assume coordinates are sorted and unique. Otherwise, will run
+<code class="docutils literal notranslate"><span class="pre">np.unique</span></code> on each</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Affine transformation</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>affine.Affine</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.gis.coords.transform_to_bounds">
+<code class="sig-prename descclassname">stems.gis.coords.</code><code class="sig-name descname">transform_to_bounds</code><span class="sig-paren">(</span><em class="sig-param">transform</em>, <em class="sig-param">height</em>, <em class="sig-param">width</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/coords.html#transform_to_bounds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.coords.transform_to_bounds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a BoundingBox for some transform and shape</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>transform</strong> (<em>affine.Affine</em>) – Affine transformation</p></li>
+<li><p><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Height in pixels</p></li>
+<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Width in pixels</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>left, bottom, right, &amp; top bounding box coordinates</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>BoundingBox</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.gis.coords.transform_to_coords">
+<code class="sig-prename descclassname">stems.gis.coords.</code><code class="sig-name descname">transform_to_coords</code><span class="sig-paren">(</span><em class="sig-param">transform</em>, <em class="sig-param">bbox=None</em>, <em class="sig-param">width=None</em>, <em class="sig-param">height=None</em>, <em class="sig-param">center=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/coords.html#transform_to_coords"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.coords.transform_to_coords" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the coordinates for a given transform</p>
+<p>This function needs to know how many pixels are in the raster,
+so either a <a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.coords.html#rasterio.coords.BoundingBox" title="(in rasterio v1.0.24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">rasterio.coords.BoundingBox</span></code></a> or
+height and width arguments must be supplied.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>transform</strong> (<em>affine.Affine</em>) – Affine transform</p></li>
+<li><p><strong>bbox</strong> (<em>BoundingBox</em>) – Return the coordinates for this transform that are contained inside
+the provided bounds (left, bottom, right, up). Coordinates will
+be aligned/spaced according to the transform and will not necessarily
+match the upper-left of this <code class="docutils literal notranslate"><span class="pre">bbox</span></code></p></li>
+<li><p><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Number of pixels tall</p></li>
+<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Number of pixels wide</p></li>
+<li><p><strong>center</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – Return coordinates for the center of each pixel</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>y, x</strong> – Y/X coordinate pairs (e.g., latitude/longitude)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#tuple" title="(in Python v3.7)">tuple</a>[np.ndarray, np.ndarray]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.gis.coords.transform_to_res">
+<code class="sig-prename descclassname">stems.gis.coords.</code><code class="sig-name descname">transform_to_res</code><span class="sig-paren">(</span><em class="sig-param">transform</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/coords.html#transform_to_res"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.coords.transform_to_res" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the resolution from a transform</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>transform</strong> (<em>affine.Affine</em>) – Affine transform</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Width and height</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#tuple" title="(in Python v3.7)">tuple</a>[<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#float" title="(in Python v3.7)">float</a>, <a class="reference external" href="https://docs.python.org/3.7/library/functions.html#float" title="(in Python v3.7)">float</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,7 @@
+stems.tests.test\_xarray\_accessor module
+=========================================
+
+.. automodule:: stems.tests.test_xarray_accessor
+   :members:
+   :undoc-members:
+   :show-inheritance:

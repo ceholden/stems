@@ -1,0 +1,17 @@
+stems.sensors package
+=====================
+
+Submodules
+----------
+
+.. toctree::
+
+   stems.sensors.landsat
+
+Module contents
+---------------
+
+.. automodule:: stems.sensors
+   :members:
+   :undoc-members:
+   :show-inheritance:

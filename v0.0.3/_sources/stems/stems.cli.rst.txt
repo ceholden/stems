@@ -1,0 +1,18 @@
+stems.cli package
+=================
+
+Submodules
+----------
+
+.. toctree::
+
+   stems.cli.main
+   stems.cli.options
+
+Module contents
+---------------
+
+.. automodule:: stems.cli
+   :members:
+   :undoc-members:
+   :show-inheritance:
