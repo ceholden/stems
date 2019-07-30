@@ -13,6 +13,10 @@ For information on the style of this change log, see
 UNRELEASED
 ==========
 
+* Add ``stems.masking``
+* Add ``stems.sensors.landsat`` to store data/functions related to Landsat
+  satellites
+
 v0.0.2.post0
 ============
 
