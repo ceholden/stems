@@ -69,6 +69,7 @@ EXTRAS_REQUIRE['all'] = sorted(set(sum(EXTRAS_REQUIRE.values(), [])))
 
 setup(
     name=DISTNAME,
+    cmdclass=CMDCLASS,
     version=VERSION,
     license=LICENSE,
     description=DESCRIPTION,
