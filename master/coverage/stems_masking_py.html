@@ -196,9 +196,8 @@
 <p id="n127" class="pln"><a href="#n127">127</a></p>
 <p id="n128" class="pln"><a href="#n128">128</a></p>
 <p id="n129" class="pln"><a href="#n129">129</a></p>
-<p id="n130" class="pln"><a href="#n130">130</a></p>
+<p id="n130" class="stm mis"><a href="#n130">130</a></p>
 <p id="n131" class="stm mis"><a href="#n131">131</a></p>
-<p id="n132" class="stm mis"><a href="#n132">132</a></p>
 
             </td>
             <td class="text">
@@ -277,7 +276,7 @@
 <p id="t73" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t74" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t75" class="stm run hide_run"><span class="op">@</span><span class="nam">singledispatch</span><span class="strut">&nbsp;</span></p>
-<p id="t76" class="stm run hide_run"><span class="key">def</span> <span class="nam">bitpack_to_coding</span><span class="op">(</span><span class="nam">bitpack</span><span class="op">,</span> <span class="nam">bitinfos</span><span class="op">,</span> <span class="nam">fill</span><span class="op">=</span><span class="num">0</span><span class="op">,</span> <span class="nam">dtype</span><span class="op">=</span><span class="key">None</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t76" class="stm run hide_run"><span class="key">def</span> <span class="nam">bitpack_to_coding</span><span class="op">(</span><span class="nam">bitpack</span><span class="op">,</span> <span class="nam">bitinfo</span><span class="op">,</span> <span class="nam">fill</span><span class="op">=</span><span class="num">0</span><span class="op">,</span> <span class="nam">dtype</span><span class="op">=</span><span class="key">None</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t77" class="pln">    <span class="str">""" Unpack a bipacked QA/QC band to some coding (e.g. CFMask)</span><span class="strut">&nbsp;</span></p>
 <p id="t78" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t79" class="pln"><span class="str">    Parameters</span><span class="strut">&nbsp;</span></p>
@@ -328,12 +327,11 @@
 <p id="t124" class="stm mis">    <span class="nam">out</span> <span class="op">=</span> <span class="nam">xr</span><span class="op">.</span><span class="nam">core</span><span class="op">.</span><span class="nam">computation</span><span class="op">.</span><span class="nam">apply_ufunc</span><span class="op">(</span><span class="strut">&nbsp;</span></p>
 <p id="t125" class="pln">        <span class="nam">_bitpack_to_coding_nparray</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
 <p id="t126" class="pln">        <span class="nam">bitpack</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
-<p id="t127" class="pln">        <span class="nam">bitinfo</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
-<p id="t128" class="pln">        <span class="nam">dask</span><span class="op">=</span><span class="str">'allowed'</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
-<p id="t129" class="pln">        <span class="nam">kwargs</span><span class="op">=</span><span class="op">{</span><span class="str">'fill'</span><span class="op">:</span> <span class="nam">fill</span><span class="op">,</span> <span class="str">'dtype'</span><span class="op">:</span> <span class="nam">dtype</span><span class="op">}</span><span class="strut">&nbsp;</span></p>
-<p id="t130" class="pln">    <span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t131" class="stm mis">    <span class="nam">out</span><span class="op">.</span><span class="nam">attrs</span><span class="op">[</span><span class="str">'bitinfo'</span><span class="op">]</span> <span class="op">=</span> <span class="nam">bitinfo</span><span class="strut">&nbsp;</span></p>
-<p id="t132" class="stm mis">    <span class="key">return</span> <span class="nam">out</span><span class="strut">&nbsp;</span></p>
+<p id="t127" class="pln">        <span class="nam">dask</span><span class="op">=</span><span class="str">'allowed'</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
+<p id="t128" class="pln">        <span class="nam">kwargs</span><span class="op">=</span><span class="op">{</span><span class="str">'bitinfo'</span><span class="op">:</span> <span class="nam">bitinfo</span><span class="op">,</span> <span class="str">'fill'</span><span class="op">:</span> <span class="nam">fill</span><span class="op">,</span> <span class="str">'dtype'</span><span class="op">:</span> <span class="nam">dtype</span><span class="op">}</span><span class="strut">&nbsp;</span></p>
+<p id="t129" class="pln">    <span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t130" class="stm mis">    <span class="nam">out</span><span class="op">.</span><span class="nam">attrs</span><span class="op">[</span><span class="str">'bitinfo'</span><span class="op">]</span> <span class="op">=</span> <span class="nam">bitinfo</span><span class="strut">&nbsp;</span></p>
+<p id="t131" class="stm mis">    <span class="key">return</span> <span class="nam">out</span><span class="strut">&nbsp;</span></p>
 
             </td>
         </tr>
@@ -344,7 +342,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.4</a>,
-            created at 2019-08-02 21:21
+            created at 2019-08-02 22:00
         </p>
     </div>
 </div>
