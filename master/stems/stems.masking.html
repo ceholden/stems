@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.masking module &mdash; stems 0.0.2.post0+3.g9796d8b documentation</title>
+  <title>stems.masking module &mdash; stems 0.0.3+3.g33ba2db documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.2.post0+3.g9796d8b
+                0.0.3+3.g33ba2db
               </div>
             
           
@@ -174,14 +174,18 @@
 </ul>
 <dl class="function">
 <dt id="stems.masking.bitpack_to_coding">
-<code class="sig-prename descclassname">stems.masking.</code><code class="sig-name descname">bitpack_to_coding</code><span class="sig-paren">(</span><em class="sig-param">bitpack</em>, <em class="sig-param">offsets</em>, <em class="sig-param">coding</em>, <em class="sig-param">dtype=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/masking.html#bitpack_to_coding"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.masking.bitpack_to_coding" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.masking.</code><code class="sig-name descname">bitpack_to_coding</code><span class="sig-paren">(</span><em class="sig-param">bitpack</em>, <em class="sig-param">bitinfos</em>, <em class="sig-param">fill=0</em>, <em class="sig-param">dtype=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/masking.html#bitpack_to_coding"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.masking.bitpack_to_coding" title="Permalink to this definition">¶</a></dt>
 <dd><p>Unpack a bipacked QA/QC band to some coding (e.g. CFMask)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>bitpack</strong> (<em>np.ndarray</em><em>, </em><a class="reference external" href="http://docs.dask.org/en/latest/array-api.html#dask.array.Array" title="(in Dask v2.1.0)"><em>dask.array.Array</em></a><em>, or </em><em>xr.DataArray</em>) – Bitpacked data</p></li>
-<li><p><strong>offsets</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – Dict mapping output mask coding to bitpack (offset, width)</p></li>
-<li><p><strong>coding</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – Dict mapping offsets to coding values (e.g., <code class="docutils literal notranslate"><span class="pre">{4:</span> <span class="pre">4}</span></code>)</p></li>
+<li><p><strong>bitpack</strong> (<em>np.ndarray</em><em>, </em><a class="reference external" href="http://docs.dask.org/en/latest/array-api.html#dask.array.Array" title="(in Dask v2.2.0+2.g7d517e82)"><em>dask.array.Array</em></a><em>, or </em><em>xr.DataArray</em>) – Bitpacked data</p></li>
+<li><p><strong>bitinfo</strong> (<em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>, </em><em>Sequence</em><em>[</em><em>Tuple</em><em>[</em><em>Int</em><em>, </em><em>Int</em><em>, </em><em>Int</em><em>]</em><em>]</em>) – A dict mapping output codes to bit unpacking info(s)
+(offsets, widths, and values) for use in unpacking. Should be ordered
+in order of preference with values listed first possibly overwriting
+later ones</p></li>
+<li><p><strong>fill</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.7/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a><em>, </em><em>etc</em><em>, </em><em>optional</em>) – Fill value to initialize array with (e.g., your “clear” value, since
+qa/qc bands usually indicate issues with data)</p></li>
 <li><p><strong>dtype</strong> (<em>np.dtype</em><em>, </em><em>optional</em>) – Output NumPy datatype. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, output will be same
 datatype as input <code class="docutils literal notranslate"><span class="pre">bitpack</span></code></p></li>
 </ul>
@@ -214,29 +218,6 @@ datatype as input <code class="docutils literal notranslate"><span class="pre">b
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>array-like, dtype=bool</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="stems.masking.unpack_bitpack">
-<code class="sig-prename descclassname">stems.masking.</code><code class="sig-name descname">unpack_bitpack</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">offsets</em>, <em class="sig-param">dtype=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/masking.html#unpack_bitpack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.masking.unpack_bitpack" title="Permalink to this definition">¶</a></dt>
-<dd><p>Unpack bitpacked data (e.g., a QA/QC band)</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<em>np.ndarray</em><em>, </em><a class="reference external" href="http://docs.dask.org/en/latest/array-api.html#dask.array.Array" title="(in Dask v2.1.0)"><em>dask.array.Array</em></a><em>, or </em><em>xr.DataArray</em>) – Bitpacked data</p></li>
-<li><p><strong>offsets</strong> (<em>Sequence</em><em>[</em><em>(</em><em>Int</em><em>, </em><em>Int</em><em>)</em><em>]</em>) – Bit offsets and widths to unpack</p></li>
-<li><p><strong>dtype</strong> (<em>dtype</em><em>, </em><em>optional</em>) – Return dtype. If not specified, defaults to input
-data datatype</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>unpacked_data</strong> – Data unpacked from bits into multiple arrays (last dim). Return type
-dependent on input.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>np.ndarray, <a class="reference external" href="http://docs.dask.org/en/latest/array-api.html#dask.array.Array" title="(in Dask v2.1.0)">dask.array.Array</a>, or xr.DataArray</p>
 </dd>
 </dl>
 </dd></dl>

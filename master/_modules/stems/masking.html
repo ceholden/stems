@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.masking &mdash; stems 0.0.2.post0+3.g9796d8b documentation</title>
+  <title>stems.masking &mdash; stems 0.0.3+3.g33ba2db documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.2.post0+3.g9796d8b
+                0.0.3+3.g33ba2db
               </div>
             
           
@@ -182,7 +182,8 @@
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="k">import</span> <span class="n">register_multi_singledispatch</span>
 
 
-<div class="viewcode-block" id="checkbit"><a class="viewcode-back" href="../../stems/stems.masking.html#stems.masking.checkbit">[docs]</a><span class="k">def</span> <span class="nf">checkbit</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+<div class="viewcode-block" id="checkbit"><a class="viewcode-back" href="../../stems/stems.masking.html#stems.masking.checkbit">[docs]</a><span class="nd">@singledispatch</span>
+<span class="k">def</span> <span class="nf">checkbit</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Unpack a bit into True/False</span>
 
 <span class="sd">    Parameters</span>
@@ -202,75 +203,55 @@
 <span class="sd">    array-like, dtype=bool</span>
 <span class="sd">        True or False value of unpacked bit(s)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Only supported for NumPy/Dask arrays or xarray.DataArray&#39;</span><span class="p">)</span></div>
+
+
+<span class="nd">@checkbit</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_checkbit_nparray</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">kind</span> <span class="o">!=</span> <span class="s1">&#39;i&#39;</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">width</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">((</span><span class="n">data</span> <span class="o">&gt;&gt;</span> <span class="n">offset</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x01</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">right_shift</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">offset</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x01</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
     <span class="k">elif</span> <span class="n">width</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">((</span><span class="n">data</span> <span class="o">&gt;&gt;</span> <span class="n">offset</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x03</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">value</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">right_shift</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">offset</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x03</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">value</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Only works on 1-2 bit sizes&quot;</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Only works on 1-2 bit sizes&quot;</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="unpack_bitpack"><a class="viewcode-back" href="../../stems/stems.masking.html#stems.masking.unpack_bitpack">[docs]</a><span class="nd">@singledispatch</span>
-<span class="k">def</span> <span class="nf">unpack_bitpack</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">offsets</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Unpack bitpacked data (e.g., a QA/QC band)</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    data : np.ndarray, dask.array.Array, or xr.DataArray</span>
-<span class="sd">        Bitpacked data</span>
-<span class="sd">    offsets : Sequence[(Int, Int)]</span>
-<span class="sd">        Bit offsets and widths to unpack</span>
-<span class="sd">    dtype : dtype, optional</span>
-<span class="sd">        Return dtype. If not specified, defaults to input</span>
-<span class="sd">        data datatype</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    unpacked_data : np.ndarray, dask.array.Array, or xr.DataArray</span>
-<span class="sd">        Data unpacked from bits into multiple arrays (last dim). Return type</span>
-<span class="sd">        dependent on input.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Cannot unpack data of type &quot;</span><span class="si">{0}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)))</span></div>
+<span class="nd">@checkbit</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">Array</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_checkbit_darray</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">da</span><span class="o">.</span><span class="n">map_blocks</span><span class="p">(</span><span class="n">_checkbit_nparray</span><span class="p">,</span>
+                         <span class="n">data</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span>
+                         <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">,</span>  <span class="c1"># kwargs to function</span>
+                         <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
 
 
-<span class="nd">@register_multi_singledispatch</span><span class="p">(</span><span class="n">unpack_bitpack</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">da</span><span class="o">.</span><span class="n">Array</span><span class="p">))</span>
-<span class="k">def</span> <span class="nf">_unpack_bitpack_array</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">offsets</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="n">stack_func</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">stack</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">da</span><span class="o">.</span><span class="n">Array</span><span class="p">)</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span>
-    <span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span> <span class="k">if</span> <span class="n">dtype</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">data</span><span class="o">.</span><span class="n">dtype</span>
-
-    <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">offset</span><span class="p">,</span> <span class="n">width</span> <span class="ow">in</span> <span class="n">offsets</span><span class="p">:</span>
-        <span class="n">match</span> <span class="o">=</span> <span class="n">checkbit</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">)</span>
-        <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">match</span><span class="p">)</span>
-    <span class="n">out</span> <span class="o">=</span> <span class="n">stack_func</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">out</span>
-
-
-<span class="nd">@unpack_bitpack</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">_unpack_bitpack_xarray</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">offsets</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="n">out</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">computation</span><span class="o">.</span><span class="n">apply_ufunc</span><span class="p">(</span>
-        <span class="n">unpack_bitpack</span><span class="p">,</span>
-        <span class="n">data</span><span class="p">,</span>
-        <span class="n">offsets</span><span class="p">,</span>
+<span class="nd">@checkbit</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_checkbit_xarray</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">apply_ufunc</span><span class="p">(</span>
+        <span class="n">_checkbit_nparray</span><span class="p">,</span>
+        <span class="n">data</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span>
         <span class="n">dask</span><span class="o">=</span><span class="s1">&#39;allowed&#39;</span><span class="p">,</span>
-        <span class="n">output_core_dims</span><span class="o">=</span><span class="p">[[</span><span class="s1">&#39;offset&#39;</span><span class="p">]],</span>
-        <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;dtype&#39;</span><span class="p">:</span> <span class="n">dtype</span><span class="p">}</span>
+        <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="n">width</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">value</span><span class="p">}</span>
     <span class="p">)</span>
-    <span class="n">out</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="s1">&#39;offset&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">offsets</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">out</span>
 
 
-<div class="viewcode-block" id="bitpack_to_coding"><a class="viewcode-back" href="../../stems/stems.masking.html#stems.masking.bitpack_to_coding">[docs]</a><span class="k">def</span> <span class="nf">bitpack_to_coding</span><span class="p">(</span><span class="n">bitpack</span><span class="p">,</span> <span class="n">offsets</span><span class="p">,</span> <span class="n">coding</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="bitpack_to_coding"><a class="viewcode-back" href="../../stems/stems.masking.html#stems.masking.bitpack_to_coding">[docs]</a><span class="nd">@singledispatch</span>
+<span class="k">def</span> <span class="nf">bitpack_to_coding</span><span class="p">(</span><span class="n">bitpack</span><span class="p">,</span> <span class="n">bitinfos</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Unpack a bipacked QA/QC band to some coding (e.g. CFMask)</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    bitpack : np.ndarray, dask.array.Array, or xr.DataArray</span>
 <span class="sd">        Bitpacked data</span>
-<span class="sd">    offsets : dict</span>
-<span class="sd">        Dict mapping output mask coding to bitpack (offset, width)</span>
-<span class="sd">    coding : dict</span>
-<span class="sd">        Dict mapping offsets to coding values (e.g., ``{4: 4}``)</span>
+<span class="sd">    bitinfo : Dict[int, Sequence[Tuple[Int, Int, Int]]</span>
+<span class="sd">        A dict mapping output codes to bit unpacking info(s)</span>
+<span class="sd">        (offsets, widths, and values) for use in unpacking. Should be ordered</span>
+<span class="sd">        in order of preference with values listed first possibly overwriting</span>
+<span class="sd">        later ones</span>
+<span class="sd">    fill : int, float, etc, optional</span>
+<span class="sd">        Fill value to initialize array with (e.g., your &quot;clear&quot; value, since</span>
+<span class="sd">        qa/qc bands usually indicate issues with data)</span>
 <span class="sd">    dtype : np.dtype, optional</span>
 <span class="sd">        Output NumPy datatype. If ``None``, output will be same</span>
 <span class="sd">        datatype as input ``bitpack``</span>
@@ -279,23 +260,40 @@
 <span class="sd">    -------</span>
 <span class="sd">    array</span>
 <span class="sd">        CFmask look-alike array</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">func_where</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">where</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bitpack</span><span class="p">,</span> <span class="n">da</span><span class="o">.</span><span class="n">Array</span><span class="p">)</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span>
+    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Only supported for NumPy/Dask arrays or xarray.DataArray&#39;</span><span class="p">)</span></div>
 
-    <span class="n">offsets_</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">offsets</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
-    <span class="n">unpack</span> <span class="o">=</span> <span class="n">unpack_bitpack</span><span class="p">(</span><span class="n">bitpack</span><span class="p">,</span> <span class="n">offsets_</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
 
-    <span class="n">coding_</span> <span class="o">=</span> <span class="n">empty_like</span><span class="p">(</span><span class="n">unpack</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-    <span class="k">for</span> <span class="n">offset</span><span class="p">,</span> <span class="n">code</span> <span class="ow">in</span> <span class="n">coding</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">idx_</span> <span class="o">=</span> <span class="n">offsets_</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">offset</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Offset label &quot;</span><span class="si">{label}</span><span class="s1">&quot; not found in coding&#39;</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">coding_</span> <span class="o">=</span> <span class="n">func_where</span><span class="p">(</span><span class="n">unpack</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">idx_</span><span class="p">],</span> <span class="n">code</span><span class="p">,</span> <span class="n">coding_</span><span class="p">)</span>
+<span class="nd">@bitpack_to_coding</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_bitpack_to_coding_nparray</span><span class="p">(</span><span class="n">bitpack</span><span class="p">,</span> <span class="n">bitinfo</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">coding_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">bitpack</span><span class="p">,</span> <span class="n">fill</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">coding_</span></div>
+    <span class="k">for</span> <span class="n">code</span><span class="p">,</span> <span class="n">offsets</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">bitinfo</span><span class="o">.</span><span class="n">items</span><span class="p">())):</span>
+        <span class="k">for</span> <span class="n">offset</span> <span class="ow">in</span> <span class="n">offsets</span><span class="p">:</span>
+            <span class="n">unpack</span> <span class="o">=</span> <span class="n">checkbit</span><span class="p">(</span><span class="n">bitpack</span><span class="p">,</span> <span class="o">*</span><span class="n">offset</span><span class="p">)</span>
+            <span class="n">coding_</span><span class="p">[</span><span class="n">unpack</span><span class="p">]</span> <span class="o">=</span> <span class="n">code</span>
+    <span class="k">return</span> <span class="n">coding_</span>
+
+
+<span class="nd">@bitpack_to_coding</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">Array</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_bitpack_to_coding_darray</span><span class="p">(</span><span class="n">bitpack</span><span class="p">,</span> <span class="n">bitinfo</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">coding_</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">map_blocks</span><span class="p">(</span>
+        <span class="n">_bitpack_to_coding_nparray</span><span class="p">,</span>
+        <span class="n">bitpack</span><span class="p">,</span> <span class="n">bitinfo</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">fill</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">coding_</span>
+
+
+<span class="nd">@bitpack_to_coding</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_bitpack_to_coding_darray</span><span class="p">(</span><span class="n">bitpack</span><span class="p">,</span> <span class="n">bitinfo</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">computation</span><span class="o">.</span><span class="n">apply_ufunc</span><span class="p">(</span>
+        <span class="n">_bitpack_to_coding_nparray</span><span class="p">,</span>
+        <span class="n">bitpack</span><span class="p">,</span>
+        <span class="n">bitinfo</span><span class="p">,</span>
+        <span class="n">dask</span><span class="o">=</span><span class="s1">&#39;allowed&#39;</span><span class="p">,</span>
+        <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;fill&#39;</span><span class="p">:</span> <span class="n">fill</span><span class="p">,</span> <span class="s1">&#39;dtype&#39;</span><span class="p">:</span> <span class="n">dtype</span><span class="p">}</span>
+    <span class="p">)</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;bitinfo&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bitinfo</span>
+    <span class="k">return</span> <span class="n">out</span>
 </pre></div>
 
            </div>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.tests.test_masking &mdash; stems 0.0.2.post0+3.g9796d8b documentation</title>
+  <title>stems.tests.test_masking &mdash; stems 0.0.3+3.g33ba2db documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.2.post0+3.g9796d8b
+                0.0.3+3.g33ba2db
               </div>
             
           
@@ -188,15 +188,30 @@
 
 
 <span class="c1"># -----------------------------------------------------------------------------</span>
-<span class="c1"># unpack_bitpack</span>
-<div class="viewcode-block" id="test_unpack_bitpack"><a class="viewcode-back" href="../../../stems/stems.tests.test_masking.html#stems.tests.test_masking.test_unpack_bitpack">[docs]</a><span class="k">def</span> <span class="nf">test_unpack_bitpack</span><span class="p">(</span><span class="n">landsat8_pixelqa_values</span><span class="p">):</span>
-    <span class="k">pass</span></div>
-
-
-<span class="c1"># -----------------------------------------------------------------------------</span>
 <span class="c1"># bitpack_to_coding</span>
-<div class="viewcode-block" id="test_bitpack_to_coding"><a class="viewcode-back" href="../../../stems/stems.tests.test_masking.html#stems.tests.test_masking.test_bitpack_to_coding">[docs]</a><span class="k">def</span> <span class="nf">test_bitpack_to_coding</span><span class="p">(</span><span class="n">landsat8_pixelqa_values</span><span class="p">):</span>
-    <span class="k">pass</span></div>
+<div class="viewcode-block" id="test_bitpack_to_coding"><a class="viewcode-back" href="../../../stems/stems.tests.test_masking.html#stems.tests.test_masking.test_bitpack_to_coding">[docs]</a><span class="k">def</span> <span class="nf">test_bitpack_to_coding</span><span class="p">():</span>
+    <span class="n">qaqc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+        <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2722</span><span class="p">,</span> <span class="mi">2724</span><span class="p">,</span> <span class="mi">7808</span><span class="p">],</span>  <span class="c1"># fill, fill, terrain, clear, snow</span>
+        <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2720</span><span class="p">,</span> <span class="mi">6900</span><span class="p">,</span> <span class="mi">6904</span><span class="p">,</span> <span class="mi">6908</span><span class="p">],</span>  <span class="c1"># fill, clear, cloud, cloud, cloud</span>
+        <span class="p">[</span><span class="mi">2724</span><span class="p">,</span> <span class="mi">2732</span><span class="p">,</span> <span class="mi">3012</span><span class="p">,</span> <span class="mi">3008</span><span class="p">,</span> <span class="mi">6856</span><span class="p">]</span>  <span class="c1"># clear, clear, shadow, shadow, cirrus</span>
+    <span class="p">])</span>
+    <span class="c1"># In this example, we&#39;re going for Landsat ARD style codings</span>
+    <span class="c1"># (can&#39;t reproduce 100% since C01 pixel_qa doesn&#39;t store water info)</span>
+    <span class="n">coding</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="mi">1</span><span class="p">:</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)],</span>  <span class="c1"># fill</span>
+        <span class="mi">5</span><span class="p">:</span> <span class="p">[(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)],</span>  <span class="c1"># cloud</span>
+        <span class="mi">3</span><span class="p">:</span> <span class="p">[(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)],</span>  <span class="c1"># shadow</span>
+        <span class="mi">4</span><span class="p">:</span> <span class="p">[(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)],</span>  <span class="c1"># snow</span>
+        <span class="mi">8</span><span class="p">:</span> <span class="p">[(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)],</span>  <span class="c1"># cirrus</span>
+        <span class="mi">10</span><span class="p">:</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>  <span class="c1"># terrain</span>
+    <span class="p">}</span>
+    <span class="n">truth</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+        <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+        <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
+        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
+    <span class="p">])</span>
+    <span class="n">ans</span> <span class="o">=</span> <span class="n">masking</span><span class="o">.</span><span class="n">bitpack_to_coding</span><span class="p">(</span><span class="n">qaqc</span><span class="p">,</span> <span class="n">coding</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">truth</span><span class="p">)</span></div>
 
 
 <span class="c1"># =============================================================================</span>
