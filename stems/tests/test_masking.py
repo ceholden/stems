@@ -24,15 +24,30 @@ def test_checkbit(landsat8_pixelqa_values, landsat8_pixelqa_info):
 
 
 # -----------------------------------------------------------------------------
-# unpack_bitpack
-def test_unpack_bitpack(landsat8_pixelqa_values):
-    pass
-
-
-# -----------------------------------------------------------------------------
 # bitpack_to_coding
-def test_bitpack_to_coding(landsat8_pixelqa_values):
-    pass
+def test_bitpack_to_coding():
+    qaqc = np.array([
+        [1, 1, 2722, 2724, 7808],  # fill, fill, terrain, clear, snow
+        [1, 2720, 6900, 6904, 6908],  # fill, clear, cloud, cloud, cloud
+        [2724, 2732, 3012, 3008, 6856]  # clear, clear, shadow, shadow, cirrus
+    ])
+    # In this example, we're going for Landsat ARD style codings
+    # (can't reproduce 100% since C01 pixel_qa doesn't store water info)
+    coding = {
+        1: [(0, 1, 1)],  # fill
+        5: [(4, 1, 1)],  # cloud
+        3: [(7, 2, 2)],  # shadow
+        4: [(9, 2, 2)],  # snow
+        8: [(11, 2, 2)],  # cirrus
+        10: [(1, 1, 1)]  # terrain
+    }
+    truth = np.array([
+        [1, 1, 10, 0, 4],
+        [1, 0, 5, 5, 5],
+        [0, 0, 3, 3, 8]
+    ])
+    ans = masking.bitpack_to_coding(qaqc, coding, fill=0)
+    np.testing.assert_equal(ans, truth)
 
 
 # =============================================================================

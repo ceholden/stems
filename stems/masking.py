@@ -72,17 +72,22 @@ def _checkbit_xarray(data, offset, width=1, value=3):
     )
 
 
-def bitpack_to_coding(bitpack, offsets, coding, dtype=None):
+@singledispatch
+def bitpack_to_coding(bitpack, bitinfo, fill=0, dtype=None):
     """ Unpack a bipacked QA/QC band to some coding (e.g. CFMask)
 
     Parameters
     ----------
     bitpack : np.ndarray, dask.array.Array, or xr.DataArray
         Bitpacked data
-    offsets : dict
-        Dict mapping output mask coding to bitpack (offset, width)
-    coding : dict
-        Dict mapping offsets to coding values (e.g., ``{4: 4}``)
+    bitinfo : Dict[int, Sequence[Tuple[Int, Int, Int]]
+        A dict mapping output codes to bit unpacking info(s)
+        (offsets, widths, and values) for use in unpacking. Should be ordered
+        in order of preference with values listed first possibly overwriting
+        later ones
+    fill : int, float, etc, optional
+        Fill value to initialize array with (e.g., your "clear" value, since
+        qa/qc bands usually indicate issues with data)
     dtype : np.dtype, optional
         Output NumPy datatype. If ``None``, output will be same
         datatype as input ``bitpack``
@@ -91,20 +96,36 @@ def bitpack_to_coding(bitpack, offsets, coding, dtype=None):
     -------
     array
         CFmask look-alike array
-
     """
-    func_where = da.where if isinstance(bitpack, da.Array) else np.where
+    raise TypeError('Only supported for NumPy/Dask arrays or xarray.DataArray')
 
-    offsets_ = list(offsets.values())
-    unpack = unpack_bitpack(bitpack, offsets_, dtype=dtype)
 
-    coding_ = empty_like(unpack[..., 0])
-    for offset, code in coding.items():
-        try:
-            idx_ = offsets_.index(offset)
-        except ValueError:
-            logger.debug(f'Offset label "{label}" not found in coding')
-        else:
-            coding_ = func_where(unpack[..., idx_], code, coding_)
+@bitpack_to_coding.register(np.ndarray)
+def _bitpack_to_coding_nparray(bitpack, bitinfo, fill=0, dtype=None):
+    coding_ = np.full_like(bitpack, fill, dtype=dtype)
 
+    for code, offsets in reversed(list(bitinfo.items())):
+        for offset in offsets:
+            unpack = checkbit(bitpack, *offset)
+            coding_[unpack] = code
     return coding_
+
+
+@bitpack_to_coding.register(da.Array)
+def _bitpack_to_coding_darray(bitpack, bitinfo, fill=0, dtype=None):
+    coding_ = da.map_blocks(
+        _bitpack_to_coding_nparray,
+        bitpack, bitinfo, fill=fill, dtype=dtype)
+    return coding_
+
+
+@bitpack_to_coding.register(xr.DataArray)
+def _bitpack_to_coding_darray(bitpack, bitinfo, fill=0, dtype=None):
+    out = xr.core.computation.apply_ufunc(
+        _bitpack_to_coding_nparray,
+        bitpack,
+        dask='allowed',
+        kwargs={'bitinfo': bitinfo, 'fill': fill, 'dtype': dtype}
+    )
+    out.attrs['bitinfo'] = bitinfo
+    return out
