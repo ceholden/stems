@@ -18,6 +18,7 @@ from xarray.core.computation import apply_ufunc
 from .utils import register_multi_singledispatch
 
 
+@singledispatch
 def checkbit(data, offset, width=1, value=3):
     """ Unpack a bit into True/False
 
@@ -38,62 +39,37 @@ def checkbit(data, offset, width=1, value=3):
     array-like, dtype=bool
         True or False value of unpacked bit(s)
     """
+    raise TypeError('Only supported for NumPy/Dask arrays or xarray.DataArray')
+
+
+@checkbit.register(np.ndarray)
+def _checkbit_nparray(data, offset, width=1, value=3):
+    if data.dtype.kind != 'i':
+        data = data.astype(int)
     if width == 1:
-        return ((data >> offset) & 0x01) == 1
+        return (np.right_shift(data, offset) & 0x01) == 1
     elif width == 2:
-        return ((data >> offset) & 0x03) >= value
+        return (np.right_shift(data,offset) & 0x03) >= value
     else:
         raise ValueError("Only works on 1-2 bit sizes")
 
 
-@singledispatch
-def unpack_bitpack(data, offsets, dtype=None):
-    """ Unpack bitpacked data (e.g., a QA/QC band)
-
-    Parameters
-    ----------
-    data : np.ndarray, dask.array.Array, or xr.DataArray
-        Bitpacked data
-    offsets : Sequence[(Int, Int)]
-        Bit offsets and widths to unpack
-    dtype : dtype, optional
-        Return dtype. If not specified, defaults to input
-        data datatype
-
-    Returns
-    -------
-    unpacked_data : np.ndarray, dask.array.Array, or xr.DataArray
-        Data unpacked from bits into multiple arrays (last dim). Return type
-        dependent on input.
-    """
-    raise TypeError('Cannot unpack data of type "{0}"'.format(type(data)))
+@checkbit.register(da.Array)
+def _checkbit_darray(data, offset, width=1, value=3):
+    return da.map_blocks(_checkbit_nparray,
+                         data, offset,
+                         width=width, value=value,  # kwargs to function
+                         dtype=bool)
 
 
-@register_multi_singledispatch(unpack_bitpack, (np.ndarray, da.Array))
-def _unpack_bitpack_array(data, offsets, dtype=None):
-    stack_func = da.stack if isinstance(data, da.Array) else np.stack
-    dtype = dtype if dtype is not None else data.dtype
-
-    out = []
-    for offset, width in offsets:
-        match = checkbit(data, offset, width=width)
-        out.append(match)
-    out = stack_func(out, axis=-1)
-    return out
-
-
-@unpack_bitpack.register(xr.DataArray)
-def _unpack_bitpack_xarray(data, offsets, dtype=None):
-    out = xr.core.computation.apply_ufunc(
-        unpack_bitpack,
-        data,
-        offsets,
+@checkbit.register(xr.DataArray)
+def _checkbit_xarray(data, offset, width=1, value=3):
+    return xr.apply_ufunc(
+        _checkbit_nparray,
+        data, offset,
         dask='allowed',
-        output_core_dims=[['offset']],
-        kwargs={'dtype': dtype}
+        kwargs={'width': width, 'value': value}
     )
-    out.coords['offset'] = [i[0] for i in offsets]
-    return out
 
 
 def bitpack_to_coding(bitpack, offsets, coding, dtype=None):
