@@ -65,7 +65,7 @@ def _checkbit_darray(data, offset, width=1, value=3):
 @checkbit.register(xr.DataArray)
 def _checkbit_xarray(data, offset, width=1, value=3):
     return xr.apply_ufunc(
-        _checkbit_nparray,
+        checkbit,
         data, offset,
         dask='allowed',
         kwargs={'width': width, 'value': value}
@@ -122,7 +122,7 @@ def _bitpack_to_coding_darray(bitpack, bitinfo, fill=0, dtype=None):
 @bitpack_to_coding.register(xr.DataArray)
 def _bitpack_to_coding_darray(bitpack, bitinfo, fill=0, dtype=None):
     out = xr.core.computation.apply_ufunc(
-        _bitpack_to_coding_nparray,
+        bitpack_to_coding,
         bitpack,
         dask='allowed',
         kwargs={'bitinfo': bitinfo, 'fill': fill, 'dtype': dtype}
