@@ -224,17 +224,22 @@ def get_grid_mapping(xarr, grid_mapping='crs'):
         return var_gm
 
 
-def create_grid_mapping(crs, transform, grid_mapping='crs'):
+def create_grid_mapping(crs, transform=None, grid_mapping='crs',
+                        gdal_compat=True):
     """ Return an :py:class:`xarray.DataArray` of CF-compliant CRS info
 
     Parameters
     ----------
     crs : rasterio.crs.CRS
         Coordinate reference system information
-    transform : affine.Affine
-        Affine transform
+    transform : affine.Affine, optional
+        Affine transform. Will be written if writing GDAL compatibility
+        attributes and if provided
     grid_mapping : str, optional
         Name of grid mapping variable. Defaults to 'crs'
+    gdal_compat : bool, optional
+        Write GDAL compatibility attribute data ("spatial_ref" and
+        "GeoTransform")
 
     Returns
     -------
@@ -261,11 +266,12 @@ def create_grid_mapping(crs, transform, grid_mapping='crs'):
     da.attrs.update(projections.cf_proj_params(crs))
     da.attrs.update(projections.cf_ellps_params(crs))
 
-    # TODO: enable turning this off? add other "compat_attrs"?
     # For GDAL in case CF doesn't work
     # http://www.gdal.org/frmt_netcdf.html
-    for attr, value in _georeference_attrs_gdal(crs, transform).items():
-        da.attrs[attr] = value
+    if gdal_compat:
+        da.attrs['spatial_ref'] = crs.wkt
+        if transform is not None:
+            da.attrs['GeoTransform'] = transform.to_gdal()
 
     # Fixup - every list/tuple should be np.ndarray to look like CRS variables
     # that have been written to disk (otherwise comparisons fail)
@@ -350,12 +356,3 @@ def create_coordinates(y, x, crs):
                      name=var_x, attrs=attrs_x)
 
     return y, x
-
-
-def _georeference_attrs_gdal(crs, transform):
-    """ GDAL will look for these attributes if parsing CF fails
-    """
-    return OrderedDict((
-        ('spatial_ref', crs.wkt),
-        ('GeoTransform', transform.to_gdal())
-    ))
