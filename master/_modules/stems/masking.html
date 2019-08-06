@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.masking &mdash; stems 0.0.3+4.g7e4f129 documentation</title>
+  <title>stems.masking &mdash; stems 0.0.3+6.gbf99a6e documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.3+4.g7e4f129
+                0.0.3+6.gbf99a6e
               </div>
             
           
@@ -229,7 +229,7 @@
 <span class="nd">@checkbit</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">_checkbit_xarray</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">apply_ufunc</span><span class="p">(</span>
-        <span class="n">_checkbit_nparray</span><span class="p">,</span>
+        <span class="n">checkbit</span><span class="p">,</span>
         <span class="n">data</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span>
         <span class="n">dask</span><span class="o">=</span><span class="s1">&#39;allowed&#39;</span><span class="p">,</span>
         <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="n">width</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">value</span><span class="p">}</span>
@@ -286,7 +286,7 @@
 <span class="nd">@bitpack_to_coding</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">_bitpack_to_coding_darray</span><span class="p">(</span><span class="n">bitpack</span><span class="p">,</span> <span class="n">bitinfo</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="n">out</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">computation</span><span class="o">.</span><span class="n">apply_ufunc</span><span class="p">(</span>
-        <span class="n">_bitpack_to_coding_nparray</span><span class="p">,</span>
+        <span class="n">bitpack_to_coding</span><span class="p">,</span>
         <span class="n">bitpack</span><span class="p">,</span>
         <span class="n">dask</span><span class="o">=</span><span class="s1">&#39;allowed&#39;</span><span class="p">,</span>
         <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;bitinfo&#39;</span><span class="p">:</span> <span class="n">bitinfo</span><span class="p">,</span> <span class="s1">&#39;fill&#39;</span><span class="p">:</span> <span class="n">fill</span><span class="p">,</span> <span class="s1">&#39;dtype&#39;</span><span class="p">:</span> <span class="n">dtype</span><span class="p">}</span>

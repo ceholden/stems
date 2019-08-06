@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.conventions &mdash; stems 0.0.3+4.g7e4f129 documentation</title>
+  <title>stems.gis.conventions &mdash; stems 0.0.3+6.gbf99a6e documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.3+4.g7e4f129
+                0.0.3+6.gbf99a6e
               </div>
             
           
@@ -388,17 +388,22 @@
         <span class="k">return</span> <span class="n">var_gm</span></div>
 
 
-<div class="viewcode-block" id="create_grid_mapping"><a class="viewcode-back" href="../../../stems/stems.gis.conventions.html#stems.gis.conventions.create_grid_mapping">[docs]</a><span class="k">def</span> <span class="nf">create_grid_mapping</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">grid_mapping</span><span class="o">=</span><span class="s1">&#39;crs&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="create_grid_mapping"><a class="viewcode-back" href="../../../stems/stems.gis.conventions.html#stems.gis.conventions.create_grid_mapping">[docs]</a><span class="k">def</span> <span class="nf">create_grid_mapping</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">grid_mapping</span><span class="o">=</span><span class="s1">&#39;crs&#39;</span><span class="p">,</span>
+                        <span class="n">gdal_compat</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Return an :py:class:`xarray.DataArray` of CF-compliant CRS info</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    crs : rasterio.crs.CRS</span>
 <span class="sd">        Coordinate reference system information</span>
-<span class="sd">    transform : affine.Affine</span>
-<span class="sd">        Affine transform</span>
+<span class="sd">    transform : affine.Affine, optional</span>
+<span class="sd">        Affine transform. Will be written if writing GDAL compatibility</span>
+<span class="sd">        attributes and if provided</span>
 <span class="sd">    grid_mapping : str, optional</span>
 <span class="sd">        Name of grid mapping variable. Defaults to &#39;crs&#39;</span>
+<span class="sd">    gdal_compat : bool, optional</span>
+<span class="sd">        Write GDAL compatibility attribute data (&quot;spatial_ref&quot; and</span>
+<span class="sd">        &quot;GeoTransform&quot;)</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -425,11 +430,12 @@
     <span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">projections</span><span class="o">.</span><span class="n">cf_proj_params</span><span class="p">(</span><span class="n">crs</span><span class="p">))</span>
     <span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">projections</span><span class="o">.</span><span class="n">cf_ellps_params</span><span class="p">(</span><span class="n">crs</span><span class="p">))</span>
 
-    <span class="c1"># TODO: enable turning this off? add other &quot;compat_attrs&quot;?</span>
     <span class="c1"># For GDAL in case CF doesn&#39;t work</span>
     <span class="c1"># http://www.gdal.org/frmt_netcdf.html</span>
-    <span class="k">for</span> <span class="n">attr</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">_georeference_attrs_gdal</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="n">transform</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="k">if</span> <span class="n">gdal_compat</span><span class="p">:</span>
+        <span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;spatial_ref&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">crs</span><span class="o">.</span><span class="n">wkt</span>
+        <span class="k">if</span> <span class="n">transform</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;GeoTransform&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">to_gdal</span><span class="p">()</span>
 
     <span class="c1"># Fixup - every list/tuple should be np.ndarray to look like CRS variables</span>
     <span class="c1"># that have been written to disk (otherwise comparisons fail)</span>
@@ -514,15 +520,6 @@
                      <span class="n">name</span><span class="o">=</span><span class="n">var_x</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="n">attrs_x</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span></div>
-
-
-<span class="k">def</span> <span class="nf">_georeference_attrs_gdal</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="n">transform</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; GDAL will look for these attributes if parsing CF fails</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">OrderedDict</span><span class="p">((</span>
-        <span class="p">(</span><span class="s1">&#39;spatial_ref&#39;</span><span class="p">,</span> <span class="n">crs</span><span class="o">.</span><span class="n">wkt</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;GeoTransform&#39;</span><span class="p">,</span> <span class="n">transform</span><span class="o">.</span><span class="n">to_gdal</span><span class="p">())</span>
-    <span class="p">))</span>
 </pre></div>
 
            </div>

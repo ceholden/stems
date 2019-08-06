@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.conventions module &mdash; stems 0.0.3+4.g7e4f129 documentation</title>
+  <title>stems.gis.conventions module &mdash; stems 0.0.3+6.gbf99a6e documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.3+4.g7e4f129
+                0.0.3+6.gbf99a6e
               </div>
             
           
@@ -200,14 +200,17 @@ coordinating naming, grid mapping variables, etc)</p>
 
 <dl class="function">
 <dt id="stems.gis.conventions.create_grid_mapping">
-<code class="sig-prename descclassname">stems.gis.conventions.</code><code class="sig-name descname">create_grid_mapping</code><span class="sig-paren">(</span><em class="sig-param">crs</em>, <em class="sig-param">transform</em>, <em class="sig-param">grid_mapping='crs'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/conventions.html#create_grid_mapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.conventions.create_grid_mapping" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">stems.gis.conventions.</code><code class="sig-name descname">create_grid_mapping</code><span class="sig-paren">(</span><em class="sig-param">crs</em>, <em class="sig-param">transform=None</em>, <em class="sig-param">grid_mapping='crs'</em>, <em class="sig-param">gdal_compat=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/conventions.html#create_grid_mapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.conventions.create_grid_mapping" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return an <a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a> of CF-compliant CRS info</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>crs</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.crs.html#rasterio.crs.CRS" title="(in rasterio v1.0.24)"><em>rasterio.crs.CRS</em></a>) – Coordinate reference system information</p></li>
-<li><p><strong>transform</strong> (<em>affine.Affine</em>) – Affine transform</p></li>
+<li><p><strong>transform</strong> (<em>affine.Affine</em><em>, </em><em>optional</em>) – Affine transform. Will be written if writing GDAL compatibility
+attributes and if provided</p></li>
 <li><p><strong>grid_mapping</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Name of grid mapping variable. Defaults to ‘crs’</p></li>
+<li><p><strong>gdal_compat</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – Write GDAL compatibility attribute data (“spatial_ref” and
+“GeoTransform”)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
