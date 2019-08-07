@@ -85,8 +85,10 @@ def iter_noncore_chunks(data, core_dims, chunk_sizes=None):
     if isinstance(core_dims, str):
         core_dims = (core_dims, )
 
+    # "Non-core" are remaining dims on data
     noncore = set(data.dims) - set(core_dims)
-    noncore_sizes = {dim: data[dim].size for dim in noncore}
+    # Keep same order as data.dims so this is deterministic
+    noncore_sizes = {dim: data[dim].size for dim in data.dims if dim in noncore}
 
     for i in iter_chunks(noncore_sizes, chunk_sizes):
         yield i
