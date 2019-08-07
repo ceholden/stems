@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.parallel &mdash; stems 0.0.3+7.gf6e0cdb documentation</title>
+  <title>stems.parallel &mdash; stems 0.0.3+8.g839eff2 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.3+7.gf6e0cdb
+                0.0.3+8.g839eff2
               </div>
             
           
@@ -249,8 +249,10 @@
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">core_dims</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">core_dims</span> <span class="o">=</span> <span class="p">(</span><span class="n">core_dims</span><span class="p">,</span> <span class="p">)</span>
 
+    <span class="c1"># &quot;Non-core&quot; are remaining dims on data</span>
     <span class="n">noncore</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">core_dims</span><span class="p">)</span>
-    <span class="n">noncore_sizes</span> <span class="o">=</span> <span class="p">{</span><span class="n">dim</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span><span class="o">.</span><span class="n">size</span> <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">noncore</span><span class="p">}</span>
+    <span class="c1"># Keep same order as data.dims so this is deterministic</span>
+    <span class="n">noncore_sizes</span> <span class="o">=</span> <span class="p">{</span><span class="n">dim</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span><span class="o">.</span><span class="n">size</span> <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">dims</span> <span class="k">if</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">noncore</span><span class="p">}</span>
 
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">iter_chunks</span><span class="p">(</span><span class="n">noncore_sizes</span><span class="p">,</span> <span class="n">chunk_sizes</span><span class="p">):</span>
         <span class="k">yield</span> <span class="n">i</span></div>
