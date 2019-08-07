@@ -1,0 +1,24 @@
+stems.datasets package
+======================
+
+Subpackages
+-----------
+
+.. toctree::
+
+   stems.datasets.tests
+
+Submodules
+----------
+
+.. toctree::
+
+   stems.datasets.simulate
+
+Module contents
+---------------
+
+.. automodule:: stems.datasets
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,7 @@
+stems.io.encoding module
+========================
+
+.. automodule:: stems.io.encoding
+   :members:
+   :undoc-members:
+   :show-inheritance:

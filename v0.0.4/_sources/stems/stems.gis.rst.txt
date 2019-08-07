@@ -1,0 +1,31 @@
+stems.gis package
+=================
+
+Subpackages
+-----------
+
+.. toctree::
+
+   stems.gis.tests
+
+Submodules
+----------
+
+.. toctree::
+
+   stems.gis.conventions
+   stems.gis.convert
+   stems.gis.coords
+   stems.gis.geohash
+   stems.gis.geom
+   stems.gis.grids
+   stems.gis.projections
+   stems.gis.utils
+
+Module contents
+---------------
+
+.. automodule:: stems.gis
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,7 @@
+stems.cli.main module
+=====================
+
+.. automodule:: stems.cli.main
+   :members:
+   :undoc-members:
+   :show-inheritance:

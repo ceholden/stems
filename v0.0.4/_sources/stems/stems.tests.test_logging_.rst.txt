@@ -1,0 +1,7 @@
+stems.tests.test\_logging\_ module
+==================================
+
+.. automodule:: stems.tests.test_logging_
+   :members:
+   :undoc-members:
+   :show-inheritance:

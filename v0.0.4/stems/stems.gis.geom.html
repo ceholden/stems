@@ -1,0 +1,347 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>stems.gis.geom module &mdash; stems 0.0.4 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> stems
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequenty Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../gis.html">Geographic Information Systems (GIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gis_grids.html">Tile Grid Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel.html">Parallel Computing Helpers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../xarray.html">XArray Integration</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">stems</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>stems.gis.geom module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/ceholden/stems/blob/master/docs/source/stems/stems.gis.geom.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-stems.gis.geom">
+<span id="stems-gis-geom-module"></span><h1>stems.gis.geom module<a class="headerlink" href="#module-stems.gis.geom" title="Permalink to this headline">¶</a></h1>
+<p>Geometry related functions</p>
+<dl class="function">
+<dt id="stems.gis.geom.bounds_intersection">
+<code class="sig-prename descclassname">stems.gis.geom.</code><code class="sig-name descname">bounds_intersection</code><span class="sig-paren">(</span><em class="sig-param">*bounds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/geom.html#bounds_intersection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.geom.bounds_intersection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the intersection of some BoundingBox(s)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>bounds</strong> (<em>BoundingBox</em>) – Bounding boxes</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The intersection of all input BoundingBox</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>BoundingBox</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.gis.geom.bounds_transform_union">
+<code class="sig-prename descclassname">stems.gis.geom.</code><code class="sig-name descname">bounds_transform_union</code><span class="sig-paren">(</span><em class="sig-param">bounds</em>, <em class="sig-param">transform</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/geom.html#bounds_transform_union"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.geom.bounds_transform_union" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate union of bounds for some transform</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bounds</strong> (<em>Sequence</em><em>[</em><em>BoundingBox</em><em>]</em>) – Bounding boxes</p></li>
+<li><p><strong>transform</strong> (<em>Affine</em>) – Affine transform to use</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>rasterio.coords.BoundingBox</em> – Union of BoundingBox</p></li>
+<li><p><em>affine.Affine</em> – Unified affine transform</p></li>
+<li><p><em>tuple[int, int]</em> – Shape of union (nrow, ncol)</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.gis.geom.bounds_union">
+<code class="sig-prename descclassname">stems.gis.geom.</code><code class="sig-name descname">bounds_union</code><span class="sig-paren">(</span><em class="sig-param">*bounds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/geom.html#bounds_union"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.geom.bounds_union" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the union of some BoundingBox(s)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>bounds</strong> (<em>BoundingBox</em>) – Bounding boxes</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The union of all input BoundingBox</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>BoundingBox</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.gis.geom.calculate_dst_window">
+<code class="sig-prename descclassname">stems.gis.geom.</code><code class="sig-name descname">calculate_dst_window</code><span class="sig-paren">(</span><em class="sig-param">src_bounds</em>, <em class="sig-param">dst_transform</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/geom.html#calculate_dst_window"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.geom.calculate_dst_window" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the rounded source window for some other transform</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>src_bounds</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.coords.html#rasterio.coords.BoundingBox" title="(in rasterio v1.0.25)"><em>rasterio.coords.BoundingBox</em></a>) – Input bounds for the source raster image</p></li>
+<li><p><strong>dst_transform</strong> (<em>affine.Affine</em>) – Destination Affine transform</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Window of source that conforms (pixel size, upper left) to
+<code class="docutils literal notranslate"><span class="pre">dst_tranform</span></code></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.windows.html#rasterio.windows.Window" title="(in rasterio v1.0.25)">rasterio.windows.Window</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.gis.geom.calculate_src_window">
+<code class="sig-prename descclassname">stems.gis.geom.</code><code class="sig-name descname">calculate_src_window</code><span class="sig-paren">(</span><em class="sig-param">src_bounds</em>, <em class="sig-param">src_transform</em>, <em class="sig-param">dst_bounds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/geom.html#calculate_src_window"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.geom.calculate_src_window" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the source window for some output bounds</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>src_bounds</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.coords.html#rasterio.coords.BoundingBox" title="(in rasterio v1.0.25)"><em>rasterio.coords.BoundingBox</em></a>) – Input bounds for the source raster image</p></li>
+<li><p><strong>src_transform</strong> (<em>affine.Affine</em>) – Affine transform for the source raster image</p></li>
+<li><p><strong>dst_bounds</strong> (<a class="reference external" href="https://rasterio.readthedocs.io/en/latest/api/rasterio.coords.html#rasterio.coords.BoundingBox" title="(in rasterio v1.0.25)"><em>rasterio.coords.BoundingBox</em></a>) – Destination bounds</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>rasterio.windows.Window</em> – Window of source that contains <code class="docutils literal notranslate"><span class="pre">dst_bounds</span></code></p></li>
+<li><p><em>rasterio.coords.BoundingBox</em> – The BoundingBox representing the destination window for the source</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.gis.geom.fix_geojson_rfc7946">
+<code class="sig-prename descclassname">stems.gis.geom.</code><code class="sig-name descname">fix_geojson_rfc7946</code><span class="sig-paren">(</span><em class="sig-param">geojson</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/geom.html#fix_geojson_rfc7946"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.geom.fix_geojson_rfc7946" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fixes issues with dateline and meridian cutting</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>geojson</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – GeoJSON as a dict</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Fixed up GeoJSON</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="stems.gis.geom.is_null">
+<code class="sig-prename descclassname">stems.gis.geom.</code><code class="sig-name descname">is_null</code><span class="sig-paren">(</span><em class="sig-param">geom</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stems/gis/geom.html#is_null"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stems.gis.geom.is_null" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if a geometry is not valid / null</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>shapely.geometry.BaseGeometry</strong> – Some shapely geometry (or something that supports
+__geo_interface__)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Null or not</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

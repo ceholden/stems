@@ -1,0 +1,255 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>stems.gis.tests.test_gis_utils &mdash; stems 0.0.4 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> stems
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../faq.html">Frequenty Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../gis.html">Geographic Information Systems (GIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../gis_grids.html">Tile Grid Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../parallel.html">Parallel Computing Helpers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../xarray.html">XArray Integration</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">stems</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>stems.gis.tests.test_gis_utils</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for stems.gis.tests.test_gis_utils</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; Tests for :py:mod:`stems.gis.utils`</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">rasterio.crs</span> <span class="k">import</span> <span class="n">CRS</span>
+<span class="kn">from</span> <span class="nn">osgeo</span> <span class="k">import</span> <span class="n">osr</span>
+<span class="kn">import</span> <span class="nn">pytest</span>
+
+<span class="kn">from</span> <span class="nn">stems.gis</span> <span class="k">import</span> <span class="n">utils</span>
+<span class="kn">from</span> <span class="nn">stems.gis.tests</span> <span class="k">import</span> <span class="n">data</span>
+
+<span class="n">osr</span><span class="o">.</span><span class="n">UseExceptions</span><span class="p">()</span>
+
+
+<span class="c1"># crs2osr</span>
+<div class="viewcode-block" id="test_crs2osr"><a class="viewcode-back" href="../../../../stems/stems.gis.tests.test_gis_utils.html#stems.gis.tests.test_gis_utils.test_crs2osr">[docs]</a><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s1">&#39;code&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">32619</span><span class="p">,</span> <span class="mi">4326</span><span class="p">,</span> <span class="mi">3857</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">test_crs2osr</span><span class="p">(</span><span class="n">code</span><span class="p">):</span>
+    <span class="c1"># Post WKT change in rasterio=1.0.14 we can test roundtrip</span>
+    <span class="n">crs_</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
+    <span class="n">sr_</span> <span class="o">=</span> <span class="n">osr</span><span class="o">.</span><span class="n">SpatialReference</span><span class="p">()</span>
+    <span class="n">sr_</span><span class="o">.</span><span class="n">ImportFromEPSG</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
+
+    <span class="n">crs_sr</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">crs2osr</span><span class="p">(</span><span class="n">crs_</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">sr_</span><span class="o">.</span><span class="n">IsSame</span><span class="p">(</span><span class="n">crs_sr</span><span class="p">)</span></div>
+
+
+<span class="c1"># same_crs</span>
+<div class="viewcode-block" id="test_same_crs_1"><a class="viewcode-back" href="../../../../stems/stems.gis.tests.test_gis_utils.html#stems.gis.tests.test_gis_utils.test_same_crs_1">[docs]</a><span class="k">def</span> <span class="nf">test_same_crs_1</span><span class="p">():</span>
+    <span class="c1"># literally the same</span>
+    <span class="n">crs1</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_wkt</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">EXAMPLE_LAEA_NA</span><span class="p">[</span><span class="s1">&#39;wkt&#39;</span><span class="p">])</span>
+    <span class="n">test</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">same_crs</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">crs1</span><span class="p">,</span> <span class="p">)</span> <span class="o">*</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">test</span> <span class="ow">is</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="test_same_crs_2"><a class="viewcode-back" href="../../../../stems/stems.gis.tests.test_gis_utils.html#stems.gis.tests.test_gis_utils.test_same_crs_2">[docs]</a><span class="k">def</span> <span class="nf">test_same_crs_2</span><span class="p">():</span>
+    <span class="c1"># from 3 different approaches</span>
+    <span class="n">crs1</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">3857</span><span class="p">)</span>
+    <span class="n">crs2</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_wkt</span><span class="p">(</span><span class="n">crs1</span><span class="o">.</span><span class="n">wkt</span><span class="p">)</span>
+    <span class="n">crs3</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="n">crs1</span><span class="o">.</span><span class="n">to_string</span><span class="p">())</span>
+
+    <span class="n">test</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">same_crs</span><span class="p">(</span><span class="n">crs1</span><span class="p">,</span> <span class="n">crs2</span><span class="p">,</span> <span class="n">crs3</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">test</span> <span class="ow">is</span> <span class="kc">True</span></div>
+
+
+<span class="c1"># osr_same_crs</span>
+<div class="viewcode-block" id="test_osr_same_crs"><a class="viewcode-back" href="../../../../stems/stems.gis.tests.test_gis_utils.html#stems.gis.tests.test_gis_utils.test_osr_same_crs">[docs]</a><span class="k">def</span> <span class="nf">test_osr_same_crs</span><span class="p">():</span>
+    <span class="n">crs1</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">3857</span><span class="p">)</span>
+    <span class="n">crs2</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_wkt</span><span class="p">(</span><span class="n">crs1</span><span class="o">.</span><span class="n">wkt</span><span class="p">)</span>
+    <span class="n">crs3</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="n">crs1</span><span class="o">.</span><span class="n">to_string</span><span class="p">())</span>
+
+    <span class="n">test</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">osr_same_crs</span><span class="p">(</span><span class="n">crs1</span><span class="p">,</span> <span class="n">crs2</span><span class="p">,</span> <span class="n">crs3</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">test</span> <span class="ow">is</span> <span class="kc">True</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
