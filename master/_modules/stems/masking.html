@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.masking &mdash; stems 0.0.3+8.g839eff2 documentation</title>
+  <title>stems.masking &mdash; stems 0.0.4+2.g4f3afea documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.3+8.g839eff2
+                0.0.4+2.g4f3afea
               </div>
             
           
@@ -179,6 +179,7 @@
 <span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
 <span class="kn">from</span> <span class="nn">xarray.core.computation</span> <span class="k">import</span> <span class="n">apply_ufunc</span>
 
+<span class="kn">from</span> <span class="nn">.compat</span> <span class="k">import</span> <span class="n">toolz</span> <span class="k">as</span> <span class="n">tz</span>
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="k">import</span> <span class="n">register_multi_singledispatch</span>
 
 
@@ -230,9 +231,9 @@
 <span class="k">def</span> <span class="nf">_checkbit_xarray</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">apply_ufunc</span><span class="p">(</span>
         <span class="n">checkbit</span><span class="p">,</span>
-        <span class="n">data</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span>
+        <span class="n">data</span><span class="p">,</span>
         <span class="n">dask</span><span class="o">=</span><span class="s1">&#39;allowed&#39;</span><span class="p">,</span>
-        <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="n">width</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">value</span><span class="p">}</span>
+        <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;offset&#39;</span><span class="p">:</span> <span class="n">offset</span><span class="p">,</span> <span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="n">width</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">value</span><span class="p">}</span>
     <span class="p">)</span>
 
 
@@ -277,9 +278,10 @@
 
 <span class="nd">@bitpack_to_coding</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">Array</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">_bitpack_to_coding_darray</span><span class="p">(</span><span class="n">bitpack</span><span class="p">,</span> <span class="n">bitinfo</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">func</span> <span class="o">=</span> <span class="n">tz</span><span class="o">.</span><span class="n">curry</span><span class="p">(</span><span class="n">_bitpack_to_coding_nparray</span><span class="p">)(</span><span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">fill</span><span class="p">)</span>
     <span class="n">coding_</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">map_blocks</span><span class="p">(</span>
-        <span class="n">_bitpack_to_coding_nparray</span><span class="p">,</span>
-        <span class="n">bitpack</span><span class="p">,</span> <span class="n">bitinfo</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">fill</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="n">func</span><span class="p">,</span> <span class="n">bitpack</span><span class="p">,</span> <span class="n">bitinfo</span><span class="p">,</span>
+        <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>  <span class="c1"># this dtype goes to da.map_blocks</span>
     <span class="k">return</span> <span class="n">coding_</span>
 
 
