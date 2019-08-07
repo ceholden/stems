@@ -15,6 +15,7 @@ import numpy as np
 import xarray as xr
 from xarray.core.computation import apply_ufunc
 
+from .compat import toolz as tz
 from .utils import register_multi_singledispatch
 
 
@@ -66,9 +67,9 @@ def _checkbit_darray(data, offset, width=1, value=3):
 def _checkbit_xarray(data, offset, width=1, value=3):
     return xr.apply_ufunc(
         checkbit,
-        data, offset,
+        data,
         dask='allowed',
-        kwargs={'width': width, 'value': value}
+        kwargs={'offset': offset, 'width': width, 'value': value}
     )
 
 
@@ -113,9 +114,10 @@ def _bitpack_to_coding_nparray(bitpack, bitinfo, fill=0, dtype=None):
 
 @bitpack_to_coding.register(da.Array)
 def _bitpack_to_coding_darray(bitpack, bitinfo, fill=0, dtype=None):
+    func = tz.curry(_bitpack_to_coding_nparray)(dtype=dtype, fill=fill)
     coding_ = da.map_blocks(
-        _bitpack_to_coding_nparray,
-        bitpack, bitinfo, fill=fill, dtype=dtype)
+        func, bitpack, bitinfo,
+        dtype=dtype)  # this dtype goes to da.map_blocks
     return coding_
 
 
