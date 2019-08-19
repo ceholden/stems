@@ -122,7 +122,7 @@ def _bitpack_to_coding_darray(bitpack, bitinfo, fill=0, dtype=None):
 
 
 @bitpack_to_coding.register(xr.DataArray)
-def _bitpack_to_coding_darray(bitpack, bitinfo, fill=0, dtype=None):
+def _bitpack_to_coding_xrarray(bitpack, bitinfo, fill=0, dtype=None):
     out = xr.core.computation.apply_ufunc(
         bitpack_to_coding,
         bitpack,
