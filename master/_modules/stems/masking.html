@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.masking &mdash; stems 0.0.4+2.g4f3afea documentation</title>
+  <title>stems.masking &mdash; stems 0.0.4+4.g2e219eb documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.4+2.g4f3afea
+                0.0.4+4.g2e219eb
               </div>
             
           
@@ -286,7 +286,7 @@
 
 
 <span class="nd">@bitpack_to_coding</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">_bitpack_to_coding_darray</span><span class="p">(</span><span class="n">bitpack</span><span class="p">,</span> <span class="n">bitinfo</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_bitpack_to_coding_xrarray</span><span class="p">(</span><span class="n">bitpack</span><span class="p">,</span> <span class="n">bitinfo</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="n">out</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">computation</span><span class="o">.</span><span class="n">apply_ufunc</span><span class="p">(</span>
         <span class="n">bitpack_to_coding</span><span class="p">,</span>
         <span class="n">bitpack</span><span class="p">,</span>

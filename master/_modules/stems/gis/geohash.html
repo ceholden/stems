@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>stems.gis.geohash &mdash; stems 0.0.4+2.g4f3afea documentation</title>
+  <title>stems.gis.geohash &mdash; stems 0.0.4+4.g2e219eb documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.4+2.g4f3afea
+                0.0.4+4.g2e219eb
               </div>
             
           
@@ -288,8 +288,9 @@
         <span class="n">dtype_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">((</span><span class="s1">&#39;U&#39;</span><span class="p">,</span> <span class="n">precision</span><span class="p">))</span>
         <span class="n">ans</span> <span class="o">=</span> <span class="n">geohash_encode</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="n">crs</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="n">precision</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">ndim</span><span class="p">(</span><span class="n">ans</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;geohash&#39;</span><span class="p">,</span> <span class="p">),</span>
-                                <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;geohash&#39;</span><span class="p">:</span> <span class="n">ans</span><span class="p">},</span>
+            <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span>
+                                <span class="n">dims</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">dims</span><span class="p">,</span>
+                                <span class="n">coords</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">coords</span><span class="p">,</span>
                                 <span class="n">name</span><span class="o">=</span><span class="s1">&#39;geohash&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;geohash&#39;</span><span class="p">)</span>
