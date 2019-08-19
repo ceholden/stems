@@ -124,8 +124,9 @@ if _HAS_XARRAY:
         dtype_ = np.dtype(('U', precision))
         ans = geohash_encode(y.data, x.data, crs=crs, precision=precision)
         if np.ndim(ans):
-            return xr.DataArray(ans, dims=('geohash', ),
-                                coords={'geohash': ans},
+            return xr.DataArray(ans,
+                                dims=y.dims,
+                                coords=y.coords,
                                 name='geohash')
         else:
             return xr.DataArray(ans, name='geohash')
